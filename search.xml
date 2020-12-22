@@ -7,50 +7,153 @@
 ]]></content>
   </entry>
   <entry>
-    <title>坑爹的小米推送框架</title>
-    <url>/2020/11%E6%9C%8820%E6%97%A5/</url>
-    <content><![CDATA[<p>「人生的坑爹遭遇有很大一部分来源于手贱」</p>
-<p>自上个月写完了安卓短信/通讯录/流量信息备份相关的内容，然后我更新完了系统折腾掉所有坑以后，这台狗米 note7pro 可以稳定很久不用动了。然而话是这么说，人不作死就不会死。。。我手贱点开了 tg 的小米推送框架群，看到了新版本，push 和 framework 合在一起了，不过 comments 里面已经有老哥说更新以后会出现推送错误的问题。</p>
-<p>管他呢！更新。结果更新完真的就提示注册异常，不过好消息是还能推送。另外新的二合一 app 和原来的 framework app 签名不一样，包名也不一样，原来的 framework app 打开即闪退。</p>
-<p>好家伙，不能忍。删除装回原版，发现没有用了。。。注册还是失败。转了一圈尝试了各种方法，得出了一些结论：</p>
+    <title>玩一下 FFmpeg</title>
+    <url>/2020/ffmpeg/</url>
+    <content><![CDATA[<p>因为最近有两件事情，所以要研究一下这玩意：把 capoo 那个动画分割成动图，还有就是 vps 上下的动画，直接用 filebroswer 播不了，需要稍微转一下码才行。</p>
+<p>总参数参考：<a href="https://ffmpeg.org/ffmpeg.html">ffmpeg Documentation</a></p>
+<h2 id="capoo-分割"><a href="#capoo-分割" class="headerlink" title="capoo 分割"></a>capoo 分割</h2><p>关键词：帧内编码（intra）</p>
+<p>参考文章：<a href="https://www.jianshu.com/p/cf1e61eb6fc8">FFMPEG 视频分割和合并</a></p>
+<p>不过这篇文章没有将一个参数，to，to 是裁剪到时间节点而 t 是裁剪自开始以来的一段时间长度，这里为了方便我很明显是要用 to 的。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">ffmpeg -ss 00:00.00 -to 00:00.01 -i capoo.mp4 -vcodec copy -acodec copy &quot;C:\Users\zbttl\OneDrive - go.Stockton.edu\Desktop\capoo\ capoo1.mp4&quot;</span><br></pre></td></tr></table></figure>
+
+<p>不过发到 telegram 上当 gif 的 mp4 不能带音频，所以索性再改一下</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">ffmpeg -ss 00:00.00 -to 00:00.01 -i capoo.mp4 -vcodec copy -an &quot;C:\Users\zbttl\OneDrive - go.Stockton.edu\Desktop\capoo\ capoo1.mp4&quot;</span><br></pre></td></tr></table></figure>
+
+<p>顺便附带一个文件夹内批量转换为无声 mp4 的例子：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">for i in *.mp4; do ffmpeg -i $i -vcodec copy -an &quot;&#x2F;home&#x2F;zbttl&#x2F;capoo&#x2F;$&#123;i%%.*&#125;.mp4&quot;;done</span><br></pre></td></tr></table></figure>
+
+<p>参数里可以加上 <code>-avoid_negative_ts</code> 移动关键帧使其与要剪辑的位置相符。</p>
+<h3 id="使用-gui（不成熟）"><a href="#使用-gui（不成熟）" class="headerlink" title="使用 gui（不成熟）"></a>使用 gui（不成熟）</h3><p>也可以使用 gui 工具 <a href="https://github.com/mifi/lossless-cut">LosslessCut</a>。gui 可以通过视频中的 Intra（I 帧，关键帧）识别转场，操作上便捷许多。不过很多视频由于参数原因（I 帧过多会增大视频体积），所以 I 帧和真正的转场不一定完全符合，可能还要通过 ffmpeg 转一下码。</p>
+<p>参考：</p>
+<ul>
+<li><a href="https://zhuanlan.zhihu.com/p/28008666">FFmpeg精准时间切割视频文件</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/85895180">FFmpeg视频抽帧那些事</a></li>
+<li><a href="%5Bhttps://weichao.io/2018/05/27/FFmpeg-%E8%BD%AF%E7%BC%96%E7%A0%81-H264%E3%80%81H265/%5D(https://weichao.io/2018/05/27/FFmpeg-%E8%BD%AF%E7%BC%96%E7%A0%81-H264%E3%80%81H265/)">FFmpeg 软编码 H264、H265</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/36109778">ffmpeg和H264视频的编解码</a></li>
+</ul>
+<p>加入以下参数：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">-keyint_min #Intra最小间隔时间，可设置为 0。</span><br><span class="line">-g #group of picture，Intra最大间隔时间。设置为 1 就全部都是关键帧。全部设置为关键帧有助于手动切割。</span><br><span class="line">-sc_threshold #(scenecut)设置场景更改检测的阈值。可设置为 0-无限。</span><br></pre></td></tr></table></figure>
+
+<p>比较有用的就是这三个参数。我还实验了 <code>-profile</code>、<code>-preset</code> 两个参数。<code>profile</code> 在文档中有 <code>extended</code> 这个选项可能对关键帧切换有帮助，但实际使用起来选项无法使用；<code>preset</code> 只要不设置成比较快的那些选项，使用 <code>slow</code> 和什么都不用出来的 I 帧数量和分布没有区别。</p>
+<p>ffmpeg 使用非 copy 模式转码会显示 I/P/B 帧的数量和占比。也可以使用 <code>elecard streameye tools</code> 查看 I/P/B 的数量和分布（但要花钱，破解找不到，要不就只能试用）。</p>
+<p>转码的时候也不要加入 <code>-c:a copy</code> 参数，可能导致时间轴误差。</p>
+<p>例子：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">ffmpeg -y -i &#39;.\capoo.mp4&#39;  -preset slow -keyint_min 1 -sc_threshold 60 &#39;.&#x2F;capoo_1.mp4&#39;</span><br></pre></td></tr></table></figure>
+
+<p>再用得到的新视频文件在 gui 内裁剪。</p>
+<p>然而实际使用时发现在每个关键帧处还要往上倒三帧否则就会包含下个场景的画面。原因是这个 gui 命令里面用了 <code>-c copy</code> 参数。。。目前还无解。而且除了这个，有时候导出的某些视频还会出现只剪了后面没剪前面的情况，貌似是因为放在桌面，桌面的路径里面有中文（onedrive 的锅）。。。。</p>
+<p>还有其他的 gui 工具，比如 <a href="https://sourceforge.net/projects/ffmpegyag/">ffmpegyag</a>。但这就没有根据 Intra 帧在时间轴上快捷指向的功能了（虽然还是能识别处 I/P/B 帧）。而且不能直接使用（点 OK 就卡住），生成脚本后运行倒是没问题。</p>
+<h3 id="配合-opencv"><a href="#配合-opencv" class="headerlink" title="配合 opencv"></a>配合 opencv</h3><p>门槛有点高。给两篇参考文章，先挖个坑。</p>
+<ul>
+<li><a href="https://www.cnblogs.com/dskit/p/10003722.html">基于opencv+ffmpeg的镜头分割</a></li>
+<li><a href="https://yuyujunjun.github.io/segmentation-keyframe-extraction">视频镜头分割和关键帧提取</a></li>
+</ul>
+<h2 id="vps-动画转码"><a href="#vps-动画转码" class="headerlink" title="vps 动画转码"></a>vps 动画转码</h2><p>为什么播不了？我想估计是位深太大了，使用 ffmpeg x264 默认参数转一下就好了。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">ffmpeg  -i &quot;[Sakurato.sub][Nande Koko ni Sensei ga!][01][GB][1080P].mp4&quot; -vcodec libx264 -acodec copy  test.mp4</span><br></pre></td></tr></table></figure>
+
+<p>不过转出来感觉略微有点不太对，windows potplayer 缩略图显示不出东西来。。。原因不明，排除了 10bit 不兼容原因（原案是 10bit，可显示）和 hevc（h265）与 avc（h264）原因（用哪个编码器都转不出来）。</p>
+<p>另外，x264 编译器还有很多奇奇怪怪的参数，参考这里：<a href="https://trac.ffmpeg.org/wiki/Encode/H.264">H.264 Video Encoding Guide</a></p>
+<h3 id="显卡加速"><a href="#显卡加速" class="headerlink" title="显卡加速"></a>显卡加速</h3><p>参考文章：<a href="https://www.jianshu.com/p/59da3d350488">使用GPU硬件加速FFmpeg视频转码</a></p>
+<p>ffmpeg 还支持显卡加速<del>，不过嘛。。。参数很麻烦，没什么可靠的参考（因为 ffmpeg 的参数经常有顺序限制的，上面那篇文章的参考我试了一下，失败），下面这个，我转起来速度比较快（不过也有是用 8bit 的原因），而且 potplayer 识别了缩略图，另外显卡也工作了（不过占用只有百分之8。。。。）</del>（未加 <code>-hwaccel cuda</code>，虽然是硬解但仍然经过内存。但下面的命令仅硬解码，且仅 h265）</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">ffmpeg  -hwaccel cuda  -c:v h265_cuvid -i &quot;[Sakurato.sub][Nande Koko ni Sensei ga!][01][GB][1080P].mp4&quot; -pix_fmt yuv420p test.mp4</span><br></pre></td></tr></table></figure>
+
+<p>参考：<a href="https://developer.nvidia.com/zh-cn/blog/nvidia-ffmpeg-transcoding-guide/">NVIDIA FFmpeg 转码指南</a></p>
+<p>拿来转部落战视频用的，因为 ipad 录的视频码率高，而且带了旋转属性（很诡异，是写在 ffmpeg 参数里面的，也就是说对于支持的播放器打开后会自动转正变成横屏，但其实视频硬属性是竖着的），因为有这个自动旋转所以网上写的大部分硬件转码无法使用（不支持关掉自动旋转并摆正视频），但是我试了一个新的，还凑合，而且 gpu 打满。原理是硬解硬编码，下面的方框部分是指定使用最广泛的 h264 硬解，记得如果原来就是 h265 视频需要把这个参数换掉（<code>hevc_cuvid</code>）或关掉。硬编码的部分也可以换成 <code>h264_nvenc</code>。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">ffmpeg -y -vsync 0 -hwaccel cuda [-c:v h264_cuvid]  -i xxx.MP4 -vcodec hevc_nvenc -b:v 3000k xxx.mp4</span><br></pre></td></tr></table></figure>
+
+<p>hwaccel 也有被称为 cuvid 的参数。但我用 cuvid 代替 cuda 时会报错</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Pixel format &#39;yuvj420p&#39; is not supported</span><br></pre></td></tr></table></figure>
+
+<p>原因未知。cuvid 和 cuda 的区别我也没发现有参考资料能解释。</p>
+<p>对于其他硬解方式，可以参考这篇文章：<a href="https://www.bilibili.com/read/cv4579978/">（三+1）用显卡加速视频转码压制之ffmpeg、media coder、shana encoder</a></p>
+<p>查看解码方法：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">ffmpeg -decoders</span><br></pre></td></tr></table></figure>
+
+<p>查看编码方法：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">ffmpeg -encoders</span><br></pre></td></tr></table></figure>
+
+<p>上面提到的 <code>cuda</code> 和 <code>h264_cuvid</code> 就在解码方法里面，而 <code>hevc_nvenc</code> 就在编码方法里面。对于 intel 系来说，硬解应该是 <code>qsv</code> 后缀一类的方法；而 amd 是 <code>amf</code> 后缀一类的方法。我仔细看了看最新版 ffmpeg，发现起码对于 amd，只找到了编码方法（比如 <code>h264_amf</code>）而没有找到解码方法。。。好在我平常操作的视频都是解码不怎么费劲的视频，解码费劲的 4k 编码起来必然更慢，暂时不属于我手上硬件能触及的范围了。。。</p>
+<p>另外，文章提到</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">ffmpeg -hwaccels</span><br></pre></td></tr></table></figure>
+
+<p>能查看当前硬件和 ffmpeg 支持的硬解，但我看结果感觉扯淡。。。我用 amd 的机子能查出来 intel 和 cuda，却没有 amf，就 tm 离谱（当然文章里面也提到了这个方法不准就是了）。</p>
+<h3 id="多线程"><a href="#多线程" class="headerlink" title="多线程"></a>多线程</h3><p>参考文章：<a href="https://blog.csdn.net/educast/article/details/81866749">ffmpeg 多线程转码</a></p>
+<p>通过写在 <code>-i</code> 参数前的 <code> -threads [线程数]</code> 可以指定 ffmpeg 使用的线程。不过经过测试比较新的 ffmpeg 都会用完 cpu 的所有线程，所以除非要限制 cpu 功率否则这个参数没必要动。</p>
+<h2 id="mkv-内挂字幕嵌入-mp4"><a href="#mkv-内挂字幕嵌入-mp4" class="headerlink" title="mkv 内挂字幕嵌入 mp4"></a>mkv 内挂字幕嵌入 mp4</h2><p>参考文章：<a href="http://andrew-reynolds-bootcamp.com/questions/2027/ffmpeg-mkvdao-mp4zhuan-huan-shi-qu-liao-zi-mu">題 FFMPEG mkv到mp4轉換失去了字幕</a></p>
+<p>内挂字幕的 mkv 在 filebroswer 里面看不到字幕啊。。。于是要想办法提取字幕出来，再把字幕直接内嵌进去。</p>
+<p>有两种方法：</p>
 <ol>
-<li><p>小米推送框架应该是改了验证机制，导致现在得用一些比较奇葩的方法才能保证应用能够注册上。原来已经注册上的就不受影响，所以如果我用原版没有问题就应该毛事没有。</p>
+<li><p>不靠谱方法，很快，但是不一定能识别</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">ffmpeg -i input.mkv -c copy -c:s mov_text output.mp4</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>奇特的方法包括：安装成为系统应用；使用旧版；安装 xposed 欺骗框架；安装 magisk 欺骗框架。</p>
-</li>
-<li><p>经过我的实验，装 2018 年的版本，无论怎么样应用都没法注册上，连推送出错都没有发生，直接就「使用小米推送，但尚未注册」；而安装最新的二合一版本，就算上了 xposed 欺骗框架 + magisk 欺骗框架 + 安装成系统应用，仍然会弹出推送错误的提示。</p>
-</li>
-<li><p>在 framework app 中，打开「应用注册时显示通知」 的开关，正常情况下打开支持小米推送的应用，应该会弹出注册推送的 toast。另外第一次注册的应用会在记录中留下四条注册推送成功的讯息（比如下图中的 tx 加速器），少一条都有可能是出了问题的征兆。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/sTMlXGt.png"></p>
-</li>
-<li><p>无论用什么手段。。。设置里全局伪装为小米设备的开关在关闭 framework apk 重新打开后都会发现被自动关上了。另外 Q&amp;A 中提到的重装 framework app 和 push app 后需要重装注册过的应用才会摆脱「注册异常」的提示，我应用后并没有改善，后续解决该问题也不是靠的重装应用。可能是因为我这台设备本来就是小米，只不过刷了类原生而已。。。</p>
-</li>
-<li><p>伪装为小米设备有好多种方法。其中，旧版（2018 版）会自动在 xposed 里面装一个 push 模块；旧版的 magisk 里可以下到不需要 riru 的 xposed 欺骗模块；还可以用 magisk props config 手动修改 props 文件（具体修改步骤百度/在酷安搜索）；比较新的两个方法是使用 riru 模块 <a href="https://github.com/MiPushFramework/MiPushFakeForRiru">MiPushFakeForRiru</a>；或者是使用 edxposed 中可以在仓库中搜到的 <a href="https://repo.xposed.info/module/org.meowcat.xposed.mipush">MiPush Framework Enhancement</a>。总而言之让相关应用能够识别出你在用 miui 就成功了。所以强烈推荐其中的 <a href="https://repo.xposed.info/module/org.meowcat.xposed.mipush">MiPush Framework Enhancement</a>，就算没有生效它也能读出你被伪装成什么版本的 miui，伪装到了何种程度（另外这个软件要生效，不仅在 edxposed 中需要启动，打开软件后还要把工作模式设为黑名单，默认的已禁用模式软件也不生效）。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/hGq1EI3.png"></p>
-</li>
-<li><p>开启 selinux 的情况下也会出现注册异常的状况。但注册成功的应用即使在 selinux 开启的情况下仍然能够正常推送。</p>
+<li><p>重新编码的方法。一定能识别，但是慢过爹</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">ffmpeg -i input.mkv -vf subtitles&#x3D;input.mkv output.mp4</span><br></pre></td></tr></table></figure>
+
+
 </li>
 </ol>
-<p>回到正题，在我这台类原生 pe 的红米 note7 pro 上，我具体做了这么几部：</p>
-<ol>
-<li>关闭 selinux。可以用各种终端软件（比如 termux），获取 root 后输入 <code>setenforce 0</code> 即可。也可以用各种 kernel manager，开机自动运行该命令。</li>
-<li>安装 200315 版本的 push 和 framework app。</li>
-<li>使用 magisk 模块 App Systemizer 将两个应用全部移入 <code>/system/priv-app</code> 中。粗略步骤是安装模块后重启，在终端中获取 su 后输入 systemize，然后按提示操作。注意两个都要移进去，移一个的话我试过一次，照样出错。</li>
-<li>安装上文提到的 MiPushFakeForRiru （如果没装过 riru 还得装 riru 模块，不过都装了 xposed，riru 我觉得大家都应该装了）和 MiPush Framework Enhancement，后者记得正确启用。（前者其实不一定有用，但后者一定要装）</li>
-<li>打开软件，正确给予权限。</li>
-<li>打开支持小米推送的应用，此时回到 framework app 会发现提示注册失败。稍安勿躁，等个几个钟头就会奇迹般的变成注册成功了（</li>
-<li>相关的推送还要等半天到一天才会恢复正常。不要指望刚装上应用注册成功就会有推送来找你（</li>
-</ol>
-<p>大概就是这样。还可以通过 <a href="https://github.com/MiPushFramework/MiPushTester">MiPushTester</a> 来验证推送是不是真的正常了。不过话说回来，第一次我按上面的大概步骤做了以后，正常了几天，后面推送是出来了，点击推送相关应用弹不出来。。。看日志是 intent 卡住了，后来我又重装试了一通新旧版本，再后来我又大概按上面的步骤做了一次，又正常了。。。这次正常使用了十来天，我觉得应该是彻底正常了。所以上面的步骤 1-5，也不用太严格遵守啦，毕竟我没有严格测试过那步放在后面就会 crash，我大概回忆了一下差不多是这样，再严格测试出什么幺蛾子那又麻烦了（</p>
-<p>总之不要手贱，能用的就不要东搞西搞（</p>
+<h2 id="mp4-批量转换-gif"><a href="#mp4-批量转换-gif" class="headerlink" title="mp4 批量转换 gif"></a>mp4 批量转换 gif</h2><p>参考文章：<a href="http://blog.pkh.me/p/21-high-quality-gif-with-ffmpeg.html#content">High quality GIF with FFmpeg</a></p>
+<p>以 centos 为例，先编辑个小脚本：</p>
+<p>change.sh</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#!&#x2F;bin&#x2F;sh</span><br><span class="line">palette&#x3D;&quot;.&#x2F;palette.png&quot;</span><br><span class="line"></span><br><span class="line">filters&#x3D;&quot;fps&#x3D;15,scale&#x3D;-1:-1:flags&#x3D;lanczos&quot;</span><br><span class="line"></span><br><span class="line">ffmpeg -v warning -i $1 -vf &quot;$filters,palettegen&quot; -y $palette</span><br><span class="line">ffmpeg -v warning -i $1 -i $palette -lavfi &quot;$filters [x]; [x][1:v] paletteuse&quot; -y $2                                                                                     </span><br></pre></td></tr></table></figure>
+
+<p>然后把需要转换的 mp4 文件放到目录中，执行</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">for i in *.mp4; do .&#x2F;change.sh $i &quot;$&#123;i%%.*&#125;.gif&quot;;done</span><br></pre></td></tr></table></figure>
+
+<p>这条命令会把所有的 mp4 的后缀名去掉，换成 gif。</p>
+<p>另外，windows 端也可以通过修改成两个 bat 文件做到类似的效果（不过第二部我不知道怎么把原 mp4 文件夹的所有后缀替换成 gif，只能直接加 gif），要批量转换的时候运行第二个 bat 就 ok 了</p>
+<p>change.bat</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">@echo off</span><br><span class="line">cd &#x2F;d %~dp0 </span><br><span class="line">set palette&#x3D;&quot;palette.png&quot;</span><br><span class="line"></span><br><span class="line">set filters&#x3D;&quot;fps&#x3D;15,scale&#x3D;-1:-1:flags&#x3D;lanczos&quot;</span><br><span class="line"></span><br><span class="line">ffmpeg -v warning -i %1 -vf &quot;%filters%,palettegen&quot; -y %palette%</span><br><span class="line">ffmpeg -v warning -i %1 -i %palette% -lavfi &quot;%filters% [x]; [x][1:v] paletteuse&quot; -y %2       </span><br></pre></td></tr></table></figure>
+
+<p>change2.bat</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">@echo off</span><br><span class="line">for %%i in (*.mp4) do change.bat &quot;%%i&quot; &quot;%%i.gif&quot;</span><br></pre></td></tr></table></figure>
+
+<h2 id="合并音视频"><a href="#合并音视频" class="headerlink" title="合并音视频"></a>合并音视频</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">ffmpeg -i xxx -i xxx -c:v copy -c:a copy output.mp4</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="mp4-转音频"><a href="#mp4-转音频" class="headerlink" title="mp4 转音频"></a>mp4 转音频</h2><p>对于大部分 mp4，可以直接提取其中的音频，速度很快：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">ffmpeg -i .\test.mp4 -acodec copy -vn test.mp3</span><br></pre></td></tr></table></figure>
+
+<p>不过，这条命令是直接把 mp4 封装中的音频部分提取出来，如果音频部分不是 mp3 格式就会出错：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/6zkXFjh.png"></p>
+<p>从日志里面，我们可以观察到原来封装里面是什么格式的，比如这里就是 aac 的：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/mtmQeQT.png"></p>
+<p>这时候就需要把命令中的格式从 mp3 改成 aac：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">ffmpeg -i .\test.mp4 -acodec copy -vn test.aac</span><br></pre></td></tr></table></figure>
+
+<p>如果需要转换其他格式，可以使用 <code>c:a</code> 参数替代 <code>acodec</code>，比如转换为当前较先进的 opus 格式（当然速度就慢多了）：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">ffmpeg -i .\test.mp4 -c:a libopus -vn test.opus</span><br></pre></td></tr></table></figure>
+
+<h2 id="下载-m3u8"><a href="#下载-m3u8" class="headerlink" title="下载 m3u8"></a>下载 m3u8</h2><p>参考文章：<a href="https://stackoverflow.com/questions/50455695/why-does-ffmpeg-ignore-protocol-whitelist-flag-when-converting-https-m3u8-stream">Why does ffmpeg ignore protocol_whitelist flag when converting https m3u8 stream?</a></p>
+<p>某些视频网站和 ios 软件用的视频地址抓出来是 m3u8 的。比如机核的视频。可以用 chrome 插件<a href="https://chrome.google.com/webstore/detail/%E7%8C%AB%E6%8A%93/jfedfbgedapdagkghmgibemcoggfppbb">猫抓</a>获取 m3u8 文件。然后，加入相关参数，注意需要紧跟在 ffmpeg 命令后面：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">ffmpeg -protocol_whitelist file,http,https,tcp,tls,crypto -i xxxx.m3u8 xxxx.xxx</span><br></pre></td></tr></table></figure>
+
+<p>xxxx.xxx 指的是你需要输出的视频名字和格式，因为 m3u8 流切下来一般是 h264 的，封装格式需要你自己来确定，ffmpeg 会帮你把所有切片合并。</p>
+<h2 id="自动裁切黑边"><a href="#自动裁切黑边" class="headerlink" title="自动裁切黑边"></a>自动裁切黑边</h2><p>参考文章：<a href="https://www.bogotobogo.com/FFMpeg/ffmpeg_cropdetect_ffplay.php">CROPDETECT AND FFPLAY - 2020</a></p>
+<p>先检测黑边：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">ffmpeg -i .\test.mp4 -vcodec copy -acodec copy cropdetect&#x3D;24:16:0 test1.mp4</span><br></pre></td></tr></table></figure>
+
+<p>24:16:0 是默认参数，一般如果要调也只调第一个参数（黑边阈值）。</p>
+<p>输出的日志中会有类似于</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[Parsed_cropdetect_0 @ 0x3704360] x1:0 x2:639 y1:43 y2:317 w:640 h:272 x:0 y:46 pts:181320 t:181.320000 crop&#x3D;640:272:0:46</span><br></pre></td></tr></table></figure>
+
+<p>其中有用的就是 w、h、x、y 四个参数，分别放入新命令的相应位置</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">ffmpeg -i .\test.mp4 -vcodec copy -acodec copy -vf crop&#x3D;640:272:0:46 test1.mp4</span><br></pre></td></tr></table></figure>
+
+<p>即可。（虽然经过我测试默认参数检测还是有点偏差，但稍微手动调一下 w 和 h 的值效果就令人满意了）</p>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><p>参考文章：<a href="https://linux.cn/article-10932-1.html">给新手的 20 多个 FFmpeg 命令示例</a></p>
+<p>比较有用的几个地方：</p>
+<h3 id="转换格式时不压缩视频"><a href="#转换格式时不压缩视频" class="headerlink" title="转换格式时不压缩视频"></a>转换格式时不压缩视频</h3><p>使用<code>-qscale 0</code></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ ffmpeg -i input.webm -qscale 0 output.mp4</span><br></pre></td></tr></table></figure>
+
+<h3 id="版本"><a href="#版本" class="headerlink" title="版本"></a>版本</h3><p>ffmpeg windows 端出了新的编译版：<a href="https://github.com/BtbN/FFmpeg-Builds">BtbN/FFmpeg-Builds</a>。release 中有许多不同版本。lgbl 和 gbl 应该是许可证之间的不同，但大小也有区别，我个人认为是为了 lgbl 剔除了一些东西；shared 和不带 shared 的版本，区别是运行库合并进了 ffmpeg 中。最关键的是 vulkan 版本，带有 vulkan 版本需要比较新的独显和新的驱动才能使用，我的 965m 运行都会报错 <code>Lossless encoding not supported</code>。</p>
 ]]></content>
       <categories>
-        <category>android</category>
+        <category>影音</category>
       </categories>
       <tags>
-        <tag>mipush</tag>
-        <tag>magisk</tag>
-        <tag>xposed</tag>
+        <tag>ffmpeg</tag>
       </tags>
   </entry>
   <entry>
@@ -144,6 +247,34 @@
 <p>即可屏蔽掉那些文章的评论区。</p>
 </li>
 </ol>
+<h2 id="hexo-转移到-windows-上部署（临时，吐槽，没完全成功）"><a href="#hexo-转移到-windows-上部署（临时，吐槽，没完全成功）" class="headerlink" title="hexo 转移到 windows 上部署（临时，吐槽，没完全成功）"></a>hexo 转移到 windows 上部署（临时，吐槽，没完全成功）</h2><p>个人习惯，新玩意先在虚拟机上实验，因为之前 windows 上太多开发工具会把机子环境搞乱（比如 sql server 之类的），给后面其他软件的安装带来麻烦。不过观察到现在，hexo 除了安装拿一下影响全局环境，其他情况下都只在自己文件夹内做修改。一直用虚拟机编辑体验不太好（linux 下 vscode 还是挺卡的），索性搬到 windows 上。</p>
+<p>然后发现：安装新组件，本地预览啥的没问题。但部署到 github 仓库的时候就出问题了。首先是告诉我，没权限，估计是没 key。</p>
+<p>先把 key 导进去看看？</p>
+<p>用 ssh-add 命令，报错。</p>
+<p>参考 <a href="https://www.cnblogs.com/attackingmilo/p/Windows-ssh-add-error.html">Windows下使用ssh-add报错 Error connecting to agent: No such file or directory</a></p>
+<p>先把服务开起来</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Set-Service -Name ssh-agent -StartupType Manual</span><br><span class="line">Start-Service ssh-agent</span><br></pre></td></tr></table></figure>
+
+<p>再添加</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">ssh-add .&#x2F;id_rsa</span><br></pre></td></tr></table></figure>
+
+<p>还报错。。。</p>
+<p>把密钥放进系统用户目录中</p>
+<p>再添加</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">ssh-add C:\Users\zbttl\id_rsa</span><br></pre></td></tr></table></figure>
+
+<p>总算是添加进去了，运行</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">ssh -T git@github.com</span><br></pre></td></tr></table></figure>
+
+<p>显示</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">warning: agent returned different signature type ssh-rsa (expected rsa-sha2-512)</span><br><span class="line">Hi zbttl! You&#39;ve successfully authenticated, but GitHub does not provide shell access.</span><br></pre></td></tr></table></figure>
+
+<p>但我再次运行 <code>hexo g -d</code></p>
+<p>还报错！</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Error: git@github.com: Permission denied (publickey).</span><br><span class="line">fatal: Could not read from remote repository.</span><br><span class="line"></span><br><span class="line">Please make sure you have the correct access rights</span><br></pre></td></tr></table></figure>
+
+<p>后面查阅到 <a href="https://github.com/hexojs/hexo/issues/3339">Win10使用ssh的hexo部署到github报错 ＃3339</a>，看起来应该是因为我的 rsa 密钥还带有密码，但 hexo-deployer-git 在 windows 下不会弹密码提示而是自作主张当做没密码的原因。但我既不想去掉密钥的密码，也不想用 git push 提交，所以直接用 windows 提交暂时是不成了。（不过我也没去查阅 hexo-deployer-git 那边有没有解决方案，起码我这边已经用的最新版了）</p>
+<p>但有曲线救国的方法，开一个 vmware ubuntu 的共享文件夹，把 hexo 项目放在里面，就可以编辑的时候用 windows typora，部署的时候再用 ubuntu。我感觉用 wsl 也可以，但我没怎么用过那玩意，感兴趣的可以尝试。（wsl2 就算了，我对 hyper-v 印象超差的）</p>
 ]]></content>
       <categories>
         <category>博客</category>
@@ -151,27 +282,6 @@
       <tags>
         <tag>hexo</tag>
         <tag>NexT</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Windows DLNA</title>
-    <url>/2020/12%E6%9C%886%E6%97%A5/</url>
-    <content><![CDATA[<p>参考文章：<a href="https://jingyan.baidu.com/article/148a19214c4f770d70c3b14b.html">win10 电脑开启 DLNA 投屏（支持 rmvb/flv 全格式）</a></p>
-<p>之前以为 dlna 很难用。。。其实电脑和电视在同一个 wifi 下，通过某种手段把文件投过去就行了。</p>
-<p>参考文章说的挺详细了，一般的 mp4 格式其实右键就可以投屏。但主要是 flv 和浏览器这种东西就没法投。除了装 kodi 之类的软件外，还有一种方法就是改造 windows media player。</p>
-<p>在媒体流处把启用媒体流和允许本地网络打开，然后就装解码器即可。</p>
-<p>文章里推荐的是 <a href="https://www.majorgeeks.com/files/details/win7codecs.html">Shark007 ADVANCED Codecs</a>，这玩意。。。实话说，内含的缩略图拓展 software 做的还不错，但一个是装完以后只是 windows media player 能放 flv 了，但大量 flv 在 media player 里面却还是扫不出来；还有就是难装难卸，难装并不是指我超链接过去下载的 exe 难装，而是它本身在我常用的包管理器 chocolatey 里面有源，但那个源我无论是用实机还是用虚拟机都装不上，换版本也不行，问题十分奇葩；卸载的时候我的 explore.exe 直接崩掉了，甚至没法用任务管理器新建任务拉起来，只能注销。</p>
-<p>更推荐我之前在 18.6.22 那个无比详尽的视频日记里面提到过的 k-litecodec，可以直接用 chocolatey 装，也不用装 full 版，装个 basic 就可以了</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">choco install -y k-litecodecpackbasic</span><br></pre></td></tr></table></figure>
-
-<p>然后去 media player 里面，把原来的视频库的视频文件夹移除再加回来；或者新建一个文件夹把 flv 放进去再加进视频库里面，就可以了。</p>
-]]></content>
-      <categories>
-        <category>影音</category>
-      </categories>
-      <tags>
-        <tag>DLNA</tag>
-        <tag>windows</tag>
       </tags>
   </entry>
   <entry>
@@ -281,6 +391,13 @@
 <p>或者用加速 cdn <a href="https://www.jsdelivr.com/?docs=gh">jsdelivr</a>。version 这里填分支名。后面带上 README.md 访问一下就知道自己有没有改对 url 了。</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">https:&#x2F;&#x2F;cdn.jsdelivr.net&#x2F;gh&#x2F;user&#x2F;repo@version</span><br></pre></td></tr></table></figure>
 
+<p><strong>（20.12.23 更新）</strong> 今天传图片的时候遇到问题了。传了一张 50k 的图片，在 typora 中没显示出来。用浏览器打开一看：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Package size exceeded the configured limit of 50 MB. Try https:&#x2F;&#x2F;github.com&#x2F;zbpicture&#x2F;picture&#x2F;tree&#x2F;main&#x2F;img&#x2F;iiHvIIn.png instead.</span><br></pre></td></tr></table></figure>
+
+<p>问题是这个图片那么小是怎么超过 50M 的？而且后面又传了两个图片，没问题。打开 github，上面三张图片都在。</p>
+<p>原因未知但有解决方法：参考<a href="https://blog.shiyunhong.com/3353.html">记一下JsDelivr踩的坑</a>。</p>
+<p>把链接中的 main 改成 master 就能显示出来了。</p>
+<p>问题和解决方法都一样神秘的说。</p>
 </li>
 </ol>
 <h2 id="美化"><a href="#美化" class="headerlink" title="美化"></a>美化</h2><h3 id="添加标签和分类"><a href="#添加标签和分类" class="headerlink" title="添加标签和分类"></a>添加标签和分类</h3><p>参考文章：</p>
@@ -402,6 +519,27 @@
       <tags>
         <tag>hexo</tag>
         <tag>NexT</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Windows DLNA</title>
+    <url>/2020/12%E6%9C%886%E6%97%A5/</url>
+    <content><![CDATA[<p>参考文章：<a href="https://jingyan.baidu.com/article/148a19214c4f770d70c3b14b.html">win10 电脑开启 DLNA 投屏（支持 rmvb/flv 全格式）</a></p>
+<p>之前以为 dlna 很难用。。。其实电脑和电视在同一个 wifi 下，通过某种手段把文件投过去就行了。</p>
+<p>参考文章说的挺详细了，一般的 mp4 格式其实右键就可以投屏。但主要是 flv 和浏览器这种东西就没法投。除了装 kodi 之类的软件外，还有一种方法就是改造 windows media player。</p>
+<p>在媒体流处把启用媒体流和允许本地网络打开，然后就装解码器即可。</p>
+<p>文章里推荐的是 <a href="https://www.majorgeeks.com/files/details/win7codecs.html">Shark007 ADVANCED Codecs</a>，这玩意。。。实话说，内含的缩略图拓展 software 做的还不错，但一个是装完以后只是 windows media player 能放 flv 了，但大量 flv 在 media player 里面却还是扫不出来；还有就是难装难卸，难装并不是指我超链接过去下载的 exe 难装，而是它本身在我常用的包管理器 chocolatey 里面有源，但那个源我无论是用实机还是用虚拟机都装不上，换版本也不行，问题十分奇葩；卸载的时候我的 explore.exe 直接崩掉了，甚至没法用任务管理器新建任务拉起来，只能注销。</p>
+<p>更推荐我之前在 18.6.22 那个无比详尽的视频日记里面提到过的 k-litecodec，可以直接用 chocolatey 装，也不用装 full 版，装个 basic 就可以了</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">choco install -y k-litecodecpackbasic</span><br></pre></td></tr></table></figure>
+
+<p>然后去 media player 里面，把原来的视频库的视频文件夹移除再加回来；或者新建一个文件夹把 flv 放进去再加进视频库里面，就可以了。</p>
+]]></content>
+      <categories>
+        <category>影音</category>
+      </categories>
+      <tags>
+        <tag>DLNA</tag>
+        <tag>windows</tag>
       </tags>
   </entry>
   <entry>
@@ -812,6 +950,53 @@
       </tags>
   </entry>
   <entry>
+    <title>坑爹的小米推送框架</title>
+    <url>/2020/11%E6%9C%8820%E6%97%A5/</url>
+    <content><![CDATA[<p>「人生的坑爹遭遇有很大一部分来源于手贱」</p>
+<p>自上个月写完了安卓短信/通讯录/流量信息备份相关的内容，然后我更新完了系统折腾掉所有坑以后，这台狗米 note7pro 可以稳定很久不用动了。然而话是这么说，人不作死就不会死。。。我手贱点开了 tg 的小米推送框架群，看到了新版本，push 和 framework 合在一起了，不过 comments 里面已经有老哥说更新以后会出现推送错误的问题。</p>
+<p>管他呢！更新。结果更新完真的就提示注册异常，不过好消息是还能推送。另外新的二合一 app 和原来的 framework app 签名不一样，包名也不一样，原来的 framework app 打开即闪退。</p>
+<p>好家伙，不能忍。删除装回原版，发现没有用了。。。注册还是失败。转了一圈尝试了各种方法，得出了一些结论：</p>
+<ol>
+<li><p>小米推送框架应该是改了验证机制，导致现在得用一些比较奇葩的方法才能保证应用能够注册上。原来已经注册上的就不受影响，所以如果我用原版没有问题就应该毛事没有。</p>
+</li>
+<li><p>奇特的方法包括：安装成为系统应用；使用旧版；安装 xposed 欺骗框架；安装 magisk 欺骗框架。</p>
+</li>
+<li><p>经过我的实验，装 2018 年的版本，无论怎么样应用都没法注册上，连推送出错都没有发生，直接就「使用小米推送，但尚未注册」；而安装最新的二合一版本，就算上了 xposed 欺骗框架 + magisk 欺骗框架 + 安装成系统应用，仍然会弹出推送错误的提示。</p>
+</li>
+<li><p>在 framework app 中，打开「应用注册时显示通知」 的开关，正常情况下打开支持小米推送的应用，应该会弹出注册推送的 toast。另外第一次注册的应用会在记录中留下四条注册推送成功的讯息（比如下图中的 tx 加速器），少一条都有可能是出了问题的征兆。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/sTMlXGt.png"></p>
+</li>
+<li><p>无论用什么手段。。。设置里全局伪装为小米设备的开关在关闭 framework apk 重新打开后都会发现被自动关上了。另外 Q&amp;A 中提到的重装 framework app 和 push app 后需要重装注册过的应用才会摆脱「注册异常」的提示，我应用后并没有改善，后续解决该问题也不是靠的重装应用。可能是因为我这台设备本来就是小米，只不过刷了类原生而已。。。</p>
+</li>
+<li><p>伪装为小米设备有好多种方法。其中，旧版（2018 版）会自动在 xposed 里面装一个 push 模块；旧版的 magisk 里可以下到不需要 riru 的 xposed 欺骗模块；还可以用 magisk props config 手动修改 props 文件（具体修改步骤百度/在酷安搜索）；比较新的两个方法是使用 riru 模块 <a href="https://github.com/MiPushFramework/MiPushFakeForRiru">MiPushFakeForRiru</a>；或者是使用 edxposed 中可以在仓库中搜到的 <a href="https://repo.xposed.info/module/org.meowcat.xposed.mipush">MiPush Framework Enhancement</a>。总而言之让相关应用能够识别出你在用 miui 就成功了。所以强烈推荐其中的 <a href="https://repo.xposed.info/module/org.meowcat.xposed.mipush">MiPush Framework Enhancement</a>，就算没有生效它也能读出你被伪装成什么版本的 miui，伪装到了何种程度（另外这个软件要生效，不仅在 edxposed 中需要启动，打开软件后还要把工作模式设为黑名单，默认的已禁用模式软件也不生效）。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/hGq1EI3.png"></p>
+</li>
+<li><p>开启 selinux 的情况下也会出现注册异常的状况。但注册成功的应用即使在 selinux 开启的情况下仍然能够正常推送。</p>
+</li>
+</ol>
+<p>回到正题，在我这台类原生 pe 的红米 note7 pro 上，我具体做了这么几部：</p>
+<ol>
+<li>关闭 selinux。可以用各种终端软件（比如 termux），获取 root 后输入 <code>setenforce 0</code> 即可。也可以用各种 kernel manager，开机自动运行该命令。</li>
+<li>安装 200315 版本的 push 和 framework app。</li>
+<li>使用 magisk 模块 App Systemizer 将两个应用全部移入 <code>/system/priv-app</code> 中。粗略步骤是安装模块后重启，在终端中获取 su 后输入 systemize，然后按提示操作。注意两个都要移进去，移一个的话我试过一次，照样出错。</li>
+<li>安装上文提到的 MiPushFakeForRiru （如果没装过 riru 还得装 riru 模块，不过都装了 xposed，riru 我觉得大家都应该装了）和 MiPush Framework Enhancement，后者记得正确启用。（前者其实不一定有用，但后者一定要装）</li>
+<li>打开软件，正确给予权限。</li>
+<li>打开支持小米推送的应用，此时回到 framework app 会发现提示注册失败。稍安勿躁，等个几个钟头就会奇迹般的变成注册成功了（</li>
+<li>相关的推送还要等半天到一天才会恢复正常。不要指望刚装上应用注册成功就会有推送来找你（</li>
+</ol>
+<p>大概就是这样。还可以通过 <a href="https://github.com/MiPushFramework/MiPushTester">MiPushTester</a> 来验证推送是不是真的正常了。不过话说回来，第一次我按上面的大概步骤做了以后，正常了几天，后面推送是出来了，点击推送相关应用弹不出来。。。看日志是 intent 卡住了，后来我又重装试了一通新旧版本，再后来我又大概按上面的步骤做了一次，又正常了。。。这次正常使用了十来天，我觉得应该是彻底正常了。所以上面的步骤 1-5，也不用太严格遵守啦，毕竟我没有严格测试过那步放在后面就会 crash，我大概回忆了一下差不多是这样，再严格测试出什么幺蛾子那又麻烦了（</p>
+<p>总之不要手贱，能用的就不要东搞西搞（</p>
+]]></content>
+      <categories>
+        <category>android</category>
+      </categories>
+      <tags>
+        <tag>mipush</tag>
+        <tag>magisk</tag>
+        <tag>xposed</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>termux 调校</title>
     <url>/2020/4%E6%9C%8814%E6%97%A5%EF%BC%88%E5%AF%92%E5%81%87%E7%AC%AC%E4%B9%9D%E5%8D%81%E4%BA%8C%E5%A4%A9%EF%BC%89/</url>
     <content><![CDATA[<p>参考文章：</p>
@@ -1102,156 +1287,6 @@
       <tags>
         <tag>windows terminal</tag>
         <tag>powershell</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>玩一下 FFmpeg</title>
-    <url>/2020/ffmpeg/</url>
-    <content><![CDATA[<p>因为最近有两件事情，所以要研究一下这玩意：把 capoo 那个动画分割成动图，还有就是 vps 上下的动画，直接用 filebroswer 播不了，需要稍微转一下码才行。</p>
-<p>总参数参考：<a href="https://ffmpeg.org/ffmpeg.html">ffmpeg Documentation</a></p>
-<h2 id="capoo-分割"><a href="#capoo-分割" class="headerlink" title="capoo 分割"></a>capoo 分割</h2><p>关键词：帧内编码（intra）</p>
-<p>参考文章：<a href="https://www.jianshu.com/p/cf1e61eb6fc8">FFMPEG 视频分割和合并</a></p>
-<p>不过这篇文章没有将一个参数，to，to 是裁剪到时间节点而 t 是裁剪自开始以来的一段时间长度，这里为了方便我很明显是要用 to 的。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">ffmpeg -ss 00:00.00 -to 00:00.01 -i capoo.mp4 -vcodec copy -acodec copy &quot;C:\Users\zbttl\OneDrive - go.Stockton.edu\Desktop\capoo\ capoo1.mp4&quot;</span><br></pre></td></tr></table></figure>
-
-<p>不过发到 telegram 上当 gif 的 mp4 不能带音频，所以索性再改一下</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">ffmpeg -ss 00:00.00 -to 00:00.01 -i capoo.mp4 -vcodec copy -an &quot;C:\Users\zbttl\OneDrive - go.Stockton.edu\Desktop\capoo\ capoo1.mp4&quot;</span><br></pre></td></tr></table></figure>
-
-<p>顺便附带一个文件夹内批量转换为无声 mp4 的例子：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">for i in *.mp4; do ffmpeg -i $i -vcodec copy -an &quot;&#x2F;home&#x2F;zbttl&#x2F;capoo&#x2F;$&#123;i%%.*&#125;.mp4&quot;;done</span><br></pre></td></tr></table></figure>
-
-<p>参数里可以加上 <code>-avoid_negative_ts</code> 移动关键帧使其与要剪辑的位置相符。</p>
-<h3 id="使用-gui（不成熟）"><a href="#使用-gui（不成熟）" class="headerlink" title="使用 gui（不成熟）"></a>使用 gui（不成熟）</h3><p>也可以使用 gui 工具 <a href="https://github.com/mifi/lossless-cut">LosslessCut</a>。gui 可以通过视频中的 Intra（I 帧，关键帧）识别转场，操作上便捷许多。不过很多视频由于参数原因（I 帧过多会增大视频体积），所以 I 帧和真正的转场不一定完全符合，可能还要通过 ffmpeg 转一下码。</p>
-<p>参考：</p>
-<ul>
-<li><a href="https://zhuanlan.zhihu.com/p/28008666">FFmpeg精准时间切割视频文件</a></li>
-<li><a href="https://zhuanlan.zhihu.com/p/85895180">FFmpeg视频抽帧那些事</a></li>
-<li><a href="%5Bhttps://weichao.io/2018/05/27/FFmpeg-%E8%BD%AF%E7%BC%96%E7%A0%81-H264%E3%80%81H265/%5D(https://weichao.io/2018/05/27/FFmpeg-%E8%BD%AF%E7%BC%96%E7%A0%81-H264%E3%80%81H265/)">FFmpeg 软编码 H264、H265</a></li>
-<li><a href="https://zhuanlan.zhihu.com/p/36109778">ffmpeg和H264视频的编解码</a></li>
-</ul>
-<p>加入以下参数：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">-keyint_min #Intra最小间隔时间，可设置为 0。</span><br><span class="line">-g #group of picture，Intra最大间隔时间。设置为 1 就全部都是关键帧。全部设置为关键帧有助于手动切割。</span><br><span class="line">-sc_threshold #(scenecut)设置场景更改检测的阈值。可设置为 0-无限。</span><br></pre></td></tr></table></figure>
-
-<p>比较有用的就是这三个参数。我还实验了 <code>-profile</code>、<code>-preset</code> 两个参数。<code>profile</code> 在文档中有 <code>extended</code> 这个选项可能对关键帧切换有帮助，但实际使用起来选项无法使用；<code>preset</code> 只要不设置成比较快的那些选项，使用 <code>slow</code> 和什么都不用出来的 I 帧数量和分布没有区别。</p>
-<p>ffmpeg 使用非 copy 模式转码会显示 I/P/B 帧的数量和占比。也可以使用 <code>elecard streameye tools</code> 查看 I/P/B 的数量和分布（但要花钱，破解找不到，要不就只能试用）。</p>
-<p>转码的时候也不要加入 <code>-c:a copy</code> 参数，可能导致时间轴误差。</p>
-<p>例子：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">ffmpeg -y -i &#39;.\capoo.mp4&#39;  -preset slow -keyint_min 1 -sc_threshold 60 &#39;.&#x2F;capoo_1.mp4&#39;</span><br></pre></td></tr></table></figure>
-
-<p>再用得到的新视频文件在 gui 内裁剪。</p>
-<p>然而实际使用时发现在每个关键帧处还要往上倒三帧否则就会包含下个场景的画面。原因是这个 gui 命令里面用了 <code>-c copy</code> 参数。。。目前还无解。而且除了这个，有时候导出的某些视频还会出现只剪了后面没剪前面的情况，貌似是因为放在桌面，桌面的路径里面有中文（onedrive 的锅）。。。。</p>
-<p>还有其他的 gui 工具，比如 <a href="https://sourceforge.net/projects/ffmpegyag/">ffmpegyag</a>。但这就没有根据 Intra 帧在时间轴上快捷指向的功能了（虽然还是能识别处 I/P/B 帧）。而且不能直接使用（点 OK 就卡住），生成脚本后运行倒是没问题。</p>
-<h3 id="配合-opencv"><a href="#配合-opencv" class="headerlink" title="配合 opencv"></a>配合 opencv</h3><p>门槛有点高。给两篇参考文章，先挖个坑。</p>
-<ul>
-<li><a href="https://www.cnblogs.com/dskit/p/10003722.html">基于opencv+ffmpeg的镜头分割</a></li>
-<li><a href="https://yuyujunjun.github.io/segmentation-keyframe-extraction">视频镜头分割和关键帧提取</a></li>
-</ul>
-<h2 id="vps-动画转码"><a href="#vps-动画转码" class="headerlink" title="vps 动画转码"></a>vps 动画转码</h2><p>为什么播不了？我想估计是位深太大了，使用 ffmpeg x264 默认参数转一下就好了。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">ffmpeg  -i &quot;[Sakurato.sub][Nande Koko ni Sensei ga!][01][GB][1080P].mp4&quot; -vcodec libx264 -acodec copy  test.mp4</span><br></pre></td></tr></table></figure>
-
-<p>不过转出来感觉略微有点不太对，windows potplayer 缩略图显示不出东西来。。。原因不明，排除了 10bit 不兼容原因（原案是 10bit，可显示）和 hevc（h265）与 avc（h264）原因（用哪个编码器都转不出来）。</p>
-<p>另外，x264 编译器还有很多奇奇怪怪的参数，参考这里：<a href="https://trac.ffmpeg.org/wiki/Encode/H.264">H.264 Video Encoding Guide</a></p>
-<h3 id="显卡加速"><a href="#显卡加速" class="headerlink" title="显卡加速"></a>显卡加速</h3><p>参考文章：<a href="https://www.jianshu.com/p/59da3d350488">使用GPU硬件加速FFmpeg视频转码</a></p>
-<p>ffmpeg 还支持显卡加速<del>，不过嘛。。。参数很麻烦，没什么可靠的参考（因为 ffmpeg 的参数经常有顺序限制的，上面那篇文章的参考我试了一下，失败），下面这个，我转起来速度比较快（不过也有是用 8bit 的原因），而且 potplayer 识别了缩略图，另外显卡也工作了（不过占用只有百分之8。。。。）</del>（未加 <code>-hwaccel cuda</code>，虽然是硬解但仍然经过内存。但下面的命令仅硬解码，且仅 h265）</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">ffmpeg  -hwaccel cuda  -c:v h265_cuvid -i &quot;[Sakurato.sub][Nande Koko ni Sensei ga!][01][GB][1080P].mp4&quot; -pix_fmt yuv420p test.mp4</span><br></pre></td></tr></table></figure>
-
-<p>参考：<a href="https://developer.nvidia.com/zh-cn/blog/nvidia-ffmpeg-transcoding-guide/">NVIDIA FFmpeg 转码指南</a></p>
-<p>拿来转部落战视频用的，因为 ipad 录的视频码率高，而且带了旋转属性（很诡异，是写在 ffmpeg 参数里面的，也就是说对于支持的播放器打开后会自动转正变成横屏，但其实视频硬属性是竖着的），因为有这个自动旋转所以网上写的大部分硬件转码无法使用（不支持关掉自动旋转并摆正视频），但是我试了一个新的，还凑合，而且 gpu 打满。原理是硬解硬编码，下面的方框部分是指定使用最广泛的 h264 硬解，记得如果原来就是 h265 视频需要把这个参数换掉（<code>hevc_cuvid</code>）或关掉。硬编码的部分也可以换成 <code>h264_nvenc</code>。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">ffmpeg -y -vsync 0 -hwaccel cuda [-c:v h264_cuvid]  -i xxx.MP4 -vcodec hevc_nvenc -b:v 3000k xxx.mp4</span><br></pre></td></tr></table></figure>
-
-<p>hwaccel 也有被称为 cuvid 的参数。但我用 cuvid 代替 cuda 时会报错</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Pixel format &#39;yuvj420p&#39; is not supported</span><br></pre></td></tr></table></figure>
-
-<p>原因未知。cuvid 和 cuda 的区别我也没发现有参考资料能解释。</p>
-<p>对于其他硬解方式，可以参考这篇文章：<a href="https://www.bilibili.com/read/cv4579978/">（三+1）用显卡加速视频转码压制之ffmpeg、media coder、shana encoder</a></p>
-<p>查看解码方法：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">ffmpeg -decoders</span><br></pre></td></tr></table></figure>
-
-<p>查看编码方法：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">ffmpeg -encoders</span><br></pre></td></tr></table></figure>
-
-<p>上面提到的 <code>cuda</code> 和 <code>h264_cuvid</code> 就在解码方法里面，而 <code>hevc_nvenc</code> 就在编码方法里面。对于 intel 系来说，硬解应该是 <code>qsv</code> 后缀一类的方法；而 amd 是 <code>amf</code> 后缀一类的方法。我仔细看了看最新版 ffmpeg，发现起码对于 amd，只找到了编码方法（比如 <code>h264_amf</code>）而没有找到解码方法。。。好在我平常操作的视频都是解码不怎么费劲的视频，解码费劲的 4k 编码起来必然更慢，暂时不属于我手上硬件能触及的范围了。。。</p>
-<p>另外，文章提到</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">ffmpeg -hwaccels</span><br></pre></td></tr></table></figure>
-
-<p>能查看当前硬件和 ffmpeg 支持的硬解，但我看结果感觉扯淡。。。我用 amd 的机子能查出来 intel 和 cuda，却没有 amf，就 tm 离谱（当然文章里面也提到了这个方法不准就是了）。</p>
-<h3 id="多线程"><a href="#多线程" class="headerlink" title="多线程"></a>多线程</h3><p>参考文章：<a href="https://blog.csdn.net/educast/article/details/81866749">ffmpeg 多线程转码</a></p>
-<p>通过写在 <code>-i</code> 参数前的 <code> -threads [线程数]</code> 可以指定 ffmpeg 使用的线程。不过经过测试比较新的 ffmpeg 都会用完 cpu 的所有线程，所以除非要限制 cpu 功率否则这个参数没必要动。</p>
-<h2 id="mkv-内挂字幕嵌入-mp4"><a href="#mkv-内挂字幕嵌入-mp4" class="headerlink" title="mkv 内挂字幕嵌入 mp4"></a>mkv 内挂字幕嵌入 mp4</h2><p>参考文章：<a href="http://andrew-reynolds-bootcamp.com/questions/2027/ffmpeg-mkvdao-mp4zhuan-huan-shi-qu-liao-zi-mu">題 FFMPEG mkv到mp4轉換失去了字幕</a></p>
-<p>内挂字幕的 mkv 在 filebroswer 里面看不到字幕啊。。。于是要想办法提取字幕出来，再把字幕直接内嵌进去。</p>
-<p>有两种方法：</p>
-<ol>
-<li><p>不靠谱方法，很快，但是不一定能识别</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">ffmpeg -i input.mkv -c copy -c:s mov_text output.mp4</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>重新编码的方法。一定能识别，但是慢过爹</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">ffmpeg -i input.mkv -vf subtitles&#x3D;input.mkv output.mp4</span><br></pre></td></tr></table></figure>
-
-
-</li>
-</ol>
-<h2 id="mp4-批量转换-gif"><a href="#mp4-批量转换-gif" class="headerlink" title="mp4 批量转换 gif"></a>mp4 批量转换 gif</h2><p>参考文章：<a href="http://blog.pkh.me/p/21-high-quality-gif-with-ffmpeg.html#content">High quality GIF with FFmpeg</a></p>
-<p>以 centos 为例，先编辑个小脚本：</p>
-<p>change.sh</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#!&#x2F;bin&#x2F;sh</span><br><span class="line">palette&#x3D;&quot;.&#x2F;palette.png&quot;</span><br><span class="line"></span><br><span class="line">filters&#x3D;&quot;fps&#x3D;15,scale&#x3D;-1:-1:flags&#x3D;lanczos&quot;</span><br><span class="line"></span><br><span class="line">ffmpeg -v warning -i $1 -vf &quot;$filters,palettegen&quot; -y $palette</span><br><span class="line">ffmpeg -v warning -i $1 -i $palette -lavfi &quot;$filters [x]; [x][1:v] paletteuse&quot; -y $2                                                                                     </span><br></pre></td></tr></table></figure>
-
-<p>然后把需要转换的 mp4 文件放到目录中，执行</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">for i in *.mp4; do .&#x2F;change.sh $i &quot;$&#123;i%%.*&#125;.gif&quot;;done</span><br></pre></td></tr></table></figure>
-
-<p>这条命令会把所有的 mp4 的后缀名去掉，换成 gif。</p>
-<p>另外，windows 端也可以通过修改成两个 bat 文件做到类似的效果（不过第二部我不知道怎么把原 mp4 文件夹的所有后缀替换成 gif，只能直接加 gif），要批量转换的时候运行第二个 bat 就 ok 了</p>
-<p>change.bat</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">@echo off</span><br><span class="line">cd &#x2F;d %~dp0 </span><br><span class="line">set palette&#x3D;&quot;palette.png&quot;</span><br><span class="line"></span><br><span class="line">set filters&#x3D;&quot;fps&#x3D;15,scale&#x3D;-1:-1:flags&#x3D;lanczos&quot;</span><br><span class="line"></span><br><span class="line">ffmpeg -v warning -i %1 -vf &quot;%filters%,palettegen&quot; -y %palette%</span><br><span class="line">ffmpeg -v warning -i %1 -i %palette% -lavfi &quot;%filters% [x]; [x][1:v] paletteuse&quot; -y %2       </span><br></pre></td></tr></table></figure>
-
-<p>change2.bat</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">@echo off</span><br><span class="line">for %%i in (*.mp4) do change.bat &quot;%%i&quot; &quot;%%i.gif&quot;</span><br></pre></td></tr></table></figure>
-
-<h2 id="合并音视频"><a href="#合并音视频" class="headerlink" title="合并音视频"></a>合并音视频</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">ffmpeg -i xxx -i xxx -c:v copy -c:a copy output.mp4</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="mp4-转音频"><a href="#mp4-转音频" class="headerlink" title="mp4 转音频"></a>mp4 转音频</h2><p>对于大部分 mp4，可以直接提取其中的音频，速度很快：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">ffmpeg -i .\test.mp4 -acodec copy -vn test.mp3</span><br></pre></td></tr></table></figure>
-
-<p>不过，这条命令是直接把 mp4 封装中的音频部分提取出来，如果音频部分不是 mp3 格式就会出错：</p>
-<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/6zkXFjh.png"></p>
-<p>从日志里面，我们可以观察到原来封装里面是什么格式的，比如这里就是 aac 的：</p>
-<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/mtmQeQT.png"></p>
-<p>这时候就需要把命令中的格式从 mp3 改成 aac：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">ffmpeg -i .\test.mp4 -acodec copy -vn test.aac</span><br></pre></td></tr></table></figure>
-
-<p>如果需要转换其他格式，可以使用 <code>c:a</code> 参数替代 <code>acodec</code>，比如转换为当前较先进的 opus 格式（当然速度就慢多了）：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">ffmpeg -i .\test.mp4 -c:a libopus -vn test.opus</span><br></pre></td></tr></table></figure>
-
-<h2 id="下载-m3u8"><a href="#下载-m3u8" class="headerlink" title="下载 m3u8"></a>下载 m3u8</h2><p>参考文章：<a href="https://stackoverflow.com/questions/50455695/why-does-ffmpeg-ignore-protocol-whitelist-flag-when-converting-https-m3u8-stream">Why does ffmpeg ignore protocol_whitelist flag when converting https m3u8 stream?</a></p>
-<p>某些视频网站和 ios 软件用的视频地址抓出来是 m3u8 的。比如机核的视频。可以用 chrome 插件<a href="https://chrome.google.com/webstore/detail/%E7%8C%AB%E6%8A%93/jfedfbgedapdagkghmgibemcoggfppbb">猫抓</a>获取 m3u8 文件。然后，加入相关参数，注意需要紧跟在 ffmpeg 命令后面：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">ffmpeg -protocol_whitelist file,http,https,tcp,tls,crypto -i xxxx.m3u8 xxxx.xxx</span><br></pre></td></tr></table></figure>
-
-<p>xxxx.xxx 指的是你需要输出的视频名字和格式，因为 m3u8 流切下来一般是 h264 的，封装格式需要你自己来确定，ffmpeg 会帮你把所有切片合并。</p>
-<h2 id="自动裁切黑边"><a href="#自动裁切黑边" class="headerlink" title="自动裁切黑边"></a>自动裁切黑边</h2><p>参考文章：<a href="https://www.bogotobogo.com/FFMpeg/ffmpeg_cropdetect_ffplay.php">CROPDETECT AND FFPLAY - 2020</a></p>
-<p>先检测黑边：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">ffmpeg -i .\test.mp4 -vcodec copy -acodec copy cropdetect&#x3D;24:16:0 test1.mp4</span><br></pre></td></tr></table></figure>
-
-<p>24:16:0 是默认参数，一般如果要调也只调第一个参数（黑边阈值）。</p>
-<p>输出的日志中会有类似于</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[Parsed_cropdetect_0 @ 0x3704360] x1:0 x2:639 y1:43 y2:317 w:640 h:272 x:0 y:46 pts:181320 t:181.320000 crop&#x3D;640:272:0:46</span><br></pre></td></tr></table></figure>
-
-<p>其中有用的就是 w、h、x、y 四个参数，分别放入新命令的相应位置</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">ffmpeg -i .\test.mp4 -vcodec copy -acodec copy -vf crop&#x3D;640:272:0:46 test1.mp4</span><br></pre></td></tr></table></figure>
-
-<p>即可。（虽然经过我测试默认参数检测还是有点偏差，但稍微手动调一下 w 和 h 的值效果就令人满意了）</p>
-<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><p>参考文章：<a href="https://linux.cn/article-10932-1.html">给新手的 20 多个 FFmpeg 命令示例</a></p>
-<p>比较有用的几个地方：</p>
-<h3 id="转换格式时不压缩视频"><a href="#转换格式时不压缩视频" class="headerlink" title="转换格式时不压缩视频"></a>转换格式时不压缩视频</h3><p>使用<code>-qscale 0</code></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ ffmpeg -i input.webm -qscale 0 output.mp4</span><br></pre></td></tr></table></figure>
-
-<h3 id="版本"><a href="#版本" class="headerlink" title="版本"></a>版本</h3><p>ffmpeg windows 端出了新的编译版：<a href="https://github.com/BtbN/FFmpeg-Builds">BtbN/FFmpeg-Builds</a>。release 中有许多不同版本。lgbl 和 gbl 应该是许可证之间的不同，但大小也有区别，我个人认为是为了 lgbl 剔除了一些东西；shared 和不带 shared 的版本，区别是运行库合并进了 ffmpeg 中。最关键的是 vulkan 版本，带有 vulkan 版本需要比较新的独显和新的驱动才能使用，我的 965m 运行都会报错 <code>Lossless encoding not supported</code>。</p>
-]]></content>
-      <categories>
-        <category>影音</category>
-      </categories>
-      <tags>
-        <tag>ffmpeg</tag>
       </tags>
   </entry>
   <entry>
