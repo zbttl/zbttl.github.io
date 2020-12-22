@@ -42,6 +42,7 @@
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/005_magick6.jpg">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/005_magick7.jpg">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/005_magick8.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20201223071937.png">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/1gGuvCbBVJqMRtj.gif">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/Zv9YCok1ql784Hi.gif">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/FEsgkbz2OBZC9xd.jpg">
@@ -50,7 +51,7 @@
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/BxqDHbuKkhpwVnM.gif">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/tiRkpv5cmNV2Cq4.gif">
 <meta property="article:published_time" content="2020-12-04T15:58:32.000Z">
-<meta property="article:modified_time" content="2020-12-21T21:50:12.556Z">
+<meta property="article:modified_time" content="2020-12-22T23:22:59.000Z">
 <meta property="article:author" content="zbttl">
 <meta property="article:tag" content="imagemagick">
 <meta property="article:tag" content="ffmpeg">
@@ -312,7 +313,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2020-12-22 05:50:12" itemprop="dateModified" datetime="2020-12-22T05:50:12+08:00">2020-12-22</time>
+        <time title="修改时间：2020-12-23 07:22:59" itemprop="dateModified" datetime="2020-12-23T07:22:59+08:00">2020-12-23</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -485,10 +486,10 @@
 <h4 id="tgs-to-gif-12-14-更新"><a href="#tgs-to-gif-12-14-更新" class="headerlink" title="tgs-to-gif (12.14 更新)"></a>tgs-to-gif <strong>(12.14 更新)</strong></h4><p>上面两个软件，前者免费但容易出现各类错误，且安装繁琐；后者需要付费但效果尚可。</p>
 <p>最近又出现一个新的 tgs 转换工具 <a target="_blank" rel="noopener" href="https://github.com/ed-asriyan">ed-asriyan</a>/**<a target="_blank" rel="noopener" href="https://github.com/ed-asriyan/tgs-to-gif">tgs-to-gif</a>**，前面两个工具转换一些 tgs 会出现重影（经过测试不是下面我 gif 速度优化的锅，而是转换出来的帧里面本身就有重影的帧出现），这个工具基本解决了重影的问题，且大部分 gif 也不存在速度过慢的问题。缺点是转换出来的 gif 质量低于前面两个软件，且在 windows 的 irfanview 下播放会出现花屏现象，原因不明。</p>
 <p>在 pc 和虚拟机上上使用建议借助 nodejs 安装；在国外 vps 上使用建议借助 docker 安装。</p>
-<p>原因嘛，docker 方便但因为网络原因安装速度可能会很慢，docker 内部比较难上代理，docker 加速器在这里无效因为跑 docker 的时候我发现这个东西不仅拉镜像还在跑 apt；但 vps 上用 nodejs 还需要非 root 账号，因为本项目用到了 puppeteer，还不一定成功，我在两台 debian 的机子上都掉坑一台找不到 browser 另一台找不到 gifski，懒得爬出来了。</p>
+<p>原因嘛，docker 方便但因为网络原因安装速度可能会很慢，docker 内部比较难上代理，docker 加速器在这里无效因为跑 docker 的时候我发现这个东西不仅拉镜像还在跑 apt；但 vps 上用 nodejs 还需要非 root 账号，因为本项目用到了 puppeteer，还不一定成功，我在两台 debian 的机子上都掉坑一台找不到 browser 另一台装不上 gifski，找不到 browser 那一回 nodejs 我用了 15，后面发现 15 不行；装不上 gifski 是因为 cargo 都装不上，掉进新坑用命令 <code>rustup install stable</code> 运行到一般就被 kill 了估计是内存都不够了，也不想划虚拟内存了，懒得爬出来了。</p>
 <p>另外 nodejs 运行时的运行目录必须在项目内（但 tgs 文件不需要放在项目内），docker 不需要但写 tgs 文件夹路径的时候得写绝对路径，各有各的麻烦。</p>
 <p>nodejs：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">curl https:&#x2F;&#x2F;sh.rustup.rs -sSf | sh 并 ctrl+d</span><br><span class="line">curl -sL https:&#x2F;&#x2F;deb.nodesource.com&#x2F;setup_15.x | bash -</span><br><span class="line">apt-get install -y nodejs</span><br><span class="line">git clone https:&#x2F;&#x2F;github.com&#x2F;ed-asriyan&#x2F;tgs-to-gif.git</span><br><span class="line">cd tgs-to-gif</span><br><span class="line">npm install</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">curl https:&#x2F;&#x2F;sh.rustup.rs -sSf | sh #并 ctrl+d</span><br><span class="line">curl -sL https:&#x2F;&#x2F;deb.nodesource.com&#x2F;setup_14.x | bash - #目前不支持15</span><br><span class="line">apt-get install -y nodejs</span><br><span class="line">cargo install gifski</span><br><span class="line">git clone https:&#x2F;&#x2F;github.com&#x2F;ed-asriyan&#x2F;tgs-to-gif.git</span><br><span class="line">cd tgs-to-gif</span><br><span class="line">npm install</span><br></pre></td></tr></table></figure>
 
 <p>即可使用</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">#转换多个 tgs</span><br><span class="line">node cli.js 0.tgs 1.tgs...</span><br><span class="line">#转换整个文件夹</span><br><span class="line">node cli.js &#x2F;home&#x2F;zbttl&#x2F;tgs</span><br></pre></td></tr></table></figure>
@@ -499,6 +500,9 @@
 <p>即可使用</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run --rm -v &lt;文件夹绝对路径&gt;:&#x2F;source tgs-to-gif</span><br></pre></td></tr></table></figure>
 
+<p><strong>（12 月 23 日更新）</strong> docker 版和 nodejs 效果居然不一样。。。。docker 版出来的效果需要加速，所以只推荐 nodejs 版。至于为什么效果会不一样。。。我猜测是因为 gifski 版本的原因，docker 里面 gifski 版本还是 0.10.4，我在实机中安装的版本已经是 1.22 了。但话说回来，issue 里面刚好就有个人吐槽长度宽度参数不生效[The –height HEIGHT –width WIDTH don’t work #25](The –height HEIGHT –width WIDTH don’t work #25)，作者给的意见是更换喂 gifski 旧版。。。。另外一点，托之前忘记安装 gifski 的福，我看到了部分运行命令：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20201223071937.png"></p>
+<p>合着这质量还只有百分之 80。。。但我在项目中完全查不到这些个帧数质量啥的在哪调，所以没辙。</p>
 <p>先说一下踩进去的坑，不想看的可以跳过下面这一段：</p>
 <h3 id="鉴坑扯淡"><a href="#鉴坑扯淡" class="headerlink" title="鉴坑扯淡"></a>鉴坑扯淡</h3><p>样张：</p>
 <p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/1gGuvCbBVJqMRtj.gif"></p>
