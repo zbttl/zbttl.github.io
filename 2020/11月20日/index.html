@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.1/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"zbttl.github.io","root":"/","images":"/images","scheme":"Muse","version":"8.1.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}};
+  </script>
+<meta name="description" content="「人生的坑爹遭遇有很大一部分来源于手贱」 自上个月写完了安卓短信&#x2F;通讯录&#x2F;流量信息备份相关的内容，然后我更新完了系统折腾掉所有坑以后，这台狗米 note7pro 可以稳定很久不用动了。然而话是这么说，人不作死就不会死。。。我手贱点开了 tg 的小米推送框架群，看到了新版本，push 和 framework 合在一起了，不过 comments 里面已经有老哥说更新以后会出现推送错误的问题。 管他呢！">
+<meta property="og:type" content="article">
+<meta property="og:title" content="坑爹的小米推送框架">
+<meta property="og:url" content="https://zbttl.github.io/2020/11%E6%9C%8820%E6%97%A5/index.html">
+<meta property="og:site_name" content="Bao&#39;s 备忘录">
+<meta property="og:description" content="「人生的坑爹遭遇有很大一部分来源于手贱」 自上个月写完了安卓短信&#x2F;通讯录&#x2F;流量信息备份相关的内容，然后我更新完了系统折腾掉所有坑以后，这台狗米 note7pro 可以稳定很久不用动了。然而话是这么说，人不作死就不会死。。。我手贱点开了 tg 的小米推送框架群，看到了新版本，push 和 framework 合在一起了，不过 comments 里面已经有老哥说更新以后会出现推送错误的问题。 管他呢！">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/sTMlXGt.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/hGq1EI3.png">
+<meta property="article:published_time" content="2020-11-19T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-12-21T21:42:29.718Z">
+<meta property="article:author" content="zbttl">
+<meta property="article:tag" content="mipush">
+<meta property="article:tag" content="magisk">
+<meta property="article:tag" content="xposed">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/sTMlXGt.png">
+
+
+<link rel="canonical" href="https://zbttl.github.io/2020/11%E6%9C%8820%E6%97%A5/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+<title>坑爹的小米推送框架 | Bao's 备忘录</title>
+  
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Bao's 备忘录</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-overview-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <section class="post-toc-wrap sidebar-panel">
+        </section>
+        <!--/noindex-->
+
+        <section class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">zbttl</p>
+  <div class="site-description" itemprop="description">玩点好玩的</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">11</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/zbttl" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;zbttl" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:zbttls@gmail.com" title="E-Mail → mailto:zbttls@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+        </section>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://zbttl.github.io/2020/11%E6%9C%8820%E6%97%A5/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="zbttl">
+      <meta itemprop="description" content="玩点好玩的">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Bao's 备忘录">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          坑爹的小米推送框架
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-11-20 00:00:00" itemprop="dateCreated datePublished" datetime="2020-11-20T00:00:00+08:00">2020-11-20</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2020-12-22 05:42:29" itemprop="dateModified" datetime="2020-12-22T05:42:29+08:00">2020-12-22</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/android/" itemprop="url" rel="index"><span itemprop="name">android</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>2.1k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>2 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>「人生的坑爹遭遇有很大一部分来源于手贱」</p>
+<p>自上个月写完了安卓短信/通讯录/流量信息备份相关的内容，然后我更新完了系统折腾掉所有坑以后，这台狗米 note7pro 可以稳定很久不用动了。然而话是这么说，人不作死就不会死。。。我手贱点开了 tg 的小米推送框架群，看到了新版本，push 和 framework 合在一起了，不过 comments 里面已经有老哥说更新以后会出现推送错误的问题。</p>
+<p>管他呢！更新。结果更新完真的就提示注册异常，不过好消息是还能推送。另外新的二合一 app 和原来的 framework app 签名不一样，包名也不一样，原来的 framework app 打开即闪退。</p>
+<p>好家伙，不能忍。删除装回原版，发现没有用了。。。注册还是失败。转了一圈尝试了各种方法，得出了一些结论：</p>
+<ol>
+<li><p>小米推送框架应该是改了验证机制，导致现在得用一些比较奇葩的方法才能保证应用能够注册上。原来已经注册上的就不受影响，所以如果我用原版没有问题就应该毛事没有。</p>
+</li>
+<li><p>奇特的方法包括：安装成为系统应用；使用旧版；安装 xposed 欺骗框架；安装 magisk 欺骗框架。</p>
+</li>
+<li><p>经过我的实验，装 2018 年的版本，无论怎么样应用都没法注册上，连推送出错都没有发生，直接就「使用小米推送，但尚未注册」；而安装最新的二合一版本，就算上了 xposed 欺骗框架 + magisk 欺骗框架 + 安装成系统应用，仍然会弹出推送错误的提示。</p>
+</li>
+<li><p>在 framework app 中，打开「应用注册时显示通知」 的开关，正常情况下打开支持小米推送的应用，应该会弹出注册推送的 toast。另外第一次注册的应用会在记录中留下四条注册推送成功的讯息（比如下图中的 tx 加速器），少一条都有可能是出了问题的征兆。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/sTMlXGt.png"></p>
+</li>
+<li><p>无论用什么手段。。。设置里全局伪装为小米设备的开关在关闭 framework apk 重新打开后都会发现被自动关上了。另外 Q&amp;A 中提到的重装 framework app 和 push app 后需要重装注册过的应用才会摆脱「注册异常」的提示，我应用后并没有改善，后续解决该问题也不是靠的重装应用。可能是因为我这台设备本来就是小米，只不过刷了类原生而已。。。</p>
+</li>
+<li><p>伪装为小米设备有好多种方法。其中，旧版（2018 版）会自动在 xposed 里面装一个 push 模块；旧版的 magisk 里可以下到不需要 riru 的 xposed 欺骗模块；还可以用 magisk props config 手动修改 props 文件（具体修改步骤百度/在酷安搜索）；比较新的两个方法是使用 riru 模块 <a target="_blank" rel="noopener" href="https://github.com/MiPushFramework/MiPushFakeForRiru">MiPushFakeForRiru</a>；或者是使用 edxposed 中可以在仓库中搜到的 <a target="_blank" rel="noopener" href="https://repo.xposed.info/module/org.meowcat.xposed.mipush">MiPush Framework Enhancement</a>。总而言之让相关应用能够识别出你在用 miui 就成功了。所以强烈推荐其中的 <a target="_blank" rel="noopener" href="https://repo.xposed.info/module/org.meowcat.xposed.mipush">MiPush Framework Enhancement</a>，就算没有生效它也能读出你被伪装成什么版本的 miui，伪装到了何种程度（另外这个软件要生效，不仅在 edxposed 中需要启动，打开软件后还要把工作模式设为黑名单，默认的已禁用模式软件也不生效）。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/hGq1EI3.png"></p>
+</li>
+<li><p>开启 selinux 的情况下也会出现注册异常的状况。但注册成功的应用即使在 selinux 开启的情况下仍然能够正常推送。</p>
+</li>
+</ol>
+<p>回到正题，在我这台类原生 pe 的红米 note7 pro 上，我具体做了这么几部：</p>
+<ol>
+<li>关闭 selinux。可以用各种终端软件（比如 termux），获取 root 后输入 <code>setenforce 0</code> 即可。也可以用各种 kernel manager，开机自动运行该命令。</li>
+<li>安装 200315 版本的 push 和 framework app。</li>
+<li>使用 magisk 模块 App Systemizer 将两个应用全部移入 <code>/system/priv-app</code> 中。粗略步骤是安装模块后重启，在终端中获取 su 后输入 systemize，然后按提示操作。注意两个都要移进去，移一个的话我试过一次，照样出错。</li>
+<li>安装上文提到的 MiPushFakeForRiru （如果没装过 riru 还得装 riru 模块，不过都装了 xposed，riru 我觉得大家都应该装了）和 MiPush Framework Enhancement，后者记得正确启用。（前者其实不一定有用，但后者一定要装）</li>
+<li>打开软件，正确给予权限。</li>
+<li>打开支持小米推送的应用，此时回到 framework app 会发现提示注册失败。稍安勿躁，等个几个钟头就会奇迹般的变成注册成功了（</li>
+<li>相关的推送还要等半天到一天才会恢复正常。不要指望刚装上应用注册成功就会有推送来找你（</li>
+</ol>
+<p>大概就是这样。还可以通过 <a target="_blank" rel="noopener" href="https://github.com/MiPushFramework/MiPushTester">MiPushTester</a> 来验证推送是不是真的正常了。不过话说回来，第一次我按上面的大概步骤做了以后，正常了几天，后面推送是出来了，点击推送相关应用弹不出来。。。看日志是 intent 卡住了，后来我又重装试了一通新旧版本，再后来我又大概按上面的步骤做了一次，又正常了。。。这次正常使用了十来天，我觉得应该是彻底正常了。所以上面的步骤 1-5，也不用太严格遵守啦，毕竟我没有严格测试过那步放在后面就会 crash，我大概回忆了一下差不多是这样，再严格测试出什么幺蛾子那又麻烦了（</p>
+<p>总之不要手贱，能用的就不要东搞西搞（</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>zbttl
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="https://zbttl.github.io/2020/11%E6%9C%8820%E6%97%A5/" title="坑爹的小米推送框架">https://zbttl.github.io/2020/11月20日/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/mipush/" rel="tag"># mipush</a>
+              <a href="/tags/magisk/" rel="tag"># magisk</a>
+              <a href="/tags/xposed/" rel="tag"># xposed</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2020/4%E6%9C%8814%E6%97%A5%EF%BC%88%E5%AF%92%E5%81%87%E7%AC%AC%E4%B9%9D%E5%8D%81%E4%BA%8C%E5%A4%A9%EF%BC%89/" rel="prev" title="termux 调校">
+                  <i class="fa fa-chevron-left"></i> termux 调校
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2020/12%E6%9C%884%E6%97%A5/" rel="next" title="玩一下 imagemagick">
+                  玩一下 imagemagick <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zbttl</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+      <span>站点总字数：</span>
+    <span title="站点总字数">72k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span>站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">1:06</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+</div><script color="120,120,120" opacity="0.5" zIndex="-1" count="150" src="https://cdn.jsdelivr.net/npm/canvas-nest.js@1/dist/canvas-nest.js"></script>
+
+
+    </div>
+  </footer>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1.7.0/dist/gitalk.css">
+
+<script>
+NexT.utils.loadComments('#gitalk-container', () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1.7.0/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : 'd99d750bdfdb31ecf37e',
+      clientSecret: '1d37215aff71dc84b66e03cb412c7e68b968d76f',
+      repo        : 'zbttl-comment',
+      owner       : 'zbpicture',
+      admin       : ['zbpicture'],
+      id          : '804da664c9114c0bf3f8721b9f0116b3',
+        language: '',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+<script type="text/javascript" src=" https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+
+  <script async src="/js/cursor/text.js"></script>
+
+
+</body>
+</html>
