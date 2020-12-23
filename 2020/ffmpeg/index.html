@@ -148,9 +148,7 @@
     <i class="fa fa-search"></i>
   </span>
   <div class="search-input-container">
-    <input autocomplete="off" autocapitalize="off" maxlength="80"
-           placeholder="搜索..." spellcheck="false"
-           type="search" class="search-input">
+    <input autocomplete="off" autocapitalize="off" maxlength="80" placeholder="搜索..." spellcheck="false" type="search" class="search-input">
   </div>
   <span class="popup-btn-close">
     <i class="fa fa-times-circle"></i>
@@ -223,10 +221,10 @@
 </div>
   <div class="links-of-author site-overview-item animated">
       <span class="links-of-author-item">
-        <a href="https://github.com/zbttl" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;zbttl" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+        <a href="https://github.com/zbttl" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;zbttl" rel="external nofollow noopener noreferrer" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
       </span>
       <span class="links-of-author-item">
-        <a href="mailto:zbttls@gmail.com" title="E-Mail → mailto:zbttls@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+        <a href="mailto:zbttls@gmail.com" title="E-Mail → mailto:zbttls@gmail.com" rel="external nofollow noopener noreferrer" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
       </span>
   </div>
 
@@ -334,9 +332,9 @@
     
     <div class="post-body" itemprop="articleBody">
         <p>因为最近有两件事情，所以要研究一下这玩意：把 capoo 那个动画分割成动图，还有就是 vps 上下的动画，直接用 filebroswer 播不了，需要稍微转一下码才行。</p>
-<p>总参数参考：<a target="_blank" rel="noopener" href="https://ffmpeg.org/ffmpeg.html">ffmpeg Documentation</a></p>
+<p>总参数参考：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://ffmpeg.org/ffmpeg.html">ffmpeg Documentation</a></p>
 <h2 id="capoo-分割"><a href="#capoo-分割" class="headerlink" title="capoo 分割"></a>capoo 分割</h2><p>关键词：帧内编码（intra）</p>
-<p>参考文章：<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/cf1e61eb6fc8">FFMPEG 视频分割和合并</a></p>
+<p>参考文章：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.jianshu.com/p/cf1e61eb6fc8">FFMPEG 视频分割和合并</a></p>
 <p>不过这篇文章没有将一个参数，to，to 是裁剪到时间节点而 t 是裁剪自开始以来的一段时间长度，这里为了方便我很明显是要用 to 的。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -ss 00:00.00 -to 00:00.01 -i capoo.mp4 -vcodec copy -acodec copy &quot;C:\Users\zbttl\OneDrive - go.Stockton.edu\Desktop\capoo\ capoo1.mp4&quot;</span><br></pre></td></tr></table></figure>
 
@@ -347,13 +345,13 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">for i in *.mp4; do ffmpeg -i $i -vcodec copy -an &quot;&#x2F;home&#x2F;zbttl&#x2F;capoo&#x2F;$&#123;i%%.*&#125;.mp4&quot;;done</span><br></pre></td></tr></table></figure>
 
 <p>参数里可以加上 <code>-avoid_negative_ts</code> 移动关键帧使其与要剪辑的位置相符。</p>
-<h3 id="使用-gui（不成熟）"><a href="#使用-gui（不成熟）" class="headerlink" title="使用 gui（不成熟）"></a>使用 gui（不成熟）</h3><p>也可以使用 gui 工具 <a target="_blank" rel="noopener" href="https://github.com/mifi/lossless-cut">LosslessCut</a>。gui 可以通过视频中的 Intra（I 帧，关键帧）识别转场，操作上便捷许多。不过很多视频由于参数原因（I 帧过多会增大视频体积），所以 I 帧和真正的转场不一定完全符合，可能还要通过 ffmpeg 转一下码。</p>
+<h3 id="使用-gui（不成熟）"><a href="#使用-gui（不成熟）" class="headerlink" title="使用 gui（不成熟）"></a>使用 gui（不成熟）</h3><p>也可以使用 gui 工具 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/mifi/lossless-cut">LosslessCut</a>。gui 可以通过视频中的 Intra（I 帧，关键帧）识别转场，操作上便捷许多。不过很多视频由于参数原因（I 帧过多会增大视频体积），所以 I 帧和真正的转场不一定完全符合，可能还要通过 ffmpeg 转一下码。</p>
 <p>参考：</p>
 <ul>
-<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/28008666">FFmpeg精准时间切割视频文件</a></li>
-<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/85895180">FFmpeg视频抽帧那些事</a></li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://zhuanlan.zhihu.com/p/28008666">FFmpeg精准时间切割视频文件</a></li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://zhuanlan.zhihu.com/p/85895180">FFmpeg视频抽帧那些事</a></li>
 <li><a href="%5Bhttps://weichao.io/2018/05/27/FFmpeg-%E8%BD%AF%E7%BC%96%E7%A0%81-H264%E3%80%81H265/%5D(https://weichao.io/2018/05/27/FFmpeg-%E8%BD%AF%E7%BC%96%E7%A0%81-H264%E3%80%81H265/)">FFmpeg 软编码 H264、H265</a></li>
-<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/36109778">ffmpeg和H264视频的编解码</a></li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://zhuanlan.zhihu.com/p/36109778">ffmpeg和H264视频的编解码</a></li>
 </ul>
 <p>加入以下参数：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">-keyint_min #Intra最小间隔时间，可设置为 0。</span><br><span class="line">-g #group of picture，Intra最大间隔时间。设置为 1 就全部都是关键帧。全部设置为关键帧有助于手动切割。</span><br><span class="line">-sc_threshold #(scenecut)设置场景更改检测的阈值。可设置为 0-无限。</span><br></pre></td></tr></table></figure>
@@ -366,22 +364,22 @@
 
 <p>再用得到的新视频文件在 gui 内裁剪。</p>
 <p>然而实际使用时发现在每个关键帧处还要往上倒三帧否则就会包含下个场景的画面。原因是这个 gui 命令里面用了 <code>-c copy</code> 参数。。。目前还无解。而且除了这个，有时候导出的某些视频还会出现只剪了后面没剪前面的情况，貌似是因为放在桌面，桌面的路径里面有中文（onedrive 的锅）。。。。</p>
-<p>还有其他的 gui 工具，比如 <a target="_blank" rel="noopener" href="https://sourceforge.net/projects/ffmpegyag/">ffmpegyag</a>。但这就没有根据 Intra 帧在时间轴上快捷指向的功能了（虽然还是能识别处 I/P/B 帧）。而且不能直接使用（点 OK 就卡住），生成脚本后运行倒是没问题。</p>
+<p>还有其他的 gui 工具，比如 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://sourceforge.net/projects/ffmpegyag/">ffmpegyag</a>。但这就没有根据 Intra 帧在时间轴上快捷指向的功能了（虽然还是能识别处 I/P/B 帧）。而且不能直接使用（点 OK 就卡住），生成脚本后运行倒是没问题。</p>
 <h3 id="配合-opencv"><a href="#配合-opencv" class="headerlink" title="配合 opencv"></a>配合 opencv</h3><p>门槛有点高。给两篇参考文章，先挖个坑。</p>
 <ul>
-<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/dskit/p/10003722.html">基于opencv+ffmpeg的镜头分割</a></li>
-<li><a target="_blank" rel="noopener" href="https://yuyujunjun.github.io/segmentation-keyframe-extraction">视频镜头分割和关键帧提取</a></li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.cnblogs.com/dskit/p/10003722.html">基于opencv+ffmpeg的镜头分割</a></li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://yuyujunjun.github.io/segmentation-keyframe-extraction">视频镜头分割和关键帧提取</a></li>
 </ul>
 <h2 id="vps-动画转码"><a href="#vps-动画转码" class="headerlink" title="vps 动画转码"></a>vps 动画转码</h2><p>为什么播不了？我想估计是位深太大了，使用 ffmpeg x264 默认参数转一下就好了。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg  -i &quot;[Sakurato.sub][Nande Koko ni Sensei ga!][01][GB][1080P].mp4&quot; -vcodec libx264 -acodec copy  test.mp4</span><br></pre></td></tr></table></figure>
 
 <p>不过转出来感觉略微有点不太对，windows potplayer 缩略图显示不出东西来。。。原因不明，排除了 10bit 不兼容原因（原案是 10bit，可显示）和 hevc（h265）与 avc（h264）原因（用哪个编码器都转不出来）。</p>
-<p>另外，x264 编译器还有很多奇奇怪怪的参数，参考这里：<a target="_blank" rel="noopener" href="https://trac.ffmpeg.org/wiki/Encode/H.264">H.264 Video Encoding Guide</a></p>
-<h3 id="显卡加速"><a href="#显卡加速" class="headerlink" title="显卡加速"></a>显卡加速</h3><p>参考文章：<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/59da3d350488">使用GPU硬件加速FFmpeg视频转码</a></p>
+<p>另外，x264 编译器还有很多奇奇怪怪的参数，参考这里：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://trac.ffmpeg.org/wiki/Encode/H.264">H.264 Video Encoding Guide</a></p>
+<h3 id="显卡加速"><a href="#显卡加速" class="headerlink" title="显卡加速"></a>显卡加速</h3><p>参考文章：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.jianshu.com/p/59da3d350488">使用GPU硬件加速FFmpeg视频转码</a></p>
 <p>ffmpeg 还支持显卡加速<del>，不过嘛。。。参数很麻烦，没什么可靠的参考（因为 ffmpeg 的参数经常有顺序限制的，上面那篇文章的参考我试了一下，失败），下面这个，我转起来速度比较快（不过也有是用 8bit 的原因），而且 potplayer 识别了缩略图，另外显卡也工作了（不过占用只有百分之8。。。。）</del>（未加 <code>-hwaccel cuda</code>，虽然是硬解但仍然经过内存。但下面的命令仅硬解码，且仅 h265）</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg  -hwaccel cuda  -c:v h265_cuvid -i &quot;[Sakurato.sub][Nande Koko ni Sensei ga!][01][GB][1080P].mp4&quot; -pix_fmt yuv420p test.mp4</span><br></pre></td></tr></table></figure>
 
-<p>参考：<a target="_blank" rel="noopener" href="https://developer.nvidia.com/zh-cn/blog/nvidia-ffmpeg-transcoding-guide/">NVIDIA FFmpeg 转码指南</a></p>
+<p>参考：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://developer.nvidia.com/zh-cn/blog/nvidia-ffmpeg-transcoding-guide/">NVIDIA FFmpeg 转码指南</a></p>
 <p>拿来转部落战视频用的，因为 ipad 录的视频码率高，而且带了旋转属性（很诡异，是写在 ffmpeg 参数里面的，也就是说对于支持的播放器打开后会自动转正变成横屏，但其实视频硬属性是竖着的），因为有这个自动旋转所以网上写的大部分硬件转码无法使用（不支持关掉自动旋转并摆正视频），但是我试了一个新的，还凑合，而且 gpu 打满。原理是硬解硬编码，下面的方框部分是指定使用最广泛的 h264 硬解，记得如果原来就是 h265 视频需要把这个参数换掉（<code>hevc_cuvid</code>）或关掉。硬编码的部分也可以换成 <code>h264_nvenc</code>。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -y -vsync 0 -hwaccel cuda [-c:v h264_cuvid]  -i xxx.MP4 -vcodec hevc_nvenc -b:v 3000k xxx.mp4</span><br></pre></td></tr></table></figure>
 
@@ -389,7 +387,7 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Pixel format &#39;yuvj420p&#39; is not supported</span><br></pre></td></tr></table></figure>
 
 <p>原因未知。cuvid 和 cuda 的区别我也没发现有参考资料能解释。</p>
-<p>对于其他硬解方式，可以参考这篇文章：<a target="_blank" rel="noopener" href="https://www.bilibili.com/read/cv4579978/">（三+1）用显卡加速视频转码压制之ffmpeg、media coder、shana encoder</a></p>
+<p>对于其他硬解方式，可以参考这篇文章：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.bilibili.com/read/cv4579978/">（三+1）用显卡加速视频转码压制之ffmpeg、media coder、shana encoder</a></p>
 <p>查看解码方法：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -decoders</span><br></pre></td></tr></table></figure>
 
@@ -401,9 +399,9 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -hwaccels</span><br></pre></td></tr></table></figure>
 
 <p>能查看当前硬件和 ffmpeg 支持的硬解，但我看结果感觉扯淡。。。我用 amd 的机子能查出来 intel 和 cuda，却没有 amf，就 tm 离谱（当然文章里面也提到了这个方法不准就是了）。</p>
-<h3 id="多线程"><a href="#多线程" class="headerlink" title="多线程"></a>多线程</h3><p>参考文章：<a target="_blank" rel="noopener" href="https://blog.csdn.net/educast/article/details/81866749">ffmpeg 多线程转码</a></p>
+<h3 id="多线程"><a href="#多线程" class="headerlink" title="多线程"></a>多线程</h3><p>参考文章：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://blog.csdn.net/educast/article/details/81866749">ffmpeg 多线程转码</a></p>
 <p>通过写在 <code>-i</code> 参数前的 <code> -threads [线程数]</code> 可以指定 ffmpeg 使用的线程。不过经过测试比较新的 ffmpeg 都会用完 cpu 的所有线程，所以除非要限制 cpu 功率否则这个参数没必要动。</p>
-<h2 id="mkv-内挂字幕嵌入-mp4"><a href="#mkv-内挂字幕嵌入-mp4" class="headerlink" title="mkv 内挂字幕嵌入 mp4"></a>mkv 内挂字幕嵌入 mp4</h2><p>参考文章：<a target="_blank" rel="noopener" href="http://andrew-reynolds-bootcamp.com/questions/2027/ffmpeg-mkvdao-mp4zhuan-huan-shi-qu-liao-zi-mu">題 FFMPEG mkv到mp4轉換失去了字幕</a></p>
+<h2 id="mkv-内挂字幕嵌入-mp4"><a href="#mkv-内挂字幕嵌入-mp4" class="headerlink" title="mkv 内挂字幕嵌入 mp4"></a>mkv 内挂字幕嵌入 mp4</h2><p>参考文章：<a target="_blank" rel="external nofollow noopener noreferrer" href="http://andrew-reynolds-bootcamp.com/questions/2027/ffmpeg-mkvdao-mp4zhuan-huan-shi-qu-liao-zi-mu">題 FFMPEG mkv到mp4轉換失去了字幕</a></p>
 <p>内挂字幕的 mkv 在 filebroswer 里面看不到字幕啊。。。于是要想办法提取字幕出来，再把字幕直接内嵌进去。</p>
 <p>有两种方法：</p>
 <ol>
@@ -416,7 +414,7 @@
 
 </li>
 </ol>
-<h2 id="mp4-批量转换-gif"><a href="#mp4-批量转换-gif" class="headerlink" title="mp4 批量转换 gif"></a>mp4 批量转换 gif</h2><p>参考文章：<a target="_blank" rel="noopener" href="http://blog.pkh.me/p/21-high-quality-gif-with-ffmpeg.html#content">High quality GIF with FFmpeg</a></p>
+<h2 id="mp4-批量转换-gif"><a href="#mp4-批量转换-gif" class="headerlink" title="mp4 批量转换 gif"></a>mp4 批量转换 gif</h2><p>参考文章：<a target="_blank" rel="external nofollow noopener noreferrer" href="http://blog.pkh.me/p/21-high-quality-gif-with-ffmpeg.html#content">High quality GIF with FFmpeg</a></p>
 <p>以 centos 为例，先编辑个小脚本：</p>
 <p>change.sh</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">#!&#x2F;bin&#x2F;sh</span><br><span class="line">palette&#x3D;&quot;.&#x2F;palette.png&quot;</span><br><span class="line"></span><br><span class="line">filters&#x3D;&quot;fps&#x3D;15,scale&#x3D;-1:-1:flags&#x3D;lanczos&quot;</span><br><span class="line"></span><br><span class="line">ffmpeg -v warning -i $1 -vf &quot;$filters,palettegen&quot; -y $palette</span><br><span class="line">ffmpeg -v warning -i $1 -i $palette -lavfi &quot;$filters [x]; [x][1:v] paletteuse&quot; -y $2                                                                                     </span><br></pre></td></tr></table></figure>
@@ -449,12 +447,12 @@
 <p>如果需要转换其他格式，可以使用 <code>c:a</code> 参数替代 <code>acodec</code>，比如转换为当前较先进的 opus 格式（当然速度就慢多了）：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -i .\test.mp4 -c:a libopus -vn test.opus</span><br></pre></td></tr></table></figure>
 
-<h2 id="下载-m3u8"><a href="#下载-m3u8" class="headerlink" title="下载 m3u8"></a>下载 m3u8</h2><p>参考文章：<a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/50455695/why-does-ffmpeg-ignore-protocol-whitelist-flag-when-converting-https-m3u8-stream">Why does ffmpeg ignore protocol_whitelist flag when converting https m3u8 stream?</a></p>
-<p>某些视频网站和 ios 软件用的视频地址抓出来是 m3u8 的。比如机核的视频。可以用 chrome 插件<a target="_blank" rel="noopener" href="https://chrome.google.com/webstore/detail/%E7%8C%AB%E6%8A%93/jfedfbgedapdagkghmgibemcoggfppbb">猫抓</a>获取 m3u8 文件。然后，加入相关参数，注意需要紧跟在 ffmpeg 命令后面：</p>
+<h2 id="下载-m3u8"><a href="#下载-m3u8" class="headerlink" title="下载 m3u8"></a>下载 m3u8</h2><p>参考文章：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://stackoverflow.com/questions/50455695/why-does-ffmpeg-ignore-protocol-whitelist-flag-when-converting-https-m3u8-stream">Why does ffmpeg ignore protocol_whitelist flag when converting https m3u8 stream?</a></p>
+<p>某些视频网站和 ios 软件用的视频地址抓出来是 m3u8 的。比如机核的视频。可以用 chrome 插件<a target="_blank" rel="external nofollow noopener noreferrer" href="https://chrome.google.com/webstore/detail/%E7%8C%AB%E6%8A%93/jfedfbgedapdagkghmgibemcoggfppbb">猫抓</a>获取 m3u8 文件。然后，加入相关参数，注意需要紧跟在 ffmpeg 命令后面：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -protocol_whitelist file,http,https,tcp,tls,crypto -i xxxx.m3u8 xxxx.xxx</span><br></pre></td></tr></table></figure>
 
 <p>xxxx.xxx 指的是你需要输出的视频名字和格式，因为 m3u8 流切下来一般是 h264 的，封装格式需要你自己来确定，ffmpeg 会帮你把所有切片合并。</p>
-<h2 id="自动裁切黑边"><a href="#自动裁切黑边" class="headerlink" title="自动裁切黑边"></a>自动裁切黑边</h2><p>参考文章：<a target="_blank" rel="noopener" href="https://www.bogotobogo.com/FFMpeg/ffmpeg_cropdetect_ffplay.php">CROPDETECT AND FFPLAY - 2020</a></p>
+<h2 id="自动裁切黑边"><a href="#自动裁切黑边" class="headerlink" title="自动裁切黑边"></a>自动裁切黑边</h2><p>参考文章：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.bogotobogo.com/FFMpeg/ffmpeg_cropdetect_ffplay.php">CROPDETECT AND FFPLAY - 2020</a></p>
 <p>先检测黑边：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -i .\test.mp4 -vcodec copy -acodec copy cropdetect&#x3D;24:16:0 test1.mp4</span><br></pre></td></tr></table></figure>
 
@@ -466,12 +464,12 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -i .\test.mp4 -vcodec copy -acodec copy -vf crop&#x3D;640:272:0:46 test1.mp4</span><br></pre></td></tr></table></figure>
 
 <p>即可。（虽然经过我测试默认参数检测还是有点偏差，但稍微手动调一下 w 和 h 的值效果就令人满意了）</p>
-<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><p>参考文章：<a target="_blank" rel="noopener" href="https://linux.cn/article-10932-1.html">给新手的 20 多个 FFmpeg 命令示例</a></p>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><p>参考文章：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://linux.cn/article-10932-1.html">给新手的 20 多个 FFmpeg 命令示例</a></p>
 <p>比较有用的几个地方：</p>
 <h3 id="转换格式时不压缩视频"><a href="#转换格式时不压缩视频" class="headerlink" title="转换格式时不压缩视频"></a>转换格式时不压缩视频</h3><p>使用<code>-qscale 0</code></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ffmpeg -i input.webm -qscale 0 output.mp4</span><br></pre></td></tr></table></figure>
 
-<h3 id="版本"><a href="#版本" class="headerlink" title="版本"></a>版本</h3><p>ffmpeg windows 端出了新的编译版：<a target="_blank" rel="noopener" href="https://github.com/BtbN/FFmpeg-Builds">BtbN/FFmpeg-Builds</a>。release 中有许多不同版本。lgbl 和 gbl 应该是许可证之间的不同，但大小也有区别，我个人认为是为了 lgbl 剔除了一些东西；shared 和不带 shared 的版本，区别是运行库合并进了 ffmpeg 中。最关键的是 vulkan 版本，带有 vulkan 版本需要比较新的独显和新的驱动才能使用，我的 965m 运行都会报错 <code>Lossless encoding not supported</code>。</p>
+<h3 id="版本"><a href="#版本" class="headerlink" title="版本"></a>版本</h3><p>ffmpeg windows 端出了新的编译版：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/BtbN/FFmpeg-Builds">BtbN/FFmpeg-Builds</a>。release 中有许多不同版本。lgbl 和 gbl 应该是许可证之间的不同，但大小也有区别，我个人认为是为了 lgbl 剔除了一些东西；shared 和不带 shared 的版本，区别是运行库合并进了 ffmpeg 中。最关键的是 vulkan 版本，带有 vulkan 版本需要比较新的独显和新的驱动才能使用，我的 965m 运行都会报错 <code>Lossless encoding not supported</code>。</p>
 
     </div>
 
@@ -492,7 +490,7 @@
       <a href="https://zbttl.github.io/2020/ffmpeg/" title="玩一下 FFmpeg">https://zbttl.github.io/2020/ffmpeg/</a>
   </li>
   <li class="post-copyright-license">
-    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-SA</a> 许可协议。转载请注明出处！
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="external nofollow noopener noreferrer" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-SA</a> 许可协议。转载请注明出处！
   </li>
 </ul>
 </div>
@@ -505,8 +503,8 @@
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/2020/12%E6%9C%8821%E6%97%A5/" rel="prev" title="hexo 进阶">
-                  <i class="fa fa-chevron-left"></i> hexo 进阶
+                <a href="/hello-world/" rel="prev" title="施工中">
+                  <i class="fa fa-chevron-left"></i> 施工中
                 </a>
             </div>
             <div class="post-nav-item">
@@ -584,7 +582,7 @@
         <span id="busuanzi_value_site_uv"></span>
       </span>
     </span>
-</div><script color="120,120,120" opacity="0.5" zIndex="-1" count="150" src="https://cdn.jsdelivr.net/npm/canvas-nest.js@1/dist/canvas-nest.js"></script>
+</div><script color="120,120,120" opacity="0.5" zindex="-1" count="150" src="https://cdn.jsdelivr.net/npm/canvas-nest.js@1/dist/canvas-nest.js"></script>
 
 
     </div>

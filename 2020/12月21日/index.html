@@ -33,7 +33,7 @@
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20201221175721.png">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20201222005052.png">
 <meta property="article:published_time" content="2020-12-20T16:00:00.000Z">
-<meta property="article:modified_time" content="2020-12-22T20:44:13.000Z">
+<meta property="article:modified_time" content="2020-12-22T20:51:51.474Z">
 <meta property="article:author" content="zbttl">
 <meta property="article:tag" content="hexo">
 <meta property="article:tag" content="NexT">
@@ -149,9 +149,7 @@
     <i class="fa fa-search"></i>
   </span>
   <div class="search-input-container">
-    <input autocomplete="off" autocapitalize="off" maxlength="80"
-           placeholder="搜索..." spellcheck="false"
-           type="search" class="search-input">
+    <input autocomplete="off" autocapitalize="off" maxlength="80" placeholder="搜索..." spellcheck="false" type="search" class="search-input">
   </div>
   <span class="popup-btn-close">
     <i class="fa fa-times-circle"></i>
@@ -224,10 +222,10 @@
 </div>
   <div class="links-of-author site-overview-item animated">
       <span class="links-of-author-item">
-        <a href="https://github.com/zbttl" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;zbttl" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+        <a href="https://github.com/zbttl" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;zbttl" rel="external nofollow noopener noreferrer" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
       </span>
       <span class="links-of-author-item">
-        <a href="mailto:zbttls@gmail.com" title="E-Mail → mailto:zbttls@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+        <a href="mailto:zbttls@gmail.com" title="E-Mail → mailto:zbttls@gmail.com" rel="external nofollow noopener noreferrer" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
       </span>
   </div>
 
@@ -295,7 +293,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2020-12-23 04:44:13" itemprop="dateModified" datetime="2020-12-23T04:44:13+08:00">2020-12-23</time>
+        <time title="修改时间：2020-12-23 04:51:51" itemprop="dateModified" datetime="2020-12-23T04:51:51+08:00">2020-12-23</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -349,19 +347,19 @@
 
 <p>然后用 vscode 对一下新 clone 下来的主题配置文件和备份的旧版主题配置文件的差别把改的地方怼过去。。。</p>
 <p>慢！</p>
-<p>根据 <a target="_blank" rel="noopener" href="https://theme-next.js.org/docs/getting-started/configuration.html">Configuration</a>，咱们现在用的 hexo 5.0 已经支持这种新的配置方式了，说人话就是不用再进 <code>themes/next</code> 里面改配置了，只需要在全局主题里面加（并且在这些配置的开头顶上加 <code>theme_config</code> 并给这些配置一个两空格缩进），或者在 hexo 根目录新开一个 <code>_config.next.yml</code> 把要改的配置丢进去就完事了。有点像以前写过的 rime 输入法的 patch 文件。</p>
+<p>根据 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://theme-next.js.org/docs/getting-started/configuration.html">Configuration</a>，咱们现在用的 hexo 5.0 已经支持这种新的配置方式了，说人话就是不用再进 <code>themes/next</code> 里面改配置了，只需要在全局主题里面加（并且在这些配置的开头顶上加 <code>theme_config</code> 并给这些配置一个两空格缩进），或者在 hexo 根目录新开一个 <code>_config.next.yml</code> 把要改的配置丢进去就完事了。有点像以前写过的 rime 输入法的 patch 文件。</p>
 <p>按上一篇文章的功能来，大部分需要修改主题配置文件的地方我都抽取出来放在了<code>_config.next.yml</code> ，以下是代码参考：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br></pre></td><td class="code"><pre><span class="line"># Define custom file paths.</span><br><span class="line"># Create your custom files in site directory &#96;source&#x2F;_data&#96; and uncomment needed files below.</span><br><span class="line">custom_file_path:</span><br><span class="line">  #head: source&#x2F;_data&#x2F;head.njk</span><br><span class="line">  #header: source&#x2F;_data&#x2F;header.njk</span><br><span class="line">  #sidebar: source&#x2F;_data&#x2F;sidebar.njk</span><br><span class="line">  #postMeta: source&#x2F;_data&#x2F;post-meta.njk</span><br><span class="line">  #postBodyEnd: source&#x2F;_data&#x2F;post-body-end.njk</span><br><span class="line">  footer: source&#x2F;_data&#x2F;footer.njk</span><br><span class="line">  bodyEnd: source&#x2F;_data&#x2F;body-end.njk</span><br><span class="line">  #variable: source&#x2F;_data&#x2F;variables.styl</span><br><span class="line">  #mixin: source&#x2F;_data&#x2F;mixins.styl</span><br><span class="line">  style: source&#x2F;_data&#x2F;styles.styl</span><br><span class="line"></span><br><span class="line">creative_commons:</span><br><span class="line">  license: by-sa</span><br><span class="line">  sidebar: false</span><br><span class="line">  post: true</span><br><span class="line">  language:</span><br><span class="line"></span><br><span class="line">menu:</span><br><span class="line">  home: &#x2F; || fa fa-home</span><br><span class="line">  tags: &#x2F;tags&#x2F; || fa fa-tags</span><br><span class="line">  categories: &#x2F;categories&#x2F; || fa fa-th</span><br><span class="line">  archives: &#x2F;archives&#x2F; || fa fa-archive</span><br><span class="line">  #schedule: &#x2F;schedule&#x2F; || fa fa-calendar</span><br><span class="line">  #sitemap: &#x2F;sitemap.xml || fa fa-sitemap</span><br><span class="line">  #commonweal: &#x2F;404&#x2F; || fa fa-heartbeat</span><br><span class="line">  about: &#x2F;about&#x2F; || fa fa-user</span><br><span class="line"></span><br><span class="line">social:</span><br><span class="line">  GitHub: https:&#x2F;&#x2F;github.com&#x2F;zbttl || fab fa-github</span><br><span class="line">  E-Mail: mailto:zbttls@gmail.com|| fa fa-envelope</span><br><span class="line">  #Weibo: https:&#x2F;&#x2F;weibo.com&#x2F;yourname || fab fa-weibo</span><br><span class="line">  #Google: https:&#x2F;&#x2F;plus.google.com&#x2F;yourname || fab fa-google</span><br><span class="line">  #Twitter: https:&#x2F;&#x2F;twitter.com&#x2F;yourname || fab fa-twitter</span><br><span class="line">  #FB Page: https:&#x2F;&#x2F;www.facebook.com&#x2F;yourname || fab fa-facebook</span><br><span class="line">  #StackOverflow: https:&#x2F;&#x2F;stackoverflow.com&#x2F;yourname || fab fa-stack-overflow</span><br><span class="line">  #YouTube: https:&#x2F;&#x2F;youtube.com&#x2F;yourname || fab fa-youtube</span><br><span class="line">  #Instagram: https:&#x2F;&#x2F;instagram.com&#x2F;yourname || fab fa-instagram</span><br><span class="line">  #Skype: skype:yourname?call|chat || fab fa-skype</span><br><span class="line"></span><br><span class="line">footer:</span><br><span class="line">  # Specify the year when the site was setup. If not defined, current year will be used.</span><br><span class="line">  #since: 2020</span><br><span class="line"></span><br><span class="line">  # Icon between year and copyright info.</span><br><span class="line">  icon:</span><br><span class="line">    # Icon name in Font Awesome. See: https:&#x2F;&#x2F;fontawesome.com&#x2F;icons</span><br><span class="line">    name: fa fa-heart</span><br><span class="line">    # If you want to animate the icon, set it to true.</span><br><span class="line">    animated: false</span><br><span class="line">    # Change the color of icon, using Hex Code.</span><br><span class="line">    color: &quot;#ff0000&quot;</span><br><span class="line"></span><br><span class="line">  # If not defined, &#96;author&#96; from Hexo &#96;_config.yml&#96; will be used.</span><br><span class="line">  copyright:</span><br><span class="line"></span><br><span class="line">  # Powered by Hexo &amp; NexT</span><br><span class="line">  powered: false</span><br><span class="line"></span><br><span class="line">  # Beian ICP and gongan information for Chinese users. See: https:&#x2F;&#x2F;beian.miit.gov.cn, http:&#x2F;&#x2F;www.beian.gov.cn</span><br><span class="line">  beian:</span><br><span class="line">    enable: false</span><br><span class="line">    icp:</span><br><span class="line">    # The digit in the num of gongan beian.</span><br><span class="line">    gongan_id:</span><br><span class="line">    # The full num of gongan beian.</span><br><span class="line">    gongan_num:</span><br><span class="line">    # The icon for gongan beian. See: http:&#x2F;&#x2F;www.beian.gov.cn&#x2F;portal&#x2F;download</span><br><span class="line">    gongan_icon_url:</span><br><span class="line"></span><br><span class="line">symbols_count_time:</span><br><span class="line">  separated_meta: true</span><br><span class="line">  item_text_post: true</span><br><span class="line">  item_text_total: true</span><br><span class="line"></span><br><span class="line">codeblock:</span><br><span class="line">  # Code Highlight theme</span><br><span class="line">  # All available themes: https:&#x2F;&#x2F;theme-next.js.org&#x2F;highlight&#x2F;</span><br><span class="line">  theme:</span><br><span class="line">    light: default</span><br><span class="line">    dark: tomorrow-night</span><br><span class="line">  prism:</span><br><span class="line">    light: prism</span><br><span class="line">    dark: prism-dark</span><br><span class="line">  # Add copy button on codeblock</span><br><span class="line">  copy_button:</span><br><span class="line">    enable: true</span><br><span class="line">    # Available values: default | flat | mac</span><br><span class="line">    style:</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">busuanzi_count:</span><br><span class="line">  enable: true</span><br><span class="line">  total_visitors: true</span><br><span class="line">  total_visitors_icon: fa fa-user</span><br><span class="line">  total_views: false</span><br><span class="line">  total_views_icon: fa fa-eye</span><br><span class="line">  post_views: true</span><br><span class="line">  post_views_icon: far fa-eye</span><br><span class="line"></span><br><span class="line">local_search:</span><br><span class="line">  enable: true</span><br><span class="line">  # If auto, trigger search by changing input.</span><br><span class="line">  # If manual, trigger search by pressing enter key or search button.</span><br><span class="line">  trigger: auto</span><br><span class="line">  # Show top n results per article, show all results by setting to -1</span><br><span class="line">  top_n_per_article: 1</span><br><span class="line">  # Unescape html strings to the readable one.</span><br><span class="line">  unescape: false</span><br><span class="line">  # Preload the search data when the page loads.</span><br><span class="line">  preload: false</span><br><span class="line"></span><br><span class="line"># cursor_effect:</span><br><span class="line">#   enabled: true</span><br><span class="line">#   type: fireworks  # fireworks：礼花 | explosion：爆炸 | love：浮出爱心 | text：浮出文字</span><br><span class="line">cursor_effect: text</span><br></pre></td></tr></table></figure>
 
 <p>认真看是不是还少了什么？</p>
 <p>对了，背景动态火柴棍没了。。。。</p>
-<p>记得这个效果是怎么实现的吗？是通过 git clone 本插件到 <code>next/source/lib</code> 中。根据 <a target="_blank" rel="noopener" href="https://theme-next.js.org/docs/getting-started/upgrade.html">Upgrade</a> 所说：</p>
+<p>记得这个效果是怎么实现的吗？是通过 git clone 本插件到 <code>next/source/lib</code> 中。根据 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://theme-next.js.org/docs/getting-started/upgrade.html">Upgrade</a> 所说：</p>
 <blockquote>
-<p>Since v8.0.0, all libraries under the <code>next/source/lib</code> directory was moved out to <a target="_blank" rel="noopener" href="https://github.com/next-theme/plugins">@next-theme/plugins</a>. Please see this article for the new 3rd-party libraries installation method: <a target="_blank" rel="noopener" href="https://theme-next.js.org/docs/third-party-services/#Adding-Plugins">Adding Plugins</a>.</p>
+<p>Since v8.0.0, all libraries under the <code>next/source/lib</code> directory was moved out to <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/next-theme/plugins">@next-theme/plugins</a>. Please see this article for the new 3rd-party libraries installation method: <a target="_blank" rel="external nofollow noopener noreferrer" href="https://theme-next.js.org/docs/third-party-services/#Adding-Plugins">Adding Plugins</a>.</p>
 </blockquote>
 <p>但我查了一下这个库，发现也没有 <code>canvas_nest</code>，看来多半是被 delete 了。</p>
 <p>没关系，我们还有大力出奇迹！</p>
-<p>找到 <code>canvas_nest</code>的 github 库：<a target="_blank" rel="noopener" href="https://github.com/theme-next">theme-next</a>/<strong><a target="_blank" rel="noopener" href="https://github.com/theme-next/theme-next-canvas-nest">theme-next-canvas-nest</a></strong></p>
+<p>找到 <code>canvas_nest</code>的 github 库：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/theme-next">theme-next</a>/<strong><a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/theme-next/theme-next-canvas-nest">theme-next-canvas-nest</a></strong></p>
 <p>按说明行事：</p>
 <ol>
 <li><p>在 <code>hexo/source/_data</code> 中新建 <code>footer.njk</code>（不是 <code>footer.swig</code> 哦）。</p>
@@ -381,12 +379,12 @@
 <p>话说回来记得我们另一个大力出奇迹的功能是啥么？回去复习！（还好我选择了放在 hexo 根目录的方法，否则这个功能也要再折腾一边）</p>
 <p>关于其他的更新功能和差异，及迁移方法，可以查阅：</p>
 <ul>
-<li><a target="_blank" rel="noopener" href="https://github.com/next-theme/hexo-theme-next/issues/4">【必读】更新说明及常见问题 #4</a></li>
-<li><a target="_blank" rel="noopener" href="https://theme-next.js.org/docs/getting-started/upgrade.html">Upgrade</a></li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/next-theme/hexo-theme-next/issues/4">【必读】更新说明及常见问题 #4</a></li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://theme-next.js.org/docs/getting-started/upgrade.html">Upgrade</a></li>
 </ul>
 <p>更新后 NexT 仍自带，可通过编辑配置启用的功能模块：</p>
 <ul>
-<li><a target="_blank" rel="noopener" href="https://theme-next.js.org/docs/third-party-services/#Adding-Plugins">Third-party Services</a></li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://theme-next.js.org/docs/third-party-services/#Adding-Plugins">Third-party Services</a></li>
 </ul>
 <h2 id="评论（临时）"><a href="#评论（临时）" class="headerlink" title="评论（临时）"></a>评论（临时）</h2><p>上次我看了几个评论系统。一开始打算用简单而泛用的 Valine。结果刚开始我发现注册账号需要手机号码而且后续还要实名就感觉这玩意不对，后续在 NexT 更新公告里面看见这么一段：</p>
 <blockquote>
@@ -396,25 +394,25 @@
 <li>Valine 自 1.4 版本起不再开源，因此 NexT 团队无法对 Valine 评论系统 Debug。并且发布的打包版本中存在未告知用户的百度统计代码；</li>
 <li>11 月下旬出现了针对 Valine 评论系统的攻击。</li>
 </ul>
-<p>考虑到这些问题已经严重影响到 NexT 用户的数据安全，我们决定将其移除，需要继续使用的用户请安装插件： <a target="_blank" rel="noopener" href="https://github.com/next-theme/hexo-next-valine">https://github.com/next-theme/hexo-next-valine</a><br>（插件的配置项使用驼峰命名，与 Valine 本身一致，需要注意将 <code>appid</code> 和 <code>appkey</code> 改为 <code>appId</code> 和 <code>appKey</code>）<br>鉴于以上原因，如果在使用 Valine 时出现<em>任何</em>问题，请在这里反馈： <a target="_blank" rel="noopener" href="https://github.com/xCss/Valine/issues">https://github.com/xCss/Valine/issues</a><br>迁移到 Disqus： <a target="_blank" rel="noopener" href="https://github.com/YunYouJun/valine-to-disqus">https://github.com/YunYouJun/valine-to-disqus</a></p>
+<p>考虑到这些问题已经严重影响到 NexT 用户的数据安全，我们决定将其移除，需要继续使用的用户请安装插件： <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/next-theme/hexo-next-valine">https://github.com/next-theme/hexo-next-valine</a><br>（插件的配置项使用驼峰命名，与 Valine 本身一致，需要注意将 <code>appid</code> 和 <code>appkey</code> 改为 <code>appId</code> 和 <code>appKey</code>）<br>鉴于以上原因，如果在使用 Valine 时出现<em>任何</em>问题，请在这里反馈： <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/xCss/Valine/issues">https://github.com/xCss/Valine/issues</a><br>迁移到 Disqus： <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/YunYouJun/valine-to-disqus">https://github.com/YunYouJun/valine-to-disqus</a></p>
 </blockquote>
 <p>怕了。另外的呢？然后就是上面我说的 gitment，我试了半天没用，开启后文章底下啥都出不来。后来发现这玩意是 2018 年更新的了。。。还有就是，依赖 github Oauth Apps 的评论系统，据我调查可能有安全问题（虽然参考文章都是两年前一年前的了，但配置文件中 secret 显然还是用的明码）：</p>
 <ul>
-<li><a target="_blank" rel="noopener" href="https://henryhou.com/post/gitment_and_gittalk_secure/">评论插件 gitment 和 gittalk 存在安全性问题</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.v2ex.com/t/535608">建议大家弃用 Gitalk 和 Gitment 等权限过高的 Github OAuth App</a></li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://henryhou.com/post/gitment_and_gittalk_secure/">评论插件 gitment 和 gittalk 存在安全性问题</a></li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.v2ex.com/t/535608">建议大家弃用 Gitalk 和 Gitment 等权限过高的 Github OAuth App</a></li>
 </ul>
-<p>我关注的大佬里面有用 Disqus 的，比如 <a target="_blank" rel="noopener" href="https://blog.ichr.me/">ChrAlpha’s Blog</a>：<a target="_blank" rel="noopener" href="https://blog.ichr.me/post/use-disqus-conveniently/">在特殊地区科学使用 Disqus 评论系统</a>。不过我瞄了一眼，似乎挺复杂的样子。。。。以后再说。</p>
+<p>我关注的大佬里面有用 Disqus 的，比如 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://blog.ichr.me/">ChrAlpha’s Blog</a>：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://blog.ichr.me/post/use-disqus-conveniently/">在特殊地区科学使用 Disqus 评论系统</a>。不过我瞄了一眼，似乎挺复杂的样子。。。。以后再说。</p>
 <p>依赖 github issue 的评论系统虽然有安全问题，但我也有小号啊！在小号上开应该安全许多，这类型的还有另一个选择：gitalk，先用着吧。</p>
 <p>参考文章：</p>
 <ul>
-<li><a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000014085547">为Hexo添加Gitalk评论插件</a></li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://segmentfault.com/a/1190000014085547">为Hexo添加Gitalk评论插件</a></li>
 </ul>
 <ol>
 <li><p>先安装</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install gitalk</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>去小号那里创建一个 OAuth Apps</p>
-<p>打开 <a target="_blank" rel="noopener" href="https://github.com/settings/applications/new">New OAuth App</a>（从头像 -&gt;settings-&gt;Developer settings 这里也可以找到）。</p>
+<p>打开 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/settings/applications/new">New OAuth App</a>（从头像 -&gt;settings-&gt;Developer settings 这里也可以找到）。</p>
 <p>新建一个。（不要慌填错后续还能改）</p>
 <p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20201222005052.png"></p>
 <p>在稍后的界面获取一个 client secret，和 client id 一起记着待会要用。</p>
@@ -432,7 +430,7 @@
 <p>然后发现：安装新组件，本地预览啥的没问题。但部署到 github 仓库的时候就出问题了。首先是告诉我，没权限，估计是没 key。</p>
 <p>先把 key 导进去看看？</p>
 <p>用 ssh-add 命令，报错。</p>
-<p>参考 <a target="_blank" rel="noopener" href="https://www.cnblogs.com/attackingmilo/p/Windows-ssh-add-error.html">Windows下使用ssh-add报错 Error connecting to agent: No such file or directory</a></p>
+<p>参考 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.cnblogs.com/attackingmilo/p/Windows-ssh-add-error.html">Windows下使用ssh-add报错 Error connecting to agent: No such file or directory</a></p>
 <p>先把服务开起来</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Set-Service -Name ssh-agent -StartupType Manual</span><br><span class="line">Start-Service ssh-agent</span><br></pre></td></tr></table></figure>
 
@@ -454,7 +452,7 @@
 <p>还报错！</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Error: git@github.com: Permission denied (publickey).</span><br><span class="line">fatal: Could not read from remote repository.</span><br><span class="line"></span><br><span class="line">Please make sure you have the correct access rights</span><br></pre></td></tr></table></figure>
 
-<p>后面查阅到 <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues/3339">Win10使用ssh的hexo部署到github报错 ＃3339</a>，看起来应该是因为我的 rsa 密钥还带有密码，但 hexo-deployer-git 在 windows 下不会弹密码提示而是自作主张当做没密码的原因。但我既不想去掉密钥的密码，也不想用 git push 提交，所以直接用 windows 提交暂时是不成了。（不过我也没去查阅 hexo-deployer-git 那边有没有解决方案，起码我这边已经用的最新版了）</p>
+<p>后面查阅到 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/hexojs/hexo/issues/3339">Win10使用ssh的hexo部署到github报错 ＃3339</a>，看起来应该是因为我的 rsa 密钥还带有密码，但 hexo-deployer-git 在 windows 下不会弹密码提示而是自作主张当做没密码的原因。但我既不想去掉密钥的密码，也不想用 git push 提交，所以直接用 windows 提交暂时是不成了。（不过我也没去查阅 hexo-deployer-git 那边有没有解决方案，起码我这边已经用的最新版了）</p>
 <p>但有曲线救国的方法，开一个 vmware ubuntu 的共享文件夹，把 hexo 项目放在里面，就可以编辑的时候用 windows typora，部署的时候再用 ubuntu。我感觉用 wsl 也可以，但我没怎么用过那玩意，感兴趣的可以尝试。（wsl2 就算了，我对 hyper-v 印象超差的）</p>
 
     </div>
@@ -476,7 +474,7 @@
       <a href="https://zbttl.github.io/2020/12%E6%9C%8821%E6%97%A5/" title="hexo 进阶">https://zbttl.github.io/2020/12月21日/</a>
   </li>
   <li class="post-copyright-license">
-    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-SA</a> 许可协议。转载请注明出处！
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="external nofollow noopener noreferrer" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-SA</a> 许可协议。转载请注明出处！
   </li>
 </ul>
 </div>
@@ -495,8 +493,8 @@
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/2020/ffmpeg/" rel="next" title="玩一下 FFmpeg">
-                  玩一下 FFmpeg <i class="fa fa-chevron-right"></i>
+                <a href="/hello-world/" rel="next" title="施工中">
+                  施工中 <i class="fa fa-chevron-right"></i>
                 </a>
             </div>
           </div>
@@ -572,7 +570,7 @@
         <span id="busuanzi_value_site_uv"></span>
       </span>
     </span>
-</div><script color="120,120,120" opacity="0.5" zIndex="-1" count="150" src="https://cdn.jsdelivr.net/npm/canvas-nest.js@1/dist/canvas-nest.js"></script>
+</div><script color="120,120,120" opacity="0.5" zindex="-1" count="150" src="https://cdn.jsdelivr.net/npm/canvas-nest.js@1/dist/canvas-nest.js"></script>
 
 
     </div>

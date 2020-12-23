@@ -151,9 +151,7 @@
     <i class="fa fa-search"></i>
   </span>
   <div class="search-input-container">
-    <input autocomplete="off" autocapitalize="off" maxlength="80"
-           placeholder="搜索..." spellcheck="false"
-           type="search" class="search-input">
+    <input autocomplete="off" autocapitalize="off" maxlength="80" placeholder="搜索..." spellcheck="false" type="search" class="search-input">
   </div>
   <span class="popup-btn-close">
     <i class="fa fa-times-circle"></i>
@@ -226,10 +224,10 @@
 </div>
   <div class="links-of-author site-overview-item animated">
       <span class="links-of-author-item">
-        <a href="https://github.com/zbttl" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;zbttl" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+        <a href="https://github.com/zbttl" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;zbttl" rel="external nofollow noopener noreferrer" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
       </span>
       <span class="links-of-author-item">
-        <a href="mailto:zbttls@gmail.com" title="E-Mail → mailto:zbttls@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+        <a href="mailto:zbttls@gmail.com" title="E-Mail → mailto:zbttls@gmail.com" rel="external nofollow noopener noreferrer" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
       </span>
   </div>
 
@@ -344,8 +342,8 @@
     <div class="post-body" itemprop="articleBody">
         <p>参考文章：</p>
 <ul>
-<li><a target="_blank" rel="noopener" href="https://poychang.github.io/run-windows-terminal-as-administrator-with-elevated-admin-permissions/">使用系统管理员身分开启Windows Terminal 分页</a></li>
-<li><a target="_blank" rel="noopener" href="https://printempw.github.io/windows-terminal-setup-guide/">Windows Terminal 安装与配置指南</a></li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://poychang.github.io/run-windows-terminal-as-administrator-with-elevated-admin-permissions/">使用系统管理员身分开启Windows Terminal 分页</a></li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://printempw.github.io/windows-terminal-setup-guide/">Windows Terminal 安装与配置指南</a></li>
 </ul>
 <h2 id="添加管理员模式-powershell"><a href="#添加管理员模式-powershell" class="headerlink" title="添加管理员模式 powershell"></a>添加管理员模式 powershell</h2><ol>
 <li><p>安装 gsudo</p>
@@ -355,7 +353,7 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;guid&quot;: &quot;&#123;0667cbea-6f8d-43d6-b50a-e4f795569d86&#125;&quot;,</span><br><span class="line">    &quot;name&quot;: &quot;Elevated PowerShell&quot;,</span><br><span class="line">    &quot;commandline&quot;: &quot;gsudo.exe PowerShell&quot;,</span><br><span class="line">    &quot;icon&quot;: &quot;C:&#x2F;Users&#x2F;zbttl&#x2F;Pictures&#x2F;powershell_red_scale-200.ico&quot;,</span><br><span class="line">    &quot;hidden&quot;: false,</span><br><span class="line">    &quot;colorScheme&quot;: &quot;AdventureTime&quot;</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
 
 <p>其中，icon 里的图标可从参考文章 1 中下载，下载后需要处理，图片像素缩小为 32x32（否则会出现明显的锯齿）。并转为 .ico 格式，主要保留透明度（即保证背景不是黑色的而是透明的），因为后面一步注册表中的参数不认得 ico 格式以为的图片。这些修改都可以用 ifranview 搞掂。</p>
-<p>而 colorScheme，可以从这里找：<a target="_blank" rel="noopener" href="https://github.com/mbadolato/iTerm2-Color-Schemes/tree/master/windowsterminal">mbadolato/iTerm2-Color-Schemes</a>，选好想要的主题，找到对应的配置文件，将其中的代码加到 schemes 中。修改的目的是让管理员模式和普通用户模式有区分度。</p>
+<p>而 colorScheme，可以从这里找：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/mbadolato/iTerm2-Color-Schemes/tree/master/windowsterminal">mbadolato/iTerm2-Color-Schemes</a>，选好想要的主题，找到对应的配置文件，将其中的代码加到 schemes 中。修改的目的是让管理员模式和普通用户模式有区分度。</p>
 </li>
 <li><p>保存后在加号处就能看到该配置了。</p>
 </li>
@@ -375,7 +373,7 @@
 <h2 id="添加进-win-x-快速链接菜单"><a href="#添加进-win-x-快速链接菜单" class="headerlink" title="添加进 win+x 快速链接菜单"></a>添加进 win+x 快速链接菜单</h2><p>参考文章：</p>
 <ul>
 <li>[How to Add or Remove Default Items on Win+X Quick Link Menu in Windows 10](How to Add or Remove Default Items on Win+X Quick Link Menu in Windows 10)</li>
-<li><a target="_blank" rel="noopener" href="https://github.com/riverar/hashlnk">riverar/hashlnk</a></li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/riverar/hashlnk">riverar/hashlnk</a></li>
 </ul>
 <p>很多时候我们要右键打开 powershell 还要退到桌面或是资源管理器处，如果在快速链接菜单（右键 windows 徽标）就能打开 windows terminal 就会方便很多。</p>
 <p>右键菜单的结构，取决于 <code>%LocalAppdata%\Microsoft\Windows\WinX</code> 这个目录的结构。</p>
@@ -435,7 +433,7 @@
       <a href="https://zbttl.github.io/2020/4%E6%9C%881%E6%97%A5%EF%BC%88%E5%AF%92%E5%81%87%E7%AC%AC%E4%B8%83%E5%8D%81%E4%B9%9D%E5%A4%A9%EF%BC%89/" title="windows terminal">https://zbttl.github.io/2020/4月1日（寒假第七十九天）/</a>
   </li>
   <li class="post-copyright-license">
-    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-SA</a> 许可协议。转载请注明出处！
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="external nofollow noopener noreferrer" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-SA</a> 许可协议。转载请注明出处！
   </li>
 </ul>
 </div>
@@ -531,7 +529,7 @@
         <span id="busuanzi_value_site_uv"></span>
       </span>
     </span>
-</div><script color="120,120,120" opacity="0.5" zIndex="-1" count="150" src="https://cdn.jsdelivr.net/npm/canvas-nest.js@1/dist/canvas-nest.js"></script>
+</div><script color="120,120,120" opacity="0.5" zindex="-1" count="150" src="https://cdn.jsdelivr.net/npm/canvas-nest.js@1/dist/canvas-nest.js"></script>
 
 
     </div>

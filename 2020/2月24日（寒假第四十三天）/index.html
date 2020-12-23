@@ -154,9 +154,7 @@
     <i class="fa fa-search"></i>
   </span>
   <div class="search-input-container">
-    <input autocomplete="off" autocapitalize="off" maxlength="80"
-           placeholder="搜索..." spellcheck="false"
-           type="search" class="search-input">
+    <input autocomplete="off" autocapitalize="off" maxlength="80" placeholder="搜索..." spellcheck="false" type="search" class="search-input">
   </div>
   <span class="popup-btn-close">
     <i class="fa fa-times-circle"></i>
@@ -229,10 +227,10 @@
 </div>
   <div class="links-of-author site-overview-item animated">
       <span class="links-of-author-item">
-        <a href="https://github.com/zbttl" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;zbttl" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+        <a href="https://github.com/zbttl" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;zbttl" rel="external nofollow noopener noreferrer" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
       </span>
       <span class="links-of-author-item">
-        <a href="mailto:zbttls@gmail.com" title="E-Mail → mailto:zbttls@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+        <a href="mailto:zbttls@gmail.com" title="E-Mail → mailto:zbttls@gmail.com" rel="external nofollow noopener noreferrer" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
       </span>
   </div>
 
@@ -378,7 +376,7 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo wireshark &amp;</span><br></pre></td></tr></table></figure>
 
 <p>如果不知道软件名，可以打开后用 top 查看。</p>
-<p>另外，还有特殊一点的，vscode 的某些插件需要 root 下才能生效（比如换背景那个插件），但使用 sudo 打开的话，没办法读取当前用户的配置，就没法生效。正确的办法是：<a target="_blank" rel="noopener" href="https://github.com/vscode-extension/vscode-background-cover/issues/28">参考文章</a></p>
+<p>另外，还有特殊一点的，vscode 的某些插件需要 root 下才能生效（比如换背景那个插件），但使用 sudo 打开的话，没办法读取当前用户的配置，就没法生效。正确的办法是：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/vscode-extension/vscode-background-cover/issues/28">参考文章</a></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">chown -R 你的用户名  &#x2F;usr&#x2F;share&#x2F;code</span><br><span class="line">#insiders 版本</span><br><span class="line">chown -R 你的用户名  &#x2F;usr&#x2F;share&#x2F;code-insiders</span><br></pre></td></tr></table></figure>
 
 
@@ -391,7 +389,7 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nautilus -q</span><br></pre></td></tr></table></figure>
 
 <p>然后就可以右键管理员模式打开文件夹了。</p>
-<h2 id="wireshark-安装"><a href="#wireshark-安装" class="headerlink" title="wireshark 安装"></a>wireshark 安装</h2><p>参考文章：<a target="_blank" rel="noopener" href="https://www.itdaan.com/tw/9a3a0e3fe1182c4af85ac6fb42c54cc6">【Tools】Wireshark 在 Linux 系統下的安裝及使用</a></p>
+<h2 id="wireshark-安装"><a href="#wireshark-安装" class="headerlink" title="wireshark 安装"></a>wireshark 安装</h2><p>参考文章：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.itdaan.com/tw/9a3a0e3fe1182c4af85ac6fb42c54cc6">【Tools】Wireshark 在 Linux 系統下的安裝及使用</a></p>
 <p>wireshark 可以通过 apt 安装旧版，也可以通过 ppa 安装新版。安装时会出现弹窗，大概意思是要不要授予非 root 用户监听权限，选 yes。</p>
 <p>之后</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vim &#x2F;etc&#x2F;group</span><br></pre></td></tr></table></figure>
@@ -438,7 +436,7 @@
 
 <p>提示需要输入密码。如果是 vps，这时别不输入密码就退出了！否则 ssh 和 vnc 都进不来了。。。只能重装。（另外，也可以执行完下面的步骤再来运行这个指令）。</p>
 <p>但输入密码后大概率会提示 zsh 无效。</p>
-<p>参考这里的解决方案：<a target="_blank" rel="noopener" href="https://askubuntu.com/questions/812420/chsh-always-asking-a-password-and-get-pam-authentication-failure">chsh always asking a password , and get <code>PAM: Authentication failure</code></a></p>
+<p>参考这里的解决方案：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://askubuntu.com/questions/812420/chsh-always-asking-a-password-and-get-pam-authentication-failure">chsh always asking a password , and get <code>PAM: Authentication failure</code></a></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim &#x2F;etc&#x2F;pam.d&#x2F;chsh</span><br></pre></td></tr></table></figure>
 
 <p>将</p>
@@ -477,8 +475,8 @@
 <p>另外字体以显示（控制）端为准，也就是即使 vps 远程端装好了字体，控制端没装好也是乱码；反之亦然。</p>
 <h3 id="坑-3：系统-用户变量-alias"><a href="#坑-3：系统-用户变量-alias" class="headerlink" title="坑 3：系统 / 用户变量 /alias"></a>坑 3：系统 / 用户变量 /alias</h3><p>参考文章：</p>
 <ul>
-<li><a target="_blank" rel="noopener" href="https://superuser.com/questions/183870/difference-between-bashrc-and-bash-profile">Difference between .bashrc and .bash_profile</a></li>
-<li><a target="_blank" rel="noopener" href="https://askubuntu.com/questions/566399/why-isnt-profile-sourced-when-opening-a-terminal">Why isn’t .profile sourced when opening a terminal?</a></li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://superuser.com/questions/183870/difference-between-bashrc-and-bash-profile">Difference between .bashrc and .bash_profile</a></li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://askubuntu.com/questions/566399/why-isnt-profile-sourced-when-opening-a-terminal">Why isn’t .profile sourced when opening a terminal?</a></li>
 </ul>
 <p>其实也不能算个坑，可以说是个 feature。</p>
 <p>我们先了解一下 linux 这个系统变量是怎么整的：</p>
@@ -497,7 +495,7 @@
 <p>所以，接下来我所讲的部分变量设置我将以放在 <code>/etc/zshrc</code> 处写命令，而重连则使用</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo source &#x2F;etc&#x2F;zsh&#x2F;zshrc</span><br></pre></td></tr></table></figure>
 
-<h3 id="坑-4-：zsh-下-ssh-键位错误"><a href="#坑-4-：zsh-下-ssh-键位错误" class="headerlink" title="坑 4 ：zsh 下 ssh 键位错误"></a>坑 4 ：zsh 下 ssh 键位错误</h3><p>参考：<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/f867f786b584">zsh 中加入 home end，以及小键盘的支持</a></p>
+<h3 id="坑-4-：zsh-下-ssh-键位错误"><a href="#坑-4-：zsh-下-ssh-键位错误" class="headerlink" title="坑 4 ：zsh 下 ssh 键位错误"></a>坑 4 ：zsh 下 ssh 键位错误</h3><p>参考：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.jianshu.com/p/f867f786b584">zsh 中加入 home end，以及小键盘的支持</a></p>
 <p>小键盘区和功能键区在 zsh 下功能错误。这次就不是 xshell 的锅了，ssh 过去的都这个毛病。解决方法有两种：</p>
 <ol>
 <li><p>通过 xshell。在属性中，选择终端-&gt;终端类型，改为 linux。</p>
@@ -530,17 +528,17 @@
 
 <p>搜索应用程序 dconf，就能看到 dconf 系统配置编辑器。打开后从 org –&gt; gnome –&gt; nautilus –&gt; preferences 进入就能看到相关选项了。</p>
 </li>
-<li><p>debian 没有 ppa 功能，虽然也能用，但比较麻烦（但因为 ubuntu 内核新 ppa 里面有些内容也很新，所以 debian 死活装不上，比如最新的 wireshark，<del>而旧版 wireshark 无法探测到本地的网卡，导致其实没法用</del>。debian 下 ppa 的具体使用方法参考这里：<a target="_blank" rel="noopener" href="https://blog.skk.moe/post/add-ppa-to-debian/">在 Debian 上添加 PPA 并安装软件包</a>。文章中有一部比较难以理解：</p>
+<li><p>debian 没有 ppa 功能，虽然也能用，但比较麻烦（但因为 ubuntu 内核新 ppa 里面有些内容也很新，所以 debian 死活装不上，比如最新的 wireshark，<del>而旧版 wireshark 无法探测到本地的网卡，导致其实没法用</del>。debian 下 ppa 的具体使用方法参考这里：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://blog.skk.moe/post/add-ppa-to-debian/">在 Debian 上添加 PPA 并安装软件包</a>。文章中有一部比较难以理解：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo sed -i &#39;s&#x2F;disco&#x2F;bionic&#x2F;g&#39; &#x2F;etc&#x2F;apt&#x2F;sources.list.d&#x2F;lazygit-team-ubuntu-daily-disco.list</span><br></pre></td></tr></table></figure>
 
-<p>实际上就是进入 <code>/etc/apt/sources.list.d</code>，在上一步 ppa 中会下载两个跟你要装的软件相关的源文件，里面的系统名太新了（比如我下到的就是 groovy，而上面那行代码是 bionic，作者选择替换成当时最新的 lts bionic 系统）可以 <a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/Ubuntu">wiki 查看</a>，选择一个合适的版本。</p>
+<p>实际上就是进入 <code>/etc/apt/sources.list.d</code>，在上一步 ppa 中会下载两个跟你要装的软件相关的源文件，里面的系统名太新了（比如我下到的就是 groovy，而上面那行代码是 bionic，作者选择替换成当时最新的 lts bionic 系统）可以 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://zh.wikipedia.org/wiki/Ubuntu">wiki 查看</a>，选择一个合适的版本。</p>
 <p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/vKqB7kT.png"></p>
-<p>另外也可以通过软件 ppa 页面，查看当前版本是否有相关的包，比如 <a target="_blank" rel="noopener" href="https://launchpad.net/~wireshark-dev/+archive/ubuntu/stable?field.series_filter=">wireshark 界面</a>：</p>
+<p>另外也可以通过软件 ppa 页面，查看当前版本是否有相关的包，比如 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://launchpad.net/~wireshark-dev/+archive/ubuntu/stable?field.series_filter=">wireshark 界面</a>：</p>
 <p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/xZwC5zQ.png"></p>
 <p>很明显确实没有最新的 groovy 版本，而只有上一个版本 focal 版，那么我们可以改成 focal 或者直接复制粘贴图中的两行代码。</p>
-<p>另外也可以翻翻 sid 包，有没有相关的包，我反正翻到 sid 包里面也有 <a target="_blank" rel="noopener" href="https://packages.debian.org/sid/amd64/wireshark/download">wireshark 的最新版本</a>。</p>
+<p>另外也可以翻翻 sid 包，有没有相关的包，我反正翻到 sid 包里面也有 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://packages.debian.org/sid/amd64/wireshark/download">wireshark 的最新版本</a>。</p>
 <p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/rPP1F98.png"></p>
-<p>从这里找一个最近的源，比如 <a target="_blank" rel="noopener" href="http://ftp.cn.debian.org/debian%EF%BC%8C%E6%8C%89%E7%BD%91%E9%A1%B5%E9%A1%B6%E4%B8%8A%E7%9A%84%E8%A6%81%E6%B1%82%E6%8B%BC%E6%8E%A5%E4%B8%80%E4%B8%8B%E3%80%82%E4%B8%BA%E4%BA%86%E9%81%BF%E5%85%8D%E5%92%8C%E6%AD%A3%E5%B8%B8%E6%BA%90%E6%B7%B7%E5%9C%A8%E4%B8%80%E8%B5%B7%EF%BC%8C%E6%88%91%E4%BB%AC%E6%96%B0%E5%BC%80%E4%B8%80%E4%B8%AA%E6%BA%90%E6%96%87%E4%BB%B6%EF%BC%8C%E5%91%BD%E5%90%8D%E4%B8%BA">http://ftp.cn.debian.org/debian，按网页顶上的要求拼接一下。为了避免和正常源混在一起，我们新开一个源文件，命名为</a> sid.list。</p>
+<p>从这里找一个最近的源，比如 <a target="_blank" rel="external nofollow noopener noreferrer" href="http://ftp.cn.debian.org/debian%EF%BC%8C%E6%8C%89%E7%BD%91%E9%A1%B5%E9%A1%B6%E4%B8%8A%E7%9A%84%E8%A6%81%E6%B1%82%E6%8B%BC%E6%8E%A5%E4%B8%80%E4%B8%8B%E3%80%82%E4%B8%BA%E4%BA%86%E9%81%BF%E5%85%8D%E5%92%8C%E6%AD%A3%E5%B8%B8%E6%BA%90%E6%B7%B7%E5%9C%A8%E4%B8%80%E8%B5%B7%EF%BC%8C%E6%88%91%E4%BB%AC%E6%96%B0%E5%BC%80%E4%B8%80%E4%B8%AA%E6%BA%90%E6%96%87%E4%BB%B6%EF%BC%8C%E5%91%BD%E5%90%8D%E4%B8%BA">http://ftp.cn.debian.org/debian，按网页顶上的要求拼接一下。为了避免和正常源混在一起，我们新开一个源文件，命名为</a> sid.list。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo sh -c &#39;printf &quot;deb http:&#x2F;&#x2F;ftp.cn.debian.org&#x2F;debian sid main &quot; &gt; &#x2F;etc&#x2F;apt&#x2F;sources.list.d&#x2F;sid.list&#39;</span><br><span class="line">sudo apt update</span><br><span class="line">sudo apt -t sid install wireshark -y</span><br></pre></td></tr></table></figure>
 
 <p>但很遗憾，无论用 ppa 直接安装，ppa 直接编译还是 sid 源的方法安装 wireshark 都报错，依赖不对，估计手动编译也是一样的结果。</p>
@@ -551,14 +549,14 @@
 <p>「装在虚拟机里面的东西要什么 long-term，给我来最新的」然后我就装了 19.10。</p>
 <p>结果最近 apt update 总是报错，说是什么</p>
 <blockquote>
-<p>仓库 “<a target="_blank" rel="noopener" href="http://mirrors.tuna.tsinghua.edu.cn/ubuntu">http://mirrors.tuna.tsinghua.edu.cn/ubuntu</a> eoan-updates Release” 没有 Release 文件。</p>
+<p>仓库 “<a target="_blank" rel="external nofollow noopener noreferrer" href="http://mirrors.tuna.tsinghua.edu.cn/ubuntu">http://mirrors.tuna.tsinghua.edu.cn/ubuntu</a> eoan-updates Release” 没有 Release 文件。</p>
 </blockquote>
 <p>是不是清华的源又整活了？用「软件与更新」换个源看看。</p>
 <p>结果选择最佳服务器的时候就告诉我网络有问题（肯定不是网络原因，科学和 dns 这些我熟的很），退出的时候整个软件直接崩了。。。</p>
 <p>兜兜转转我得出一个结论：这个 ubuntu 版本今年 7 月过期，连着源一块过期访问不到了。（这比 windows 10 版本寿命还短）</p>
 <p>怎么办？尝试升级，好在和 window 不一样，普通版本也能升到 lt 版，升到 lt 版不折腾了。</p>
 <p>关键是升级前要 apt update 的啊，这 apt update 都运行不了怎么办？</p>
-<h3 id="apt-update-失效"><a href="#apt-update-失效" class="headerlink" title="apt update 失效"></a>apt update 失效</h3><p>参考 <a target="_blank" rel="noopener" href="https://www.digitalocean.com/community/questions/unable-to-apt-update-my-ubuntu-19-04">Unable to ‘apt update’ my Ubuntu 19.04</a>，旧的源过期了不过会存档起来，但网址也改了。但我用的是镜像源，镜像源我猜不会改网址而是直接删库。。。保险起见找一下初始源。结果没找到官方的，找到一个这样的：<a target="_blank" rel="noopener" href="https://gist.github.com/malikalichsan">malikalichsan</a>/<a target="_blank" rel="noopener" href="https://gist.github.com/malikalichsan/860b8134a74c65a394efe09711d0b95f">sources.list</a></p>
+<h3 id="apt-update-失效"><a href="#apt-update-失效" class="headerlink" title="apt update 失效"></a>apt update 失效</h3><p>参考 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.digitalocean.com/community/questions/unable-to-apt-update-my-ubuntu-19-04">Unable to ‘apt update’ my Ubuntu 19.04</a>，旧的源过期了不过会存档起来，但网址也改了。但我用的是镜像源，镜像源我猜不会改网址而是直接删库。。。保险起见找一下初始源。结果没找到官方的，找到一个这样的：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://gist.github.com/malikalichsan">malikalichsan</a>/<a target="_blank" rel="external nofollow noopener noreferrer" href="https://gist.github.com/malikalichsan/860b8134a74c65a394efe09711d0b95f">sources.list</a></p>
 <p>瞄了下大概的地址格式</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">deb http:&#x2F;&#x2F;id.archive.ubuntu.com&#x2F;ubuntu&#x2F; eoan main restricted</span><br></pre></td></tr></table></figure>
 
@@ -572,7 +570,7 @@
 <h3 id="do-release-upgrade-也失效"><a href="#do-release-upgrade-也失效" class="headerlink" title="do-release-upgrade 也失效"></a>do-release-upgrade 也失效</h3><p>ubuntu 也有专属的系统更新命令，那就是 <code>sudo do-release-upgrade</code>。然后我运行了一边，又告诉我没网络了。。。。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Failed to connect to https:&#x2F;&#x2F;changelogs.ubuntu.com&#x2F;meta-release. Check your Internet connection or proxy settings</span><br></pre></td></tr></table></figure>
 
-<p>继续问谷歌：<a target="_blank" rel="noopener" href="https://askubuntu.com/questions/1200494/failed-to-connect-to-http-changelogs-ubuntu-com-meta-release-lts-after-upgrade">Failed to connect to http://changelogs.ubuntu.com/meta-release-lts after upgrade</a></p>
+<p>继续问谷歌：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://askubuntu.com/questions/1200494/failed-to-connect-to-http-changelogs-ubuntu-com-meta-release-lts-after-upgrade">Failed to connect to http://changelogs.ubuntu.com/meta-release-lts after upgrade</a></p>
 <p>说是删掉 <code>/var/lib/ubuntu-release-upgrader/release-upgrade-available</code> 这个文件，然后用 <code>/var/lib/ubuntu-release-upgrader/release-upgrade-motd</code> 这个程序再获取一遍地址。</p>
 <p>没用，甚至运行这个 <code>release-upgrade-motd</code> 直接报错无网络。</p>
 <p>算了，直接大力出奇迹好了。用 debian 的更新方法。</p>
@@ -606,7 +604,7 @@
       <a href="https://zbttl.github.io/2020/2%E6%9C%8824%E6%97%A5%EF%BC%88%E5%AF%92%E5%81%87%E7%AC%AC%E5%9B%9B%E5%8D%81%E4%B8%89%E5%A4%A9%EF%BC%89/" title="桌面版 ubuntu &amp; debian 踩坑">https://zbttl.github.io/2020/2月24日（寒假第四十三天）/</a>
   </li>
   <li class="post-copyright-license">
-    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-SA</a> 许可协议。转载请注明出处！
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="external nofollow noopener noreferrer" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-SA</a> 许可协议。转载请注明出处！
   </li>
 </ul>
 </div>
@@ -702,7 +700,7 @@
         <span id="busuanzi_value_site_uv"></span>
       </span>
     </span>
-</div><script color="120,120,120" opacity="0.5" zIndex="-1" count="150" src="https://cdn.jsdelivr.net/npm/canvas-nest.js@1/dist/canvas-nest.js"></script>
+</div><script color="120,120,120" opacity="0.5" zindex="-1" count="150" src="https://cdn.jsdelivr.net/npm/canvas-nest.js@1/dist/canvas-nest.js"></script>
 
 
     </div>

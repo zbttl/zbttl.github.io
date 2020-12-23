@@ -153,9 +153,7 @@
     <i class="fa fa-search"></i>
   </span>
   <div class="search-input-container">
-    <input autocomplete="off" autocapitalize="off" maxlength="80"
-           placeholder="搜索..." spellcheck="false"
-           type="search" class="search-input">
+    <input autocomplete="off" autocapitalize="off" maxlength="80" placeholder="搜索..." spellcheck="false" type="search" class="search-input">
   </div>
   <span class="popup-btn-close">
     <i class="fa fa-times-circle"></i>
@@ -228,10 +226,10 @@
 </div>
   <div class="links-of-author site-overview-item animated">
       <span class="links-of-author-item">
-        <a href="https://github.com/zbttl" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;zbttl" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+        <a href="https://github.com/zbttl" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;zbttl" rel="external nofollow noopener noreferrer" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
       </span>
       <span class="links-of-author-item">
-        <a href="mailto:zbttls@gmail.com" title="E-Mail → mailto:zbttls@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+        <a href="mailto:zbttls@gmail.com" title="E-Mail → mailto:zbttls@gmail.com" rel="external nofollow noopener noreferrer" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
       </span>
   </div>
 
@@ -347,7 +345,7 @@
         <p>我一直以为 powershell 没啥好玩的。。。不过最近了解了一下，比 cmd 强很多，特别是 cmd 没有历史记录这点差评，另外还有包管理器什么的，感觉发现了新世界~</p>
 <p>参考文章：</p>
 <ul>
-<li><a target="_blank" rel="noopener" href="https://beta.sspai.com/post/52868">告别 Windows 终端的难看难用，从改造 PowerShell 的外观开始</a></li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://beta.sspai.com/post/52868">告别 Windows 终端的难看难用，从改造 PowerShell 的外观开始</a></li>
 </ul>
 <h2 id="安装包管理器-chocolatey"><a href="#安装包管理器-chocolatey" class="headerlink" title="安装包管理器 chocolatey"></a>安装包管理器 chocolatey</h2><p>嘛。。。虽然市面上有两个包管理器，另一个叫做 scoop 理论上更合适程序员使用，但是 chocolatey 更合适懒人使用。。。于是我选择后者。</p>
 <p>安装方法，一行流：</p>
@@ -389,9 +387,9 @@
 </ol>
 <p>另外，提一下，还有另一个比较热门的包管理器叫 scoop，我不打算写使用方法了，可以参考下面三篇文章：</p>
 <ul>
-<li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/50993df76b1c">scoop——强大的Windows命令行包管理工具</a></li>
-<li><a target="_blank" rel="noopener" href="https://sspai.com/post/52496">「一行代码」搞定软件安装卸载，用 Scoop 管理你的 Windows 软件</a></li>
-<li><a target="_blank" rel="noopener" href="https://sspai.com/post/52710">给 Scoop 加上这些软件仓库，让它变成强大的 Windows 软件管理器</a></li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.jianshu.com/p/50993df76b1c">scoop——强大的Windows命令行包管理工具</a></li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://sspai.com/post/52496">「一行代码」搞定软件安装卸载，用 Scoop 管理你的 Windows 软件</a></li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://sspai.com/post/52710">给 Scoop 加上这些软件仓库，让它变成强大的 Windows 软件管理器</a></li>
 </ul>
 <p>和 chocolatey 相比，有几个优点</p>
 <ol>
@@ -419,26 +417,26 @@
 
 <p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@master/img/iiHvIIn.png"></p>
 <p>发现问题了，这颜色咋那么奇怪呢？</p>
-<p>原来是 colortool 默认是按 powershell 背景为全黑的时候设计的，当然因为 powershell 现阶段默认背景早已经是蓝色了，所以作者已经把这点当做 bug 在处理了。<a target="_blank" rel="noopener" href="https://github.com/microsoft/terminal/issues/1150">Bug Report: ColorTool and changing colours causes strange behaviour since Windows 10 1903 #1150</a></p>
+<p>原来是 colortool 默认是按 powershell 背景为全黑的时候设计的，当然因为 powershell 现阶段默认背景早已经是蓝色了，所以作者已经把这点当做 bug 在处理了。<a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/microsoft/terminal/issues/1150">Bug Report: ColorTool and changing colours causes strange behaviour since Windows 10 1903 #1150</a></p>
 <p>至于临时的解决方案，就是右击窗口，将颜色和默认值都调到第一个颜色上，再用 colortool 命令设置颜色。</p>
 <p>而如果要永久设置主题的话，加上 -b 参数，再右键窗口进入默认值和属性中各点一次确定生效。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">colortool -b OneHalfDark.itermcolors</span><br></pre></td></tr></table></figure>
 
-<h3 id="修改字体"><a href="#修改字体" class="headerlink" title="修改字体"></a>修改字体</h3><p>修改字体就麻烦一些。<a target="_blank" rel="noopener" href="https://www.zhihu.com/question/36344262">为什么 Windows 下 cmd 和 PowerShell 不能方便地自定义字体？</a>因为 powershell 要求字体需要满足微软规范（否则 powershell 默认值里面根本看不到）和编码代码页语言编码要求（否则等宽字体只能在默认值中看到，属性里面看不到），最好支持 powerline（待会有用），所以一共有三种方法可供使用。</p>
+<h3 id="修改字体"><a href="#修改字体" class="headerlink" title="修改字体"></a>修改字体</h3><p>修改字体就麻烦一些。<a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.zhihu.com/question/36344262">为什么 Windows 下 cmd 和 PowerShell 不能方便地自定义字体？</a>因为 powershell 要求字体需要满足微软规范（否则 powershell 默认值里面根本看不到）和编码代码页语言编码要求（否则等宽字体只能在默认值中看到，属性里面看不到），最好支持 powerline（待会有用），所以一共有三种方法可供使用。</p>
 <ul>
 <li>安装符合微软规范的等宽字体（符合规范的等宽字体能够在注册表相应项中找到），修改注册表，打上 powerline 补丁</li>
 <li>安装符合微软规范的字体，给所有字体打上 powerline 补丁（和当年通过工具撤销系统字体的 graph 优化然后替换是如出一辙的方法）</li>
 <li>安装符合微软规范且支持 powerline 的字体</li>
 </ul>
 <p><del>打 powerline 补丁的方法都很麻烦。。而且如果你安装的字体比较多的话，有些字体没有必要打上补丁的也打上了（打补丁不止会打符合规范的字体而是所有补丁都打），就会浪费时间和空间。</del></p>
-<p>而符合微软中文编码规范的字体，找来找去就两种，知乎 belleve 大佬的<a target="_blank" rel="noopener" href="https://github.com/be5invis/Sarasa-Gothic">更纱黑体</a>（Inziu Iosevka）和 <a target="_blank" rel="noopener" href="https://github.com/Microsoft/BashOnWindows/files/1362006/Microsoft.YaHei.Mono.zip">Microsoft YaHei Mono</a>，后者同样要打上 powerline 补丁。全部支持的就只有更纱黑体，在 powershell 中兼容性相当不错。但是。。。我觉得字形有点丑了，非常扁。（也可能是微软的规范下只能做出那么丑的字形）</p>
+<p>而符合微软中文编码规范的字体，找来找去就两种，知乎 belleve 大佬的<a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/be5invis/Sarasa-Gothic">更纱黑体</a>（Inziu Iosevka）和 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/Microsoft/BashOnWindows/files/1362006/Microsoft.YaHei.Mono.zip">Microsoft YaHei Mono</a>，后者同样要打上 powerline 补丁。全部支持的就只有更纱黑体，在 powershell 中兼容性相当不错。但是。。。我觉得字形有点丑了，非常扁。（也可能是微软的规范下只能做出那么丑的字形）</p>
 <p>当然还有传说中的支持 powerline 却不符合微软规范的字体。。。在这里不适用，看下面。</p>
 <p>补充：关于第一个，各种教程都写得很不详细。。。我决定补一下</p>
 <p>参考文章：</p>
 <ul>
-<li><a target="_blank" rel="noopener" href="http://www.voidcn.com/article/p-ueteeqcm-bdx.html">Windows 微软雅黑（Microsoft YaHei）+ Monaco 字体整合方案</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/RhinoC/p/4470338.html">修改 cmd 控制台字体、巧用 FontLink 使中英文独立设置</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/54724102">win10下,cmd,power shell设置默认编码为‘UTF-8’?</a></li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="http://www.voidcn.com/article/p-ueteeqcm-bdx.html">Windows 微软雅黑（Microsoft YaHei）+ Monaco 字体整合方案</a></li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.cnblogs.com/RhinoC/p/4470338.html">修改 cmd 控制台字体、巧用 FontLink 使中英文独立设置</a></li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.zhihu.com/question/54724102">win10下,cmd,power shell设置默认编码为‘UTF-8’?</a></li>
 </ul>
 <ol>
 <li><p>安装等宽字体。安装时记住名字（字体管理器里面会有写）。然后去注册表里面确认一下名字（<strong>注意！只是确认有没有安装，第二步里面的字体名字以字体管理器的为准，不要用下面注册表的！</strong>），如果是为自己安装的字体名称在<code>HKEY_CURRENT_USER\Software\Microsoft\Windows NT\CurrentVersion\Fonts</code>，为系统安装或者默认就有的字体在<code>HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts</code>，有种方法是在<code>HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Console\TrueTypeFont</code>以名称加 0 的方法添加各新编码字体，但我试了试，根本没用。</p>
@@ -465,9 +463,9 @@
 <h2 id="安装-oh-my-posh-和一些其他的东西"><a href="#安装-oh-my-posh-和一些其他的东西" class="headerlink" title="安装 oh-my-posh 和一些其他的东西"></a>安装 oh-my-posh 和一些其他的东西</h2><p>其实就是 oh-my-zsh 的 windows 版。。。</p>
 <p>参考文章：</p>
 <ul>
-<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/itanders/article/details/75305163">PowerShellGet系列(二)：用PowerShellGet管理你的模块包</a></li>
-<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/WPwalter/article/details/78937346">将美化进行到底，把 PowerShell 做成 oh-my-zsh 的样子</a></li>
-<li><a target="_blank" rel="noopener" href="https://github.com/JanDeDobbeleer/oh-my-posh">JanDeDobbeleer/oh-my-posh</a></li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://blog.csdn.net/itanders/article/details/75305163">PowerShellGet系列(二)：用PowerShellGet管理你的模块包</a></li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://blog.csdn.net/WPwalter/article/details/78937346">将美化进行到底，把 PowerShell 做成 oh-my-zsh 的样子</a></li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/JanDeDobbeleer/oh-my-posh">JanDeDobbeleer/oh-my-posh</a></li>
 </ul>
 <h3 id="先给出一些-powershell-上一些常用的操作"><a href="#先给出一些-powershell-上一些常用的操作" class="headerlink" title="先给出一些 powershell 上一些常用的操作"></a>先给出一些 powershell 上一些常用的操作</h3><ol>
 <li><p>安装模块</p>
@@ -523,23 +521,23 @@
 <p>如果要使用方向键式自动补全，修改 2 的语句为</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Set-PSReadLineKeyHandler -Key Tab -Function MenuComplete</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>智能提示。需更新到 2.1.0-beta1 后版本。参考：<a target="_blank" rel="noopener" href="https://github.com/PowerShell/PSReadLine/issues/687">Fish-like autocompletion</a></p>
+<li><p>智能提示。需更新到 2.1.0-beta1 后版本。参考：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/PowerShell/PSReadLine/issues/687">Fish-like autocompletion</a></p>
  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">set-psreadlineoption -predictionsource history</span><br><span class="line">get-psreadlineoption | % predictionsource</span><br></pre></td></tr></table></figure>
 </li>
-<li><p> 其他有用的功能。比如上下翻选时根据当前已输入的内容进行筛查而不是安装当前历史记录。可参照配置文件 <a target="_blank" rel="noopener" href="https://github.com/PowerShell/PSReadLine/blob/master/PSReadLine/SamplePSReadLineProfile.ps1"><strong>SamplePSReadLineProfile.ps1</strong></a>。需要将其所有内容放到 <code>profile.ps1</code> 的最前端。</p>
+<li><p> 其他有用的功能。比如上下翻选时根据当前已输入的内容进行筛查而不是安装当前历史记录。可参照配置文件 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/PowerShell/PSReadLine/blob/master/PSReadLine/SamplePSReadLineProfile.ps1"><strong>SamplePSReadLineProfile.ps1</strong></a>。需要将其所有内容放到 <code>profile.ps1</code> 的最前端。</p>
 </li>
-<li><p>如果遭遇 <code>Install-Module : A parameter cannot be found that matches parameter name AllowPrerelease.</code>，先更新 PowerShellGet。参考：<a target="_blank" rel="noopener" href="https://evotec.xyz/install-module-a-parameter-cannot-be-found-that-matches-parameter-name-allowprerelease/">Install-Module : A parameter cannot be found that matches parameter name AllowPrerelease.</a></p>
+<li><p>如果遭遇 <code>Install-Module : A parameter cannot be found that matches parameter name AllowPrerelease.</code>，先更新 PowerShellGet。参考：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://evotec.xyz/install-module-a-parameter-cannot-be-found-that-matches-parameter-name-allowprerelease/">Install-Module : A parameter cannot be found that matches parameter name AllowPrerelease.</a></p>
  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Install-Module -Name PowerShellGet -Force</span><br></pre></td></tr></table></figure>
 
 </li>
 </ol>
 <h2 id="powerline-补丁"><a href="#powerline-补丁" class="headerlink" title="powerline 补丁"></a>powerline 补丁</h2><p>oh-my-posh 装好后，使用主题会发现各种乱码，因为主题是靠各种 powerline 字体实现的。</p>
 <p>在修改字体那里说过，要么上支持 powerline 的字体要么给字体打补丁。</p>
-<p>打补丁的工具叫做 <a target="_blank" rel="noopener" href="https://github.com/ryanoasis/nerd-fonts">nerd-fonts</a>，需要在 linux 环境下才能使用。当然，系统比较新的话，可以考虑用 wsl ubuntu。下文就是用这玩意进行补丁的。</p>
+<p>打补丁的工具叫做 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/ryanoasis/nerd-fonts">nerd-fonts</a>，需要在 linux 环境下才能使用。当然，系统比较新的话，可以考虑用 wsl ubuntu。下文就是用这玩意进行补丁的。</p>
 <p>参考文章：</p>
 <ul>
-<li><a target="_blank" rel="noopener" href="https://www.hanselman.com/blog/PatchingTheNewCascadiaCodeToIncludePowerlineGlyphsAndOtherNerdFontsForTheWindowsTerminal.aspx">Patching the new Cascadia Code to include Powerline Glyphs and other Nerd Fonts for the Windows Terminal</a></li>
-<li><a target="_blank" rel="noopener" href="https://coolcode.org/2018/03/16/how-to-make-your-powershell-beautiful/">PowerShell 美化指南</a></li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.hanselman.com/blog/PatchingTheNewCascadiaCodeToIncludePowerlineGlyphsAndOtherNerdFontsForTheWindowsTerminal.aspx">Patching the new Cascadia Code to include Powerline Glyphs and other Nerd Fonts for the Windows Terminal</a></li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://coolcode.org/2018/03/16/how-to-make-your-powershell-beautiful/">PowerShell 美化指南</a></li>
 </ul>
 <ol>
 <li><p>安装依赖</p>
@@ -556,7 +554,7 @@
 <p>打好补丁的字体会存在执行文件夹中，安装就是了。安装后可能还需要返回修改字体那部对字体的汉字 fallback 进行设置（另外打完补丁的字体名字会发生改变）</p>
 </li>
 </ol>
-<h3 id="已知问题关于每行「〉」符号乱码的解决方法"><a href="#已知问题关于每行「〉」符号乱码的解决方法" class="headerlink" title="已知问题关于每行「〉」符号乱码的解决方法"></a><del>已知问题</del>关于每行「〉」符号乱码的解决方法</h3><p><del>在 powershell 中，尽管字体打完了补丁，但还是有一个符号会显示为方框，就是每行开头的「〉」符号。而且使用更纱黑体，换用其他终端都没问题。已向作者提出 issue：<a target="_blank" rel="noopener" href="https://github.com/ryanoasis/nerd-fonts/issues/375">The symbol ‘〉’ can not display in powershell</a>。</del></p>
+<h3 id="已知问题关于每行「〉」符号乱码的解决方法"><a href="#已知问题关于每行「〉」符号乱码的解决方法" class="headerlink" title="已知问题关于每行「〉」符号乱码的解决方法"></a><del>已知问题</del>关于每行「〉」符号乱码的解决方法</h3><p><del>在 powershell 中，尽管字体打完了补丁，但还是有一个符号会显示为方框，就是每行开头的「〉」符号。而且使用更纱黑体，换用其他终端都没问题。已向作者提出 issue：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/ryanoasis/nerd-fonts/issues/375">The symbol ‘〉’ can not display in powershell</a>。</del></p>
 <p>提问半小时，解决五分钟。。。还是自己解决的，不过还有些小疑点，看看有没有人回我 issue~</p>
 <p>简而言之，那个方框符号其实和我猜的差不多，不在 powerline 里面（因为我提问前搜索了一下 powershell 相关的 issue，也有个问题作者回了「你乱码的符号其实不是 powerline 符号」，但和我提问的符号不一样，所以我就开 issue 了」）</p>
 <p>那问题出在哪呢？另外两个 terminal 都没问题哦？突然想起，在 terminus 里面看中文和 powershell 里面我配置过 fallback 的中文字形明显不太一样，而且就算我没配过 fallback，terminus 那边的字形也还属于「能看」级别的。</p>
@@ -579,7 +577,7 @@
 <h3 id="彩色标记文件"><a href="#彩色标记文件" class="headerlink" title="彩色标记文件"></a>彩色标记文件</h3><p>使用 pscolor 模块。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Install-Module PSColor</span><br><span class="line">#关键指令</span><br><span class="line">Import-Module PSColor</span><br></pre></td></tr></table></figure>
 
-<h3 id="显示全部历史记录"><a href="#显示全部历史记录" class="headerlink" title="显示全部历史记录"></a>显示全部历史记录</h3><p>参考文章：<a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/set-alias?view=powershell-6">Set-Alias</a></p>
+<h3 id="显示全部历史记录"><a href="#显示全部历史记录" class="headerlink" title="显示全部历史记录"></a>显示全部历史记录</h3><p>参考文章：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/set-alias?view=powershell-6">Set-Alias</a></p>
 <p>默认的<code>history</code>指令只能显示当前窗口的历史记录。如果要显示全部的历史记录，需要输入命令：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat (Get-PSReadlineOption).HistorySavePath</span><br></pre></td></tr></table></figure>
 
@@ -603,8 +601,8 @@
 <p>安装出来的是 v1.0 版本，界面和最新版有些差距</p>
 <p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/3znd7v3.png"></p>
 </li>
-<li><p>通过 <a target="_blank" rel="noopener" href="https://github.com/lptstr/winfetch">github</a> 获取</p>
-<p><em>根据作者写的 wiki：<a target="_blank" rel="noopener" href="https://github.com/lptstr/winfetch/wiki/Installation">Basic Usage</a>，先需要去自己的 github 中添加一个公钥，并将对应的私钥放在自己 git 目录下的 <code>.ssh</code> 文件夹中，最后通过 <code>ssh -vT git@github.com</code> 命令处理后才能运行 wiki 中的第一条命令拷贝库。</em></p>
+<li><p>通过 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/lptstr/winfetch">github</a> 获取</p>
+<p><em>根据作者写的 wiki：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/lptstr/winfetch/wiki/Installation">Basic Usage</a>，先需要去自己的 github 中添加一个公钥，并将对应的私钥放在自己 git 目录下的 <code>.ssh</code> 文件夹中，最后通过 <code>ssh -vT git@github.com</code> 命令处理后才能运行 wiki 中的第一条命令拷贝库。</em></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone git@github.com:lptstr&#x2F;winfetch.git winfetch</span><br></pre></td></tr></table></figure>
 
 <p>不过最后验证出来是大费周章。。。直接 git 源库就好了</p>
@@ -621,7 +619,7 @@
 <p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/So5ntqV.png"></p>
 </li>
 <li><p>自定义 winfetch 显示内容</p>
-<p>参考文章：<a target="_blank" rel="noopener" href="https://github.com/lptstr/winfetch/wiki/Configuration">Configuration</a></p>
+<p>参考文章：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/lptstr/winfetch/wiki/Configuration">Configuration</a></p>
 <p>下载配置文件</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">winfetch -genconf</span><br></pre></td></tr></table></figure>
 
@@ -635,7 +633,7 @@
 </li>
 </ol>
 <h3 id="（20-6-26-更新）proxychains-powershell-版"><a href="#（20-6-26-更新）proxychains-powershell-版" class="headerlink" title="（20.6.26 更新）proxychains powershell 版"></a>（20.6.26 更新）proxychains powershell 版</h3><p>linux 那边（19.11.12）的 proxychains4 在 powershell 这边也有相应的版本，就叫 proxychains。</p>
-<p>在这里下载：<a target="_blank" rel="noopener" href="https://github.com/shunf4/proxychains-windows/releases">shunf4/proxychains-windows</a></p>
+<p>在这里下载：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/shunf4/proxychains-windows/releases">shunf4/proxychains-windows</a></p>
 <p>解压后将其中的 exe 和 dll 全部转移到一个好找的文件夹里面，比如 <code>D:\proxychains</code>。</p>
 <p>然后将该文件夹添加到系统变量 PATH 中。</p>
 <p>再把其中的 <code>proxychains.conf</code> 解压到 <code>%USERPROFILE%\.proxychains\</code> 里面，修改最后一行（其实这行默认适配 ss，如果用的是 ss 默认配置就别改了），改为</p>
@@ -644,15 +642,15 @@
 <p>然后添加 alias 简化</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#关键指令</span><br><span class="line">set-alias -name  fan -value proxychains_win32_x64</span><br></pre></td></tr></table></figure>
 
-<p>测试（注意用的是命令是 curl.exe 而不是 curl，原因见这里：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/sx00xs/p/11478936.html">powershell中调用 curl 的正确方法</a>）</p>
+<p>测试（注意用的是命令是 curl.exe 而不是 curl，原因见这里：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.cnblogs.com/sx00xs/p/11478936.html">powershell中调用 curl 的正确方法</a>）</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fan curl.exe cip.cc </span><br></pre></td></tr></table></figure>
 
 <h3 id="（20-6-26-更新）curl-中文问题（不完美解决）"><a href="#（20-6-26-更新）curl-中文问题（不完美解决）" class="headerlink" title="（20.6.26 更新）curl 中文问题（不完美解决）"></a>（20.6.26 更新）curl 中文问题（不完美解决）</h3><p>首先</p>
 <p>相信上一步运行时，之前没通过 <code>chcp 54936</code> 改编码（其实改了也乱码，要改成 <code>chcp 65001</code> 才有用）的诸位发现问题了。</p>
 <p>curl 出来的都是乱码。</p>
 <p>除了修改编码，还有一种方法能够解决。但必须进入 cmd，在 powershell 下除非临时改编码否则暂时无解。</p>
-<p>参考文章：<a target="_blank" rel="noopener" href="https://blog.csdn.net/aganliang/article/details/84403923">CURL 中文乱码解决方法</a></p>
-<p>进入 <a target="_blank" rel="noopener" href="http://gnuwin32.sourceforge.net/packages/libiconv.htm">LibIconv for Windows</a> 下载 <a target="_blank" rel="noopener" href="https://sourceforge.net/projects/gnuwin32/files/libiconv/1.9.2-1/libiconv-1.9.2-1.exe/download?use_mirror=netix&download=">Complete package, except sources</a>，安装。</p>
+<p>参考文章：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://blog.csdn.net/aganliang/article/details/84403923">CURL 中文乱码解决方法</a></p>
+<p>进入 <a target="_blank" rel="external nofollow noopener noreferrer" href="http://gnuwin32.sourceforge.net/packages/libiconv.htm">LibIconv for Windows</a> 下载 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://sourceforge.net/projects/gnuwin32/files/libiconv/1.9.2-1/libiconv-1.9.2-1.exe/download?use_mirror=netix&download=">Complete package, except sources</a>，安装。</p>
 <p>增加系统变量（以默认的安装位置来说）</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">C:\Program Files (x86)\GnuWin32\bin</span><br></pre></td></tr></table></figure>
 
@@ -689,7 +687,7 @@
       <a href="https://zbttl.github.io/2019/9%E6%9C%8819%E6%97%A5%EF%BC%88%E7%AC%AC%E4%B8%89%E5%91%A8%E5%91%A8%E5%9B%9B%EF%BC%89/" title="powershell 全攻略">https://zbttl.github.io/2019/9月19日（第三周周四）/</a>
   </li>
   <li class="post-copyright-license">
-    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-SA</a> 许可协议。转载请注明出处！
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="external nofollow noopener noreferrer" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-SA</a> 许可协议。转载请注明出处！
   </li>
 </ul>
 </div>
@@ -782,7 +780,7 @@
         <span id="busuanzi_value_site_uv"></span>
       </span>
     </span>
-</div><script color="120,120,120" opacity="0.5" zIndex="-1" count="150" src="https://cdn.jsdelivr.net/npm/canvas-nest.js@1/dist/canvas-nest.js"></script>
+</div><script color="120,120,120" opacity="0.5" zindex="-1" count="150" src="https://cdn.jsdelivr.net/npm/canvas-nest.js@1/dist/canvas-nest.js"></script>
 
 
     </div>
