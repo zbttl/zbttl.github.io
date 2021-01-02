@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.1/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"zbttl.github.io","root":"/","images":"/images","scheme":"Muse","version":"8.1.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}};
+  </script>
+<meta name="description" content="本来是为了对比一下旧路由（小新 new wifi mini，padavan）和极路由 2 （官方系统）和华硕 ac86u （官方系统）的性能。顺便物尽其用，给 newifi mini 刷个 openwrt。 跑分工具linux 内置浮点分数显示">
+<meta property="og:type" content="article">
+<meta property="og:title" content="路由器跑分 &amp;&amp; 刷机">
+<meta property="og:url" content="https://zbttl.github.io/2020/12%E6%9C%882%E6%97%A5/index.html">
+<meta property="og:site_name" content="Bao&#39;s 备忘录">
+<meta property="og:description" content="本来是为了对比一下旧路由（小新 new wifi mini，padavan）和极路由 2 （官方系统）和华硕 ac86u （官方系统）的性能。顺便物尽其用，给 newifi mini 刷个 openwrt。 跑分工具linux 内置浮点分数显示">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.imgur.com/oicnOOy.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/chrome_sdRzlaQ63w.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/chrome_Wek4pLE69b.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210102073119.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/newifi%20padavancoremark.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/newifi%20openwrt%202020.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/hc5761%20coremark%20openwrt.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/%E6%9E%81%E8%B7%AF%E7%94%B1.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/newifi%20pandorabox.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/newifi%20openwrt%202016.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/bcm4906.png">
+<meta property="article:published_time" content="2020-12-01T16:00:00.000Z">
+<meta property="article:modified_time" content="2021-01-01T23:35:09.000Z">
+<meta property="article:author" content="zbttl">
+<meta property="article:tag" content="padavan">
+<meta property="article:tag" content="openwrt">
+<meta property="article:tag" content="merlin">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/oicnOOy.png">
+
+
+<link rel="canonical" href="https://zbttl.github.io/2020/12%E6%9C%882%E6%97%A5/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+<title>路由器跑分 && 刷机 | Bao's 备忘录</title>
+  
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Bao's 备忘录</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80" placeholder="搜索..." spellcheck="false" type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <section class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B7%91%E5%88%86%E5%B7%A5%E5%85%B7"><span class="nav-number">1.</span> <span class="nav-text">跑分工具</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#linux-%E5%86%85%E7%BD%AE%E6%B5%AE%E7%82%B9%E5%88%86%E6%95%B0%E6%98%BE%E7%A4%BA"><span class="nav-number">1.1.</span> <span class="nav-text">linux 内置浮点分数显示</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#coremark"><span class="nav-number">1.2.</span> <span class="nav-text">coremark</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#dhrystone"><span class="nav-number">1.3.</span> <span class="nav-text">dhrystone</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%B7%E6%9C%BA%EF%BC%88mt7620-gt-openwrt%EF%BC%89"><span class="nav-number">2.</span> <span class="nav-text">刷机（mt7620-&gt;openwrt）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Linux-%E7%BC%96%E8%AF%91"><span class="nav-number">2.1.</span> <span class="nav-text">Linux 编译</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#github-action"><span class="nav-number">2.2.</span> <span class="nav-text">github action</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%B7%E6%9C%BA%EF%BC%88asus-%E5%AE%98%E6%96%B9-gt-asus-%E6%A2%85%E6%9E%97%EF%BC%89"><span class="nav-number">3.</span> <span class="nav-text">刷机（asus 官方-&gt;asus 梅林）</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-%E4%BB%8E-arm380-%E5%8D%87%E7%BA%A7%E5%88%B0-arm384-%E5%9B%BA%E4%BB%B6%E4%BC%9A%E5%A4%B1%E5%8E%BB%E4%BB%80%E4%B9%88"><span class="nav-number">3.0.0.1.</span> <span class="nav-text">1. 从 arm380 升级到 arm384 固件会失去什么</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-%E4%BB%8E-arm380-%E5%8D%87%E7%BA%A7%E5%88%B0-arm384-%E5%9B%BA%E4%BB%B6%E8%83%BD%E5%BE%97%E5%88%B0%E4%BB%80%E4%B9%88"><span class="nav-number">3.0.0.2.</span> <span class="nav-text">2. 从 arm380 升级到 arm384 固件能得到什么</span></a></li></ol></li></ol><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B7%91%E5%88%86%E7%BB%93%E6%9E%9C"><span class="nav-number">4.</span> <span class="nav-text">跑分结果</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#coremark-1"><span class="nav-number">4.1.</span> <span class="nav-text">coremark</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#dhrystone-1"><span class="nav-number">4.2.</span> <span class="nav-text">dhrystone</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B6%E4%BB%96%E5%8F%82%E8%80%83%E6%96%87%E7%AB%A0%E5%92%8C%E5%B0%8F%E5%8F%91%E7%8E%B0"><span class="nav-number">5.</span> <span class="nav-text">其他参考文章和小发现</span></a></li></div>
+        </section>
+        <!--/noindex-->
+
+        <section class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">zbttl</p>
+  <div class="site-description" itemprop="description">玩点好玩的</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">13</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/zbttl" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;zbttl" rel="external nofollow noopener noreferrer" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:zbttls@gmail.com" title="E-Mail → mailto:zbttls@gmail.com" rel="external nofollow noopener noreferrer" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+        </section>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://zbttl.github.io/2020/12%E6%9C%882%E6%97%A5/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="zbttl">
+      <meta itemprop="description" content="玩点好玩的">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Bao's 备忘录">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          路由器跑分 && 刷机
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-12-02 00:00:00" itemprop="dateCreated datePublished" datetime="2020-12-02T00:00:00+08:00">2020-12-02</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-01-02 07:35:09" itemprop="dateModified" datetime="2021-01-02T07:35:09+08:00">2021-01-02</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%B7%AF%E7%94%B1%E5%99%A8/" itemprop="url" rel="index"><span itemprop="name">路由器</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>6.5k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>6 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>本来是为了对比一下旧路由（小新 new wifi mini，padavan）和极路由 2 （官方系统）和华硕 ac86u （官方系统）的性能。顺便物尽其用，给 newifi mini 刷个 openwrt。</p>
+<h2 id="跑分工具"><a href="#跑分工具" class="headerlink" title="跑分工具"></a>跑分工具</h2><h3 id="linux-内置浮点分数显示"><a href="#linux-内置浮点分数显示" class="headerlink" title="linux 内置浮点分数显示"></a>linux 内置浮点分数显示</h3><p>命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat &#x2F;proc&#x2F;cpuinfo</span><br></pre></td></tr></table></figure>
+
+<p>其中的 bogomips 大概就是核心的浮点分数。</p>
+<p><img src="https://i.imgur.com/oicnOOy.png"></p>
+<p>极路由得分：385.84</p>
+<p>ac86u 得分：100 （这个显然不正常）</p>
+<p>由于不是实时跑分，所以准确性也最差。</p>
+<h3 id="coremark"><a href="#coremark" class="headerlink" title="coremark"></a>coremark</h3><p>来自：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/eembc">eembc</a>/<strong><a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/eembc/coremark">coremark</a></strong></p>
+<p>不过遗憾的是，我只成功在 ubuntu 下编译了 linux 版，在 windows 下使用 cygwin 和 在 linux 下尝试交叉编译 windows 版本均未成功。</p>
+<p>不过 padavan 和许多 openwrt 固件下附带有本测试工具，也不用我编译了。</p>
+<h3 id="dhrystone"><a href="#dhrystone" class="headerlink" title="dhrystone"></a>dhrystone</h3><p>来自：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.openwrtdl.com/wordpress/%E6%9D%A5%E6%B5%8B%E6%B5%8B%E8%B7%AF%E7%94%B1%E5%99%A8cpu%E6%80%A7%E8%83%BD%E8%B7%91%E5%88%86">[源码]来测测路由器cpu性能跑分</a></p>
+<p>另一个二进制跑分工具。其中的二进制文件 <code>gcc_dry2-mt7621</code> 在 mt7620A 路由极路由 2 原版系统下可以直接运行。但在 newifi mini padavan 下运行结果报 0。而另一个含有 mt7620 的二进制文件 <code>dhrystone_2.1-1_ramips_1004kc_mt7621.ipk</code> 在两个设备上运行都报错（毕竟原本就应该是在 openwrt 下安装运行的） 。另外 x86 二进制在 linux 下不能运行，另外也没有 ac86u 用的版本（bcm4903）。但不知道其他固件是否附带有相应版本。</p>
+<h2 id="刷机（mt7620-gt-openwrt）"><a href="#刷机（mt7620-gt-openwrt）" class="headerlink" title="刷机（mt7620-&gt;openwrt）"></a>刷机（mt7620-&gt;openwrt）</h2><p>直接编译上面那几个工具不管用。</p>
+<p>看来只能刷点大众版本然后从库里面找看看。先刷 newifi mini / 极路由 2。这两款路由同样是 mt7620A 方案，128m ram，8m flash。区别只有 newifi mini 的无线方案是 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.mediatek.cn/products/broadbandWifi/mt7612e">MediaTek | MT7612E</a>（参数来源：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.igao7.com/news/201501/2krIHZXzLCFRAVLO.html">迷你也满血，联想新路由newifi mini评测 | 爱搞机</a>），极路由的无线方案是 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.mediatek.com/products/broadbandWifi/mt7610e">MediaTek | MT7610E</a>（参数来源：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.zhihu.com/question/21971379/answer/19977583">如何评价极路由公司 2013 年 11 月发布的「极贰」路由器？ - 张导的回答 - 知乎</a>)。前者是 2x2，后者弱一些 1x1（但 5g wifi 速度同样是 433mhz）。还有！极路由 2 刷机前请用 breed 事先备份好 key，就在固件备份里面有一个单独的选项（我直接掉坑里爬不出来了，但到后面人家直接把这条路都铲了。。。详情可以看月底的后日谈）。</p>
+<p>注意：刷 breed 和 breed 怎么操作这个东西，本文不涉及，百度吧。</p>
+<p>在 breed 下，这两台机子显示的参数都一模一样：</p>
+<p>newifi mini：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/chrome_sdRzlaQ63w.png"></p>
+<p>极路由 2:</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/chrome_Wek4pLE69b.png"></p>
+<p>openwrt 的话，选择大佬的 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/coolsnowwolf/lede">coolsnowwolf/lede: Lean’s OpenWrt source</a>。我们面前有两条路线：</p>
+<ol>
+<li><p>直接上 linux 编译</p>
+<p>参考文章：</p>
+<ul>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://sspai.com/post/61463">看完这篇，自定义 OpenWrt/LEDE 路由固件不求人 - 少数派</a></li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://p3terx.com/archives/openwrt-compilation-steps-and-commands.html">OpenWrt 编译步骤与命令详解 - P3TERX ZONE</a></li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://davidli.fun/useful_note/2485/">编译 Lean 的 Openwrt 固件全攻略 - 😊Welcome</a></li>
+</ul>
+</li>
+<li><p>借助 github action。参考文章：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://p3terx.com/archives/build-openwrt-with-github-actions.html/comment-page-1">使用 GitHub Actions 云编译 OpenWrt - P3TERX ZONE</a></p>
+</li>
+</ol>
+<p>前者步骤繁琐倒是其次，最大的障碍是网络和空间。必须要有可靠的科学工具，以及 10 多 G 的空余空间（最后我的项目文件夹大概有 12g，也就是最少需要 13g 才能编译成功，剩余空间少于 1g 就会强行停止编译）。后者只需要大概 1g 不到的空间，完成 menuconfig 文件的生成即可（不过还是会用到 linux），但，前者一旦编译成功，后续修改 menuconfig 内容再次编译耗费的时间就会大幅缩短（视修改内容的多少，一般 5-10 分钟即可），而后者每次都需要等待 1 个半小时左右的时间。因为后者步骤中的一部分包括在前者中，所以我两个都谈一下。</p>
+<h3 id="Linux-编译"><a href="#Linux-编译" class="headerlink" title="Linux 编译"></a>Linux 编译</h3><p>Linux 编译需要较多空间，我本地的虚拟机 ubuntu 只分了 30g 根本不够我又不想扩容（因为扩容要删快照，扩容后想还原还挺麻烦）。所以我索性在 tx 的轻量云上操作了。不过按我的习惯（不知道是不是大家也有这样的习惯）远程的 vps 默认情况下都是以 root 用户登录，而不是像桌面端一样用非 root 用户（毕竟 ubuntu 桌面端默认不创建 root 用户）。所以我还得新建一个非 root 用户，添加 sudo 授权，<a href="https://zbttl.github.io/2020/2%E6%9C%8824%E6%97%A5%EF%BC%88%E5%AF%92%E5%81%87%E7%AC%AC%E5%9B%9B%E5%8D%81%E4%B8%89%E5%A4%A9%EF%BC%89/#zsh">换用 zsh</a>，加虚拟内存（尽管轻量云内存已达 2g 但编译过程中还是报内存不够，我又加了 2g 虚拟内存才行），这些我就不详细谈了。</p>
+<ol>
+<li><p>安装相关依赖（许多教程里面没有 rsync，但我这边编译的时候报错就因为没装这个东西所以我加上了）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get -y install build-essential asciidoc binutils bzip2 gawk gettext git libncurses5-dev libz-dev patch python3.5 python2.7 unzip zlib1g-dev lib32gcc1 libc6-dev-i386 subversion flex uglifyjs git-core gcc-multilib p7zip p7zip-full msmtp libssl-dev texinfo libglib2.0-dev xmlto qemu-utils upx libelf-dev autoconf automake libtool autopoint device-tree-compiler g++-multilib antlr3 gperf wget swig rsync</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>克隆项目，下源码和软件包（这一步需要科学工具）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git clone https:&#x2F;&#x2F;github.com&#x2F;coolsnowwolf&#x2F;lede</span><br><span class="line">cd lede</span><br><span class="line">.&#x2F;scripts&#x2F;feeds update -a</span><br><span class="line">.&#x2F;scripts&#x2F;feeds install -a</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>重点，调整 Open­Wrt 系统组件。毕竟自己编译就是为了只添加自己想要的功能。第一次编译建议只选择相应框架，因为第一次编译成功后后续增添删除组件再次编译所需时间会大幅缩短。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make menuconfig</span><br></pre></td></tr></table></figure>
+
+<p>后续怎么调整组件？可以参考下面这两篇文章：</p>
+<ul>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.right.com.cn/forum/thread-1237348-1-1.html">【2020-01-14 更新】OpenWrt入门编译 make menuconfig配置参考说明与自动生成脚本 - OPENWRT专版 - 恩山无线论坛 - Powered by Discuz!</a></li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.right.com.cn/forum/thread-344825-1-1.html">OpenWrt 编译 LuCI-&gt; Applications 添加插件应用说明 - L 大【2020.11.1】 - OPENWRT 专版 - 恩山无线论坛 - Powered by Discuz!</a></li>
+</ul>
+<p>我这里也给一张表格，大致说明一下我在默认配置的基础上改了哪里。我认为是接近最简的配置。</p>
+<p>注意，许多功能可以不直接集成到固件中而是单单编译为模块。因为使用主流的 <code>squashfs</code> 固件格式的话，集成到固件的功能是删不掉的，而模块（ipx）可以通过 opkg 随意安装和卸载（就是可能遇到依赖问题，装一个功能可能得同时装几个模块）。能这么做的功能，按空格第一次显示为 M，是编译为模块；再按一次显示为 * 则为集成到固件中。至于该选那个大家自己抉择。</p>
+<p>下面表格参数尾部有 - 号标记代表我并未做改动但有些东西需要提醒；编译 x 说明这是原来开着我关掉的内容。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210102073119.png"></p>
+<p>自定义的时候注意，除了 luci 以外的东西都是在 web gui 外生效的。啥意思？你精简了一个 luci 以外的功能，打开路由器 web 管理界面是看不到什么区别的；反之，你想在 luci 添加什么功能也不用考虑该功能是不是在其他地方有依赖。</p>
+<p>编辑完后用下面的 save 保存为 <code>.config</code>，待会编译的时候就会读取这个文件的配置。</p>
+</li>
+<li><p>开始编译（如果上面这步添加了许多功能，则需要开科学工具）。轻量服务器只有一个核心，所以 <code>-j1</code>，如果用物理机则看自己的配置改了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make -j1 V&#x3D;s</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>编译成功的固件和模块，在 <code>lede/bin/targets/ramips/mt7620</code> 里面，注意，如果按默认配置编译了 squashfs 版本的话，里面的 bin 应该有两个版本，一个叫 <code>xxxx.initramfs-kernel</code>，一个叫 <code>xxxxx.squashfs-sysupgrade</code>，记得刷后者！前者是只读的，我看后者有个 upgrade 还以为是更新专用第一次应该刷前一个，刷完以后我还纳闷软件包怎么可用空间为 0 重启后配置重置了，折腾了两天居然是这里出了问题-_-</p>
+</li>
+<li><p>刷完以后看看剩余空间，5g wifi，usb 驱动有没有问题（这几个地方容易出问题）。</p>
+</li>
+</ol>
+<h3 id="github-action"><a href="#github-action" class="headerlink" title="github action"></a>github action</h3><p>参考文章：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://p3terx.com/archives/build-openwrt-with-github-actions.html/comment-page-2#comments">使用 GitHub Actions 云编译 OpenWrt - P3TERX ZONE</a></p>
+<p>作者说的很清楚了。先做 linux 编译的前三步，获得 <code>.config</code> 文件。</p>
+<p>然后照抄作者的步骤：</p>
+<blockquote>
+<ul>
+<li>进入 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://p3terx.com/go/aHR0cHM6Ly9naXRodWIuY29tL1AzVEVSWC9BY3Rpb25zLU9wZW5XcnQ=">P3TERX/Actions-OpenWrt</a> 项目页面，点击页面中的 Use this template（使用这个模版）按钮。</li>
+<li>填写仓库名称，然后点击 <code>Create repository from template</code>（从模版创建储存库）按钮。</li>
+<li>经过几秒钟的等待，页面会跳转到新建的仓库，内容和我的项目是相同的。然后点击<code>Create new file</code>（创建新文件）按钮。</li>
+<li>文件名填写为 <code>.config</code>，把生成的 <code>.config </code></li>
+<li>文件的内容复制粘贴到下面的文本框中。</li>
+<li>翻到页面最下方，点击 <code>Commit new file</code>（提交新文件）按钮。</li>
+<li>在 Actions 页面选择<code>Build OpenWrt</code>，然后点击<code>Run Workflow</code>按钮，即可开始编译。</li>
+</ul>
+</blockquote>
+<p>嗯。。。增加几个注意小事项（当然作者的文章里也提到过了，方便我自己查阅而已）：</p>
+<ol>
+<li><p>点 <code>Build OpenWrt</code> 弹出的框框里，<code>SSH connection to Actions</code> 如果你没有 ssh 连接需求的话不要开启，会编译失败。</p>
+</li>
+<li><p>默认只会生成 rom 压缩文件。如果你之前有功能做成了模组，那你还得修改项目的 <code>.github/workflows/build-openwrt.yml</code> 文件，把 <code>UPLOAD_BIN_DIR</code> 值改为 <code>true</code>。</p>
+</li>
+<li><p>可以修改默认网关地址。在 <code>diy-part1.sh</code> 中把</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># Modify default IP</span><br><span class="line">#sed -i &#39;s&#x2F;192.168.1.1&#x2F;192.168.2.1&#x2F;g&#39; package&#x2F;base-files&#x2F;files&#x2F;bin&#x2F;config_generate</span><br></pre></td></tr></table></figure>
+
+<p>第二句前面的注释符号取消，<code>192.168.2.1</code> 改为其他网关即可。我一开始是改的，因为我家的拓扑结构是：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">光猫（192.168.1.1）-&gt;ac86u（192.168.x.1）-（无线）-&gt;笔记本</span><br></pre></td></tr></table></figure>
+
+<p>刷路由时，路由跟笔记本用有线的方式连接，显然路由默认地址  <code>192.168.1.1</code> 和光猫网关地址冲突。不过，后面我发现路由的默认网关地址能稳定覆盖住光猫的网关地址，也就是说我不用断开无线就可以直接进要刷的路由的 breed，以及刷完后路由的配置界面；反而是如果我改了网关的话，就得断掉无线或者连上路由的无线才能配置了。可能是 dhcp 的锅？</p>
+</li>
+</ol>
+<h2 id="刷机（asus-官方-gt-asus-梅林）"><a href="#刷机（asus-官方-gt-asus-梅林）" class="headerlink" title="刷机（asus 官方-&gt;asus 梅林）"></a>刷机（asus 官方-&gt;asus 梅林）</h2><p>ac86u 刷机就简单了，也不用刷什么 breed，起码对于我现在官方-&gt;梅林arm384 来说直接在固件升级里面把新版固件怼上去就行，最多最多刷前重置一下。</p>
+<p>ac86u 目前有三个品种的第三方固件，分别是官改，arm380，arm384。我在官方下载站还看到有 arm386，但文件夹是空的。</p>
+<p>官改可以理解为官方版 + 软件中心。而 arm380 和 arm384，官方是这么说的：</p>
+<blockquote>
+<h5 id="1-从-arm380-升级到-arm384-固件会失去什么"><a href="#1-从-arm380-升级到-arm384-固件会失去什么" class="headerlink" title="1. 从 arm380 升级到 arm384 固件会失去什么"></a>1. 从 arm380 升级到 arm384 固件会失去什么</h5><ol>
+<li>网件、linksys、华为这些机型，非常大概率不会有 arm384 固件，目前 arm384 仅有华硕机型；</li>
+<li>arm384 固件没有 arm380 固件的 wifi 全信道 + 高功率了，以后要高功率就老实澳大利亚 + 固定信道吧；</li>
+<li>arm384 固件没有 multiPPP support（单线多拨）功能；</li>
+<li>arm384 固件的首页没有温度、网速等信息的状态显示；</li>
+<li>arm384 固件的内存占用率将会比 arm380 系列高得多；</li>
+</ol>
+<h5 id="2-从-arm380-升级到-arm384-固件能得到什么"><a href="#2-从-arm380-升级到-arm384-固件能得到什么" class="headerlink" title="2. 从 arm380 升级到 arm384 固件能得到什么"></a>2. 从 arm380 升级到 arm384 固件能得到什么</h5><ol>
+<li>AiMesh ；</li>
+<li>1.5 代的软件中心；</li>
+<li>更多的安全更新和功能更新；</li>
+</ol>
+</blockquote>
+<p>具体的固件下载，注意事项，刷机流程可以参考：</p>
+<ul>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://koolshare.cn/thread-164857-1-1.html#f-arm384ml%E6%94%B9%E7%89%88-%E5%88%B7-%E5%8E%9F%E5%8E%82%E5%9B%BA%E4%BB%B6">【新提醒】【20200703】华硕ARMv7系列 384.18_0 改版固件 - 华硕固件 - KoolShare - 源于玩家 服务玩家</a></li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://koolshare.cn/forum.php?mod=viewthread&tid=127878">【新提醒】【20200821】RT-AC86U_384.19_0 改版固件 - 华硕固件 - KoolShare - 源于玩家 服务玩家</a></li>
+</ul>
+<p>刷完以后进系统管理，开启 <code>Format JFFS partition at next boot</code> 和 <code>Enable JFFS custom scripts and configs</code> 再重启一遍。</p>
+<p>重启后软件中心上线，就能安装华硕这边的 dhrystone 了！</p>
+<p>参考：<a target="_blank" rel="external nofollow noopener noreferrer" href="http://firmware.koolshare.cn/binary/dhrystone/">Index of /binary/dhrystone/ - KoolShare 固件下载服务器</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd &#x2F;koolshare&#x2F;bin</span><br><span class="line">wget http:&#x2F;&#x2F;firmware.koolshare.cn&#x2F;binary&#x2F;dhrystone&#x2F;dhrystone_hnd </span><br><span class="line">chmod +x dhrystone_hnd</span><br><span class="line">dhrystone_hnd</span><br></pre></td></tr></table></figure>
+
+<h2 id="跑分结果"><a href="#跑分结果" class="headerlink" title="跑分结果"></a>跑分结果</h2><h3 id="coremark-1"><a href="#coremark-1" class="headerlink" title="coremark"></a>coremark</h3><p>newifi padavan：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/newifi%20padavancoremark.png"></p>
+<p>newifi openwrt：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/newifi%20openwrt%202020.png"></p>
+<p>极路由 2 openwrt：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/hc5761%20coremark%20openwrt.png"></p>
+<p>极路由 2 和 newifi 相同的配置，newifi 性能略占优势。但不同的系统差距有点大喔。</p>
+<p>华硕的梅林既没有预装也没有软件包，没法测。</p>
+<h3 id="dhrystone-1"><a href="#dhrystone-1" class="headerlink" title="dhrystone"></a>dhrystone</h3><p>极路由原厂系统：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/%E6%9E%81%E8%B7%AF%E7%94%B1.png"></p>
+<p>newifi openwrt pandora：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/newifi%20pandorabox.png"></p>
+<p>newifi openwrt 2016（这张图截歪了，但数字能看个大概）：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/newifi%20openwrt%202016.png"></p>
+<p>有请终极 boss ac86u：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/bcm4906.png"></p>
+<p>7620A 那几个菜鸡互啄，感觉不同系统差距不大？nono，其实我还测出过 280 多分忘记截图了，不记得是哪个拉跨系统了。。。但这几个比较正一点的系统看起来速度都还差不多。但到 ac86u 这里画风突变，10 倍杀。。。</p>
+<h2 id="其他参考文章和小发现"><a href="#其他参考文章和小发现" class="headerlink" title="其他参考文章和小发现"></a>其他参考文章和小发现</h2><ol>
+<li><p>openwrt 目前还有几个小问题处理不掉，比如 ssh 中会突然出现乱码，特别是想按 tab 自动不全的时候，前面的命令可能就会突然冒出几个符号导致最后整条命令都错了。极路由 2 装上 openwrt 已联网提示灯亮不起来了。</p>
+</li>
+<li><p>有没有发现 dhrystone 7620a 测试的系统画风有点不太对？因为我都用的留着的 16 年左右的旧系统测试的，极路由在 18 年也停更了，所以能跑的出分数。最新编译的 openwrt 已经无法运行当年编译好的 dhrystone 了，可能是库问题，运行二进制告诉我 no found；ipk 文件发现本身的框架是 <code>ramips_24kec</code>，而 opkg.conf 里面没有这个框架，按照<a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/dafeiyoung/sguclient/wiki/%E4%BF%AE%E6%94%B9opkg.conf%E8%A7%A3%E5%86%B3incompatible-with-the-architectures-configured%E9%97%AE%E9%A2%98">修改 opkg.conf 解决 incompatible with the architectures configured 问题・dafeiyoung/sguclient Wiki</a>记载的方法强行安装，仍然提示 no found；直接通过 ash（没错，openwrt 默认不带 bash，只有 ash）运行，则报那个非常常见的哪行哪行 <code>（</code> expected 的 error。我还想过编译（作者在 github 页面<a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/siasjack/dhrystone4OP">siasjack/dhrystone4OP: dhrystone for openwrt package</a>记载了编译方法），结果带上 sdk 编译出来的固件就 30m 了，路由器根本装不了（16m rom），更别谈装上后再编译了。</p>
+</li>
+<li><p>除了 lede 版本的 openwrt，还有一个 lieno 版本的 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/Lienol/openwrt">Lienol/openwrt: Lienol’s Modified OpenWrt source</a>，暂时没研究。</p>
+<p>其他关于 openwrt 的参考文章：</p>
+</li>
+</ol>
+<ul>
+<li><p>官方文档：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://openwrt.org/zh-cn/doc/howto/build">[OpenWrt Wiki] OpenWrt编译 – 说明</a></p>
+</li>
+<li><p>常用配置路径<a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.529i.com/archives/344.html">LEDE编译教程 - 憶の年</a></p>
+</li>
+<li><p><a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.jinbo123.com/7672.html">编译 Lean 大神的 OpenWrt (x86_x64) 固件教程汇总 | 佐仔志添加Passwall插件|</a></p>
+</li>
+<li><p><a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.bilibili.com/read/cv1820955/">7620 k2 openwrt固件的编译(WSL,Ubuntu18.04) - 哔哩哔哩</a></p>
+</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>zbttl
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="https://zbttl.github.io/2020/12%E6%9C%882%E6%97%A5/" title="路由器跑分 &amp;&amp; 刷机">https://zbttl.github.io/2020/12月2日/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="external nofollow noopener noreferrer" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/padavan/" rel="tag"># padavan</a>
+              <a href="/tags/openwrt/" rel="tag"># openwrt</a>
+              <a href="/tags/merlin/" rel="tag"># merlin</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2020/11%E6%9C%8820%E6%97%A5/" rel="prev" title="坑爹的小米推送框架">
+                  <i class="fa fa-chevron-left"></i> 坑爹的小米推送框架
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2020/12%E6%9C%884%E6%97%A5/" rel="next" title="玩一下 imagemagick">
+                  玩一下 imagemagick <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zbttl</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+      <span>站点总字数：</span>
+    <span title="站点总字数">87k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span>站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">1:19</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+</div><script color="120,120,120" opacity="0.5" zindex="-1" count="150" src="https://cdn.jsdelivr.net/npm/canvas-nest.js@1/dist/canvas-nest.js"></script>
+
+
+    </div>
+  </footer>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1.7.0/dist/gitalk.css">
+
+<script>
+NexT.utils.loadComments('#gitalk-container', () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1.7.0/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : 'd99d750bdfdb31ecf37e',
+      clientSecret: '1d37215aff71dc84b66e03cb412c7e68b968d76f',
+      repo        : 'zbttl-comment',
+      owner       : 'zbpicture',
+      admin       : ['zbpicture'],
+      id          : '715104dd5c01fe02c83108941e9a7149',
+        language: '',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+<script type="text/javascript" src=" https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+
+  <script async src="/js/cursor/text.js"></script>
+
+
+</body>
+</html>
