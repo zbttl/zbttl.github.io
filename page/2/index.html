@@ -195,7 +195,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">14</span>
+          <span class="site-state-item-count">13</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -248,117 +248,6 @@
 
 
     <div class="main-inner index posts-expand">
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://zbttl.github.io/termux-diao-xiao/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="zbttl">
-      <meta itemprop="description" content="玩点好玩的">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Bao's 备忘录">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/termux-diao-xiao/" class="post-title-link" itemprop="url">termux 调校</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2020-04-14 00:00:00" itemprop="dateCreated datePublished" datetime="2020-04-14T00:00:00+08:00">2020-04-14</time>
-    </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2020-12-23 00:23:48" itemprop="dateModified" datetime="2020-12-23T00:23:48+08:00">2020-12-23</time>
-      </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/android/" itemprop="url" rel="index"><span itemprop="name">android</span></a>
-        </span>
-    </span>
-
-  
-      </div>
-      <div class="post-meta">
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>8.9k</span>
-    </span>
-    <span class="post-meta-item" title="阅读时长">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>8 分钟</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>参考文章：</p>
-<ol>
-<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://p3terx.com/archives/termux-tutorial-1.html">Termux 使用教程 #1 - Android 手机安装 Linux</a>：快捷键，ssh</li>
-<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://p3terx.com/archives/termux-tutorial-2.html">Termux 使用教程（二）：打造手机上的最强终端</a>：自定义扩展输入栏，换源，oh-my-zsh 和插件</li>
-<li>国光：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.sqlsec.com/2018/05/termux.html">Termux 高级终端安装使用配置教程</a> 信息安全类的包</li>
-<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.jianshu.com/p/b688c9df69c6">神器Termux的使用记录</a> php+nginx+wordpress</li>
-<li><a target="_blank" rel="external nofollow noopener noreferrer" href="http://www.huangpan.net/posts/ji-ke/2019-08-19-termux.html">Termux 学习笔记</a> hexo，和一些 cli 文件管理工具</li>
-</ol>
-<h2 id="修改源"><a href="#修改源" class="headerlink" title="修改源"></a>修改源</h2>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/termux-diao-xiao/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
 
     
 
@@ -746,7 +635,38 @@
       </span>
     </span>
 </div><script color="120,120,120" opacity="0.5" zindex="-1" count="150" src="https://cdn.jsdelivr.net/npm/canvas-nest.js@1/dist/canvas-nest.js"></script>
+<!--《添加网站运行时间 -->
+<!--<br/>-->
+<span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+<script>
+    var now = new Date();
 
+    function createtime() {
+        var grt = new Date("07/25/2019 12:00:00"); //此处修改你的建站时间或者网站上线时间 
+        now.setTime(now.getTime() + 250);
+        days = (now - grt) / 1000 / 60 / 60 / 24;
+        dnum = Math.floor(days);
+        hours = (now - grt) / 1000 / 60 / 60 - (24 * dnum);
+        hnum = Math.floor(hours);
+        if (String(hnum).length == 1) {
+            hnum = "0" + hnum;
+        }
+        minutes = (now - grt) / 1000 / 60 - (24 * 60 * dnum) - (60 * hnum);
+        mnum = Math.floor(minutes);
+        if (String(mnum).length == 1) {
+            mnum = "0" + mnum;
+        }
+        seconds = (now - grt) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+        snum = Math.round(seconds);
+        if (String(snum).length == 1) {
+            snum = "0" + snum;
+        }
+        document.getElementById("timeDate").innerHTML = " | 本站已安全运行 " + dnum + " 天 ";
+        document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒";
+    }
+    setInterval("createtime()", 250);
+</script>
+<!-- 添加网站运行时间》 -->
 
     </div>
   </footer>
@@ -795,13 +715,6 @@
 
   <script async src="/js/cursor/text.js"></script>
 
-
-  <script async src="/js/activate-power-mode.min.js"></script>
-  <script>
-    POWERMODE.colorful = true;
-    POWERMODE.shake = true;
-    document.body.addEventListener('input', POWERMODE);
-  </script>
 
 </body>
 </html>
