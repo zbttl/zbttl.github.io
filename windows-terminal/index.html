@@ -556,15 +556,14 @@
       </span>
     </span>
 </div><script color="120,120,120" opacity="0.5" zindex="-1" count="150" src="https://cdn.jsdelivr.net/npm/canvas-nest.js@1/dist/canvas-nest.js"></script>
-<!--《添加网站运行时间  <br/>-->
-<% if (theme.running_time && theme.running_time.enable theme.running_time.create_time){ %>
-    <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
-    <script>
+<!--《添加网站运行时间 -->
+<!--<br/>-->
+<span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+<script>
     var now = new Date();
 
     function createtime() {
-        //此处修改你的建站时间或者网站上线时间
-        var create_time = '<%- theme.running_time.create_time %>';
+        var grt = new Date("12/18/2020 12:00:00"); //此处修改你的建站时间或者网站上线时间 
         now.setTime(now.getTime() + 250);
         days = (now - grt) / 1000 / 60 / 60 / 24;
         dnum = Math.floor(days);
@@ -587,11 +586,10 @@
         document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒";
     }
     setInterval("createtime()", 250);
-    </script>
-<% } %>
-<!-- 添加网站运行时间》-->
+</script>
+<!-- 添加网站运行时间》 -->
 
-    </%></%></div>
+    </div>
   </footer>
 
   
