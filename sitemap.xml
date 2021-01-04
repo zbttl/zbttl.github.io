@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://zbttl.github.io/hexo-jin-jie/</loc>
+    
+    <lastmod>2021-01-04</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://zbttl.github.io/powershell-quan-gong-lue/</loc>
     
     <lastmod>2021-01-04</lastmod>
@@ -38,13 +45,6 @@
   
   <url>
     <loc>https://zbttl.github.io/windows-terminal/</loc>
-    
-    <lastmod>2021-01-04</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://zbttl.github.io/hexo-jin-jie/</loc>
     
     <lastmod>2021-01-04</lastmod>
     
