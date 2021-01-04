@@ -20,9 +20,9 @@
       
         <tags>
             
-            <tag> openwrt </tag>
-            
             <tag> 游戏加速 </tag>
+            
+            <tag> openwrt </tag>
             
             <tag> 持续更新 </tag>
             
@@ -209,9 +209,9 @@
       
         <tags>
             
-            <tag> imagemagick </tag>
-            
             <tag> ffmpeg </tag>
+            
+            <tag> imagemagick </tag>
             
         </tags>
       
@@ -236,9 +236,9 @@
       
         <tags>
             
-            <tag> padavan </tag>
-            
             <tag> openwrt </tag>
+            
+            <tag> padavan </tag>
             
             <tag> merlin </tag>
             
@@ -402,9 +402,9 @@
       
         <tags>
             
-            <tag> zsh </tag>
-            
             <tag> powershell </tag>
+            
+            <tag> zsh </tag>
             
         </tags>
       
