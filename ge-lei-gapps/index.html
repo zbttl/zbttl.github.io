@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.1/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"zbttl.github.io","root":"/","images":"/images","scheme":"Muse","version":"8.1.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}};
+  </script>
+<meta name="description" content="研究了三种 opengapps：普通的 opengapps，通过 magisk刷入的 magic gapps 和 nanomod **先刷了 magic gapps **，刷入占用了许多 data 空间（但不占用 system 分区空间，system 不够的福音），但是好处是如果想要卸载 gapps 在 magisk 那里取消勾选就可以了，but。。。刷入后谷歌服务就在不停的弹出停止服务，谷歌商店">
+<meta property="og:type" content="article">
+<meta property="og:title" content="各类 gapps">
+<meta property="og:url" content="https://zbttl.github.io/ge-lei-gapps/index.html">
+<meta property="og:site_name" content="Bao&#39;s 备忘录">
+<meta property="og:description" content="研究了三种 opengapps：普通的 opengapps，通过 magisk刷入的 magic gapps 和 nanomod **先刷了 magic gapps **，刷入占用了许多 data 空间（但不占用 system 分区空间，system 不够的福音），但是好处是如果想要卸载 gapps 在 magisk 那里取消勾选就可以了，but。。。刷入后谷歌服务就在不停的弹出停止服务，谷歌商店">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2017-10-21T16:00:00.000Z">
+<meta property="article:modified_time" content="2021-01-04T16:42:33.000Z">
+<meta property="article:author" content="zbttl">
+<meta property="article:tag" content="magisk">
+<meta property="article:tag" content="google框架">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://zbttl.github.io/ge-lei-gapps/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+<title>各类 gapps | Bao's 备忘录</title>
+  
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="Bao's 备忘录" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Bao's 备忘录</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80" placeholder="搜索..." spellcheck="false" type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-overview-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <section class="post-toc-wrap sidebar-panel">
+        </section>
+        <!--/noindex-->
+
+        <section class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">zbttl</p>
+  <div class="site-description" itemprop="description">玩点好玩的</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">18</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">31</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/zbttl" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;zbttl" rel="external nofollow noopener noreferrer" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:zbttls@gmail.com" title="E-Mail → mailto:zbttls@gmail.com" rel="external nofollow noopener noreferrer" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fa fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+
+
+
+        </section>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://zbttl.github.io/ge-lei-gapps/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="zbttl">
+      <meta itemprop="description" content="玩点好玩的">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Bao's 备忘录">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          各类 gapps
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2017-10-22 00:00:00" itemprop="dateCreated datePublished" datetime="2017-10-22T00:00:00+08:00">2017-10-22</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-01-05 00:42:33" itemprop="dateModified" datetime="2021-01-05T00:42:33+08:00">2021-01-05</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Android/" itemprop="url" rel="index"><span itemprop="name">Android</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>1.9k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>2 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>研究了三种 opengapps：普通的 opengapps，通过 magisk刷入的 magic gapps 和 nanomod</p>
+<p>**先刷了 magic gapps **，刷入占用了许多 data 空间（但不占用 system 分区空间，system 不够的福音），但是好处是如果想要卸载 gapps 在 magisk 那里取消勾选就可以了，but。。。刷入后谷歌服务就在不停的弹出停止服务，谷歌商店也进不去，也是谷歌服务停止，safetynet 根本通不过，而且连 token 都拿不到，证明根本就没有用吧。。。用一加社区和 appops 设置都没有改善，证明是兼容性问题，看来这个模块还是有待完善。</p>
+<p><strong>（18.10.1 更新）</strong> 原来是跟 magisk hide 冲突了，关闭就不会 fc 了。</p>
+<p>（<strong>20.8.26 更新</strong>） 本模块停更，没有 magisk v20 以上可用版本了。旧版本 magisk 会闪退+升级新版后回退再次刷入此模块时会像原版 opengapps 一样提示空间不足，即模块挂载功能失效）</p>
+<p><strong>然后是普通的 opengapps</strong> ，刷入后占用 data+system 空间，而且比 magic gapps还要大 <del>（我记得 opengapps 好像 systemless 化了，以前放在 system 里面那有那么大占用，不过 system 空间不够确实也不用刷了</del>），而且估计很难卸载掉，but 好处还是很明显的，这是目前实验里面<strong>最正常</strong>的谷歌包，刷入后登陆下载都没问题，装上 magisk  universal-safetynet-fix 后连 safety 都能过了，之后实验了一下，可能是 rom 本身自带了root，所以光是安装 magisk 是过不了的，另外就算是安装了 fix 模块，只要安装了 xposed 也过不了（无论是不是 systemless），当然我只实验了 systemless 模块，装了 xp 要过也很简单，就是去除勾选 magisk 里面 xp 重启就行了（不用删除）</p>
+<p><strong>最后是号称黑科技的 nanomod</strong>，然而一开始我用 6.0 的时候根本刷不进去。。。无论是通过 recovery 还是 magisk 内解包（怀疑空间不足），然而都不行，最后刷完 7.1.2 空间够大后才刷入，刷入后发现喵了个咪啊。。。按了一堆无关紧要的软件，不过开源而且占用极小，多半是 full 版的魔改精简。。。商店一开始可以登陆账号但是上不去，后面发现什么权限都没给，给了权限能上了，但是还没试下载，而safetynet显示没联网。。。不过值得一提的是，里面的谷歌框架叫做microG，设置很精简，而且里面有一项提到可以强制通过 safetynet，但是是灰的，看来有潜力但是我不会用&amp;还没开发完全。后面我卸载玩多余应用的时候才发现你妹啊！原来图库和短信都被替换了。。。最后还得上酷安下了两个第三方用。。。下次我试试看找找精简版（只有 microG）和商店的试试看。<del>而且还有一点，里面的 tor 我很感兴趣，据各种野鸡渠道说是上「暗网」的东西（逃</del></p>
+<p><strong>(19.8.4 更新）</strong>后面了解了一下，nanomod（现在已经叫 nanodroid 了），实际上是 microG + foss + 签名欺骗这一套东西，有关 gapps 的实际上只有 microG（参考文章：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://blog.yoitsu.moe/tech_misc/android_without_google_0.html">离开 Google 的 Android 之路</a>），但 microG 要求系统支持签名欺骗，要不就使用支持签名欺骗的 rom 或修改 service.jar，要么就使用 xposed（参考文章：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://blackyau.cc/4">MicroG安装与配置</a>，已在 u 盘存档），要么就 nanodroid，上次 safetynet 检测不过的原因也许是我少刷一个签名欺骗模块。。。（不过令我感到奇怪的是，目前如日中天的 magisk 居然都没有能够办成签名欺骗的模块）</p>
+<p><strong>（19.9.1 更新）</strong>用了安卓 p 专用的 weebgapps。其实体验不算太好，到 20.8.26 为止再看仍仅支持 9.0 以上。</p>
+<blockquote>
+<p>另外我还试着刷入了 weebgapps（就是 p 专用的那一个 gapps），效果，嗯。。差强人意，备份还原没反应，光是登录的时候就搞了半天，后来我才发现是权限没开。。。cts 一开始过不去，装上 magisk 模块以后过去了。不过后面再试了两次，反正延迟这个事情肯定存在（就算开了权限），登录按钮点下去装死起码半个钟。。。而且很多功能也装死，magisk 版特别严重。</p>
+</blockquote>
+<p>但是和上面的诸位一比，起码还是谷歌专用商店，能通过方法过 cts，框架也很精简，结论就是，还行吧（唯一一点不方便，权限都要手动开）。。。</p>
+<p><strong>（19.9.17）</strong>还有另一种叫 bitgapps 的，7.0-9.0 都能用，使用方法和 weebgapps 一样（不过没有 magisk 版，但 magisk 版那么烂不要也罢） ，暂时没看出有什么区别，唯一的区别就是这个品种更新比较慢。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>zbttl
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="https://zbttl.github.io/ge-lei-gapps/" title="各类 gapps">https://zbttl.github.io/ge-lei-gapps/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="external nofollow noopener noreferrer" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="followme">
+  <span>欢迎关注我的其它发布渠道</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="/atom.xml">
+          <span class="icon">
+            <i class="fa fa-rss"></i>
+          </span>
+
+          <span class="label">RSS</span>
+        </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/magisk/" rel="tag"># magisk</a>
+              <a href="/tags/google%E6%A1%86%E6%9E%B6/" rel="tag"># google框架</a>
+          </div>
+
+        
+  <div class="post-widgets">
+    <div class="wp_rating">
+      <div id="wpac-rating"></div>
+    </div>
+  </div>
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+            </div>
+            <div class="post-nav-item">
+                <a href="/powershell-quan-gong-lue/" rel="next" title="powershell 全攻略">
+                  powershell 全攻略 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zbttl</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+      <span>站点总字数：</span>
+    <span title="站点总字数">109k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span>站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">1:39</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+</div><script color="120,120,120" opacity="0.5" zindex="-1" count="150" src="https://cdn.jsdelivr.net/npm/canvas-nest.js@1/dist/canvas-nest.js"></script>
+<!--《添加网站运行时间 -->
+<!--<br/>-->
+<span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+<script>
+    var now = new Date();
+
+    function createtime() {
+        var grt = new Date("12/18/2020 12:00:00"); //此处修改你的建站时间或者网站上线时间 
+        now.setTime(now.getTime() + 250);
+        days = (now - grt) / 1000 / 60 / 60 / 24;
+        dnum = Math.floor(days);
+        hours = (now - grt) / 1000 / 60 / 60 - (24 * dnum);
+        hnum = Math.floor(hours);
+        if (String(hnum).length == 1) {
+            hnum = "0" + hnum;
+        }
+        minutes = (now - grt) / 1000 / 60 - (24 * 60 * dnum) - (60 * hnum);
+        mnum = Math.floor(minutes);
+        if (String(mnum).length == 1) {
+            mnum = "0" + mnum;
+        }
+        seconds = (now - grt) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+        snum = Math.round(seconds);
+        if (String(snum).length == 1) {
+            snum = "0" + snum;
+        }
+        document.getElementById("timeDate").innerHTML = " 本站已安全运行 " + dnum + " 天 ";
+        document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒";
+    }
+    setInterval("createtime()", 250);
+</script>
+<!-- 添加网站运行时间》 -->
+
+    </div>
+  </footer>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+  <script>
+  if (CONFIG.page.isPost) {
+    wpac_init = window.wpac_init || [];
+    wpac_init.push({
+      widget: 'Rating',
+      id    : 28813,
+      el    : 'wpac-rating',
+      color : '#fc6423'
+    });
+    (function() {
+      if ('WIDGETPACK_LOADED' in window) return;
+      WIDGETPACK_LOADED = true;
+      var mc = document.createElement('script');
+      mc.type = 'text/javascript';
+      mc.async = true;
+      mc.src = '//embed.widgetpack.com/widget.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(mc, s.nextSibling);
+    })();
+  }
+  </script>
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1.7.0/dist/gitalk.css">
+
+<script>
+NexT.utils.loadComments('#gitalk-container', () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1.7.0/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : 'd99d750bdfdb31ecf37e',
+      clientSecret: '1d37215aff71dc84b66e03cb412c7e68b968d76f',
+      repo        : 'zbttl-comment',
+      owner       : 'zbpicture',
+      admin       : ['zbpicture'],
+      id          : '0f7a90c74f42efb2fd427ba09b193c94',
+        language: '',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+<script type="text/javascript" src=" https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+
+  <script async src="/js/cursor/text.js"></script>
+
+
+</body>
+</html>

@@ -1,6 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>cod 战区复活岛活动吐槽</title>
+    <url>/cod-zhan-qu-fu-huo-dao-huo-dong-tu-cao/</url>
+    <content><![CDATA[<p>其实前期活动还是蛮好做的。。。因为有队友活着就能无限复活，甚至比 codm 的只有 5 次复活机会还要夸张。</p>
+<p>但是！和第六赛季中期有码头后期没有一样，等我想肝的时候复活岛就变成迷你大逃杀了。。。用传奇武器和白板武器各杀 30 个的任务我死活完不成，前者难捡，后者干脆直接被吞了！原版复活岛地板是能见到白板枪的，改完以后只能捡空投箱的，还得是什么配件都没带的 rpd/ffar/三连发手枪才算白板。好在其中有两把轮椅，但 ffar 什么配件都没带的话开场就 26 发子弹，射速又快可能一个都扫不死，一定程度上还不如 rpd。还有下面这个破坏载具的任务，改版前说是打有人坐过的载具也算，反正改版后这么打就不算了。。。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/%E4%BD%BF%E5%91%BD%E5%8F%AC%E5%94%A4%C2%AE%EF%BC%9A%E7%8E%B0%E4%BB%A3%E6%88%98%E4%BA%89%C2%AE%20(5).png"></p>
+<p>另外还有动视日常的「翻译错误」问题。打个括号是因为我也不知道究竟是翻译错误还是动视本身就写错了（我认为连玩梗都那么熟练的动视上海因为这个没少给总部背锅）。具体来说：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/%E4%BD%BF%E5%91%BD%E5%8F%AC%E5%94%A4%C2%AE%EF%BC%9A%E7%8E%B0%E4%BB%A3%E6%88%98%E4%BA%89%C2%AE%20(7).png"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/%E4%BD%BF%E5%91%BD%E5%8F%AC%E5%94%A4%C2%AE%EF%BC%9A%E7%8E%B0%E4%BB%A3%E6%88%98%E4%BA%89%C2%AE%20(6).png"></p>
+<p>都是传奇武器？其实前面那张是白板武器而不是传奇武器。还有一个任务是「在复活岛购买 30 个连杀奖励」，这个我认真核对过简繁英三个版本，都说清楚了是在复活岛。但其实打夺金也能完成。。。</p>
+<p>唯一让我感到开心点点的是，我这个 kd 不到 1 的菜菜典狱长终于吃到两把鸡！</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/%E4%BD%BF%E5%91%BD%E5%8F%AC%E5%94%A4%C2%AE%EF%BC%9A%E7%8E%B0%E4%BB%A3%E6%88%98%E4%BA%89%C2%AE%20(8).png"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/%E4%BD%BF%E5%91%BD%E5%8F%AC%E5%94%A4%C2%AE%EF%BC%9A%E7%8E%B0%E4%BB%A3%E6%88%98%E4%BA%89%C2%AE%20(9).png"></p>
+<p>还是同一个小时内。。。第一把算是和队友苟到最后，第二把那真是就是躺的，队友三个活着就我倒了。。。凌晨三点的俄区，兼顾了延迟不算高和对手不太强的优点。吃完那两把鸡活动时间本来也就到了（昨天凌晨四点），但你们看上面的图，也是传统艺能了。第二天直到晚上 11 点我还能继续肝这个任务，正在我以为是不是动视又像第六赛季一样延期甚至变成永久任务的时候，凌晨两点再次上线的我就看不到这个任务了。。。但复活岛还是留下来，估计当常驻了吧（乌鸦摸鱼到现在新的战区地图还没做出来！复活岛是旧图了，而且 codm 还比正作先上线！）</p>
+]]></content>
+      <categories>
+        <category>game</category>
+      </categories>
+      <tags>
+        <tag>流水账</tag>
+        <tag>cod</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>路由器跑分 &amp;&amp; 刷机 后日谈 及 几个加速器使用情况收集</title>
     <url>/lu-you-qi-pao-fen-shua-ji-hou-ri-tan-ji-ji-ge-jia-su-qi-shi-yong-qing-kuang-shou-ji/</url>
     <content><![CDATA[<blockquote>
@@ -543,6 +566,9 @@
 <p>修改后需要刷新</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">hexo clean&amp;&amp;hexo g</span><br></pre></td></tr></table></figure>
 
+<h2 id="hexo-更改-categories-大小写后部署-404-的问题"><a href="#hexo-更改-categories-大小写后部署-404-的问题" class="headerlink" title="hexo 更改 categories 大小写后部署 404 的问题"></a>hexo 更改 categories 大小写后部署 404 的问题</h2><p>参考文章：<a href="https://blog.csdn.net/liuergo/article/details/102640098">Hexo部署到Github文件夹大小写问题_liuergo的博客-CSDN博客</a></p>
+<p>前一篇说过尽量约定好 tags 和 categories 大小写的原因是，我发现我有的文章归进了首字母大写的类别（如 Linux）里，有些归进了首字母小写的类别（如 linux）里，但实际上应该归为一类。我手动替换修改后，刷新提交发现是归为一类了，点进去显示 404。后来发现是 github 大小写不敏感的锅。</p>
+<p>索引到 <code>.deploy_git/.git</code> 文件夹，修改 <code>config</code> 文件中的 <code>ignorecase</code> 参数为 false 即可。</p>
 <h2 id="RSS"><a href="#RSS" class="headerlink" title="RSS"></a>RSS</h2><p>参考文章：</p>
 <ul>
 <li><a href="https://steemit.com/cn/@greedyboy/hexo-next-rss">将hexo静态博客next主题安装rss插件功能 — Steemit</a></li>
@@ -808,7 +834,7 @@
 <p>但如果要设置多个种类，格式是这样的：</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">categories:</span><br><span class="line"> - [category1]</span><br><span class="line"> - [category2]</span><br></pre></td></tr></table></figure>
 
-<p>还要注意，此时如果你边开着本地预览边改，需要重启一遍 <code>hexo s</code> 才会生效。</p>
+<p>还要注意，此时如果你边开着本地预览边改，需要重启一遍 <code>hexo s</code> 才会生效。如果你更换了文章的 tag，还需要刷新 <code>hexo clean&amp;&amp;hexo g</code>。注意 tags 和 categories 的大小写问题，建议做好约定以便区分，比如 categories 除了特定名词外固定首字母大写，其他小写；tags 除了固定名词外一律小写。如果不小心出现了大小写混淆导致刷新不完全的问题，参见 <a href="https://zbttl.github.io/hexo-jin-jie/">hexo 进阶</a>。</p>
 <h3 id="添加火柴棒动态背景"><a href="#添加火柴棒动态背景" class="headerlink" title="添加火柴棒动态背景"></a>添加火柴棒动态背景</h3><p>参考文章：<a href="https://lvxuefei.top/%E5%88%A9%E7%94%A8Hexo-Next%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%EF%BC%88%E4%B8%89%EF%BC%89-%E4%BC%98%E5%8C%96-%E5%90%84%E7%A7%8Dtips%E3%80%81%E9%BB%91%E7%A7%91%E6%8A%80%EF%BC%8C%E4%B8%8D%E6%96%AD%E6%9B%B4%E6%96%B0/">利用 Hexo+Next 搭建个人博客（三）—— 优化 (各种 tips、黑科技，不断更新)</a>)</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cd themes&#x2F;next</span><br><span class="line">git clone https:&#x2F;&#x2F;github.com&#x2F;theme-next&#x2F;theme-next-canvas-nest source&#x2F;lib&#x2F;canvas-nest</span><br></pre></td></tr></table></figure>
 
@@ -877,8 +903,8 @@
 <p>打开主题配置文件找到 <code>symbols-count-time</code> 字段。</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">symbols_count_time:</span><br><span class="line">  separated_meta: true</span><br><span class="line">  item_text_post: true</span><br><span class="line">  item_text_total: true</span><br><span class="line">  awl: 4</span><br><span class="line">  wpm: 275</span><br></pre></td></tr></table></figure>
 
-<p>然后做一次清理</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">hexo g</span><br></pre></td></tr></table></figure>
+<p>然后做一次更新</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">hexo clean&amp;&amp;hexo g</span><br></pre></td></tr></table></figure>
 
 <p>避免出现不生效的 bug。（参考<a href="https://github.com/theme-next/hexo-symbols-count-time/issues/53">The symbols count is undefined and reading time is NaN:aN. #53</a>）</p>
 <h3 id="统计访问量"><a href="#统计访问量" class="headerlink" title="统计访问量"></a>统计访问量</h3><p>参考文章：<a href="https://lvxuefei.top/%E5%88%A9%E7%94%A8Hexo-Next%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%EF%BC%88%E4%B8%89%EF%BC%89-%E4%BC%98%E5%8C%96-%E5%90%84%E7%A7%8Dtips%E3%80%81%E9%BB%91%E7%A7%91%E6%8A%80%EF%BC%8C%E4%B8%8D%E6%96%AD%E6%9B%B4%E6%96%B0/">利用 Hexo+Next 搭建个人博客（三）—— 优化 (各种 tips、黑科技，不断更新)</a>)</p>
@@ -1563,8 +1589,176 @@
       </tags>
   </entry>
   <entry>
-    <title>xbox 跨区羊毛</title>
-    <url>/xbox-kua-qu-yang-mao/</url>
+    <title>Android Virtual Devices（AVD） root/Magisk/xposed</title>
+    <url>/android-virtual-devices-avd-root-magisk-xposed/</url>
+    <content><![CDATA[<p>在 windows 下操作，终端使用 powershell。</p>
+<h2 id="旧系统（如-4-4-kitkat）-supersu"><a href="#旧系统（如-4-4-kitkat）-supersu" class="headerlink" title="旧系统（如 4.4 kitkat）+ supersu"></a>旧系统（如 4.4 kitkat）+ supersu</h2><p>主要参考文章：<a href="https://juejin.im/post/6844903840026722311">搞机：AS自带模拟器AVD Root 和 Xposed安装</a></p>
+<p>旧系统可以安装 supersu + 旧版本 xposed。</p>
+<ol>
+<li><p>在 as 中查询 sdk 目录位置（一般在 <code>%localappdata%\Android\Sdk</code>），将其中的 <code>platform-tools</code> 和 <code>tools</code> 加入系统变量 path 中（一般来说，前者包含有 adb.exe，大多数人都已经加了。后者包含有 emulator.exe，大多数人没加但待会要用，如果不想加进去的话用这个命令的时候带上路径也可以；另外 emulator.exe 在 <code>%localappdata%\Android\Sdk\emulator</code> 下也有一份，有时候高版本安卓要用 emulator 目录的打开才行。可以先用 emulator 命令带上路径启动虚拟机看看）</p>
+</li>
+<li><p>查询要 root 的虚拟机名字</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">emulator -list-avds</span><br></pre></td></tr></table></figure>
+
+<p>以可读状态启动虚拟机（启动后这个终端窗口就别关了，后面的操作新建一个新终端窗口）</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">emulator -avd [刚刚查到的虚拟机名字] -writable-system</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>解除 selinux</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">adb root</span><br><span class="line">adb remount</span><br><span class="line">adb shell</span><br><span class="line"># 这里进入到虚拟机那边的 shell 中</span><br><span class="line">&gt; setenforce 0</span><br><span class="line">&gt; exit</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>替换 su。需要获取对应的 su.pie。获取方法有这么几个：</p>
+<ul>
+<li>文章里面有<a href="https://pan.baidu.com/s/1hRrPZhRxbHRtBkJxNxO1rQ">百度网盘</a>，提取码 cg08，网盘里面有个压缩包，解压待用。</li>
+<li>github 的某个项目 <a href="https://github.com/meefik/avd-root">meefik/avd-root</a>。同样是里面的压缩包，版本还比较新。值得一提的是这个其实是个 avd 一键 root 工具，但脚本适用于 shell，但应该是 linux 下使用的或者在虚拟机 sdcard 内展开然后用 adb shell 进去，总之我不太明白怎么用。。。</li>
+<li>编译。这个我有疑问，也挺麻烦，所以后面说。</li>
+</ul>
+<p>将其中的两个 su.pie 用 adb push 到相应位置。如果是通过前两个方法，解压后进入文件夹中运行终端，然后输入：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">adb push .\x86\su.pie &#x2F;system&#x2F;bin&#x2F;su</span><br><span class="line">adb push .\x86\su.pie &#x2F;system&#x2F;xbin&#x2F;su</span><br><span class="line">chmod 0755 &#x2F;system&#x2F;bin&#x2F;su</span><br><span class="line">chmod 0755 &#x2F;system&#x2F;xbin&#x2F;su</span><br><span class="line">su --install</span><br><span class="line">su --daemon&amp;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>再新建终端窗口。这次是装软件，要装 supersu 的管理器和 xposed 管理器。supersu 同样在上面前两个获取项目中有。如果你的模拟器用的是 5.0-8.0 版本，那上面的 xposed-framework 也能用。但这是旧系统，也就是 4.4，就需要用更低版本的，不好找，在这个帖子：<a href="https://forum.xda-developers.com/xposed/development/xposed-android-4-4-4-fixed-please-t3633573">Xposed for android 4.4.4 is NOT fixed, please compile 87v for sdk19</a> 里这里找到一个能用的：<a href="https://forum.xda-developers.com/attachment.php?attachmentid=4223376&d=1501026273">Xposed 2.7.1 by Sola Warez.apk</a>。另外 4.4 版本 avd 没有文件管理器，也得装一个；装一个钛备份测试 root 结果，等等等等。可使用 adb install 命令安装，以 supersu 和 xposed 为例：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">adb install .\SuperSU-v2.82-SR5.apk</span><br><span class="line">adb install .\Xposed_2.7.1_by_Sola_Warez.apk</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>此时打开钛备份就会弹出 root 提示了。注意打开 supersu 会提示你更新 su 文件，不要点击确认，不管它，点击 cancel 即可。</p>
+</li>
+<li><p>如果要重启就比较麻烦。文章建议用 <code>adb reboot</code> 但亲测无效。另外两个方法是使用 xposed 软重启和直接通过 gui 进行软重启。重启后可能还需要再运行一次 <code>su --daemon&amp;</code>。关闭的话，不要通过 gui 的电源关机，直接点右上角的 x 让 avd 保存快照就好了。但未来启动仍然需要通过 <code>emulator</code> 命令启动而不是通过 avd gui 直接启动。</p>
+</li>
+</ol>
+<h3 id="其他参考资料"><a href="#其他参考资料" class="headerlink" title="其他参考资料"></a>其他参考资料</h3><ul>
+<li><a href="https://stackoverflow.com/questions/5095234/how-to-get-root-access-on-android-emulator">How to get root access on Android emulator?</a> 这里似乎给出了固化 root 的方法。</li>
+<li><a href="https://github.com/0xFireball/root_avd">Rooting the Android Studio AVDs</a> 这是另一个教程，补充了重启后失效的内容。</li>
+<li>su.pie 编译方法获取：<a href="https://bbs.pediy.com/thread-226115.htm">[原创]学习Androidx86模拟器root安装xposed</a>。这同时也是另一个教程。不过看得我有些云里雾里：编译时应该用 supersu 项目的代码还是安卓源码？如果是安卓源码那就有点麻烦了。。。安卓源码非常大，需要谷歌的专门 cli 工具（基于 git 开发的）下载还要先下载一个 30g 的 base 包；然后再下载相应分支（系统版本）的代码。。。但看这篇教程，好像只编译了部分代码？但要获取部分代码也很麻烦：谷歌将不同组件分散在一大堆库中，你得找到相应的库才有对应的文件（当然，在网页端点开相应的库，没点错的话就会直接让你选择系统分支了）。而且貌似<a href="https://android.googlesource.com/platform/system/extras/+/refs/heads/kitkat-release/su/">对应源码目录的结构</a>还和教程中的结构不太一样（少一个 mk 文件），所以我倾向于编译 supersu 的源码。更多关于安卓源码下载的文章：<ul>
+<li><a href="https://github.com/foxleezh/AOSP/issues/1">如何下载Android源码 #1</a> 谷歌那一大堆库中比较重要的几个仓库</li>
+<li><a href="https://blog.csdn.net/xx326664162/article/details/86354616">Android 系统源码——下载到编译</a> 手把手源码下载教学</li>
+</ul>
+</li>
+<li>第三方 su 生效原理<ul>
+<li><a href="https://zhuanlan.zhihu.com/p/47661378">Android系统su命令源码分析</a></li>
+<li><a href="https://blog.csdn.net/oLevin/article/details/18796435">Android 获取ROOT权限原理解析</a></li>
+</ul>
+</li>
+<li>听说该方法不能用在 google play 版本系统中（待验证）</li>
+</ul>
+<h2 id="新系统（android-10）-magisk"><a href="#新系统（android-10）-magisk" class="headerlink" title="新系统（android 10）+ magisk"></a>新系统（android 10）+ magisk</h2><p>先给两篇参考文章，分别代表了两种思路：</p>
+<ul>
+<li><a href="https://github.com/shakalaca">shakalaca</a>/<strong><a href="https://github.com/shakalaca/MagiskOnEmulator">MagiskOnEmulator</a></strong></li>
+<li><a href="https://anthony-f-tannous.medium.com/android-10-emulation-of-magisk-supersu-on-an-aosp-avd-de93ed080fad">Android 10: Emulation of Magisk/SuperSU on an AOSP AVD</a></li>
+</ul>
+<p>建议使用第一种。第二种需要手工编译并下载 sdk，操作繁琐的多。唯一的好处就是不用放修改后的 ramdisk.img 到 sdk 镜像里面。</p>
+<h3 id="第一种方法"><a href="#第一种方法" class="headerlink" title="第一种方法"></a>第一种方法</h3><ol>
+<li><p>到第一篇参考文章中，将整个项目拖下来（git clone / 直接下载源码压缩包）。</p>
+</li>
+<li><p>查询虚拟机名字后（见上文），启动虚拟机。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">emulator -avd [刚刚查到的虚拟机名字]</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>找到 sdk 目录下的 <code>system-images</code> 文件夹，在你所启动的对应版本系统文件夹里面找到 <code>ramdisk.img</code> ，先在原地复制并粘贴（为了保留一份副本），再将该文件拷到项目文件夹中。</p>
+</li>
+<li><p>确认虚拟机和 adb 正常启动并运行的情况下，运行项目文件夹中的 <code>patch.bat</code>。</p>
+</li>
+<li><p>运行完毕后将项目文件夹中的 <code>ramdisk.img</code> 拷回 <code>system-images</code> 对应版本系统文件夹中覆盖，关闭虚拟机并进行冷启动即可。</p>
+</li>
+</ol>
+<h4 id="拓展"><a href="#拓展" class="headerlink" title="拓展"></a>拓展</h4><ul>
+<li><p>本方法是关键文件是项目文件夹里面的 <code>magisk_emu.zip</code>。这个 zip 其实和官网 release 下载到的不同版本 magisk zip recovery 安装包是一个性质的东西。不同的地方在于，存在于项目文件夹的这个文件是 debug 版本的，文件大小要比 release 版大一倍。</p>
+</li>
+<li><p>也正因如此，如果要升级 magisk / 使用 release 版本，替换这个 magisk 文件然后走一下 3~5 步即可。</p>
+</li>
+<li><p>不直接运行 <code>patch.bat</code>，而是在 powershell 中运行，能查看到运行日志。release 版的压缩包，运行起来会会多显示一句</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">run-as: package not debuggable: com.topjohnwu.magisk</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://i.imgur.com/IHo0bTR.png"></p>
+<p>也明显能感觉到 <code>patch.bat</code> 使用 release 包时比 canary 包慢。</p>
+</li>
+<li><p>阅读文档，patch.bat 还能跑一个 canary 的参数。其实只是改为在线获取而已。</p>
+</li>
+<li><p>使用 release 版本，附带的 magisk manager 有可能因为某些原因（版本过旧[^1]/网络太差[^2]）无法正常识别所安装的 magisk。覆盖安装最新版的 magisk manager 可解（在目前这个时间点，release 版本低于 v20.3 用的都是旧版 ui 客户端，基本都会报错；v20.4 虽然已经用了新版 ui 客户端但还是报错，只有 v21.0 不需要覆盖装 manager 本身就正常）。</p>
+</li>
+<li><p><strong>（软件兼容性问题）</strong> 非 google play rom 版本下钛备份无法正常使用，获取不到 root。原因是钛备份读取的是 <code>/system/xbin/su</code>，而用上面方法整出来的 magisk，生效文件在 <code>/sbin/su</code>。用 Root Checker Pro 就能发现问题，supersu 能够读取处 su 版本。</p>
+<p><img src="https://i.imgur.com/FS9wKgj.png"></p>
+<p>magisk 这里就会显示有问题。</p>
+<p><img src="https://i.imgur.com/hDnPPiO.png"></p>
+<p>实机 magisk 因为 <code>/system/xbin/su</code> 处没有文件，所以钛备份就才会读取 <code>/sbin/su</code>。那虚拟机这里怎么会有文件呢？原来这里的 <code>/system/xbin/su</code> 是给 adb 用的。。。</p>
+<p>解决方法，给一个硬连接。</p>
+<ol>
+<li><p>先用可读 system 和 selinux 宽松模式启动虚拟机</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">emulator -avd [刚刚查到的虚拟机名字] -writable-system -selinux permissive</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>remount adb 的 su</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">adb root</span><br><span class="line">adb remount</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>给上硬连接。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">ln -sf &#x2F;sbin&#x2F;su &#x2F;system&#x2F;xbin&#x2F;su</span><br></pre></td></tr></table></figure>
+
+<p>即可。重启不影响效果。和修改前的区别就是以后使用 <code>adb root</code> 时需要在系统内的 magisk 弹窗确认。</p>
+</li>
+</ol>
+</li>
+<li><p>（系统兼容性）经测试不存在该问题。是否 google play 版本不影响 magisk 生效。另外 google play 版本不需要解决软件兼容性问题，因为本身就不运行在 adb 内运行 root，也就不会有 <code>/system/xbin/su</code> 的存在。</p>
+</li>
+</ul>
+<h3 id="第二种方法"><a href="#第二种方法" class="headerlink" title="第二种方法"></a>第二种方法</h3><p>简单提一下，主要是编译坑多。编译步骤还可以看一下 <a href="https://github.com/topjohnwu/Magisk">magisk 项目</a> 底下说明，参考文章里面用的是最新版的编译方法，旧一点的版本（低于 v21.0） build.py 里面就没有 ndk 的编译选项。如果要编译旧版本，可以从 magisk 项目切换到旧版本的 tag 就能在底下看到旧版本的对应说明了。</p>
+<ol>
+<li><p>克隆项目。项目所在目录首选你系统的用户目录，其次是驱动器盘根目录（如果你的用户名是中文的话）。切记别放在路径有中文的目录中。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git clone --recurse-submodules https:&#x2F;&#x2F;github.com&#x2F;topjohnwu&#x2F;Magisk.git</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>安装 jdk8，python 3.6，设置好 path，另外旧版本 magisk 需要设置 <code>ANDROID_HOME</code> 这个用户变量；而新版本 magisk 需要设置 <code>ANDROID_SDK_ROOT</code> 这个用户变量。两个用户变量都是指向 sdk 目录的。</p>
+</li>
+<li><p>装个 colorma。或者删掉 colorma 在 build.py 中的依赖代码（显示个代码颜色，不用不会死）。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">pip install colorama</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>将文件 <code>config.prop.sample</code> 复制并改为 <code>config.prop</code>。修改内容，要修改的内容类似于下面这两串代码。（其实是成功安装后在 magisk manager 里面显示出来的版本号，都自己编译了，别按下面模板改，该非亿点就非一点）</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># The version name and version code of Magisk</span><br><span class="line">version&#x3D;20.4</span><br><span class="line">versionCode&#x3D;20400</span><br><span class="line">​</span><br><span class="line"># The version name and version code of Magisk Manager</span><br><span class="line">appVersion&#x3D;7.5.1</span><br><span class="line">appVersionCode&#x3D;267</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>开始编译</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">python build.py ndk</span><br><span class="line">python build.py all</span><br></pre></td></tr></table></figure>
+
+<p>可能会有很多报错坑，类似下 ndk 压缩包的时候网络慢报错（挂代理）；</p>
+<p>类似编译 ndk 的时候出现</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#39;gbk&#39; codec can&#39;t decode byte 0x8b in position 79: illegal multibyte...</span><br></pre></td></tr></table></figure>
+
+<p>这个需要修改 build.py 的相关位置，类似于</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">125     with open(file, &#39;r&#39;) as f:</span><br></pre></td></tr></table></figure>
+
+<p>改成</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">125     with open(file, &#39;r&#39;,encoding&#x3D;&#39;utf-8&#39;) as f:</span><br></pre></td></tr></table></figure>
+
+<p>（话说回来这个错误在我把项目放在 c 盘根就出现了，放在用户目录就不会出现）</p>
+<p>还有编译 all 的时候出现</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">windows javax.net.ssl.SSLException</span><br></pre></td></tr></table></figure>
+
+<p>这个得挂代理。</p>
+<p>等等等。</p>
+</li>
+<li><p>一顿操作</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">adb root</span><br><span class="line">adb push native\out\x86\busybox scripts\emulator.sh &#x2F;data&#x2F;local&#x2F;tmp</span><br><span class="line">adb push native\out\x86\magiskinit64 &#x2F;data&#x2F;local&#x2F;tmp&#x2F;magiskinit</span><br><span class="line">adb shell &quot;mkdir -p &#x2F;data&#x2F;adb&#x2F;magisk&quot;</span><br><span class="line">adb shell &quot;cp &#x2F;data&#x2F;local&#x2F;tmp&#x2F;busybox &#x2F;data&#x2F;adb&#x2F;magisk&#x2F;&quot;</span><br><span class="line">adb push scripts\util_functions.sh &#x2F;data&#x2F;adb&#x2F;magisk&#x2F;</span><br><span class="line"></span><br><span class="line">adb shell sh &#x2F;data&#x2F;local&#x2F;tmp&#x2F;emulator.sh</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>验证一下</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">adb shell &quot;ps -ef | grep -i magisk&quot;</span><br></pre></td></tr></table></figure>
+
+<p>出现</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">root  ..... 00:00:00 magiskd</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>然后装 magisk manager 就行了。</p>
+</li>
+</ol>
+<h4 id="拓展-1"><a href="#拓展-1" class="headerlink" title="拓展"></a>拓展</h4><ul>
+<li>这个方法也会生成一个 zip 文件，也是个典型的 magisk.zip 文件。但这个 magisk-debug.zip 放到方法 1 里面用，用 Root Checker Pro 检查，su 参数正确但 root 确认框一闪而过，没法正常使用。。。</li>
+<li>这个方法同样有钛备份的兼容问题，解决方法同上。</li>
+</ul>
+<hr>
+<p>[^1]: 让模拟器 magisk 正常运行的 emulator.sh 放出时间不早于 v20.0。<br>[^2]:  让 magisk 网络功能在大陆能够比较畅快使用 cdn 功能的客户端大概版本也不低于 8.0。</p>
+]]></content>
+      <categories>
+        <category>Android</category>
+      </categories>
+      <tags>
+        <tag>magisk</tag>
+        <tag>xposed</tag>
+        <tag>simulator</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>xbox 跨区羊毛（神界原罪 2）小计</title>
+    <url>/xbox-kua-qu-yang-mao-shen-jie-yuan-zui-2-xiao-ji/</url>
     <content><![CDATA[<p>这都能被我薅到。。。</p>
 <p>前情提要：</p>
 <p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/j8Upwjz.jpg"></p>
@@ -2130,6 +2324,8 @@
       <tags>
         <tag>ubuntu</tag>
         <tag>debian</tag>
+        <tag>wireguard</tag>
+        <tag>vscode</tag>
       </tags>
   </entry>
   <entry>
@@ -2467,6 +2663,31 @@
       <tags>
         <tag>powershell</tag>
         <tag>zsh</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>各类 gapps</title>
+    <url>/ge-lei-gapps/</url>
+    <content><![CDATA[<p>研究了三种 opengapps：普通的 opengapps，通过 magisk刷入的 magic gapps 和 nanomod</p>
+<p>**先刷了 magic gapps **，刷入占用了许多 data 空间（但不占用 system 分区空间，system 不够的福音），但是好处是如果想要卸载 gapps 在 magisk 那里取消勾选就可以了，but。。。刷入后谷歌服务就在不停的弹出停止服务，谷歌商店也进不去，也是谷歌服务停止，safetynet 根本通不过，而且连 token 都拿不到，证明根本就没有用吧。。。用一加社区和 appops 设置都没有改善，证明是兼容性问题，看来这个模块还是有待完善。</p>
+<p><strong>（18.10.1 更新）</strong> 原来是跟 magisk hide 冲突了，关闭就不会 fc 了。</p>
+<p>（<strong>20.8.26 更新</strong>） 本模块停更，没有 magisk v20 以上可用版本了。旧版本 magisk 会闪退+升级新版后回退再次刷入此模块时会像原版 opengapps 一样提示空间不足，即模块挂载功能失效）</p>
+<p><strong>然后是普通的 opengapps</strong> ，刷入后占用 data+system 空间，而且比 magic gapps还要大 <del>（我记得 opengapps 好像 systemless 化了，以前放在 system 里面那有那么大占用，不过 system 空间不够确实也不用刷了</del>），而且估计很难卸载掉，but 好处还是很明显的，这是目前实验里面<strong>最正常</strong>的谷歌包，刷入后登陆下载都没问题，装上 magisk  universal-safetynet-fix 后连 safety 都能过了，之后实验了一下，可能是 rom 本身自带了root，所以光是安装 magisk 是过不了的，另外就算是安装了 fix 模块，只要安装了 xposed 也过不了（无论是不是 systemless），当然我只实验了 systemless 模块，装了 xp 要过也很简单，就是去除勾选 magisk 里面 xp 重启就行了（不用删除）</p>
+<p><strong>最后是号称黑科技的 nanomod</strong>，然而一开始我用 6.0 的时候根本刷不进去。。。无论是通过 recovery 还是 magisk 内解包（怀疑空间不足），然而都不行，最后刷完 7.1.2 空间够大后才刷入，刷入后发现喵了个咪啊。。。按了一堆无关紧要的软件，不过开源而且占用极小，多半是 full 版的魔改精简。。。商店一开始可以登陆账号但是上不去，后面发现什么权限都没给，给了权限能上了，但是还没试下载，而safetynet显示没联网。。。不过值得一提的是，里面的谷歌框架叫做microG，设置很精简，而且里面有一项提到可以强制通过 safetynet，但是是灰的，看来有潜力但是我不会用&amp;还没开发完全。后面我卸载玩多余应用的时候才发现你妹啊！原来图库和短信都被替换了。。。最后还得上酷安下了两个第三方用。。。下次我试试看找找精简版（只有 microG）和商店的试试看。<del>而且还有一点，里面的 tor 我很感兴趣，据各种野鸡渠道说是上「暗网」的东西（逃</del></p>
+<p><strong>(19.8.4 更新）</strong>后面了解了一下，nanomod（现在已经叫 nanodroid 了），实际上是 microG + foss + 签名欺骗这一套东西，有关 gapps 的实际上只有 microG（参考文章：<a href="https://blog.yoitsu.moe/tech_misc/android_without_google_0.html">离开 Google 的 Android 之路</a>），但 microG 要求系统支持签名欺骗，要不就使用支持签名欺骗的 rom 或修改 service.jar，要么就使用 xposed（参考文章：<a href="https://blackyau.cc/4">MicroG安装与配置</a>，已在 u 盘存档），要么就 nanodroid，上次 safetynet 检测不过的原因也许是我少刷一个签名欺骗模块。。。（不过令我感到奇怪的是，目前如日中天的 magisk 居然都没有能够办成签名欺骗的模块）</p>
+<p><strong>（19.9.1 更新）</strong>用了安卓 p 专用的 weebgapps。其实体验不算太好，到 20.8.26 为止再看仍仅支持 9.0 以上。</p>
+<blockquote>
+<p>另外我还试着刷入了 weebgapps（就是 p 专用的那一个 gapps），效果，嗯。。差强人意，备份还原没反应，光是登录的时候就搞了半天，后来我才发现是权限没开。。。cts 一开始过不去，装上 magisk 模块以后过去了。不过后面再试了两次，反正延迟这个事情肯定存在（就算开了权限），登录按钮点下去装死起码半个钟。。。而且很多功能也装死，magisk 版特别严重。</p>
+</blockquote>
+<p>但是和上面的诸位一比，起码还是谷歌专用商店，能通过方法过 cts，框架也很精简，结论就是，还行吧（唯一一点不方便，权限都要手动开）。。。</p>
+<p><strong>（19.9.17）</strong>还有另一种叫 bitgapps 的，7.0-9.0 都能用，使用方法和 weebgapps 一样（不过没有 magisk 版，但 magisk 版那么烂不要也罢） ，暂时没看出有什么区别，唯一的区别就是这个品种更新比较慢。</p>
+]]></content>
+      <categories>
+        <category>Android</category>
+      </categories>
+      <tags>
+        <tag>magisk</tag>
+        <tag>google框架</tag>
       </tags>
   </entry>
 </search>
