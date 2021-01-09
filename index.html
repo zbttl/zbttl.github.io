@@ -195,20 +195,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">18</span>
+          <span class="site-state-item-count">21</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-count">10</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">32</span>
+        <span class="site-state-item-count">37</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -248,6 +248,413 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://zbttl.github.io/zong-jie-yi-xia-wan-mei-ban-zi-dong-xia-zai-b-zhan-shou-cang-shi-pin-left-s-blog-yu-dao-de-keng/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="zbttl">
+      <meta itemprop="description" content="玩点好玩的">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Bao's 备忘录">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/zong-jie-yi-xia-wan-mei-ban-zi-dong-xia-zai-b-zhan-shou-cang-shi-pin-left-s-blog-yu-dao-de-keng/" class="post-title-link" itemprop="url">总结一下【完美版】自动下载 B 站收藏视频 – Left's blog遇到的坑</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2021-01-08 00:00:00 / 修改时间：19:31:04" itemprop="dateCreated datePublished" datetime="2021-01-08T00:00:00+08:00">2021-01-08</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Downloadtools/" itemprop="url" rel="index"><span itemprop="name">Downloadtools</span></a>
+        </span>
+    </span>
+
+  
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>1.3k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>1 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>原教程： <a target="_blank" rel="external nofollow noopener noreferrer" href="https://left.pink/archives/3073">【完美版】自动下载 B 站收藏视频 – Left’s blog</a></p>
+<p>虽然 Left 人家的实现方法是脚本，有点非典型吧（我用的东西大多是写成二进制或者 docker），不过既然能成功实现功能那就是好东西。不过脚本的固有问题，就是坑多。目前也没找到更好的工具替代，所以排了坑继续用吧。</p>
+<ol>
+<li><p>记得安装 mailutils、rclone。</p>
+</li>
+<li><p>记得几个工具给齐权限（特别是那个 danmaku2ass.py）</p>
+</li>
+<li><p>rsshub 建议自建。rsshub 公用接口有可能获取不到自己的收藏夹。</p>
+</li>
+<li><p>目前一共三个 bug。</p>
+<ol>
+<li><p>评论底下说的</p>
+<blockquote>
+<p>第三十行提示 “syntax error: unexpected end of file”</p>
+</blockquote>
+<p>其实是这句：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">if [ $pubdate !&#x3D; $olddate ];</span><br></pre></td></tr></table></figure>
+
+<p>得改成</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">if [ &quot;$pubdate&quot; !&#x3D; &quot;$olddate&quot; ];</span><br></pre></td></tr></table></figure>
+
+<p>我一开始还以为变量是指脚本路径和视频储存路径（</p>
+</li>
+<li><p>you-get 报错。可能要加 <code>-k</code> 参数。具体是第一个脚本的 41 行：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">stat&#x3D;$($you -i -c &#x2F;home&#x2F;zbttl&#x2F;run&#x2F;cookies.txt $link)</span><br></pre></td></tr></table></figure>
+
+<p>改成</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">stat&#x3D;$($you -i -k -c &#x2F;home&#x2F;zbttl&#x2F;run&#x2F;cookies.txt $link)</span><br></pre></td></tr></table></figure>
+
+<p><code>-k</code> 参数具体作用是忽视证书错误。我踩坑的原因是我的 openssl 是自己编译的。。。没把本地证书链接进去。不止 you-get 报错，wget 也报错。不排除其他原因（网络故障和你懂得），gayhub 上就有一样的 issue <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/zhangn1985/ykdl/issues/452">b 站解析经常性 403 错误 you-get 没问题・Issue #452・zhangn1985/ykdl</a>。</p>
+</li>
+<li><p>需要替换的地方，包括脚本位置，储存位置，cookies 位置，danmaku2ass.py，rclone 参数，发送到的邮箱。特别是邮箱参数有两个，我一开始只替换了一个，我说怎么只收到一个，大 e 了。</p>
+</li>
+<li><p><strong>(已反馈，作者已修复）</strong>第二个脚本转换弹幕的那一句</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;usr&#x2F;bin&#x2F;python3 &#x2F;root&#x2F;bili&#x2F;danmaku2ass.py &#x2F;var&#x2F;www&#x2F;webdav&#x2F;Bilibili&#x2F;&quot;$title&quot;&#x2F;&quot;$fullfilen&quot;</span><br></pre></td></tr></table></figure>
+
+<p>我搜了一下，没找到 <code>fullfilen</code> 这个变量。</p>
+<p>得改成</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;usr&#x2F;bin&#x2F;python3 &#x2F;root&#x2F;bili&#x2F;&#x2F;danmaku2ass.py &quot;$filename&quot;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+</li>
+<li><p>脚本只能下载运行时放在收藏夹最顶上的视频。所以运行前放在收藏夹最顶上的视频和运行后收藏的视频都能抓到。但不能下载之前收藏的视频，还有收藏了一个视频后必须等他处理完再收藏其他视频，手速太快就只会下载其中一个视频哦。</p>
+</li>
+<li><p>还有就是，you-get 最近还不一定能方便的获取到最高画质了，打个比方，这是正常的</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210108055751.png"></p>
+<p>但这个。。。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210108192531.png"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/Eee8fypU4AAOFjh.jpg"></p>
+</li>
+</ol>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/zong-jie-yi-xia-wan-mei-ban-zi-dong-xia-zai-b-zhan-shou-cang-shi-pin-left-s-blog-yu-dao-de-keng/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://zbttl.github.io/vscode-diao-shi-bash-shell-jiao-ben/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="zbttl">
+      <meta itemprop="description" content="玩点好玩的">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Bao's 备忘录">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/vscode-diao-shi-bash-shell-jiao-ben/" class="post-title-link" itemprop="url">vscode 调试 bash shell 脚本</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-01-07 00:00:00" itemprop="dateCreated datePublished" datetime="2021-01-07T00:00:00+08:00">2021-01-07</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-01-08 05:44:02" itemprop="dateModified" datetime="2021-01-08T05:44:02+08:00">2021-01-08</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
+        </span>
+    </span>
+
+  
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>429</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>1 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>昨天说到日志的事，光知道报错也不行，得知道错哪里。所以我试着在 ubuntu 上用 vscode 调试 bash 脚本。</p>
+<p>参考文章：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://liushiming.cn/article/debug-bash-on-macos.html">使用 vscode 调试 bash 脚本</a></p>
+<ol>
+<li><p>打开 vscode，去拓展商店装一个 bash debug。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210108020551.png"></p>
+</li>
+<li><p>将需要调试的脚本放到一个单独的文件夹中，使用文件-&gt;打开文件夹打开带脚本的那个文件夹。</p>
+</li>
+<li><p>在侧边栏选中那个一个虫子加一个播放键那个图标，点击右边的创建 <code>launch.json</code> 按钮</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210108021032.png"></p>
+</li>
+<li><p>找到左侧顶栏播放键旁的下拉菜单，选添加配置</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210108023523.png"></p>
+<p>建议添加 select script from list of sh files 这个（即运行后提示用户选择要调试的脚本）</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210108023750.png"></p>
+</li>
+<li><p>使用下拉菜单选中刚刚我们添加的 select script from list of sh files，点击播放键运行。</p>
+</li>
+<li><p>bash 调试时并不会自动显示已修改变量的值，需要我们自己添加。在左半部分监视窗口中按加号添加表达式，以</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$&#123;变量名&#125;</span><br></pre></td></tr></table></figure>
+
+<p>格式来添加，要确认哪个就添加哪个。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210108024834.png"></p>
+</li>
+</ol>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/vscode-diao-shi-bash-shell-jiao-ben/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://zbttl.github.io/mailutils-cha-kan-ri-zhi-fa-song-you-jian/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="zbttl">
+      <meta itemprop="description" content="玩点好玩的">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Bao's 备忘录">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/mailutils-cha-kan-ri-zhi-fa-song-you-jian/" class="post-title-link" itemprop="url">mailutils 查看日志/发送邮件</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-01-06 00:00:00" itemprop="dateCreated datePublished" datetime="2021-01-06T00:00:00+08:00">2021-01-06</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-01-08 02:46:18" itemprop="dateModified" datetime="2021-01-08T02:46:18+08:00">2021-01-08</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
+        </span>
+    </span>
+
+  
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>895</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>1 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>之前写 crontab 提过一个简单的 postfix。后来玩大佬的<a target="_blank" rel="external nofollow noopener noreferrer" href="https://left.pink/archives/3073">【完美版】自动下载 B 站收藏视频 – Left’s blog</a> 时，没调试好脚本一下子弹一堆错，脚本发的错误又不走 linux 的日志而是发去邮件，光靠简单的 postfix 就不好一条条查看了。得用更高一级的 mailutils。另外脚本本身还有发送邮件提示上传完毕的功能，也得通过 mailutils。</p>
+<p>参考文章：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://unix.stackexchange.com/questions/26790/what-is-mail-and-how-is-it-navigated">linux - What is “mail”, and how is it navigated? - Unix &amp; Linux Stack Exchange</a></p>
+<ol>
+<li><p>安装</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install mailutils -y</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用</p>
+<p>通过命令 <code>mail</code> 进入邮箱。此时可以看到底下有个问号，那个地方就会显示你的输入的操作符。这个软件所有的操作逻辑都是操作符 + 回车，不输入操作符直接敲回车，软件就会依照所处位置进行对应的操作。为啥强调这个？因为这就是这个软件难用的地方。。。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/Xshell_aEyufayMNT.png"></p>
+</li>
+<li><p>看到邮箱列表，最左边有个小箭头，表示选中的邮件。可以直接用回车进入被选中的邮件。但基于操作逻辑，你不能用上下方向键调整箭头指向的邮件。。。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210107223732.png"></p>
+</li>
+<li><p>在相关邮件查看处，按下回车看邮件剩余的部分；如果邮件已结束，则会跳到下一封。也可以按输入 <code>n</code> + 回车直接跳到下一封。</p>
+</li>
+<li><p>要重新显示邮件列表，可以使用 <code>z</code> + 回车，显示未读邮件；邮件列表太多的话，只会显示一部分，可以用 <code>z+</code> 或 <code>z-</code> + 回车，上下翻页；或者用 <code>f*</code> 显示所有邮件。</p>
+</li>
+<li><p>要指定进入某一个邮件，可以直接输入数字 + 回车；要删除所有邮件，输入 <code>d*</code> + 回车。</p>
+</li>
+<li><p>剩下的可以通过输入 <code>help</code> + 回车进入命令界面（虽然我感觉大多数人都看不懂，因为我没发现详细说明在哪）。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210108012406.png"></p>
+</li>
+<li><p>按下 <code>q</code> + 回车后退或直接退出。</p>
+</li>
+<li><p>发送邮件。使用命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mail -s &quot;[邮件内容]&quot; -r &quot;[发送人]&quot; [接收方邮箱]</span><br></pre></td></tr></table></figure>
+
+<p>发送人最后在接收方会显示为 <code>root&lt;[发送人]@localhost.localdomain&gt;</code></p>
+<p>另外发送邮件的机器可能还要做域名解析之类的（不是很清楚，我用虚拟机 ubuntu 发不出去，在 vps 的 ubuntu 发送就没问题，一般那个脚本应该都在 vps 上用的吧，所以我就没认真探究）。</p>
+</li>
+</ol>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/mailutils-cha-kan-ri-zhi-fa-song-you-jian/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -981,325 +1388,8 @@
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://zbttl.github.io/windows-dlna/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="zbttl">
-      <meta itemprop="description" content="玩点好玩的">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Bao's 备忘录">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/windows-dlna/" class="post-title-link" itemprop="url">Windows DLNA</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2020-12-06 23:58:32" itemprop="dateCreated datePublished" datetime="2020-12-06T23:58:32+08:00">2020-12-06</time>
-    </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2020-12-19 22:07:58" itemprop="dateModified" datetime="2020-12-19T22:07:58+08:00">2020-12-19</time>
-      </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E5%BD%B1%E9%9F%B3/" itemprop="url" rel="index"><span itemprop="name">影音</span></a>
-        </span>
-    </span>
-
-  
-      </div>
-      <div class="post-meta">
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>655</span>
-    </span>
-    <span class="post-meta-item" title="阅读时长">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>1 分钟</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>参考文章：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://jingyan.baidu.com/article/148a19214c4f770d70c3b14b.html">win10 电脑开启 DLNA 投屏（支持 rmvb/flv 全格式）</a></p>
-<p>之前以为 dlna 很难用。。。其实电脑和电视在同一个 wifi 下，通过某种手段把文件投过去就行了。</p>
-<p>参考文章说的挺详细了，一般的 mp4 格式其实右键就可以投屏。但主要是 flv 和浏览器这种东西就没法投。除了装 kodi 之类的软件外，还有一种方法就是改造 windows media player。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/windows-dlna/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://zbttl.github.io/wan-yi-xia-imagemagick/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="zbttl">
-      <meta itemprop="description" content="玩点好玩的">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Bao's 备忘录">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/wan-yi-xia-imagemagick/" class="post-title-link" itemprop="url">玩一下 imagemagick</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2020-12-04 23:58:32" itemprop="dateCreated datePublished" datetime="2020-12-04T23:58:32+08:00">2020-12-04</time>
-    </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2020-12-23 07:25:33" itemprop="dateModified" datetime="2020-12-23T07:25:33+08:00">2020-12-23</time>
-      </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E5%BD%B1%E9%9F%B3/" itemprop="url" rel="index"><span itemprop="name">影音</span></a>
-        </span>
-    </span>
-
-  
-      </div>
-      <div class="post-meta">
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>13k</span>
-    </span>
-    <span class="post-meta-item" title="阅读时长">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>12 分钟</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>imagemagick，在我这里大概有两大类用途：</p>
-<ol>
-<li>没有 ps，下个 ps 贼大，怎么办？命令行修图吧。。。</li>
-<li>gif 加速（配合 ffmpeg）</li>
-</ol>
-<p>不过这玩意那是相当复杂。。。以下是一些入门教程：</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/wan-yi-xia-imagemagick/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://zbttl.github.io/lu-you-qi-pao-fen-shua-ji/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="zbttl">
-      <meta itemprop="description" content="玩点好玩的">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Bao's 备忘录">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/lu-you-qi-pao-fen-shua-ji/" class="post-title-link" itemprop="url">路由器跑分 && 刷机</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2020-12-02 00:00:00" itemprop="dateCreated datePublished" datetime="2020-12-02T00:00:00+08:00">2020-12-02</time>
-    </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2021-01-04 03:58:47" itemprop="dateModified" datetime="2021-01-04T03:58:47+08:00">2021-01-04</time>
-      </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E8%B7%AF%E7%94%B1%E5%99%A8/" itemprop="url" rel="index"><span itemprop="name">路由器</span></a>
-        </span>
-    </span>
-
-  
-      </div>
-      <div class="post-meta">
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>6.6k</span>
-    </span>
-    <span class="post-meta-item" title="阅读时长">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>6 分钟</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>本来是为了对比一下旧路由（小新 new wifi mini，padavan）和极路由 2 （官方系统）和华硕 ac86u （官方系统）的性能。顺便物尽其用，给 newifi mini 刷个 openwrt。</p>
-<h2 id="跑分工具"><a href="#跑分工具" class="headerlink" title="跑分工具"></a>跑分工具</h2><h3 id="linux-内置浮点分数显示"><a href="#linux-内置浮点分数显示" class="headerlink" title="linux 内置浮点分数显示"></a>linux 内置浮点分数显示</h3>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/lu-you-qi-pao-fen-shua-ji/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -1345,14 +1435,14 @@
       <i class="fa fa-chart-line"></i>
     </span>
       <span>站点总字数：</span>
-    <span title="站点总字数">110k</span>
+    <span title="站点总字数">112k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">1:40</span>
+    <span title="站点阅读时长">1:42</span>
   </span>
 </div>
 <div class="busuanzi-count">

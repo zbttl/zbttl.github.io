@@ -9,6 +9,27 @@
   </url>
   
   <url>
+    <loc>https://zbttl.github.io/zong-jie-yi-xia-wan-mei-ban-zi-dong-xia-zai-b-zhan-shou-cang-shi-pin-left-s-blog-yu-dao-de-keng/</loc>
+    
+    <lastmod>2021-01-08</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://zbttl.github.io/vscode-diao-shi-bash-shell-jiao-ben/</loc>
+    
+    <lastmod>2021-01-07</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://zbttl.github.io/mailutils-cha-kan-ri-zhi-fa-song-you-jian/</loc>
+    
+    <lastmod>2021-01-07</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://zbttl.github.io/tu-cao-crontab/</loc>
     
     <lastmod>2021-01-07</lastmod>
@@ -381,6 +402,41 @@
     <priority>0.6</priority>
   </url>
   
+  <url>
+    <loc>https://zbttl.github.io/tags/mailutils/</loc>
+    <lastmod>2021-01-09</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://zbttl.github.io/tags/bilibili/</loc>
+    <lastmod>2021-01-09</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://zbttl.github.io/tags/linux/</loc>
+    <lastmod>2021-01-09</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://zbttl.github.io/tags/shell/</loc>
+    <lastmod>2021-01-09</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://zbttl.github.io/tags/bash/</loc>
+    <lastmod>2021-01-09</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
 
   
   <url>
@@ -441,6 +497,13 @@
   
   <url>
     <loc>https://zbttl.github.io/categories/Linux/</loc>
+    <lastmod>2021-01-09</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://zbttl.github.io/categories/Downloadtools/</loc>
     <lastmod>2021-01-09</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
