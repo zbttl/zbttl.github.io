@@ -23,12 +23,12 @@
     var NexT = window.NexT || {};
     var CONFIG = {"hostname":"zbttl.github.io","root":"/","images":"/images","scheme":"Muse","version":"8.1.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}};
   </script>
-<meta name="description" content="我一直以为 powershell 没啥好玩的。。。不过最近了解了一下，比 cmd 强很多，特别是 cmd 没有历史记录这点差评，另外还有包管理器什么的，感觉发现了新世界~ 参考文章：  告别 Windows 终端的难看难用，从改造 PowerShell 的外观开始">
+<meta name="description" content="powershell 全攻略我一直以为 powershell 没啥好玩的。。。不过最近了解了一下，比 cmd 强很多，特别是 cmd 没有历史记录这点差评，另外还有包管理器什么的，感觉发现了新世界~ 参考文章：">
 <meta property="og:type" content="article">
 <meta property="og:title" content="powershell 全攻略">
 <meta property="og:url" content="https://zbttl.github.io/powershell-quan-gong-lue/index.html">
 <meta property="og:site_name" content="Bao&#39;s 备忘录">
-<meta property="og:description" content="我一直以为 powershell 没啥好玩的。。。不过最近了解了一下，比 cmd 强很多，特别是 cmd 没有历史记录这点差评，另外还有包管理器什么的，感觉发现了新世界~ 参考文章：  告别 Windows 终端的难看难用，从改造 PowerShell 的外观开始">
+<meta property="og:description" content="powershell 全攻略我一直以为 powershell 没啥好玩的。。。不过最近了解了一下，比 cmd 强很多，特别是 cmd 没有历史记录这点差评，另外还有包管理器什么的，感觉发现了新世界~ 参考文章：">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@master/img/iiHvIIn.png">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/3lMO1jJ.png">
@@ -37,7 +37,7 @@
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/3znd7v3.png">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/So5ntqV.png">
 <meta property="article:published_time" content="2019-09-18T16:00:00.000Z">
-<meta property="article:modified_time" content="2021-01-04T10:51:05.000Z">
+<meta property="article:modified_time" content="2021-01-08T18:16:24.000Z">
 <meta property="article:author" content="zbttl">
 <meta property="article:tag" content="powershell">
 <meta property="article:tag" content="zsh">
@@ -193,7 +193,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <section class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85%E5%8C%85%E7%AE%A1%E7%90%86%E5%99%A8-chocolatey"><span class="nav-number">1.</span> <span class="nav-text">安装包管理器 chocolatey</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BE%AE%E8%BD%AF%E9%BB%98%E8%AE%A4-powershell-%E7%BE%8E%E5%8C%96"><span class="nav-number">2.</span> <span class="nav-text">微软默认 powershell 美化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%95%8C%E9%9D%A2%E9%A2%9C%E8%89%B2%E7%BE%8E%E5%8C%96"><span class="nav-number">2.1.</span> <span class="nav-text">界面颜色美化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%AE%E6%94%B9%E5%AD%97%E4%BD%93"><span class="nav-number">2.2.</span> <span class="nav-text">修改字体</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85-oh-my-posh-%E5%92%8C%E4%B8%80%E4%BA%9B%E5%85%B6%E4%BB%96%E7%9A%84%E4%B8%9C%E8%A5%BF"><span class="nav-number">3.</span> <span class="nav-text">安装 oh-my-posh 和一些其他的东西</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%88%E7%BB%99%E5%87%BA%E4%B8%80%E4%BA%9B-powershell-%E4%B8%8A%E4%B8%80%E4%BA%9B%E5%B8%B8%E7%94%A8%E7%9A%84%E6%93%8D%E4%BD%9C"><span class="nav-number">3.1.</span> <span class="nav-text">先给出一些 powershell 上一些常用的操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BB%E8%A6%81%E5%AE%89%E8%A3%85%E6%AD%A5%E9%AA%A4"><span class="nav-number">3.2.</span> <span class="nav-text">主要安装步骤</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A1%A5%E5%85%85%E6%B3%A8%E6%84%8F"><span class="nav-number">3.3.</span> <span class="nav-text">补充注意</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#powerline-%E8%A1%A5%E4%B8%81"><span class="nav-number">4.</span> <span class="nav-text">powerline 补丁</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B7%B2%E7%9F%A5%E9%97%AE%E9%A2%98%E5%85%B3%E4%BA%8E%E6%AF%8F%E8%A1%8C%E3%80%8C%E3%80%89%E3%80%8D%E7%AC%A6%E5%8F%B7%E4%B9%B1%E7%A0%81%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95"><span class="nav-number">4.1.</span> <span class="nav-text">已知问题关于每行「〉」符号乱码的解决方法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B6%E4%BB%96%E9%BB%91%E7%A7%91%E6%8A%80"><span class="nav-number">5.</span> <span class="nav-text">其他黑科技</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BD%A9%E8%89%B2%E6%A0%87%E8%AE%B0%E6%96%87%E4%BB%B6"><span class="nav-number">5.1.</span> <span class="nav-text">彩色标记文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%98%BE%E7%A4%BA%E5%85%A8%E9%83%A8%E5%8E%86%E5%8F%B2%E8%AE%B0%E5%BD%95"><span class="nav-number">5.2.</span> <span class="nav-text">显示全部历史记录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%AF%E5%8A%A8%E6%97%B6%E6%98%BE%E7%A4%BA%E6%9C%BA%E5%99%A8%E4%BF%A1%E6%81%AF"><span class="nav-number">5.3.</span> <span class="nav-text">启动时显示机器信息</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#screenfetch"><span class="nav-number">5.3.1.</span> <span class="nav-text">screenfetch</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#winfetch"><span class="nav-number">5.3.2.</span> <span class="nav-text">winfetch</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EF%BC%8820-6-26-%E6%9B%B4%E6%96%B0%EF%BC%89proxychains-powershell-%E7%89%88"><span class="nav-number">5.4.</span> <span class="nav-text">（20.6.26 更新）proxychains powershell 版</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EF%BC%8820-6-26-%E6%9B%B4%E6%96%B0%EF%BC%89curl-%E4%B8%AD%E6%96%87%E9%97%AE%E9%A2%98%EF%BC%88%E4%B8%8D%E5%AE%8C%E7%BE%8E%E8%A7%A3%E5%86%B3%EF%BC%89"><span class="nav-number">5.5.</span> <span class="nav-text">（20.6.26 更新）curl 中文问题（不完美解决）</span></a></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#powershell-%E5%85%A8%E6%94%BB%E7%95%A5"><span class="nav-number">1.</span> <span class="nav-text">powershell 全攻略</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85%E5%8C%85%E7%AE%A1%E7%90%86%E5%99%A8-chocolatey"><span class="nav-number">1.1.</span> <span class="nav-text">安装包管理器 chocolatey</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BE%AE%E8%BD%AF%E9%BB%98%E8%AE%A4-powershell-%E7%BE%8E%E5%8C%96"><span class="nav-number">1.2.</span> <span class="nav-text">微软默认 powershell 美化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%95%8C%E9%9D%A2%E9%A2%9C%E8%89%B2%E7%BE%8E%E5%8C%96"><span class="nav-number">1.2.1.</span> <span class="nav-text">界面颜色美化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%AE%E6%94%B9%E5%AD%97%E4%BD%93"><span class="nav-number">1.2.2.</span> <span class="nav-text">修改字体</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85-oh-my-posh-%E5%92%8C%E4%B8%80%E4%BA%9B%E5%85%B6%E4%BB%96%E7%9A%84%E4%B8%9C%E8%A5%BF"><span class="nav-number">1.3.</span> <span class="nav-text">安装 oh-my-posh 和一些其他的东西</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%88%E7%BB%99%E5%87%BA%E4%B8%80%E4%BA%9B-powershell-%E4%B8%8A%E4%B8%80%E4%BA%9B%E5%B8%B8%E7%94%A8%E7%9A%84%E6%93%8D%E4%BD%9C"><span class="nav-number">1.3.1.</span> <span class="nav-text">先给出一些 powershell 上一些常用的操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BB%E8%A6%81%E5%AE%89%E8%A3%85%E6%AD%A5%E9%AA%A4"><span class="nav-number">1.3.2.</span> <span class="nav-text">主要安装步骤</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A1%A5%E5%85%85%E6%B3%A8%E6%84%8F"><span class="nav-number">1.3.3.</span> <span class="nav-text">补充注意</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#powerline-%E8%A1%A5%E4%B8%81"><span class="nav-number">1.4.</span> <span class="nav-text">powerline 补丁</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B7%B2%E7%9F%A5%E9%97%AE%E9%A2%98%E5%85%B3%E4%BA%8E%E6%AF%8F%E8%A1%8C%E3%80%8C%E3%80%89%E3%80%8D%E7%AC%A6%E5%8F%B7%E4%B9%B1%E7%A0%81%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95"><span class="nav-number">1.4.1.</span> <span class="nav-text">已知问题关于每行「〉」符号乱码的解决方法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B6%E4%BB%96%E9%BB%91%E7%A7%91%E6%8A%80"><span class="nav-number">1.5.</span> <span class="nav-text">其他黑科技</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BD%A9%E8%89%B2%E6%A0%87%E8%AE%B0%E6%96%87%E4%BB%B6"><span class="nav-number">1.5.1.</span> <span class="nav-text">彩色标记文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%98%BE%E7%A4%BA%E5%85%A8%E9%83%A8%E5%8E%86%E5%8F%B2%E8%AE%B0%E5%BD%95"><span class="nav-number">1.5.2.</span> <span class="nav-text">显示全部历史记录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%AF%E5%8A%A8%E6%97%B6%E6%98%BE%E7%A4%BA%E6%9C%BA%E5%99%A8%E4%BF%A1%E6%81%AF"><span class="nav-number">1.5.3.</span> <span class="nav-text">启动时显示机器信息</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#screenfetch"><span class="nav-number">1.5.3.1.</span> <span class="nav-text">screenfetch</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#winfetch"><span class="nav-number">1.5.3.2.</span> <span class="nav-text">winfetch</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EF%BC%8820-6-26-%E6%9B%B4%E6%96%B0%EF%BC%89proxychains-powershell-%E7%89%88"><span class="nav-number">1.5.4.</span> <span class="nav-text">（20.6.26 更新）proxychains powershell 版</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EF%BC%8820-6-26-%E6%9B%B4%E6%96%B0%EF%BC%89curl-%E4%B8%AD%E6%96%87%E9%97%AE%E9%A2%98%EF%BC%88%E4%B8%8D%E5%AE%8C%E7%BE%8E%E8%A7%A3%E5%86%B3%EF%BC%89"><span class="nav-number">1.5.5.</span> <span class="nav-text">（20.6.26 更新）curl 中文问题（不完美解决）</span></a></li></ol></li></ol></li></ol></div>
         </section>
         <!--/noindex-->
 
@@ -214,13 +214,13 @@
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-count">9</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">31</span>
+        <span class="site-state-item-count">32</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -301,7 +301,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2021-01-04 18:51:05" itemprop="dateModified" datetime="2021-01-04T18:51:05+08:00">2021-01-04</time>
+        <time title="修改时间：2021-01-09 02:16:24" itemprop="dateModified" datetime="2021-01-09T02:16:24+08:00">2021-01-09</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -328,14 +328,14 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>10k</span>
+      <span>11k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>9 分钟</span>
+      <span>10 分钟</span>
     </span>
 </div>
 
@@ -346,7 +346,7 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <p>我一直以为 powershell 没啥好玩的。。。不过最近了解了一下，比 cmd 强很多，特别是 cmd 没有历史记录这点差评，另外还有包管理器什么的，感觉发现了新世界~</p>
+        <h1 id="powershell-全攻略"><a href="#powershell-全攻略" class="headerlink" title="powershell 全攻略"></a>powershell 全攻略</h1><p>我一直以为 powershell 没啥好玩的。。。不过最近了解了一下，比 cmd 强很多，特别是 cmd 没有历史记录这点差评，另外还有包管理器什么的，感觉发现了新世界~</p>
 <p>参考文章：</p>
 <ul>
 <li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://beta.sspai.com/post/52868">告别 Windows 终端的难看难用，从改造 PowerShell 的外观开始</a></li>
@@ -433,9 +433,9 @@
 <li>安装符合微软规范且支持 powerline 的字体</li>
 </ul>
 <p><del>打 powerline 补丁的方法都很麻烦。。而且如果你安装的字体比较多的话，有些字体没有必要打上补丁的也打上了（打补丁不止会打符合规范的字体而是所有补丁都打），就会浪费时间和空间。</del></p>
-<p>而符合微软中文编码规范的字体，找来找去就两种，知乎 belleve 大佬的<a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/be5invis/Sarasa-Gothic">更纱黑体</a>（Inziu Iosevka）和 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/Microsoft/BashOnWindows/files/1362006/Microsoft.YaHei.Mono.zip">Microsoft YaHei Mono</a>，后者同样要打上 powerline 补丁。全部支持的就只有更纱黑体，在 powershell 中兼容性相当不错。但是。。。我觉得字形有点丑了，非常扁。（也可能是微软的规范下只能做出那么丑的字形）</p>
+<p>而符合微软中文编码规范的字体，找来找去就两种，知乎 belleve 大佬的<a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/be5invis/Sarasa-Gothic">更纱黑体</a>（Inziu Iosevka）和 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/Microsoft/BashOnWindows/files/1362006/Microsoft.YaHei.Mono.zip">Microsoft YaHei Mono</a>，后者同样要打上 powerline 补丁。全部支持的就只有更纱黑体，在 powershell 中兼容性相当不错。但是。。。我觉得字形不太好看了，非常扁。（也可能是微软的规范下只能做出这样的字形？）</p>
 <p>当然还有传说中的支持 powerline 却不符合微软规范的字体。。。在这里不适用，看下面。</p>
-<p>补充：关于第一个，各种教程都写得很不详细。。。我决定补一下</p>
+<p>补充：关于第一个，各种教程都写得很不详细。。。我决定补一下。</p>
 <p>参考文章：</p>
 <ul>
 <li><a target="_blank" rel="external nofollow noopener noreferrer" href="http://www.voidcn.com/article/p-ueteeqcm-bdx.html">Windows 微软雅黑（Microsoft YaHei）+ Monaco 字体整合方案</a></li>
@@ -454,14 +454,19 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chcp 54936</span><br></pre></td></tr></table></figure>
 
 <p>然后去属性里面改成你刚刚改的字体再重启就 ok 了。</p>
-<p><del>当然，每次启动前都要打这一串才能转到 gb2312，如果要启动时自动设定的话，需要动一点手脚。</del>（不需要动手脚，每次启动默认出来的就是进入 gb 2312 模式后设置的字体，不过属性面板里面还写着点阵字体而已，如果还要修改需要回到 gb2313 去，写入配置文件中反而会导致中文字体挤在一起，但！1909 后似乎需要这一步）。新建 powershell 的配置文件。</p>
+<p>当然，每次启动前都要打这一串才能转到 gb2312，如果要启动时自动设定的话，需要动一点手脚。（1909 前的系统不需要动手脚，每次启动默认出来的就是进入 gb2312 模式后设置的字体，不过属性面板里面还写着点阵字体而已，如果还要修改需要回到 gb2313 去，写入配置文件中反而会导致中文字体挤在一起）。新建 powershell 的配置文件。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">if (!(Test-Path -Path $PROFILE )) &#123; New-Item -Type File -Path $PROFILE -Force &#125;</span><br><span class="line">notepad $PROFILE</span><br></pre></td></tr></table></figure>
 
-<p><del>然后在弹出的 notepad 里面输入：</del></p>
+<p>然后在弹出的 notepad 里面输入：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[System.Console]::OutputEncoding&#x3D;[System.Text.Encoding]::GetEncoding(54936)</span><br></pre></td></tr></table></figure>
 
 <p>就 ok 了。</p>
 <p><del>另外，上面的文章 1 里面给了一个文件，是 monako 字体加一个注册表文件，使用完那个注册表文件以后甚至不用该编码。。。原来的 gbk 下的点阵字体直接就变成 monako 了，原因未知。</del>（其实就是进去以后改成了 monako 字体，那个注册表文件只是修改了 monako 的 fontlink）</p>
+</li>
+<li><p><strong>（21.1.9 更新）</strong> 实验过，改成 utf-8（65001）也没出什么岔子。而且我的系统经过一番操作，没加啥代码，他自动帮我换成 utf-8 了。。。另外，参考<a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.jianshu.com/p/cd3a7b196ab3">正确解决 VS Code / GCC / Clang 编译时中文乱码问题 - 简书</a>，这里有另一个指令，能修改编码为 utf-8，同样是写在 <code>notepad $PROFILE</code> 中：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$OutputEncoding &#x3D; [console]::InputEncoding &#x3D; [console]::OutputEncoding &#x3D; New-Object System.Text.UTF8Encoding</span><br></pre></td></tr></table></figure>
+
+<p>和上面那个指令不同的是，这个指令对 chcp 同样有效（即只输入 <code>chcp</code> 会显示你当前窗口的编码，但实际上 powershell 真正的编码在属性-&gt;选项-&gt;当前编码页中。4 的命令只会修改属性里面的，而这个指令同时修改属性和 chcp 的）。不过从实际效果来看，无论是用那个指令，修改成 gb2312 还是 utf-8，暂时没发现区别。</p>
 </li>
 </ol>
 <h2 id="安装-oh-my-posh-和一些其他的东西"><a href="#安装-oh-my-posh-和一些其他的东西" class="headerlink" title="安装 oh-my-posh 和一些其他的东西"></a>安装 oh-my-posh 和一些其他的东西</h2><p>其实就是 oh-my-zsh 的 windows 版。。。</p>
@@ -588,7 +593,7 @@
 <p>但这命令太长又不好记，所以用<code>alias</code>简化。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#下面两个都是关键指令</span><br><span class="line">function his &#123;cat (Get-PSReadlineOption).HistorySavePath&#125;</span><br><span class="line">set-alias -name allhistory -value his</span><br></pre></td></tr></table></figure>
 
-<p>往后用 <code>his</code> 或 <code>allhistory</code>就能看到所有的历史记录了。</p>
+<p>往后用 <code>his</code> 或 <code>allhistory</code>就能看到所有的历史记录了。不过有一个 bug 我暂时不知道怎么处理，历史记录中若是有中文，会显示为乱码（但乱的很整洁，起码字符数没变。。。影响不算太大）。</p>
 <h3 id="启动时显示机器信息"><a href="#启动时显示机器信息" class="headerlink" title="启动时显示机器信息"></a>启动时显示机器信息</h3><p>可能会拖慢启动速度，慎用。</p>
 <h4 id="screenfetch"><a href="#screenfetch" class="headerlink" title="screenfetch"></a>screenfetch</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Install-Module -Name windows-screenfetch</span><br></pre></td></tr></table></figure>
 
@@ -790,14 +795,14 @@
       <i class="fa fa-chart-line"></i>
     </span>
       <span>站点总字数：</span>
-    <span title="站点总字数">109k</span>
+    <span title="站点总字数">110k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">1:39</span>
+    <span title="站点阅读时长">1:40</span>
   </span>
 </div>
 <div class="busuanzi-count">
