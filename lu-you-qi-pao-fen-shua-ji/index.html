@@ -103,6 +103,8 @@
   </style>
 </noscript>
 
+
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
 <link rel="alternate" href="/atom.xml" title="Bao's 备忘录" type="application/atom+xml">
 </head>
 
@@ -213,20 +215,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">21</span>
+          <span class="site-state-item-count">24</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-count">11</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">37</span>
+        <span class="site-state-item-count">45</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -354,7 +356,7 @@
     <div class="post-body" itemprop="articleBody">
         <p>本来是为了对比一下旧路由（小新 new wifi mini，padavan）和极路由 2 （官方系统）和华硕 ac86u （官方系统）的性能。顺便物尽其用，给 newifi mini 刷个 openwrt。</p>
 <h2 id="跑分工具"><a href="#跑分工具" class="headerlink" title="跑分工具"></a>跑分工具</h2><h3 id="linux-内置浮点分数显示"><a href="#linux-内置浮点分数显示" class="headerlink" title="linux 内置浮点分数显示"></a>linux 内置浮点分数显示</h3><p>命令</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat &#x2F;proc&#x2F;cpuinfo</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat /proc/cpuinfo</span><br></pre></td></tr></tbody></table></figure>
 
 <p>其中的 bogomips 大概就是核心的浮点分数。</p>
 <p><img src="https://i.imgur.com/oicnOOy.png"></p>
@@ -366,7 +368,7 @@
 <p>不过 padavan 和许多 openwrt 固件下附带有本测试工具，也不用我编译了。</p>
 <h3 id="dhrystone"><a href="#dhrystone" class="headerlink" title="dhrystone"></a>dhrystone</h3><p>来自：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.openwrtdl.com/wordpress/%E6%9D%A5%E6%B5%8B%E6%B5%8B%E8%B7%AF%E7%94%B1%E5%99%A8cpu%E6%80%A7%E8%83%BD%E8%B7%91%E5%88%86">[源码]来测测路由器cpu性能跑分</a></p>
 <p>另一个二进制跑分工具。其中的二进制文件 <code>gcc_dry2-mt7621</code> 在 mt7620A 路由极路由 2 原版系统下可以直接运行。但在 newifi mini padavan 下运行结果报 0。而另一个含有 mt7620 的二进制文件 <code>dhrystone_2.1-1_ramips_1004kc_mt7621.ipk</code> 在两个设备上运行都报错（毕竟原本就应该是在 openwrt 下安装运行的） 。另外 x86 二进制在 linux 下不能运行，另外也没有 ac86u 用的版本（bcm4903）。但不知道其他固件是否附带有相应版本。</p>
-<h2 id="刷机（mt7620-gt-openwrt）"><a href="#刷机（mt7620-gt-openwrt）" class="headerlink" title="刷机（mt7620-&gt;openwrt）"></a>刷机（mt7620-&gt;openwrt）</h2><p>直接编译上面那几个工具不管用。</p>
+<h2 id="刷机（mt7620-gt-openwrt）"><a href="#刷机（mt7620-gt-openwrt）" class="headerlink" title="刷机（mt7620->openwrt）"></a>刷机（mt7620-&gt;openwrt）</h2><p>直接编译上面那几个工具不管用。</p>
 <p>看来只能刷点大众版本然后从库里面找看看。先刷 newifi mini / 极路由 2。这两款路由同样是 mt7620A 方案，128m ram，8m flash。区别只有 newifi mini 的无线方案是 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.mediatek.cn/products/broadbandWifi/mt7612e">MediaTek | MT7612E</a>（参数来源：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.igao7.com/news/201501/2krIHZXzLCFRAVLO.html">迷你也满血，联想新路由newifi mini评测 | 爱搞机</a>），极路由的无线方案是 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.mediatek.com/products/broadbandWifi/mt7610e">MediaTek | MT7610E</a>（参数来源：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.zhihu.com/question/21971379/answer/19977583">如何评价极路由公司 2013 年 11 月发布的「极贰」路由器？ - 张导的回答 - 知乎</a>)。前者是 2x2，后者弱一些 1x1（但 5g wifi 速度同样是 433mhz）。还有！极路由 2 刷机前请用 breed 事先备份好 key，就在固件备份里面有一个单独的选项（我直接掉坑里爬不出来了，但到后面人家直接把这条路都铲了。。。详情可以看月底的后日谈）。</p>
 <p>注意：刷 breed 和 breed 怎么操作这个东西，本文不涉及，百度吧。</p>
 <p>在 breed 下，这两台机子显示的参数都一模一样：</p>
@@ -391,13 +393,13 @@
 <h3 id="Linux-编译"><a href="#Linux-编译" class="headerlink" title="Linux 编译"></a>Linux 编译</h3><p>Linux 编译需要较多空间，我本地的虚拟机 ubuntu 只分了 30g 根本不够我又不想扩容（因为扩容要删快照，扩容后想还原还挺麻烦）。所以我索性在 tx 的轻量云上操作了。不过按我的习惯（不知道是不是大家也有这样的习惯）远程的 vps 默认情况下都是以 root 用户登录，而不是像桌面端一样用非 root 用户（毕竟 ubuntu 桌面端默认不创建 root 用户）。所以我还得新建一个非 root 用户，添加 sudo 授权，<a href="https://zbttl.github.io/2020/2%E6%9C%8824%E6%97%A5%EF%BC%88%E5%AF%92%E5%81%87%E7%AC%AC%E5%9B%9B%E5%8D%81%E4%B8%89%E5%A4%A9%EF%BC%89/#zsh">换用 zsh</a>，加虚拟内存（尽管轻量云内存已达 2g 但编译过程中还是报内存不够，我又加了 2g 虚拟内存才行），这些我就不详细谈了。</p>
 <ol>
 <li><p>安装相关依赖（许多教程里面没有 rsync，但我这边编译的时候报错就因为没装这个东西所以我加上了）</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get -y install build-essential asciidoc binutils bzip2 gawk gettext git libncurses5-dev libz-dev patch python3.5 python2.7 unzip zlib1g-dev lib32gcc1 libc6-dev-i386 subversion flex uglifyjs git-core gcc-multilib p7zip p7zip-full msmtp libssl-dev texinfo libglib2.0-dev xmlto qemu-utils upx libelf-dev autoconf automake libtool autopoint device-tree-compiler g++-multilib antlr3 gperf wget swig rsync</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get -y install build-essential asciidoc binutils bzip2 gawk gettext git libncurses5-dev libz-dev patch python3.5 python2.7 unzip zlib1g-dev lib32gcc1 libc6-dev-i386 subversion flex uglifyjs git-core gcc-multilib p7zip p7zip-full msmtp libssl-dev texinfo libglib2.0-dev xmlto qemu-utils upx libelf-dev autoconf automake libtool autopoint device-tree-compiler g++-multilib antlr3 gperf wget swig rsync</span><br></pre></td></tr></tbody></table></figure>
 </li>
 <li><p>克隆项目，下源码和软件包（这一步需要科学工具）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git clone https:&#x2F;&#x2F;github.com&#x2F;coolsnowwolf&#x2F;lede</span><br><span class="line">cd lede</span><br><span class="line">.&#x2F;scripts&#x2F;feeds update -a</span><br><span class="line">.&#x2F;scripts&#x2F;feeds install -a</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/coolsnowwolf/lede</span><br><span class="line">cd lede</span><br><span class="line">./scripts/feeds update -a</span><br><span class="line">./scripts/feeds install -a</span><br></pre></td></tr></tbody></table></figure>
 </li>
 <li><p>重点，调整 Open­Wrt 系统组件。毕竟自己编译就是为了只添加自己想要的功能。第一次编译建议只选择相应框架，因为第一次编译成功后后续增添删除组件再次编译所需时间会大幅缩短。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make menuconfig</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make menuconfig</span><br></pre></td></tr></tbody></table></figure>
 
 <p>后续怎么调整组件？可以参考下面这两篇文章：</p>
 <ul>
@@ -412,7 +414,7 @@
 <p>编辑完后用下面的 save 保存为 <code>.config</code>，待会编译的时候就会读取这个文件的配置。</p>
 </li>
 <li><p>开始编译（如果上面这步添加了许多功能，则需要开科学工具）。轻量服务器只有一个核心，所以 <code>-j1</code>，如果用物理机则看自己的配置改了。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make -j1 V&#x3D;s</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make -j1 V=s</span><br></pre></td></tr></tbody></table></figure>
 </li>
 <li><p>编译成功的固件和模块，在 <code>lede/bin/targets/ramips/mt7620</code> 里面，注意，如果按默认配置编译了 squashfs 版本的话，里面的 bin 应该有两个版本，一个叫 <code>xxxx.initramfs-kernel</code>，一个叫 <code>xxxxx.squashfs-sysupgrade</code>，记得刷后者！前者是只读的，我看后者有个 upgrade 还以为是更新专用第一次应该刷前一个，刷完以后我还纳闷软件包怎么可用空间为 0 重启后配置重置了，折腾了两天居然是这里出了问题-_-</p>
 </li>
@@ -440,15 +442,15 @@
 <li><p>默认只会生成 rom 压缩文件。如果你之前有功能做成了模组，那你还得修改项目的 <code>.github/workflows/build-openwrt.yml</code> 文件，把 <code>UPLOAD_BIN_DIR</code> 值改为 <code>true</code>。</p>
 </li>
 <li><p>可以修改默认网关地址。在 <code>diy-part1.sh</code> 中把</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># Modify default IP</span><br><span class="line">#sed -i &#39;s&#x2F;192.168.1.1&#x2F;192.168.2.1&#x2F;g&#39; package&#x2F;base-files&#x2F;files&#x2F;bin&#x2F;config_generate</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># Modify default IP</span><br><span class="line">#sed -i 's/192.168.1.1/192.168.2.1/g' package/base-files/files/bin/config_generate</span><br></pre></td></tr></tbody></table></figure>
 
 <p>第二句前面的注释符号取消，<code>192.168.2.1</code> 改为其他网关即可。我一开始是改的，因为我家的拓扑结构是：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">光猫（192.168.1.1）-&gt;ac86u（192.168.x.1）-（无线）-&gt;笔记本</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">光猫（192.168.1.1）-&gt;ac86u（192.168.x.1）-（无线）-&gt;笔记本</span><br></pre></td></tr></tbody></table></figure>
 
 <p>刷路由时，路由跟笔记本用有线的方式连接，显然路由默认地址  <code>192.168.1.1</code> 和光猫网关地址冲突。不过，后面我发现路由的默认网关地址能稳定覆盖住光猫的网关地址，也就是说我不用断开无线就可以直接进要刷的路由的 breed，以及刷完后路由的配置界面；反而是如果我改了网关的话，就得断掉无线或者连上路由的无线才能配置了。可能是 dhcp 的锅？</p>
 </li>
 </ol>
-<h2 id="刷机（asus-官方-gt-asus-梅林）"><a href="#刷机（asus-官方-gt-asus-梅林）" class="headerlink" title="刷机（asus 官方-&gt;asus 梅林）"></a>刷机（asus 官方-&gt;asus 梅林）</h2><p>ac86u 刷机就简单了，也不用刷什么 breed，起码对于我现在官方-&gt;梅林arm384 来说直接在固件升级里面把新版固件怼上去就行，最多最多刷前重置一下。</p>
+<h2 id="刷机（asus-官方-gt-asus-梅林）"><a href="#刷机（asus-官方-gt-asus-梅林）" class="headerlink" title="刷机（asus 官方->asus 梅林）"></a>刷机（asus 官方-&gt;asus 梅林）</h2><p>ac86u 刷机就简单了，也不用刷什么 breed，起码对于我现在官方-&gt;梅林arm384 来说直接在固件升级里面把新版固件怼上去就行，最多最多刷前重置一下。</p>
 <p>ac86u 目前有三个品种的第三方固件，分别是官改，arm380，arm384。我在官方下载站还看到有 arm386，但文件夹是空的。</p>
 <p>官改可以理解为官方版 + 软件中心。而 arm380 和 arm384，官方是这么说的：</p>
 <blockquote>
@@ -470,12 +472,12 @@
 <p>具体的固件下载，注意事项，刷机流程可以参考：</p>
 <ul>
 <li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://koolshare.cn/thread-164857-1-1.html#f-arm384ml%E6%94%B9%E7%89%88-%E5%88%B7-%E5%8E%9F%E5%8E%82%E5%9B%BA%E4%BB%B6">【新提醒】【20200703】华硕ARMv7系列 384.18_0 改版固件 - 华硕固件 - KoolShare - 源于玩家 服务玩家</a></li>
-<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://koolshare.cn/forum.php?mod=viewthread&tid=127878">【新提醒】【20200821】RT-AC86U_384.19_0 改版固件 - 华硕固件 - KoolShare - 源于玩家 服务玩家</a></li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://koolshare.cn/forum.php?mod=viewthread&amp;tid=127878">【新提醒】【20200821】RT-AC86U_384.19_0 改版固件 - 华硕固件 - KoolShare - 源于玩家 服务玩家</a></li>
 </ul>
 <p>刷完以后进系统管理，开启 <code>Format JFFS partition at next boot</code> 和 <code>Enable JFFS custom scripts and configs</code> 再重启一遍。</p>
 <p>重启后软件中心上线，就能安装华硕这边的 dhrystone 了！</p>
 <p>参考：<a target="_blank" rel="external nofollow noopener noreferrer" href="http://firmware.koolshare.cn/binary/dhrystone/">Index of /binary/dhrystone/ - KoolShare 固件下载服务器</a></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /koolshare/bin</span><br><span class="line">wget http://firmware.koolshare.cn/binary/dhrystone/dhrystone_hnd </span><br><span class="line">chmod +x dhrystone_hnd</span><br><span class="line">dhrystone_hnd</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /koolshare/bin</span><br><span class="line">wget http://firmware.koolshare.cn/binary/dhrystone/dhrystone_hnd </span><br><span class="line">chmod +x dhrystone_hnd</span><br><span class="line">dhrystone_hnd</span><br></pre></td></tr></tbody></table></figure>
 
 <h2 id="跑分结果"><a href="#跑分结果" class="headerlink" title="跑分结果"></a>跑分结果</h2><h3 id="coremark-1"><a href="#coremark-1" class="headerlink" title="coremark"></a>coremark</h3><p>newifi padavan：</p>
 <p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/newifi%20padavancoremark.png"></p>
@@ -631,14 +633,14 @@
       <i class="fa fa-chart-line"></i>
     </span>
       <span>站点总字数：</span>
-    <span title="站点总字数">112k</span>
+    <span title="站点总字数">135k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">1:42</span>
+    <span title="站点阅读时长">2:03</span>
   </span>
 </div>
 <div class="busuanzi-count">

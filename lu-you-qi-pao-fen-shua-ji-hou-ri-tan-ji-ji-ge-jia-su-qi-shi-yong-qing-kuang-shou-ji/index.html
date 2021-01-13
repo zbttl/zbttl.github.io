@@ -95,6 +95,8 @@
   </style>
 </noscript>
 
+
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
 <link rel="alternate" href="/atom.xml" title="Bao's 备忘录" type="application/atom+xml">
 </head>
 
@@ -205,20 +207,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">21</span>
+          <span class="site-state-item-count">24</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-count">11</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">37</span>
+        <span class="site-state-item-count">45</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -349,7 +351,7 @@
 </blockquote>
 <p>光速出坑（不是</p>
 <p>前几天说了，开开心心折腾 openwrt 的我遇到给 xbox 加速的极路由 2 崩了，怎么重置都无效，干脆一起刷了 openwrt。虽然极路由原厂系统也是基于 openwrt，但显然腾讯加速器不认这个；再次刷回原厂系统发现进不去插件中心，进去直接显示 503，也没法用手机客户端，甚至自动对时都不行，怀疑是时间不对的我手动对时，没用（此时我还没意识到真正的问题）。最后惊讶的发现极路由还有个 key 机制，不备份一刷就没了，没了就进不去插件中心了。痛心疾首的我不甘心，边想着大不了再买一个边找是不是还有其他办法暴力破 root 或者直接进插件中心，让我下个开发者模式插件就行。</p>
-<h2 id="极路由强制进入插件中心（作废）"><a href="#极路由强制进入插件中心（作废）" class="headerlink" title="极路由强制进入插件中心（作废）"></a>极路由强制进入插件中心（作废）</h2><p>结果真让我找到一个：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.right.com.cn/forum/forum.php?mod=viewthread&tid=205316&ordertype=1">极路由2（hc5761）恢复mac教程无key - 无线路由器硬件改造以及故障维修 - 恩山无线论坛 - Powered by Discuz!</a></p>
+<h2 id="极路由强制进入插件中心（作废）"><a href="#极路由强制进入插件中心（作废）" class="headerlink" title="极路由强制进入插件中心（作废）"></a>极路由强制进入插件中心（作废）</h2><p>结果真让我找到一个：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.right.com.cn/forum/forum.php?mod=viewthread&amp;tid=205316&amp;ordertype=1">极路由2（hc5761）恢复mac教程无key - 无线路由器硬件改造以及故障维修 - 恩山无线论坛 - Powered by Discuz!</a></p>
 <blockquote>
 <p>本帖最后由 航校门口二楼修 于 2017-6-29 16:53 编辑</p>
 <p>本人刷机的时候没有备份 key 刷第 3 方固件 导致 mac 丢失 刷回官方固件无法安装插件。<br>首先是需要的工具<br>1.【固件编辑器】<br>2. 极路由 2 的恢复固件    链接: <a target="_blank" rel="external nofollow noopener noreferrer" href="http://pan.baidu.com/s/1ccXyfO">http://pan.baidu.com/s/1ccXyfO</a> 密码: dh35<br>3. 必须要有刷不死，否则你可以忽略这帖子了</p>
@@ -372,7 +374,7 @@
 <p>我想了想，不是还有小米 mini 吗？小米 mini 和极路由 2、newifi mini 配置一样，就可能体积大一点，而且不是用 micro-usb 口充电而是用 3.5 dc 口充电，感觉和 newifi mini 一毛一样啊？度了一下果然，极路由 2 似乎没啥教程能刷成小米的系统，但 newifi mini 可以。</p>
 <h2 id="newifi-mini-刷入小米固件"><a href="#newifi-mini-刷入小米固件" class="headerlink" title="newifi mini 刷入小米固件"></a>newifi mini 刷入小米固件</h2><p>参考文章：</p>
 <ul>
-<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.right.com.cn/forum/forum.php?mod=viewthread&tid=173247">【新提醒】NEWIFI mini 完美刷小米 mini - 可用 APP 安装插件 - 随意改 SN - 小米无线路由器以及小米无线相关的设备 - 恩山无线论坛 - Powered by Discuz!</a></li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.right.com.cn/forum/forum.php?mod=viewthread&amp;tid=173247">【新提醒】NEWIFI mini 完美刷小米 mini - 可用 APP 安装插件 - 随意改 SN - 小米无线路由器以及小米无线相关的设备 - 恩山无线论坛 - Powered by Discuz!</a></li>
 <li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.jianshu.com/p/e4e0a5818c3d">小米路由器青春版刷入 Breed 教程 - 简书</a></li>
 <li><a target="_blank" rel="external nofollow noopener noreferrer" href="http://www.360doc.com/content/16/1202/07/32686726_611203705.shtml">小米路由器 3 开启 SSH 最简单的方法</a></li>
 </ul>
@@ -400,28 +402,28 @@
 <p>但后续我更新了就进不去了，而且刷了 breed 以后，不可以用小米官方的 root 方法（因为小米官方的 root 方法最重要的一部是插入含有特定文件的 u 盘，然后按住 reset 键启动路由器，然后这不就和进入 breed 的方法冲突了么）。所以趁现在是旧版固件，先破一遍。</p>
 </li>
 <li><p>回到管理界面，复制此时管理界面的网址 url，此时的 url 应该是类似这种形状的</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;192.168.31.1&#x2F;cgi-bin&#x2F;luci&#x2F;;stok&#x3D;《你的 stok》&#x2F;web&#x2F;home#router</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://192.168.31.1/cgi-bin/luci/;stok=《你的 stok》/web/home#router</span><br></pre></td></tr></tbody></table></figure>
 
 <p>删掉 <code>《你的 stok》</code> 以后的部分，留下</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;192.168.31.1&#x2F;cgi-bin&#x2F;luci&#x2F;;stok&#x3D;《你的 stok》</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://192.168.31.1/cgi-bin/luci/;stok=《你的 stok》</span><br></pre></td></tr></tbody></table></figure>
 
 <p>这一段我称之为 header，放到文本编辑器中待用。</p>
 </li>
 <li><p>在 header 后加上</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;api&#x2F;xqnetwork&#x2F;set_wifi_ap?ssid&#x3D;tianbao&amp;encryption&#x3D;NONE&amp;enctype&#x3D;NONE&amp;channel&#x3D;1%3Bnvram%20set%20ssh%5Fen%3D1%3B%20nvram%20commit</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/api/xqnetwork/set_wifi_ap?ssid=tianbao&amp;encryption=NONE&amp;enctype=NONE&amp;channel=1%3Bnvram%20set%20ssh%5Fen%3D1%3B%20nvram%20commit</span><br></pre></td></tr></tbody></table></figure>
 
 <p>访问。访问成功后网页应显示</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">“&#123;&#39;msg&#39;:&#39;未能连接到指定 WiFi(Probe timeout)&#39;,&#39;code&#39;:1616&#125;”</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">“{'msg':'未能连接到指定 WiFi(Probe timeout)','code':1616}”</span><br></pre></td></tr></tbody></table></figure>
 
 <p>注意这个 code。如果成功应该就显示 1616。我用新版本尝试虽然也能显示一句类似的内容，但 code 不是 1616，最后也没成功。</p>
 <p>之后重复上面的步骤，不过在 header 后添加的内容要经过修改。第二次访问添加：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;api&#x2F;xqnetwork&#x2F;set_wifi_ap?ssid&#x3D;tianbao&amp;encryption&#x3D;NONE&amp;enctype&#x3D;NONE&amp;channel&#x3D;1%3Bsed%20%2Di%20%22%3Ax%3AN%3As%2Fif%20%5C%5B%2E%2A%5C%3B%20then%5Cn%2E%2Areturn%200%5Cn%2E%2Afi%2F%23tb%2F%3Bb%20x%22%20%2Fetc%2Finit.d%2Fdropbear</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/api/xqnetwork/set_wifi_ap?ssid=tianbao&amp;encryption=NONE&amp;enctype=NONE&amp;channel=1%3Bsed%20%2Di%20%22%3Ax%3AN%3As%2Fif%20%5C%5B%2E%2A%5C%3B%20then%5Cn%2E%2Areturn%200%5Cn%2E%2Afi%2F%23tb%2F%3Bb%20x%22%20%2Fetc%2Finit.d%2Fdropbear</span><br></pre></td></tr></tbody></table></figure>
 
 <p>第三次访问添加</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;api&#x2F;xqnetwork&#x2F;set_wifi_ap?ssid&#x3D;tianbao&amp;encryption&#x3D;NONE&amp;enctype&#x3D;NONE&amp;channel&#x3D;1%3B%2Fetc%2Finit.d%2Fdropbear%20start</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/api/xqnetwork/set_wifi_ap?ssid=tianbao&amp;encryption=NONE&amp;enctype=NONE&amp;channel=1%3B%2Fetc%2Finit.d%2Fdropbear%20start</span><br></pre></td></tr></tbody></table></figure>
 
 <p>最后一次访问</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;api&#x2F;xqsystem&#x2F;set_name_password?oldPwd&#x3D;《你当前的后台管理密码》&amp;newPwd&#x3D;《新密码》</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/api/xqsystem/set_name_password?oldPwd=《你当前的后台管理密码》&amp;newPwd=《新密码》</span><br></pre></td></tr></tbody></table></figure>
 
 <p>最后一次访问结果就不是 1616 了，而是 “{‘code’:0}”，表示修改密码成功。</p>
 <p>之后就可以用修改的密码登录 ssh 了，管理界面的密码似乎也会被同步修改。</p>
@@ -589,14 +591,14 @@
       <i class="fa fa-chart-line"></i>
     </span>
       <span>站点总字数：</span>
-    <span title="站点总字数">112k</span>
+    <span title="站点总字数">135k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">1:42</span>
+    <span title="站点阅读时长">2:03</span>
   </span>
 </div>
 <div class="busuanzi-count">

@@ -111,6 +111,8 @@
   </style>
 </noscript>
 
+
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
 <link rel="alternate" href="/atom.xml" title="Bao's 备忘录" type="application/atom+xml">
 </head>
 
@@ -221,20 +223,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">21</span>
+          <span class="site-state-item-count">24</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-count">11</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">37</span>
+        <span class="site-state-item-count">45</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -388,11 +390,11 @@
 <p><code>-kerning</code>：文字间隔</p>
 <p><code>-font</code>：如果你要写中文的话。。。就得指定中文字体</p>
 <p><code>-annotate</code>：偏移，一般表情包的字也不会放最边边，还是要往中间偏点点~</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">magick .\0.jpg -gravity south -fill white -pointsize 400 -kerning 600  -stroke black -font &#39;SimSun-&amp;-NSimSun&#39; -annotate +0+150 &#39;[内容]&#39;   0_des.jpg</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">magick .\0.jpg -gravity south -fill white -pointsize 400 -kerning 600  -stroke black -font 'SimSun-&amp;-NSimSun' -annotate +0+150 '[内容]'   0_des.jpg</span><br></pre></td></tr></tbody></table></figure>
 
 <h2 id="马赛克（伪）"><a href="#马赛克（伪）" class="headerlink" title="马赛克（伪）"></a>马赛克（伪）</h2><p>后面的举例图有 nsfw 内容！我暂时还不知道怎么给图片打多边形马赛克 / 模糊。。。只能简单用白色多边形遮一下。</p>
 <p><code>draw</code>：后面跟的 polygon 是多边形的意思，要裁其他图形的话参考这里 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://imagemagick.org/script/command-line-options.php#draw">draw</a>。后面的参数是多边形的座标，具体座标挺多画图软件能查看的（比如 irfanview），甚至 magick 自带工具 display 命令都可以。后面座标就按单向连通图的顺序，顺时针逆时针都可以。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">magick .\0raw.jpg -fill white  -draw &#39;polygon 342,2031 125,2274 330,2809 677,2851 652,2470&#39; .\0.jpg</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">magick .\0raw.jpg -fill white  -draw 'polygon 342,2031 125,2274 330,2809 677,2851 652,2470' .\0.jpg</span><br></pre></td></tr></tbody></table></figure>
 
 <h2 id="纠偏-裁剪"><a href="#纠偏-裁剪" class="headerlink" title="纠偏 + 裁剪"></a>纠偏 + 裁剪</h2><p>经常收壁纸，有的画集是有外框的，我有强迫症要把外框剪掉（而且有外框做壁纸也不好看）。另外，有的画集是扫描的，但扫描的时候没有彻底放正，导致剪裁的时候会发现有一点点歪。通常我会使用 photoshop 的透视剪裁来处理这类图片，不过这次 magick 有比较自动化的命令，来试试效果怎么样。</p>
 <p>样张（不要吐槽这是张色图，我暂时懒得找又歪又有边框的图了，扫了一眼手机的图册就只有这张，而且这张图片和外框相接触的部分还带有一些彩边，非常适合检测算法的能力）：</p>
@@ -408,37 +410,37 @@
 <p><code>-border</code> 边框最小尺寸</p>
 <p><code>+repage</code> 消除位移属性（可有可无）</p>
 <p><code>-trim</code> 进行裁剪</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">convert 005.png  -fuzz 73% -border 1x1 +repage -trim 005_magick1.png</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">convert 005.png  -fuzz 73% -border 1x1 +repage -trim 005_magick1.png</span><br></pre></td></tr></tbody></table></figure>
 
 <p>显然裁少了一截。最后只得到 2410x3293 尺寸的图片。fuzz 参数也没有调整余地了，调小成 72 右上角的字就消不掉。右上角的字和头发颜色相仿似乎使 magick 识别出现了混乱。另外右下角还有显而易见没裁掉的白边。</p>
 <p>加一个代表指定边框颜色的 <code>-bordercolor</code> 参数，fuzz 参数就要提高到 85。color 具体能填什么，参考这里：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://imagemagick.org/script/color.php#usage">Color Name</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">convert 005.png -bordercolor &#39;#ffffff&#39; -fuzz 85% -border 1x1 +repage -trim 005_magick1.png</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">convert 005.png -bordercolor '#ffffff' -fuzz 85% -border 1x1 +repage -trim 005_magick1.png</span><br></pre></td></tr></tbody></table></figure>
 
 <p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/005_magick1.jpg"></p>
 <p>分辨率变成 2412x3294。问题依旧。</p>
 <p>去掉 <code>-boader</code> 参数。fuzz 可以降低到 60 多，但此时裁掉的像素就太多。差出数量级，这里就不给数据了。</p>
 <h3 id="方法-4：自动旋转后使用-magick-检测拼接"><a href="#方法-4：自动旋转后使用-magick-检测拼接" class="headerlink" title="方法 4：自动旋转后使用 magick 检测拼接"></a>方法 4：自动旋转后使用 magick 检测拼接</h3><p><code>-deskew</code> 是自动倾斜校正参数。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">convert 005.png -background white -deskew 40% 005_tem.png</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">convert 005.png -background white -deskew 40% 005_tem.png</span><br></pre></td></tr></tbody></table></figure>
 
 <p>然后</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">convert 005_tem.png  -fuzz 73% -border 1x1 +repage -trim +repage 005_magick2.png</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">convert 005_tem.png  -fuzz 73% -border 1x1 +repage -trim +repage 005_magick2.png</span><br></pre></td></tr></tbody></table></figure>
 
 <p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/005_magick2.jpg"></p>
 <p>分辨率变成 2412x3269。仍然不完美，但白边没那么明显了。另外我尝试过 <code>-deskew 100%</code> 这个参数，结果二次处理后白边更大，效果不好。</p>
-<h3 id="方法-5：magick-检测拼接，然后再自动旋转"><a href="#方法-5：magick-检测拼接，然后再自动旋转" class="headerlink" title="方法 5：magick 检测拼接，然后再自动旋转"></a>方法 5：magick 检测拼接，然后再自动旋转</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">convert 005.png  -fuzz 50% -border 1x1 +repage -trim +repage 005_tem.png   </span><br><span class="line">convert 005_tem.png -background white -deskew 40% 005_tem2.png</span><br><span class="line">convert 005_tem2.png  -fuzz 73% -border 1x1 +repage -trim +repage 005_magick3.png </span><br></pre></td></tr></table></figure>
+<h3 id="方法-5：magick-检测拼接，然后再自动旋转"><a href="#方法-5：magick-检测拼接，然后再自动旋转" class="headerlink" title="方法 5：magick 检测拼接，然后再自动旋转"></a>方法 5：magick 检测拼接，然后再自动旋转</h3><figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">convert 005.png  -fuzz 50% -border 1x1 +repage -trim +repage 005_tem.png   </span><br><span class="line">convert 005_tem.png -background white -deskew 40% 005_tem2.png</span><br><span class="line">convert 005_tem2.png  -fuzz 73% -border 1x1 +repage -trim +repage 005_magick3.png </span><br></pre></td></tr></tbody></table></figure>
 
 <p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/005_magick3.jpg"></p>
 <p>虽说分辨率甚至是图像和方法 4 出来的几乎都一模一样，不过 tem2 和 tem 两张图对比，后者有明显的纠偏痕迹了。但究竟是 magick3 trim 的时候又纠回来了还是之前的 trim 带了纠偏效果我就看不出来了。</p>
-<h3 id="方法6（magick-7-专用）"><a href="#方法6（magick-7-专用）" class="headerlink" title="方法6（magick 7 专用）"></a>方法6（magick 7 专用）</h3><p>参考文章：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://imagemagick.org/discourse-server/viewtopic.php?f=4&t=35579">Enhanced -trim operator</a></p>
+<h3 id="方法6（magick-7-专用）"><a href="#方法6（magick-7-专用）" class="headerlink" title="方法6（magick 7 专用）"></a>方法6（magick 7 专用）</h3><p>参考文章：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://imagemagick.org/discourse-server/viewtopic.php?f=4&amp;t=35579">Enhanced -trim operator</a></p>
 <p>注意这里的 <code>-define trim:percent-background=15%</code>，含义和上面的 <code>-fuzz</code> 完全相反，越小裁掉的内容越多。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">magick 005.png  -define trim:percent-background&#x3D;15% -define trim:background-color&#x3D;&#39;#ffffff&#39; -trim 005_tem.png</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">magick 005.png  -define trim:percent-background=15% -define trim:background-color='#ffffff' -trim 005_tem.png</span><br></pre></td></tr></tbody></table></figure>
 
 <p>分辨率 2440x3431。接近手工调整的结果了，但看起来还是有白边。特别是纠偏以后：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">convert 005_tem.png  -background white -deskew 40%  005_tem1.png</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">convert 005_tem.png  -background white -deskew 40%  005_tem1.png</span><br></pre></td></tr></tbody></table></figure>
 
 <p>尝试使用纯粹的 trim 方法（也就是方法 3），发现无论如何都剪不掉那些细小的白边。甚至把 <code>-fuzz</code> 参数调到 80 了，把图片上部剪掉一些了结果右侧的细小白边也还没被剪掉。</p>
 <p>继续用本方法裁一遍</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">magick 005_tem1.png  -define trim:percent-background&#x3D;15% -define trim:background-color&#x3D;&#39;#ffffff&#39; -trim 005_magick4.png</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">magick 005_tem1.png  -define trim:percent-background=15% -define trim:background-color='#ffffff' -trim 005_magick4.png</span><br></pre></td></tr></tbody></table></figure>
 
 <p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/005_magick4.jpg"></p>
 <p>极限了，还是有肉眼可见的白边，但再把 <code>-define trim</code> 参数调小就又影响画面了。白边的大小，相比只纠偏以后的效果，勉强是可以接受的。此时分辨率为 2437x3429。</p>
@@ -446,25 +448,25 @@
 <p>既然纠偏和裁剪顺序定下来了，那我们顺便把命令也集成在一起。</p>
 <p>看起来虽然剪掉了多余的部分让 <code>-fuzz</code> 和 <code>-define trim:percent-background</code> 不需要那么高（低）就能识别出真正边框的大致轮廓；但要确定下具体轮廓，好像还是不行（意思是还是有白边），看起来应该是纠偏没有办法纠的太正？</p>
 <p><code>-fuzz</code> 下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">convert 0052.png   -deskew 40% -fuzz 70% -bordercolor white -border 1x1 +repage -trim 005_magick5.png</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">convert 0052.png   -deskew 40% -fuzz 70% -bordercolor white -border 1x1 +repage -trim 005_magick5.png</span><br></pre></td></tr></tbody></table></figure>
 
 <p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/005_magick5.jpg"></p>
 <p>分辨率 2448x3434。这次本方法能剪出一个比较完整的图像而不会把头发的一部分都给当框削了。</p>
 <p><code>-define trim:percent-background</code> 下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">magick 0052.png  -define trim:percent-background&#x3D;15% -define trim:background-color&#x3D;&#39;#ffffff&#39; -trim -background white -deskew 40% -define trim:percent-background&#x3D;15% -define trim:background-color&#x3D;&#39;#ffffff&#39; -trim 005_magick6.png</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">magick 0052.png  -define trim:percent-background=15% -define trim:background-color='#ffffff' -trim -background white -deskew 40% -define trim:percent-background=15% -define trim:background-color='#ffffff' -trim 005_magick6.png</span><br></pre></td></tr></tbody></table></figure>
 
 <p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/005_magick6.jpg"></p>
 <p>分辨率 2439x3431。白边反而还比 <code>-fuzz</code> 那边要大了，效果还比没有用 gui 修改前的还差。。。（也许是我命令写的有问题，但我感觉就算命令写的没问题白框也削不掉）</p>
 <h3 id="方法-8：去除噪点"><a href="#方法-8：去除噪点" class="headerlink" title="方法 8：去除噪点"></a>方法 8：去除噪点</h3><p>就这样放弃了吗？不！我又查到了一篇新的参考文章：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://superuser.com/questions/1219030/trimming-exterior-empty-space-with-imagemagick-does-not-work-on-scanned-document">Trimming exterior empty space with ImageMagick does not work on scanned documents</a>，说是扫描件的噪点会干扰软件的判断。</p>
 <p>那就试试先去噪点：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">convert 0052.png -write MPR:source -morphology close rectangle:3x4 -morphology erode square    MPR:source -compose Lighten -composite -morphology erode square    MPR:source -composite -morphology erode square    MPR:source -composite -morphology erode square    MPR:source -composite -morphology erode square    MPR:source -composite -morphology erode square    MPR:source -composite -morphology erode square    MPR:source -composite -morphology erode square    MPR:source -composite -morphology erode square    MPR:source -composite 0053.png</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">convert 0052.png -write MPR:source -morphology close rectangle:3x4 -morphology erode square    MPR:source -compose Lighten -composite -morphology erode square    MPR:source -composite -morphology erode square    MPR:source -composite -morphology erode square    MPR:source -composite -morphology erode square    MPR:source -composite -morphology erode square    MPR:source -composite -morphology erode square    MPR:source -composite -morphology erode square    MPR:source -composite -morphology erode square    MPR:source -composite 0053.png</span><br></pre></td></tr></tbody></table></figure>
 
 <p>再用 <code>-fuzz</code>。合起来的命令效果不如分开的，那就保险起见用分开的命令。<code>-fuzz</code>需要进一步调低。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">convert 0053.png -background white -deskew 40% 005_tem.png</span><br><span class="line">convert 005_tem.png  -fuzz 50% -border 1x1 +repage -trim +repage 005_magick7.png</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">convert 0053.png -background white -deskew 40% 005_tem.png</span><br><span class="line">convert 005_tem.png  -fuzz 50% -border 1x1 +repage -trim +repage 005_magick7.png</span><br></pre></td></tr></tbody></table></figure>
 
 <p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/005_magick7.jpg"></p>
 <p>分辨率 2445x3434。仍有白边。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">magick 0053.png  -define trim:percent-background&#x3D;15% -define trim:background-color&#x3D;&#39;#ffffff&#39; -trim 005_tem.png</span><br><span class="line">magick 005_tem.png  -background white -deskew 40%  005_tem1.png</span><br><span class="line">magick 005_tem1.png  -define trim:percent-background&#x3D;15% -define trim:background-color&#x3D;&#39;#ffffff&#39; -trim 005_magick8.png</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">magick 0053.png  -define trim:percent-background=15% -define trim:background-color='#ffffff' -trim 005_tem.png</span><br><span class="line">magick 005_tem.png  -background white -deskew 40%  005_tem1.png</span><br><span class="line">magick 005_tem1.png  -define trim:percent-background=15% -define trim:background-color='#ffffff' -trim 005_magick8.png</span><br></pre></td></tr></tbody></table></figure>
 
 <p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/005_magick8.jpg"></p>
 <p>分辨率 2737x3429，有白边。</p>
@@ -473,16 +475,16 @@
 <h2 id="图像拼接"><a href="#图像拼接" class="headerlink" title="图像拼接"></a>图像拼接</h2><p>多张表情包合成（x</p>
 <p><code>-append</code>：竖着拼。如果是 <code>+append</code> 就是横着拼。</p>
 <p><code>-resize</code>：几张图中如果不是尺寸一致一定就会有的图长有的图短。这就要看个人考量了，比如要竖着拼的话，是把窄的图等比缩放到和宽得一样宽，还是把宽的图缩放到和最窄的一样窄，那就在要缩放的图后面加 <code>-resize</code>。<code>resize</code> 的参数是 <code>长x宽</code>，如果有其中一个参数不用改动可以留空，但是要保留 x 号。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">convert a.jpg  b.jpg -resize 814x -append   0.jpg</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">convert a.jpg  b.jpg -resize 814x -append   0.jpg</span><br></pre></td></tr></tbody></table></figure>
 
 <h2 id="tgs-转换与加速"><a href="#tgs-转换与加速" class="headerlink" title="tgs 转换与加速"></a>tgs 转换与加速</h2><p>tgs 是 telegram 内动态表情包的专用格式。telegram 内的表情包可以通过机器人 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://t.me/Stickerdownloadbot">@Stickerdownloadbot</a> 导出单张或批量导出一整个表情包系列的图片，对于静态图片 bot 会同时导出为包含三种不同格式内容的压缩包；但对于动态图片就只会导出为一个内含 tgs 格式文件的压缩包，后续就还需要通过以下方法进行转换才能在其他地方使用。</p>
 <h3 id="tgs-转换"><a href="#tgs-转换" class="headerlink" title="tgs 转换"></a>tgs 转换</h3><h4 id="lottie"><a href="#lottie" class="headerlink" title="lottie"></a>lottie</h4><p>桌面平台，python 里面一个叫 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://pypi.org/project/lottie/">lottie</a> 的包，建议在 Linux 下使用，windows 下安装繁琐；</p>
 <p>linux：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">pip3 install lottie</span><br><span class="line">sudo pip3 install --upgrade pip</span><br><span class="line">pip3 install cairosvg opencv-python</span><br><span class="line">pip3 install lottie</span><br><span class="line">lottie_convert.py 0.tgs 0.gif</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">pip3 install lottie</span><br><span class="line">sudo pip3 install --upgrade pip</span><br><span class="line">pip3 install cairosvg opencv-python</span><br><span class="line">pip3 install lottie</span><br><span class="line">lottie_convert.py 0.tgs 0.gif</span><br></pre></td></tr></tbody></table></figure>
 
 <p>windows：</p>
 <p>参考<a target="_blank" rel="external nofollow noopener noreferrer" href="https://weasyprint.readthedocs.io/en/stable/install.html#windows">https://weasyprint.readthedocs.io/en/stable/install.html#windows</a>，先安装 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/tschoonj">tschoonj</a>/<strong><a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/tschoonj/GTK-for-Windows-Runtime-Environment-Installer">GTK-for-Windows-Runtime-Environment-Installer</a></strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">pip install cairosvg pillow</span><br><span class="line">pip install opencv-python</span><br><span class="line">python -m pip install --upgrade pip setuptools</span><br><span class="line">python -m pip install WeasyPrint</span><br><span class="line">pip3 install lottie</span><br><span class="line">python lottie_convert.py 0.tgs 0.gif</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">pip install cairosvg pillow</span><br><span class="line">pip install opencv-python</span><br><span class="line">python -m pip install --upgrade pip setuptools</span><br><span class="line">python -m pip install WeasyPrint</span><br><span class="line">pip3 install lottie</span><br><span class="line">python lottie_convert.py 0.tgs 0.gif</span><br></pre></td></tr></tbody></table></figure>
 
 <h4 id="shu"><a href="#shu" class="headerlink" title="shu"></a>shu</h4><p>ios 上的 shu，美区有售。可将 tgs 批量导出为各种格式，如 webp、gif、pngs 等。</p>
 <h4 id="tgs-to-gif-12-14-更新"><a href="#tgs-to-gif-12-14-更新" class="headerlink" title="tgs-to-gif (12.14 更新)"></a>tgs-to-gif <strong>(12.14 更新)</strong></h4><p>上面两个软件，前者免费但容易出现各类错误，且安装繁琐；后者需要付费但效果尚可。</p>
@@ -491,16 +493,16 @@
 <p>原因嘛，docker 方便但因为网络原因安装速度可能会很慢，docker 内部比较难上代理，docker 加速器在这里无效因为跑 docker 的时候我发现这个东西不仅拉镜像还在跑 apt；但 vps 上用 nodejs 还需要非 root 账号，因为本项目用到了 puppeteer，还不一定成功，我在两台 debian 的机子上都掉坑一台找不到 browser 另一台装不上 gifski，找不到 browser 那一回 nodejs 我用了 15，后面发现 15 不行；装不上 gifski 是因为 cargo 都装不上，掉进新坑用命令 <code>rustup install stable</code> 运行到一般就被 kill 了估计是内存都不够了，也不想划虚拟内存了，懒得爬出来了。</p>
 <p>另外 nodejs 运行时的运行目录必须在项目内（但 tgs 文件不需要放在项目内），docker 不需要但写 tgs 文件夹路径的时候得写绝对路径，各有各的麻烦。</p>
 <p>nodejs：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">curl https:&#x2F;&#x2F;sh.rustup.rs -sSf | sh #并 ctrl+d</span><br><span class="line">curl -sL https:&#x2F;&#x2F;deb.nodesource.com&#x2F;setup_14.x | bash - #目前不支持15</span><br><span class="line">apt-get install -y nodejs</span><br><span class="line">cargo install gifski</span><br><span class="line">git clone https:&#x2F;&#x2F;github.com&#x2F;ed-asriyan&#x2F;tgs-to-gif.git</span><br><span class="line">cd tgs-to-gif</span><br><span class="line">npm install</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">curl https://sh.rustup.rs -sSf | sh #并 ctrl+d</span><br><span class="line">curl -sL https://deb.nodesource.com/setup_14.x | bash - #目前不支持15</span><br><span class="line">apt-get install -y nodejs</span><br><span class="line">cargo install gifski</span><br><span class="line">git clone https://github.com/ed-asriyan/tgs-to-gif.git</span><br><span class="line">cd tgs-to-gif</span><br><span class="line">npm install</span><br></pre></td></tr></tbody></table></figure>
 
 <p>即可使用</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">#转换多个 tgs</span><br><span class="line">node cli.js 0.tgs 1.tgs...</span><br><span class="line">#转换整个文件夹</span><br><span class="line">node cli.js &#x2F;home&#x2F;zbttl&#x2F;tgs</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">#转换多个 tgs</span><br><span class="line">node cli.js 0.tgs 1.tgs...</span><br><span class="line">#转换整个文件夹</span><br><span class="line">node cli.js /home/zbttl/tgs</span><br></pre></td></tr></tbody></table></figure>
 
 <p>docker：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git clone https:&#x2F;&#x2F;github.com&#x2F;ed-asriyan&#x2F;tgs-to-gif.git</span><br><span class="line">cd tgs-to-gif</span><br><span class="line">docker build -t tgs-to-gif .</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/ed-asriyan/tgs-to-gif.git</span><br><span class="line">cd tgs-to-gif</span><br><span class="line">docker build -t tgs-to-gif .</span><br></pre></td></tr></tbody></table></figure>
 
 <p>即可使用</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run --rm -v &lt;文件夹绝对路径&gt;:&#x2F;source tgs-to-gif</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run --rm -v &lt;文件夹绝对路径&gt;:/source tgs-to-gif</span><br></pre></td></tr></tbody></table></figure>
 
 <p><strong>（12 月 23 日更新）</strong> docker 版和 nodejs 效果居然不一样。。。。docker 版出来的效果需要加速，所以只推荐 nodejs 版。至于为什么效果会不一样。。。我猜测是因为 gifski 版本的原因，docker 里面 gifski 版本还是 0.10.4，我在实机中安装的版本已经是 1.22 了。但话说回来，issue 里面刚好就有个人吐槽长度宽度参数不生效[The –height HEIGHT –width WIDTH don’t work #25](The –height HEIGHT –width WIDTH don’t work #25)，作者给的意见是更换喂 gifski 旧版。。。。另外一点，托之前忘记安装 gifski 的福，我看到了部分运行命令：</p>
 <p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20201223071937.png"></p>
@@ -646,7 +648,7 @@
 </li>
 </ol>
 <p>另外，shu 也可以把 tgs 换成其他多种格式，但直接能动的就两种：gif 和 webp。上面我用 ezgif 讲 webp 转成 gif，发现速度大体正常，综合参数，我提出一个大胆的假设：应该蛮多软件不看 <code>delay</code> 而是直接以张数作为播放速度的依据。至于为什么不看延迟？可能跟所谓 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://legacy.imagemagick.org/Usage/anim_basics/#zero">gif 零延迟</a>有关：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">好吧，它们很重要，那又是什么呢？因为许多应用程序不喜欢它们，或者处理不当。他们认为“零延迟帧”是一件坏事，即使您出于某种原因故意将它们添加到动画中也是如此。</span><br><span class="line">这是我了解或被告知“做错事”的应用程序的摘要...</span><br><span class="line">金普	不会保存“零延迟帧”，它们总是向具有零时延的任何帧添加最小的时延。:-(</span><br><span class="line"> </span><br><span class="line">火狐	在这样的帧上会稍有非零的停顿。大概是这样，根本没有时间延迟的动画会耗尽所有计算机的CPU周期。但是firefox，如果动画的总显示时间为非零，则“ ”仍不能放松该限制。</span><br><span class="line"> </span><br><span class="line">IE浏览器	最小时间延迟为6厘秒，并且忽略小于此时间的任何延迟。</span><br><span class="line">如果任何图像帧超出了第一帧设置的动画范围，Internet Explorer 8版本也会失败（立即重新启动循环）。我将其归类为主要错误。</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">好吧，它们很重要，那又是什么呢？因为许多应用程序不喜欢它们，或者处理不当。他们认为“零延迟帧”是一件坏事，即使您出于某种原因故意将它们添加到动画中也是如此。</span><br><span class="line">这是我了解或被告知“做错事”的应用程序的摘要...</span><br><span class="line">金普	不会保存“零延迟帧”，它们总是向具有零时延的任何帧添加最小的时延。:-(</span><br><span class="line"> </span><br><span class="line">火狐	在这样的帧上会稍有非零的停顿。大概是这样，根本没有时间延迟的动画会耗尽所有计算机的CPU周期。但是firefox，如果动画的总显示时间为非零，则“ ”仍不能放松该限制。</span><br><span class="line"> </span><br><span class="line">IE浏览器	最小时间延迟为6厘秒，并且忽略小于此时间的任何延迟。</span><br><span class="line">如果任何图像帧超出了第一帧设置的动画范围，Internet Explorer 8版本也会失败（立即重新启动循环）。我将其归类为主要错误。</span><br></pre></td></tr></tbody></table></figure>
 
 <p>因为 0 延迟可能报错，所以干脆就不用延迟来计算了。。。。</p>
 <p>如同这篇文章：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.easeus.com/amp/video-editing-tips/gif-speed-changer.html">Top 10 Best GIF Speed Changers: How to Speed up or Slow down GIF Easily</a> 给出的所有手段几乎都是在 gif 的 delay 参数上动手脚，而 delay 参数又似乎和 fps 挂钩（参考这里：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://superuser.com/questions/1449366/do-60-fps-gifs-actually-exist-or-is-the-maximum-50-fps">Do 60 FPS GIF’s actually exist? Or is the maximum 50 FPS?</a>)，但如果软件不认可你的 delay 参数，那自然就没有用。那么 gif 就会按照 timebase，也就是 0.04s 一张这个速度进行播放。另外为什么说 delay 似乎和 fps 挂钩呢？因为 delay 设置为 2 和 3 的时候，ffprobe 显示帧数分别为 50fps 和 33.33fps。但！delay 设置为 1 的时候，ffprobe 又显示帧数只有 10fps。。。可能是因为触发了 ffprobe 的最小延迟机制（要求最小延迟为 2，只能显示 50fps）。其实不止 ffprobe，还有许多看图软件的最小延迟也设定为 2。如果 delay 写 1 的话 gif 显示速度反而会变慢。</p>
@@ -664,7 +666,7 @@
 </li>
 </ol>
 <p>另外，对于修改 delay，也建议使用 imagemagick 而不是那些原理不明的工具。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">convert -delay 2 0.gif 0_change.gif</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">convert -delay 2 0.gif 0_change.gif</span><br></pre></td></tr></tbody></table></figure>
 
 <p>具体修改到什么程度可以参考以下两篇文章：</p>
 <ol>
@@ -690,22 +692,22 @@
 <p>操作后建议用一些工具检测一下参数（比如 delay、张数等）</p>
 <ol>
 <li><p>ffprobe（ffmpeg 随附，可显示码率、tbr/duration、fps）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffprobe 0.gif</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffprobe 0.gif</span><br></pre></td></tr></tbody></table></figure>
 </li>
 <li><p>imagemagick 中的 identify 工具（magick7 以后的版本都要以 magick 命令打头）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(magick) identify 0.gif</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(magick) identify 0.gif</span><br></pre></td></tr></tbody></table></figure>
 
 <p>identify 主要用来看延迟的，那么可以修改一下命令：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">identify -verbose 0.gif  | grep Delay</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">identify -verbose 0.gif  | grep Delay</span><br></pre></td></tr></tbody></table></figure>
 
 <p>或者用 identify 自身的通配符（参考：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://imagemagick.org/script/escape.php">Percent Escape Handling</a> 和 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://m.656463.com/wenda/ImagemagickGraphicsMagicktxywzml_607">Imagemagick GraphicsMagick image mean command</a>）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">identify -format &quot;%m:%f %wx%h %T\n&quot; .\0.gif</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">identify -format "%m:%f %wx%h %T\n" .\0.gif</span><br></pre></td></tr></tbody></table></figure>
 </li>
 <li><p><a target="_blank" rel="external nofollow noopener noreferrer" href="https://legacy.imagemagick.org/Usage/scripts/gif_anim_montage">gif_anim_montage</a> 脚本。可将每帧的形状，处理方式和延迟以顺序的方式集合到一张图片中。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.&#x2F;gif_anim_montage 0.gif 0.jpg</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./gif_anim_montage 0.gif 0.jpg</span><br></pre></td></tr></tbody></table></figure>
 </li>
 <li><p>查看视频 / gif 总帧数</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffprobe -v error -count_frames -select_streams v:0  -show_entries stream&#x3D;nb_read_frames -of default&#x3D;nokey&#x3D;1:noprint_wrappers&#x3D;1 0.gif </span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffprobe -v error -count_frames -select_streams v:0  -show_entries stream=nb_read_frames -of default=nokey=1:noprint_wrappers=1 0.gif </span><br></pre></td></tr></tbody></table></figure>
 
 </li>
 </ol>
@@ -740,22 +742,22 @@
 <h4 id="webp-转换法"><a href="#webp-转换法" class="headerlink" title="webp 转换法"></a>webp 转换法</h4><p>需要 imagemagick 7+</p>
 <p><code>-coalesce</code>：把 gif 每帧拆分出来</p>
 <p><code>-set dispose background</code>：让下一帧显示时先清空上一帧显示的所有内容（把上一帧被描绘的像素统统删成透明） 。不使用这个参数就会造成重影。也可以把这个参数写在输入文件的前面，并改成 <code>-dispose background</code>。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">magick  &quot;(&quot; 0.webp -coalesce &quot;)&quot;  -set dispose background -loop 0 .&#x2F;0.gif</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">magick  "(" 0.webp -coalesce ")"  -set dispose background -loop 0 ./0.gif</span><br></pre></td></tr></tbody></table></figure>
 
 <p>但在 windows 下最新版本好像可以直接转了。。。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">magick 0.webp 0.gif</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">magick 0.webp 0.gif</span><br></pre></td></tr></tbody></table></figure>
 
 <p>最后成品帧数只有 13。</p>
 <h4 id="借助-ffmpeg-转换加速"><a href="#借助-ffmpeg-转换加速" class="headerlink" title="借助 ffmpeg 转换加速"></a>借助 ffmpeg 转换加速</h4><p><code>setpts=0.5*PTS</code>：加速两倍</p>
 <p><code>-vcodec qtrle</code>：一个支持 argb（带透明通道）的编码。也可以换为 <code>-vcodec png</code>（rgba 编码，没有本质上区别）和 <code>-vcodec rawvideo</code>（体积很大，可能还要配合 <code>-pix_fmt rgba</code>）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -i 0.gif -movflags faststart -vcodec qtrle -vf &quot;scale&#x3D;trunc(iw&#x2F;2)*2:trunc(ih&#x2F;2)*2&quot; -filter:v &quot;setpts&#x3D;0.5*PTS&quot; 0.mov</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -i 0.gif -movflags faststart -vcodec qtrle -vf "scale=trunc(iw/2)*2:trunc(ih/2)*2" -filter:v "setpts=0.5*PTS" 0.mov</span><br></pre></td></tr></tbody></table></figure>
 
 <p>然后使用 magick，<code>-delay</code> 需要用 ffprobe 查一下原 gif 的还原进去。不过光是 qq 用不管也可以。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">convert -dispose background -quiet -delay 3 0.mov 0_change.gif</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">convert -dispose background -quiet -delay 3 0.mov 0_change.gif</span><br></pre></td></tr></tbody></table></figure>
 
 <p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/tiRkpv5cmNV2Cq4.gif" alt="01.gif"></p>
 <p>如果遭遇最后一帧和第一帧直接有卡顿，需要加上 <code>-deconstruct</code> 参数。要注意使用此参数后动画速度可能进一步提高（原因不明），需要把 <code>-delay</code> 值拉大。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">convert -dispose background -deconstruct -quiet -delay 5 0.mov 0_change.gif</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">convert -dispose background -deconstruct -quiet -delay 5 0.mov 0_change.gif</span><br></pre></td></tr></tbody></table></figure>
 
 <p>此时输出的 gif 已经足够小，没有必要再使用优化参数进行优化（另一个原因是我使用 <code>-layers optimize</code> 参数后部分文件大小反而增加了）。</p>
 
@@ -877,14 +879,14 @@
       <i class="fa fa-chart-line"></i>
     </span>
       <span>站点总字数：</span>
-    <span title="站点总字数">112k</span>
+    <span title="站点总字数">135k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">1:42</span>
+    <span title="站点阅读时长">2:03</span>
   </span>
 </div>
 <div class="busuanzi-count">

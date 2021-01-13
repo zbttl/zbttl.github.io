@@ -90,6 +90,8 @@
   </style>
 </noscript>
 
+
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
 <link rel="alternate" href="/atom.xml" title="Bao's 备忘录" type="application/atom+xml">
 </head>
 
@@ -199,20 +201,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">21</span>
+          <span class="site-state-item-count">24</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-count">11</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">37</span>
+        <span class="site-state-item-count">45</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -340,47 +342,47 @@
     <div class="post-body" itemprop="articleBody">
         <p>干嘛写这玩意呢。。。因为这玩意坑不少。</p>
 <p>作为 linux 的计划任务程序，使用方法大家都很清楚：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">crontab -e</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">crontab -e</span><br></pre></td></tr></tbody></table></figure>
 
 <p>然后会用不知道什么程序打开 cron 的配置文件。对我没用错词汇，就是不知道什么程序，我见过用 vim 的、用 nano 的、用一个不知道叫啥名字但快捷键很像 tmux 的（可能是 emcas？），有的系统第一次用 crontab 的时候会让你选用哪种编辑器，但有的完全不会。。。</p>
 <p>然后敲命令进去</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">* * * * * [command]</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">* * * * * [command]</span><br></pre></td></tr></tbody></table></figure>
 
 <p>那几个星号：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">*    *    *    *    *</span><br><span class="line">-    -    -    -    -</span><br><span class="line">|    |    |    |    |</span><br><span class="line">|    |    |    |    +----- 星期中星期几 (0 - 7) (星期天 为0)</span><br><span class="line">|    |    |    +---------- 月份 (1 - 12) </span><br><span class="line">|    |    +--------------- 一个月中的第几天 (1 - 31)</span><br><span class="line">|    +-------------------- 小时 (0 - 23)</span><br><span class="line">+------------------------- 分钟 (0 - 59)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">*    *    *    *    *</span><br><span class="line">-    -    -    -    -</span><br><span class="line">|    |    |    |    |</span><br><span class="line">|    |    |    |    +----- 星期中星期几 (0 - 7) (星期天 为0)</span><br><span class="line">|    |    |    +---------- 月份 (1 - 12) </span><br><span class="line">|    |    +--------------- 一个月中的第几天 (1 - 31)</span><br><span class="line">|    +-------------------- 小时 (0 - 23)</span><br><span class="line">+------------------------- 分钟 (0 - 59)</span><br></pre></td></tr></tbody></table></figure>
 
 <p>另外可以用 <code>*/n</code> 这种格式，表示时间刻度内执行 n 次。<code>*</code> 既可以填入单个数字表示某一时间，也可以填入类似 <code>1-9</code> 这种形式，表示时间段。</p>
 <p>坑来了：后面的命令，有几个值得注意的地方：</p>
 <ol>
 <li><p>运行时涉及的所有文件和命令需要绝对路径。</p>
 <p>比如用于 hostloc 一键签到的 php 脚本：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">php loc.php</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">php loc.php</span><br></pre></td></tr></tbody></table></figure>
 
 <p>在 crontab 中就得这么写：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">0 1 * * * &#x2F;usr&#x2F;bin&#x2F;php &#x2F;root&#x2F;loc.php &gt;&gt;&#x2F;var&#x2F;log&#x2F;hostloc.log</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">0 1 * * * /usr/bin/php /root/loc.php &gt;&gt;/var/log/hostloc.log</span><br></pre></td></tr></tbody></table></figure>
 </li>
 <li><p>“命令里面夹命令”，需要用 <code>`</code> 号替换括号；如果命令里面有 <code>%</code> 号，需要在前面用 <code>\</code> 转义。</p>
 <p>比如：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">0 0 1 * * &#x2F;root&#x2F;traffic.sh &gt; &#x2F;root&#x2F;$(date +%y%m%d).txt&amp;&amp;&#x2F;root&#x2F;traffic.sh reset</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">0 0 1 * * /root/traffic.sh &gt; /root/$(date +%y%m%d).txt&amp;&amp;/root/traffic.sh reset</span><br></pre></td></tr></tbody></table></figure>
 
 <p>就需要改成</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">0 0 1 * * &#x2F;root&#x2F;traffic.sh &gt; &#x2F;root&#x2F;&#96;date &quot;+\%y\%m\%d&quot;&#96;.txt&amp;&amp;&#x2F;root&#x2F;traffic.sh reset</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">0 0 1 * * /root/traffic.sh &gt; /root/`date "+\%y\%m\%d"`.txt&amp;&amp;/root/traffic.sh reset</span><br></pre></td></tr></tbody></table></figure>
 </li>
 <li><p>如果运行出错，crontab 不会主动报错，你可以查看一下 crontab 的 service 日志（参考<a target="_blank" rel="external nofollow noopener noreferrer" href="https://unix.stackexchange.com/questions/212355/where-is-my-logfile-of-crontab">cron - Where is my logfile of crontab? - Unix &amp; Linux Stack Exchange</a>）：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">journalctl -u cron.service</span><br><span class="line">#或者用下面两个</span><br><span class="line">#journalctl _COMM&#x3D;cron</span><br><span class="line">#journalctl _COMM&#x3D;cron --since&#x3D;&quot;date&quot; --until&#x3D;&quot;date&quot;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">journalctl -u cron.service</span><br><span class="line">#或者用下面两个</span><br><span class="line">#journalctl _COMM=cron</span><br><span class="line">#journalctl _COMM=cron --since="date" --until="date"</span><br></pre></td></tr></tbody></table></figure>
 
 <p>或者查看它本身导出的日志文件（不同的 linux 发行版路径可能不一样，以下这个适用于 debian）：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat &#x2F;var&#x2F;log&#x2F;syslog</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat /var/log/syslog</span><br></pre></td></tr></tbody></table></figure>
 
 <p>但这样看到的错误日志其实不够详细。仔细观察的话，出错的日志后面有这么一条：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(CRON) info (No MTA installed, discarding output)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(CRON) info (No MTA installed, discarding output)</span><br></pre></td></tr></tbody></table></figure>
 
 <p>意思是 cron 想把错误发到系统内的邮件管理器，但你没装。</p>
 <p>那就装一个好了：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">apt install postfix</span><br><span class="line">service postfix start</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">apt install postfix</span><br><span class="line">service postfix start</span><br></pre></td></tr></tbody></table></figure>
 
 <p>后续出错的时候就可以通过</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat &#x2F;var&#x2F;spool&#x2F;mail&#x2F;root</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat /var/spool/mail/root</span><br></pre></td></tr></tbody></table></figure>
 
 <p>查看错误的详细情况。</p>
 </li>
@@ -504,14 +506,14 @@
       <i class="fa fa-chart-line"></i>
     </span>
       <span>站点总字数：</span>
-    <span title="站点总字数">112k</span>
+    <span title="站点总字数">135k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">1:42</span>
+    <span title="站点阅读时长">2:03</span>
   </span>
 </div>
 <div class="busuanzi-count">
