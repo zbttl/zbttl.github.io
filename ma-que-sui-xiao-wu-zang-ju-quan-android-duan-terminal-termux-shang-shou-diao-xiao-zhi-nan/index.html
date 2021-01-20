@@ -23,24 +23,25 @@
     var NexT = window.NexT || {};
     var CONFIG = {"hostname":"zbttl.github.io","root":"/","images":"/images","scheme":"Muse","version":"8.1.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}};
   </script>
-<meta name="description" content="参考文章：  Termux 使用教程 #1 - Android 手机安装 Linux：快捷键，ssh Termux 使用教程（二）：打造手机上的最强终端：自定义扩展输入栏，换源，oh-my-zsh 和插件 国光：Termux 高级终端安装使用配置教程 信息安全类的包 神器Termux的使用记录 php+nginx+wordpress Termux 学习笔记 hexo，和一些 cli 文件管理工具">
+<meta name="description" content="Android 端 terminal 选择挺多的，甚至除了本地 terminal 之外，专精于 ssh 连接的工具（例如 juicessh、termius），那些个能给 Android 装上 Linux 子系统的工具都能或多或少的执行 Terminal 的工作。本文的主角 termux 就是其中一个轻量级本地 terminal。论界面和易用性，termux 绝对是排倒数的，教程、界面选择、各种设置">
 <meta property="og:type" content="article">
-<meta property="og:title" content="termux 调校">
-<meta property="og:url" content="https://zbttl.github.io/termux-diao-xiao/index.html">
+<meta property="og:title" content="「麻雀虽小，五脏俱全」：Android 端 terminal termux 上手调校指南">
+<meta property="og:url" content="https://zbttl.github.io/ma-que-sui-xiao-wu-zang-ju-quan-android-duan-terminal-termux-shang-shou-diao-xiao-zhi-nan/index.html">
 <meta property="og:site_name" content="Bao&#39;s 备忘录">
-<meta property="og:description" content="参考文章：  Termux 使用教程 #1 - Android 手机安装 Linux：快捷键，ssh Termux 使用教程（二）：打造手机上的最强终端：自定义扩展输入栏，换源，oh-my-zsh 和插件 国光：Termux 高级终端安装使用配置教程 信息安全类的包 神器Termux的使用记录 php+nginx+wordpress Termux 学习笔记 hexo，和一些 cli 文件管理工具">
+<meta property="og:description" content="Android 端 terminal 选择挺多的，甚至除了本地 terminal 之外，专精于 ssh 连接的工具（例如 juicessh、termius），那些个能给 Android 装上 Linux 子系统的工具都能或多或少的执行 Terminal 的工作。本文的主角 termux 就是其中一个轻量级本地 terminal。论界面和易用性，termux 绝对是排倒数的，教程、界面选择、各种设置">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://i.imgur.com/XIwtL6V.png">
 <meta property="article:published_time" content="2020-04-13T16:00:00.000Z">
-<meta property="article:modified_time" content="2021-01-04T10:49:57.973Z">
+<meta property="article:modified_time" content="2021-01-20T19:56:40.354Z">
 <meta property="article:author" content="zbttl">
 <meta property="article:tag" content="termux">
 <meta property="article:tag" content="zsh">
+<meta property="article:tag" content="terminal">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://i.imgur.com/XIwtL6V.png">
 
 
-<link rel="canonical" href="https://zbttl.github.io/termux-diao-xiao/">
+<link rel="canonical" href="https://zbttl.github.io/ma-que-sui-xiao-wu-zang-ju-quan-android-duan-terminal-termux-shang-shou-diao-xiao-zhi-nan/">
 
 
 <script class="page-configurations">
@@ -52,7 +53,7 @@
     lang   : 'zh-CN'
   };
 </script>
-<title>termux 调校 | Bao's 备忘录</title>
+<title>「麻雀虽小，五脏俱全」：Android 端 terminal termux 上手调校指南 | Bao's 备忘录</title>
   
 
 
@@ -217,7 +218,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">45</span>
+        <span class="site-state-item-count">43</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -267,7 +268,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://zbttl.github.io/termux-diao-xiao/">
+    <link itemprop="mainEntityOfPage" href="https://zbttl.github.io/ma-que-sui-xiao-wu-zang-ju-quan-android-duan-terminal-termux-shang-shou-diao-xiao-zhi-nan/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -280,7 +281,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          termux 调校
+          「麻雀虽小，五脏俱全」：Android 端 terminal termux 上手调校指南
         </h1>
 
         <div class="post-meta-container">
@@ -298,7 +299,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2021-01-04 18:49:57" itemprop="dateModified" datetime="2021-01-04T18:49:57+08:00">2021-01-04</time>
+        <time title="修改时间：2021-01-21 03:56:40" itemprop="dateModified" datetime="2021-01-21T03:56:40+08:00">2021-01-21</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -325,7 +326,7 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>8.9k</span>
+      <span>9.2k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
@@ -343,7 +344,8 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <p>参考文章：</p>
+        <p>Android 端 terminal 选择挺多的，甚至除了本地 terminal 之外，专精于 ssh 连接的工具（例如 juicessh、termius），那些个能给 Android 装上 Linux 子系统的工具都能或多或少的执行 Terminal 的工作。本文的主角 termux 就是其中一个轻量级本地 terminal。论界面和易用性，termux 绝对是排倒数的，教程、界面选择、各种设置啥的一概没有；但 terminal 该做的东西，比如软件生态，自启，服务，它都有；比他更全能的 Linux 虚拟机又太过臃肿，和它一样轻量的本地 terminal 们除了运行点二进制外就啥也没有了。但要发挥出 termux 的功力，免不了得折腾一番。</p>
+<p>参考文章：</p>
 <ol>
 <li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://p3terx.com/archives/termux-tutorial-1.html">Termux 使用教程 #1 - Android 手机安装 Linux</a>：快捷键，ssh</li>
 <li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://p3terx.com/archives/termux-tutorial-2.html">Termux 使用教程（二）：打造手机上的最强终端</a>：自定义扩展输入栏，换源，oh-my-zsh 和插件</li>
@@ -556,7 +558,7 @@
   </li>
   <li class="post-copyright-link">
       <strong>本文链接：</strong>
-      <a href="https://zbttl.github.io/termux-diao-xiao/" title="termux 调校">https://zbttl.github.io/termux-diao-xiao/</a>
+      <a href="https://zbttl.github.io/ma-que-sui-xiao-wu-zang-ju-quan-android-duan-terminal-termux-shang-shou-diao-xiao-zhi-nan/" title="「麻雀虽小，五脏俱全」：Android 端 terminal termux 上手调校指南">https://zbttl.github.io/ma-que-sui-xiao-wu-zang-ju-quan-android-duan-terminal-termux-shang-shou-diao-xiao-zhi-nan/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="external nofollow noopener noreferrer" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-SA</a> 许可协议。转载请注明出处！
@@ -584,6 +586,7 @@
           <div class="post-tags">
               <a href="/tags/termux/" rel="tag"># termux</a>
               <a href="/tags/zsh/" rel="tag"># zsh</a>
+              <a href="/tags/terminal/" rel="tag"># terminal</a>
           </div>
 
         
@@ -595,13 +598,13 @@
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/windows-terminal/" rel="prev" title="windows terminal">
-                  <i class="fa fa-chevron-left"></i> windows terminal
+                <a href="/bao-li-zheng-he-windows-terminal-dao-xi-tong-ge-chu-kuai-jie-cai-dan-zhong/" rel="prev" title="暴力整合 windows terminal 到系统各处快捷菜单中">
+                  <i class="fa fa-chevron-left"></i> 暴力整合 windows terminal 到系统各处快捷菜单中
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/wireshark-zhua-bao/" rel="next" title="wireshark抓包">
-                  wireshark抓包 <i class="fa fa-chevron-right"></i>
+                <a href="/wireshark-zhua-dai-li-gong-ju-bao/" rel="next" title="wireshark 抓代理工具包">
+                  wireshark 抓代理工具包 <i class="fa fa-chevron-right"></i>
                 </a>
             </div>
           </div>
@@ -658,14 +661,14 @@
       <i class="fa fa-chart-line"></i>
     </span>
       <span>站点总字数：</span>
-    <span title="站点总字数">135k</span>
+    <span title="站点总字数">137k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">2:03</span>
+    <span title="站点阅读时长">2:05</span>
   </span>
 </div>
 <div class="busuanzi-count">
@@ -764,7 +767,7 @@ NexT.utils.loadComments('#gitalk-container', () => {
       repo        : 'zbttl-comment',
       owner       : 'zbpicture',
       admin       : ['zbpicture'],
-      id          : 'b5fc4ae4f77d7065a3b2f96b5fcb9e25',
+      id          : '7d1558c44858756d52e4e52ec0617edd',
         language: '',
       distractionFreeMode: true
     });
