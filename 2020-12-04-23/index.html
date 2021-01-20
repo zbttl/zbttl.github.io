@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.1/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"zbttl.github.io","root":"/","images":"/images","scheme":"Muse","version":"8.1.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}};
+  </script>
+<meta name="description" content="imagemagick，在我这里大概有两大类用途：  没有 ps，下个 ps 贼大，怎么办？命令行修图吧。。。 gif 加速（配合 ffmpeg）">
+<meta property="og:type" content="article">
+<meta property="og:title" content="玩一下 imagemagick">
+<meta property="og:url" content="https://zbttl.github.io/2020-12-04-23/index.html">
+<meta property="og:site_name" content="Bao&#39;s 备忘录">
+<meta property="og:description" content="imagemagick，在我这里大概有两大类用途：  没有 ps，下个 ps 贼大，怎么办？命令行修图吧。。。 gif 加速（配合 ffmpeg）">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://raw.githubusercontent.com/zbpicture/picture/main/img/005.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/005_ps1.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/005_ps2.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/005_magick1.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/005_magick2.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/005_magick3.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/005_magick4.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/0054.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/005_magick5.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/005_magick6.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/005_magick7.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/005_magick8.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20201223071937.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/1gGuvCbBVJqMRtj.gif">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/Zv9YCok1ql784Hi.gif">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/FEsgkbz2OBZC9xd.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/Y8mt1nDfcKizoZC.png">
+<meta property="og:image" content="https://i.loli.net/2020/12/10/7PpRFV624QdyA8Z.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/BxqDHbuKkhpwVnM.gif">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/tiRkpv5cmNV2Cq4.gif">
+<meta property="article:published_time" content="2020-12-04T15:58:32.000Z">
+<meta property="article:modified_time" content="2021-01-20T17:39:00.800Z">
+<meta property="article:author" content="zbttl">
+<meta property="article:tag" content="ffmpeg">
+<meta property="article:tag" content="imagemagick">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/zbpicture/picture/main/img/005.jpg">
+
+
+<link rel="canonical" href="https://zbttl.github.io/2020-12-04-23/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+<title>玩一下 imagemagick | Bao's 备忘录</title>
+  
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link rel="alternate" href="/atom.xml" title="Bao's 备忘录" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Bao's 备忘录</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80" placeholder="搜索..." spellcheck="false" type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <section class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%BE%E5%83%8F%E9%85%8D%E5%AD%97"><span class="nav-number">1.</span> <span class="nav-text">图像配字</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A9%AC%E8%B5%9B%E5%85%8B%EF%BC%88%E4%BC%AA%EF%BC%89"><span class="nav-number">2.</span> <span class="nav-text">马赛克（伪）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BA%A0%E5%81%8F-%E8%A3%81%E5%89%AA"><span class="nav-number">3.</span> <span class="nav-text">纠偏 + 裁剪</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%B9%E6%B3%95-1%EF%BC%9A%E7%94%A8-photoshop-%E8%A3%81%E5%89%AA%E5%B7%A5%E5%85%B7%EF%BC%88%E4%B8%8D%E7%BA%A0%E5%81%8F%EF%BC%89"><span class="nav-number">3.1.</span> <span class="nav-text">方法 1：用 photoshop 裁剪工具（不纠偏）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%B9%E6%B3%952%EF%BC%9A%E7%94%A8-photoshop-%E9%80%8F%E8%A7%86%E8%A3%81%E5%89%AA%E5%B7%A5%E5%85%B7%EF%BC%88%E9%A1%BA%E4%BE%BF%E7%BA%A0%E5%81%8F%EF%BC%89"><span class="nav-number">3.2.</span> <span class="nav-text">方法2：用 photoshop 透视裁剪工具（顺便纠偏）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%B9%E6%B3%953-%E7%9B%B4%E6%8E%A5%E4%BD%BF%E7%94%A8-magick-%E8%87%AA%E5%8A%A8%E6%A3%80%E6%B5%8B"><span class="nav-number">3.3.</span> <span class="nav-text">方法3: 直接使用 magick 自动检测</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%B9%E6%B3%95-4%EF%BC%9A%E8%87%AA%E5%8A%A8%E6%97%8B%E8%BD%AC%E5%90%8E%E4%BD%BF%E7%94%A8-magick-%E6%A3%80%E6%B5%8B%E6%8B%BC%E6%8E%A5"><span class="nav-number">3.4.</span> <span class="nav-text">方法 4：自动旋转后使用 magick 检测拼接</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%B9%E6%B3%95-5%EF%BC%9Amagick-%E6%A3%80%E6%B5%8B%E6%8B%BC%E6%8E%A5%EF%BC%8C%E7%84%B6%E5%90%8E%E5%86%8D%E8%87%AA%E5%8A%A8%E6%97%8B%E8%BD%AC"><span class="nav-number">3.5.</span> <span class="nav-text">方法 5：magick 检测拼接，然后再自动旋转</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%B9%E6%B3%956%EF%BC%88magick-7-%E4%B8%93%E7%94%A8%EF%BC%89"><span class="nav-number">3.6.</span> <span class="nav-text">方法6（magick 7 专用）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%B9%E6%B3%957%EF%BC%9A%E5%B0%86%E7%99%BD%E8%89%B2%E8%BE%B9%E6%A1%86%E4%B8%AD%E7%9A%84%E5%A4%9A%E4%BD%99%E7%9A%84%E9%83%A8%E5%88%86%E7%94%A8-gui%EF%BC%88%E7%94%BB%E5%9B%BE-ps%EF%BC%89%E5%89%AA%E6%8E%89%EF%BC%8C%E5%86%8D%E5%A4%84%E7%90%86"><span class="nav-number">3.7.</span> <span class="nav-text">方法7：将白色边框中的多余的部分用 gui（画图 &#x2F; ps）剪掉，再处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%B9%E6%B3%95-8%EF%BC%9A%E5%8E%BB%E9%99%A4%E5%99%AA%E7%82%B9"><span class="nav-number">3.8.</span> <span class="nav-text">方法 8：去除噪点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%BE%E5%83%8F%E6%8B%BC%E6%8E%A5"><span class="nav-number">4.</span> <span class="nav-text">图像拼接</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#tgs-%E8%BD%AC%E6%8D%A2%E4%B8%8E%E5%8A%A0%E9%80%9F"><span class="nav-number">5.</span> <span class="nav-text">tgs 转换与加速</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#tgs-%E8%BD%AC%E6%8D%A2"><span class="nav-number">5.1.</span> <span class="nav-text">tgs 转换</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#lottie"><span class="nav-number">5.1.1.</span> <span class="nav-text">lottie</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#shu"><span class="nav-number">5.1.2.</span> <span class="nav-text">shu</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#tgs-to-gif-12-14-%E6%9B%B4%E6%96%B0"><span class="nav-number">5.1.3.</span> <span class="nav-text">tgs-to-gif (12.14 更新)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%89%B4%E5%9D%91%E6%89%AF%E6%B7%A1"><span class="nav-number">5.2.</span> <span class="nav-text">鉴坑扯淡</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BD%AC%E6%8D%A2%E4%B8%BA-tgs-%E5%90%8E%E5%8F%AF%E8%83%BD%E4%BC%9A%E5%87%BA%E7%8E%B0%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-number">5.3.</span> <span class="nav-text">转换为 tgs 后可能会出现的问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BD%AC%E6%8D%A2%E4%B8%BA-tgs-%E5%90%8E%E5%AF%B9%E4%BA%8E%E5%8A%A8%E7%94%BB%E9%80%9F%E5%BA%A6%E8%BE%83%E6%85%A2%E7%9A%84%E5%A4%84%E7%90%86%E6%96%B9%E6%B3%95"><span class="nav-number">5.4.</span> <span class="nav-text">转换为 tgs 后对于动画速度较慢的处理方法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#ps-%E8%BD%AC%E6%8D%A2%E5%8A%A0%E9%80%9F%E6%B3%95"><span class="nav-number">5.4.1.</span> <span class="nav-text">ps 转换加速法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ps-%E7%9B%B4%E6%8E%A5%E5%8A%A0%E9%80%9F%E6%B3%95"><span class="nav-number">5.4.2.</span> <span class="nav-text">ps 直接加速法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#webp-%E8%BD%AC%E6%8D%A2%E6%B3%95"><span class="nav-number">5.4.3.</span> <span class="nav-text">webp 转换法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%80%9F%E5%8A%A9-ffmpeg-%E8%BD%AC%E6%8D%A2%E5%8A%A0%E9%80%9F"><span class="nav-number">5.4.4.</span> <span class="nav-text">借助 ffmpeg 转换加速</span></a></li></ol></li></ol></li></ol></div>
+        </section>
+        <!--/noindex-->
+
+        <section class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">zbttl</p>
+  <div class="site-description" itemprop="description">玩点好玩的</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">24</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">43</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/zbttl" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;zbttl" rel="external nofollow noopener noreferrer" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:zbttls@gmail.com" title="E-Mail → mailto:zbttls@gmail.com" rel="external nofollow noopener noreferrer" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fa fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+
+
+
+        </section>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://zbttl.github.io/2020-12-04-23/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="zbttl">
+      <meta itemprop="description" content="玩点好玩的">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Bao's 备忘录">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          玩一下 imagemagick
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-12-04 23:58:32" itemprop="dateCreated datePublished" datetime="2020-12-04T23:58:32+08:00">2020-12-04</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-01-21 01:39:00" itemprop="dateModified" datetime="2021-01-21T01:39:00+08:00">2021-01-21</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%BD%B1%E9%9F%B3/" itemprop="url" rel="index"><span itemprop="name">影音</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>13k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>12 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>imagemagick，在我这里大概有两大类用途：</p>
+<ol>
+<li>没有 ps，下个 ps 贼大，怎么办？命令行修图吧。。。</li>
+<li>gif 加速（配合 ffmpeg）</li>
+</ol>
+<p>不过这玩意那是相当复杂。。。以下是一些入门教程：</p>
+<ul>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.jianshu.com/p/310d833d9a25">ImageMagick 入门教程</a></li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="http://www.charry.org/docs/linux/ImageMagick/ImageMagick.html">我的 ImageMagick 使用心得</a></li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="http://www.pooy.net/category/os/imagemagick-os">璞玉（POOY）Category: Imagemagick</a></li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://blog.csdn.net/ihtml5/article/details/88084364">ImageMagick 高级教程整理</a></li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="http://www.360doc.cn/userhome.aspx?userid=1947337">ImageMagick 使用经验</a></li>
+</ul>
+<p>文档：</p>
+<ul>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://imagemagick.org/script/command-line-processing.php">官方文档</a></li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://imagemagick.org/script/command-line-options.php">官方参数文档</a></li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="http://www.imagemagick.com.cn/command_line_options.html">中文（看起来有一定机翻）参数文档</a></li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://legacy.imagemagick.org/Usage/">Examples of ImageMagick Usage</a></li>
+</ul>
+<p>请注意，本文完成时所使用的 Imagemagick 版本为 7.0.10-48 Q16 x64 2020-12-10（windows），修复了 Imagemagick 无法直接将 mp4 转换为 gif 的问题，可通过 chocolatey 安装并通过 <code>magick -version</code> 查看版本；在 Linux 上还安装了老版本的 Imagemagick，版本为 6.9.10-23 Q16 x86_64 20190101，通过 ubuntu 19.10 的 apt 安装指令安装，可通过 <code>convert -version</code> 查询版本。</p>
+<h2 id="图像配字"><a href="#图像配字" class="headerlink" title="图像配字"></a>图像配字</h2><p>适用场景：表情包制作（x</p>
+<p><code>-gravity</code>：文字位置，可选东西南北中（</p>
+<p><code>-fill</code> 和 <code> -stroke</code>：文字颜色和边框</p>
+<p><code>-pointsize</code>：文字大小，必填</p>
+<p><code>-kerning</code>：文字间隔</p>
+<p><code>-font</code>：如果你要写中文的话。。。就得指定中文字体</p>
+<p><code>-annotate</code>：偏移，一般表情包的字也不会放最边边，还是要往中间偏点点~</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">magick .\0.jpg -gravity south -fill white -pointsize 400 -kerning 600  -stroke black -font 'SimSun-&amp;-NSimSun' -annotate +0+150 '[内容]'   0_des.jpg</span><br></pre></td></tr></tbody></table></figure>
+
+<h2 id="马赛克（伪）"><a href="#马赛克（伪）" class="headerlink" title="马赛克（伪）"></a>马赛克（伪）</h2><p>后面的举例图有 nsfw 内容！我暂时还不知道怎么给图片打多边形马赛克 / 模糊。。。只能简单用白色多边形遮一下。</p>
+<p><code>draw</code>：后面跟的 polygon 是多边形的意思，要裁其他图形的话参考这里 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://imagemagick.org/script/command-line-options.php#draw">draw</a>。后面的参数是多边形的座标，具体座标挺多画图软件能查看的（比如 irfanview），甚至 magick 自带工具 display 命令都可以。后面座标就按单向连通图的顺序，顺时针逆时针都可以。</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">magick .\0raw.jpg -fill white  -draw 'polygon 342,2031 125,2274 330,2809 677,2851 652,2470' .\0.jpg</span><br></pre></td></tr></tbody></table></figure>
+
+<h2 id="纠偏-裁剪"><a href="#纠偏-裁剪" class="headerlink" title="纠偏 + 裁剪"></a>纠偏 + 裁剪</h2><p>经常收壁纸，有的画集是有外框的，我有强迫症要把外框剪掉（而且有外框做壁纸也不好看）。另外，有的画集是扫描的，但扫描的时候没有彻底放正，导致剪裁的时候会发现有一点点歪。通常我会使用 photoshop 的透视剪裁来处理这类图片，不过这次 magick 有比较自动化的命令，来试试效果怎么样。</p>
+<p>样张（不要吐槽这是张色图，我暂时懒得找又歪又有边框的图了，扫了一眼手机的图册就只有这张，而且这张图片和外框相接触的部分还带有一些彩边，非常适合检测算法的能力）：</p>
+<p><img src="https://raw.githubusercontent.com/zbpicture/picture/main/img/005.jpg"></p>
+<p>另外，下面的样图因为图床大小限制原因被我转成 jpg，但我操作的时候用的是原图 png。</p>
+<h3 id="方法-1：用-photoshop-裁剪工具（不纠偏）"><a href="#方法-1：用-photoshop-裁剪工具（不纠偏）" class="headerlink" title="方法 1：用 photoshop 裁剪工具（不纠偏）"></a>方法 1：用 photoshop 裁剪工具（不纠偏）</h3><p>手工裁剪，尽量保留最大方形可见面积，且几乎不容忍任何解析度较低的彩边。</p>
+<p>最后得到 2427x3429 大小的图片。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/005_ps1.jpg"></p>
+<h3 id="方法2：用-photoshop-透视裁剪工具（顺便纠偏）"><a href="#方法2：用-photoshop-透视裁剪工具（顺便纠偏）" class="headerlink" title="方法2：用 photoshop 透视裁剪工具（顺便纠偏）"></a>方法2：用 photoshop 透视裁剪工具（顺便纠偏）</h3><p>手工像素级裁剪，尽量保留最大方形可见面积，且几乎不容忍任何解析度较低的彩边。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/005_ps2.jpg"></p>
+<p>最后得到 2441x3434 大小的图片。目前最标准和完美的结果，也是下面操作的基准目标。</p>
+<h3 id="方法3-直接使用-magick-自动检测"><a href="#方法3-直接使用-magick-自动检测" class="headerlink" title="方法3: 直接使用 magick 自动检测"></a>方法3: 直接使用 magick 自动检测</h3><p><code>-fuzz</code> 模糊检测因子，越大容忍度越低，裁掉的内容也就越多</p>
+<p><code>-border</code> 边框最小尺寸</p>
+<p><code>+repage</code> 消除位移属性（可有可无）</p>
+<p><code>-trim</code> 进行裁剪</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">convert 005.png  -fuzz 73% -border 1x1 +repage -trim 005_magick1.png</span><br></pre></td></tr></tbody></table></figure>
+
+<p>显然裁少了一截。最后只得到 2410x3293 尺寸的图片。fuzz 参数也没有调整余地了，调小成 72 右上角的字就消不掉。右上角的字和头发颜色相仿似乎使 magick 识别出现了混乱。另外右下角还有显而易见没裁掉的白边。</p>
+<p>加一个代表指定边框颜色的 <code>-bordercolor</code> 参数，fuzz 参数就要提高到 85。color 具体能填什么，参考这里：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://imagemagick.org/script/color.php#usage">Color Name</a></p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">convert 005.png -bordercolor '#ffffff' -fuzz 85% -border 1x1 +repage -trim 005_magick1.png</span><br></pre></td></tr></tbody></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/005_magick1.jpg"></p>
+<p>分辨率变成 2412x3294。问题依旧。</p>
+<p>去掉 <code>-boader</code> 参数。fuzz 可以降低到 60 多，但此时裁掉的像素就太多。差出数量级，这里就不给数据了。</p>
+<h3 id="方法-4：自动旋转后使用-magick-检测拼接"><a href="#方法-4：自动旋转后使用-magick-检测拼接" class="headerlink" title="方法 4：自动旋转后使用 magick 检测拼接"></a>方法 4：自动旋转后使用 magick 检测拼接</h3><p><code>-deskew</code> 是自动倾斜校正参数。</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">convert 005.png -background white -deskew 40% 005_tem.png</span><br></pre></td></tr></tbody></table></figure>
+
+<p>然后</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">convert 005_tem.png  -fuzz 73% -border 1x1 +repage -trim +repage 005_magick2.png</span><br></pre></td></tr></tbody></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/005_magick2.jpg"></p>
+<p>分辨率变成 2412x3269。仍然不完美，但白边没那么明显了。另外我尝试过 <code>-deskew 100%</code> 这个参数，结果二次处理后白边更大，效果不好。</p>
+<h3 id="方法-5：magick-检测拼接，然后再自动旋转"><a href="#方法-5：magick-检测拼接，然后再自动旋转" class="headerlink" title="方法 5：magick 检测拼接，然后再自动旋转"></a>方法 5：magick 检测拼接，然后再自动旋转</h3><figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">convert 005.png  -fuzz 50% -border 1x1 +repage -trim +repage 005_tem.png   </span><br><span class="line">convert 005_tem.png -background white -deskew 40% 005_tem2.png</span><br><span class="line">convert 005_tem2.png  -fuzz 73% -border 1x1 +repage -trim +repage 005_magick3.png </span><br></pre></td></tr></tbody></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/005_magick3.jpg"></p>
+<p>虽说分辨率甚至是图像和方法 4 出来的几乎都一模一样，不过 tem2 和 tem 两张图对比，后者有明显的纠偏痕迹了。但究竟是 magick3 trim 的时候又纠回来了还是之前的 trim 带了纠偏效果我就看不出来了。</p>
+<h3 id="方法6（magick-7-专用）"><a href="#方法6（magick-7-专用）" class="headerlink" title="方法6（magick 7 专用）"></a>方法6（magick 7 专用）</h3><p>参考文章：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://imagemagick.org/discourse-server/viewtopic.php?f=4&amp;t=35579">Enhanced -trim operator</a></p>
+<p>注意这里的 <code>-define trim:percent-background=15%</code>，含义和上面的 <code>-fuzz</code> 完全相反，越小裁掉的内容越多。</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">magick 005.png  -define trim:percent-background=15% -define trim:background-color='#ffffff' -trim 005_tem.png</span><br></pre></td></tr></tbody></table></figure>
+
+<p>分辨率 2440x3431。接近手工调整的结果了，但看起来还是有白边。特别是纠偏以后：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">convert 005_tem.png  -background white -deskew 40%  005_tem1.png</span><br></pre></td></tr></tbody></table></figure>
+
+<p>尝试使用纯粹的 trim 方法（也就是方法 3），发现无论如何都剪不掉那些细小的白边。甚至把 <code>-fuzz</code> 参数调到 80 了，把图片上部剪掉一些了结果右侧的细小白边也还没被剪掉。</p>
+<p>继续用本方法裁一遍</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">magick 005_tem1.png  -define trim:percent-background=15% -define trim:background-color='#ffffff' -trim 005_magick4.png</span><br></pre></td></tr></tbody></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/005_magick4.jpg"></p>
+<p>极限了，还是有肉眼可见的白边，但再把 <code>-define trim</code> 参数调小就又影响画面了。白边的大小，相比只纠偏以后的效果，勉强是可以接受的。此时分辨率为 2437x3429。</p>
+<h3 id="方法7：将白色边框中的多余的部分用-gui（画图-ps）剪掉，再处理"><a href="#方法7：将白色边框中的多余的部分用-gui（画图-ps）剪掉，再处理" class="headerlink" title="方法7：将白色边框中的多余的部分用 gui（画图 / ps）剪掉，再处理"></a>方法7：将白色边框中的多余的部分用 gui（画图 / ps）剪掉，再处理</h3><p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/0054.jpg"></p>
+<p>既然纠偏和裁剪顺序定下来了，那我们顺便把命令也集成在一起。</p>
+<p>看起来虽然剪掉了多余的部分让 <code>-fuzz</code> 和 <code>-define trim:percent-background</code> 不需要那么高（低）就能识别出真正边框的大致轮廓；但要确定下具体轮廓，好像还是不行（意思是还是有白边），看起来应该是纠偏没有办法纠的太正？</p>
+<p><code>-fuzz</code> 下：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">convert 0052.png   -deskew 40% -fuzz 70% -bordercolor white -border 1x1 +repage -trim 005_magick5.png</span><br></pre></td></tr></tbody></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/005_magick5.jpg"></p>
+<p>分辨率 2448x3434。这次本方法能剪出一个比较完整的图像而不会把头发的一部分都给当框削了。</p>
+<p><code>-define trim:percent-background</code> 下：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">magick 0052.png  -define trim:percent-background=15% -define trim:background-color='#ffffff' -trim -background white -deskew 40% -define trim:percent-background=15% -define trim:background-color='#ffffff' -trim 005_magick6.png</span><br></pre></td></tr></tbody></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/005_magick6.jpg"></p>
+<p>分辨率 2439x3431。白边反而还比 <code>-fuzz</code> 那边要大了，效果还比没有用 gui 修改前的还差。。。（也许是我命令写的有问题，但我感觉就算命令写的没问题白框也削不掉）</p>
+<h3 id="方法-8：去除噪点"><a href="#方法-8：去除噪点" class="headerlink" title="方法 8：去除噪点"></a>方法 8：去除噪点</h3><p>就这样放弃了吗？不！我又查到了一篇新的参考文章：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://superuser.com/questions/1219030/trimming-exterior-empty-space-with-imagemagick-does-not-work-on-scanned-document">Trimming exterior empty space with ImageMagick does not work on scanned documents</a>，说是扫描件的噪点会干扰软件的判断。</p>
+<p>那就试试先去噪点：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">convert 0052.png -write MPR:source -morphology close rectangle:3x4 -morphology erode square    MPR:source -compose Lighten -composite -morphology erode square    MPR:source -composite -morphology erode square    MPR:source -composite -morphology erode square    MPR:source -composite -morphology erode square    MPR:source -composite -morphology erode square    MPR:source -composite -morphology erode square    MPR:source -composite -morphology erode square    MPR:source -composite -morphology erode square    MPR:source -composite 0053.png</span><br></pre></td></tr></tbody></table></figure>
+
+<p>再用 <code>-fuzz</code>。合起来的命令效果不如分开的，那就保险起见用分开的命令。<code>-fuzz</code>需要进一步调低。</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">convert 0053.png -background white -deskew 40% 005_tem.png</span><br><span class="line">convert 005_tem.png  -fuzz 50% -border 1x1 +repage -trim +repage 005_magick7.png</span><br></pre></td></tr></tbody></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/005_magick7.jpg"></p>
+<p>分辨率 2445x3434。仍有白边。</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">magick 0053.png  -define trim:percent-background=15% -define trim:background-color='#ffffff' -trim 005_tem.png</span><br><span class="line">magick 005_tem.png  -background white -deskew 40%  005_tem1.png</span><br><span class="line">magick 005_tem1.png  -define trim:percent-background=15% -define trim:background-color='#ffffff' -trim 005_magick8.png</span><br></pre></td></tr></tbody></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/005_magick8.jpg"></p>
+<p>分辨率 2737x3429，有白边。</p>
+<hr>
+<p>结论：在这个时间点，不好用。</p>
+<h2 id="图像拼接"><a href="#图像拼接" class="headerlink" title="图像拼接"></a>图像拼接</h2><p>多张表情包合成（x</p>
+<p><code>-append</code>：竖着拼。如果是 <code>+append</code> 就是横着拼。</p>
+<p><code>-resize</code>：几张图中如果不是尺寸一致一定就会有的图长有的图短。这就要看个人考量了，比如要竖着拼的话，是把窄的图等比缩放到和宽得一样宽，还是把宽的图缩放到和最窄的一样窄，那就在要缩放的图后面加 <code>-resize</code>。<code>resize</code> 的参数是 <code>长x宽</code>，如果有其中一个参数不用改动可以留空，但是要保留 x 号。</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">convert a.jpg  b.jpg -resize 814x -append   0.jpg</span><br></pre></td></tr></tbody></table></figure>
+
+<h2 id="tgs-转换与加速"><a href="#tgs-转换与加速" class="headerlink" title="tgs 转换与加速"></a>tgs 转换与加速</h2><p>tgs 是 telegram 内动态表情包的专用格式。telegram 内的表情包可以通过机器人 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://t.me/Stickerdownloadbot">@Stickerdownloadbot</a> 导出单张或批量导出一整个表情包系列的图片，对于静态图片 bot 会同时导出为包含三种不同格式内容的压缩包；但对于动态图片就只会导出为一个内含 tgs 格式文件的压缩包，后续就还需要通过以下方法进行转换才能在其他地方使用。</p>
+<h3 id="tgs-转换"><a href="#tgs-转换" class="headerlink" title="tgs 转换"></a>tgs 转换</h3><h4 id="lottie"><a href="#lottie" class="headerlink" title="lottie"></a>lottie</h4><p>桌面平台，python 里面一个叫 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://pypi.org/project/lottie/">lottie</a> 的包，建议在 Linux 下使用，windows 下安装繁琐；</p>
+<p>linux：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">pip3 install lottie</span><br><span class="line">sudo pip3 install --upgrade pip</span><br><span class="line">pip3 install cairosvg opencv-python</span><br><span class="line">pip3 install lottie</span><br><span class="line">lottie_convert.py 0.tgs 0.gif</span><br></pre></td></tr></tbody></table></figure>
+
+<p>windows：</p>
+<p>参考<a target="_blank" rel="external nofollow noopener noreferrer" href="https://weasyprint.readthedocs.io/en/stable/install.html#windows">https://weasyprint.readthedocs.io/en/stable/install.html#windows</a>，先安装 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/tschoonj">tschoonj</a>/<strong><a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/tschoonj/GTK-for-Windows-Runtime-Environment-Installer">GTK-for-Windows-Runtime-Environment-Installer</a></strong></p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">pip install cairosvg pillow</span><br><span class="line">pip install opencv-python</span><br><span class="line">python -m pip install --upgrade pip setuptools</span><br><span class="line">python -m pip install WeasyPrint</span><br><span class="line">pip3 install lottie</span><br><span class="line">python lottie_convert.py 0.tgs 0.gif</span><br></pre></td></tr></tbody></table></figure>
+
+<h4 id="shu"><a href="#shu" class="headerlink" title="shu"></a>shu</h4><p>ios 上的 shu，美区有售。可将 tgs 批量导出为各种格式，如 webp、gif、pngs 等。</p>
+<h4 id="tgs-to-gif-12-14-更新"><a href="#tgs-to-gif-12-14-更新" class="headerlink" title="tgs-to-gif (12.14 更新)"></a>tgs-to-gif <strong>(12.14 更新)</strong></h4><p>上面两个软件，前者免费但容易出现各类错误，且安装繁琐；后者需要付费但效果尚可。</p>
+<p>最近又出现一个新的 tgs 转换工具 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/ed-asriyan">ed-asriyan</a>/**<a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/ed-asriyan/tgs-to-gif">tgs-to-gif</a>**，前面两个工具转换一些 tgs 会出现重影（经过测试不是下面我 gif 速度优化的锅，而是转换出来的帧里面本身就有重影的帧出现），这个工具基本解决了重影的问题，且大部分 gif 也不存在速度过慢的问题。缺点是转换出来的 gif 质量低于前面两个软件，且在 windows 的 irfanview 下播放会出现花屏现象，原因不明。</p>
+<p>在 pc 和虚拟机上上使用建议借助 nodejs 安装；在国外 vps 上使用建议借助 docker 安装。</p>
+<p>原因嘛，docker 方便但因为网络原因安装速度可能会很慢，docker 内部比较难上代理，docker 加速器在这里无效因为跑 docker 的时候我发现这个东西不仅拉镜像还在跑 apt；但 vps 上用 nodejs 还需要非 root 账号，因为本项目用到了 puppeteer，还不一定成功，我在两台 debian 的机子上都掉坑一台找不到 browser 另一台装不上 gifski，找不到 browser 那一回 nodejs 我用了 15，后面发现 15 不行；装不上 gifski 是因为 cargo 都装不上，掉进新坑用命令 <code>rustup install stable</code> 运行到一般就被 kill 了估计是内存都不够了，也不想划虚拟内存了，懒得爬出来了。</p>
+<p>另外 nodejs 运行时的运行目录必须在项目内（但 tgs 文件不需要放在项目内），docker 不需要但写 tgs 文件夹路径的时候得写绝对路径，各有各的麻烦。</p>
+<p>nodejs：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">curl https://sh.rustup.rs -sSf | sh #并 ctrl+d</span><br><span class="line">curl -sL https://deb.nodesource.com/setup_14.x | bash - #目前不支持15</span><br><span class="line">apt-get install -y nodejs</span><br><span class="line">cargo install gifski</span><br><span class="line">git clone https://github.com/ed-asriyan/tgs-to-gif.git</span><br><span class="line">cd tgs-to-gif</span><br><span class="line">npm install</span><br></pre></td></tr></tbody></table></figure>
+
+<p>即可使用</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">#转换多个 tgs</span><br><span class="line">node cli.js 0.tgs 1.tgs...</span><br><span class="line">#转换整个文件夹</span><br><span class="line">node cli.js /home/zbttl/tgs</span><br></pre></td></tr></tbody></table></figure>
+
+<p>docker：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/ed-asriyan/tgs-to-gif.git</span><br><span class="line">cd tgs-to-gif</span><br><span class="line">docker build -t tgs-to-gif .</span><br></pre></td></tr></tbody></table></figure>
+
+<p>即可使用</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run --rm -v &lt;文件夹绝对路径&gt;:/source tgs-to-gif</span><br></pre></td></tr></tbody></table></figure>
+
+<p><strong>（12 月 23 日更新）</strong> docker 版和 nodejs 效果居然不一样。。。。docker 版出来的效果需要加速，所以只推荐 nodejs 版。至于为什么效果会不一样。。。我猜测是因为 gifski 版本的原因，docker 里面 gifski 版本还是 0.10.4，我在实机中安装的版本已经是 1.22 了。但话说回来，issue 里面刚好就有个人吐槽长度宽度参数不生效[The –height HEIGHT –width WIDTH don’t work #25](The –height HEIGHT –width WIDTH don’t work #25)，作者给的意见是更换喂 gifski 旧版。。。。另外一点，托之前忘记安装 gifski 的福，我看到了部分运行命令：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20201223071937.png"></p>
+<p>合着这质量还只有百分之 80。。。但我在项目中完全查不到这些个帧数质量啥的在哪调，所以没辙。</p>
+<p>先说一下踩进去的坑，不想看的可以跳过下面这一段：</p>
+<h3 id="鉴坑扯淡"><a href="#鉴坑扯淡" class="headerlink" title="鉴坑扯淡"></a>鉴坑扯淡</h3><p>样张：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/1gGuvCbBVJqMRtj.gif"></p>
+<p>用 shu 转完后，发现发出去的图片在 qq 中播放速度相当慢 。</p>
+<p>肯定是啥参数不对。。。查参数的软件，我一开始只记得查视频用的 mediainfo，打开一看，这玩意就不是用来看 gif 参数的。。。只有一个图像格式 87a 和我手上其他 gif 不同，其他 gif 是 89a（后来的后来经过调查，87a 和 89a 的差别，是 87a 是旧标准，不支持半透明参数）。不过还是尝试转一下吧。</p>
+<p>按<a target="_blank" rel="external nofollow noopener noreferrer" href="https://blog.mutoo.im/2015/01/gif-87a-vs-89a/">检测 GIF 版本的方法</a>，图片确实变成 89a 了，但是出现了严重的重影。。。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/Zv9YCok1ql784Hi.gif"></p>
+<p>后续我用了各种类型的软件转换和测试，大概的测试结果如下图：</p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>张数</th>
+<th>码率</th>
+<th>fps</th>
+<th>tbr</th>
+<th>duration</th>
+<th>delay</th>
+<th>irfanview 5s（循环次）</th>
+<th>windowsqq 10s</th>
+<th>androidqq（10s）</th>
+<th>张数/时间</th>
+<th>张数/时间+delay</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ps转视频再改回gif</td>
+<td>11</td>
+<td>1646</td>
+<td>33.33</td>
+<td>33.33</td>
+<td>0.33</td>
+<td>0.03</td>
+<td>16</td>
+<td>16</td>
+<td>20</td>
+<td>0.03</td>
+<td>0.06</td>
+</tr>
+<tr>
+<td>ezgif（从webp转换）</td>
+<td>13</td>
+<td>1691</td>
+<td>20</td>
+<td>20</td>
+<td>0.65</td>
+<td>0.05</td>
+<td>7</td>
+<td>13</td>
+<td>15</td>
+<td>0.05</td>
+<td>0.1</td>
+</tr>
+<tr>
+<td>源</td>
+<td>23</td>
+<td>2395</td>
+<td>33.33</td>
+<td>33.33</td>
+<td>0.69</td>
+<td>0.03</td>
+<td>8</td>
+<td>8</td>
+<td>12</td>
+<td>0.03</td>
+<td>0.06</td>
+</tr>
+<tr>
+<td>ezgif（加速）</td>
+<td>23</td>
+<td>3481</td>
+<td>50</td>
+<td>50</td>
+<td>0.46</td>
+<td>0.02</td>
+<td>8</td>
+<td>8</td>
+<td>12</td>
+<td>0.02</td>
+<td>0.04</td>
+</tr>
+<tr>
+<td>ps改帧数</td>
+<td>12</td>
+<td>646</td>
+<td>14</td>
+<td>28</td>
+<td>0.84</td>
+<td>0.07</td>
+<td>6</td>
+<td>15</td>
+<td>11</td>
+<td>0.07</td>
+<td>0.14</td>
+</tr>
+<tr>
+<td>ps改帧数改延迟</td>
+<td>12</td>
+<td>452</td>
+<td>10</td>
+<td>10</td>
+<td>1.2</td>
+<td>0.01</td>
+<td>25</td>
+<td>15</td>
+<td>9</td>
+<td>0.1</td>
+<td>0.11</td>
+</tr>
+<tr>
+<td>imageonline</td>
+<td>23</td>
+<td>716</td>
+<td>10</td>
+<td>10</td>
+<td>2.3</td>
+<td>0</td>
+<td>15</td>
+<td>4</td>
+<td>4</td>
+<td>0.1</td>
+<td>0.1</td>
+</tr>
+</tbody></table>
+<ol>
+<li><p>上面这些转换方法转出来的图片都是没有重影的；</p>
+</li>
+<li><p>前面的这些参数来自 ffprobe 和 imagemagick 的 identify 工具，ffmpeg 的 tbr/duration 参数含义参考这里：<a target="_blank" rel="external nofollow noopener noreferrer" href="http://ffmpeg-users.933282.n4.nabble.com/What-does-the-output-of-ffmpeg-mean-tbr-tbn-tbc-etc-td941538.html">What does the output of ffmpeg mean? tbr tbn tbc etc?</a>；</p>
+<blockquote>
+<p>FFmpeg中的时间戳有三种不同的时基。实际打印的 值是这些值的倒数，即1 / tbr，1 / tbn和1 / tbc。<br>我认为tbn是AVStream中来自容器的时基 。它用于所有AVStream时间戳。<br>tbc是AVCodecContext中用于特定流的编解码器的时基 。它用于所有AVCodecContext和相关时间戳。<br>tbr是从视频流中推测出来的，它是用户在寻找视频帧速率时希望看到的值 ，只是有时由于场速率与帧速率的关系，它是预期值的两倍 。</p>
+<p>时基：确定帧定时的依据；avstream：音频/视频顺序数据；容器：可以包含音频/视频数据通道的文件格式，例如avi，mp4或mkv；</p>
+<p>我想他们选择报告TBR，是因为ffmpeg对帧率实际是最好的猜测。在许多容器上，fps字段（更具体地说AVStream.avg_frame_rate是）不可用，因此不能真正依靠它。</p>
+</blockquote>
+<p>以及：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://stackoverflow.com/questions/43333542/what-is-video-timescale-timebase-or-timestamp-in-ffmpeg">What is video timescale, timebase, or timestamp in ffmpeg?</a>]</p>
+</li>
+<li><p>有的情况下帧数越高播放速度反而越慢，不同平台下同样的两种图片有可能速度表现完全相反。这跟 gif 下的 fps 定义和各软件对 gif 定义的理解有关；</p>
+</li>
+<li><p>综合比较 ps 转视频加速改回 gif 效果是最好的。（又是 ps，ps 万能）</p>
+</li>
+</ol>
+<p>另外，shu 也可以把 tgs 换成其他多种格式，但直接能动的就两种：gif 和 webp。上面我用 ezgif 讲 webp 转成 gif，发现速度大体正常，综合参数，我提出一个大胆的假设：应该蛮多软件不看 <code>delay</code> 而是直接以张数作为播放速度的依据。至于为什么不看延迟？可能跟所谓 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://legacy.imagemagick.org/Usage/anim_basics/#zero">gif 零延迟</a>有关：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">好吧，它们很重要，那又是什么呢？因为许多应用程序不喜欢它们，或者处理不当。他们认为“零延迟帧”是一件坏事，即使您出于某种原因故意将它们添加到动画中也是如此。</span><br><span class="line">这是我了解或被告知“做错事”的应用程序的摘要...</span><br><span class="line">金普	不会保存“零延迟帧”，它们总是向具有零时延的任何帧添加最小的时延。:-(</span><br><span class="line"> </span><br><span class="line">火狐	在这样的帧上会稍有非零的停顿。大概是这样，根本没有时间延迟的动画会耗尽所有计算机的CPU周期。但是firefox，如果动画的总显示时间为非零，则“ ”仍不能放松该限制。</span><br><span class="line"> </span><br><span class="line">IE浏览器	最小时间延迟为6厘秒，并且忽略小于此时间的任何延迟。</span><br><span class="line">如果任何图像帧超出了第一帧设置的动画范围，Internet Explorer 8版本也会失败（立即重新启动循环）。我将其归类为主要错误。</span><br></pre></td></tr></tbody></table></figure>
+
+<p>因为 0 延迟可能报错，所以干脆就不用延迟来计算了。。。。</p>
+<p>如同这篇文章：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.easeus.com/amp/video-editing-tips/gif-speed-changer.html">Top 10 Best GIF Speed Changers: How to Speed up or Slow down GIF Easily</a> 给出的所有手段几乎都是在 gif 的 delay 参数上动手脚，而 delay 参数又似乎和 fps 挂钩（参考这里：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://superuser.com/questions/1449366/do-60-fps-gifs-actually-exist-or-is-the-maximum-50-fps">Do 60 FPS GIF’s actually exist? Or is the maximum 50 FPS?</a>)，但如果软件不认可你的 delay 参数，那自然就没有用。那么 gif 就会按照 timebase，也就是 0.04s 一张这个速度进行播放。另外为什么说 delay 似乎和 fps 挂钩呢？因为 delay 设置为 2 和 3 的时候，ffprobe 显示帧数分别为 50fps 和 33.33fps。但！delay 设置为 1 的时候，ffprobe 又显示帧数只有 10fps。。。可能是因为触发了 ffprobe 的最小延迟机制（要求最小延迟为 2，只能显示 50fps）。其实不止 ffprobe，还有许多看图软件的最小延迟也设定为 2。如果 delay 写 1 的话 gif 显示速度反而会变慢。</p>
+<p>本次转换的主要目的是 tgs 转换的 gif 在 qq 上播放较慢。不过后续测试发现是部分 gif 调整 delay 后播放速度没有改观；而本身 delay 较大的 gif 修改 delay 后明显感觉播放速度加快。至于那部分能够修改 delay 加速的 gif 有没有 delay 阈值我倒是没有认真进行过测试。但减少帧数是一定能奏效的（</p>
+<p>另外除了重影，某些软件转换到 gif 过程中会导致背景从透明变为白色，这也是要解决的问题。</p>
+<p>减少 gif 张数，我目前得知两种方法：</p>
+<ol>
+<li><p>抽取关键帧（Image.n_frames），关键帧的概念参见：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://buildmedia.readthedocs.org/media/pdf/pillow/latest/pillow.pdf">Pillow (PIL Fork) Documentation</a></p>
+<blockquote>
+<p>Image.n_frames:  intThe number of frames in this image.This attribute is only defined by image plugins that support animated images.  Plugins may leave this attributeundefined if they don’t support loading animated images, even if the given format supports animated images.Given that this attribute is not present for all images usegetattr(image, “n_frames”, 1)to checkthe number of frames that Pillow is aware of in an image regardless of its format</p>
+</blockquote>
+<p>但只对那些优化过的 gif 有用（优化过的 gif 是啥意思？参考压缩 gif 一文中的参考文章 3 gif modification）</p>
+</li>
+<li><p>转换成其他格式（比如视频）然后加速后再转回去。上面用 ps 处理过一次，但 ps 是个 gui，批量转换肯定不能用 ps。</p>
+</li>
+</ol>
+<p>另外，对于修改 delay，也建议使用 imagemagick 而不是那些原理不明的工具。</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">convert -delay 2 0.gif 0_change.gif</span><br></pre></td></tr></tbody></table></figure>
+
+<p>具体修改到什么程度可以参考以下两篇文章：</p>
+<ol>
+<li><p><a target="_blank" rel="external nofollow noopener noreferrer" href="https://superuser.com/questions/1449366/do-60-fps-gifs-actually-exist-or-is-the-maximum-50-fps">Do 60 FPS GIF’s actually exist? Or is the maximum 50 FPS?</a> 上面引用过了，另外这篇文章里面还有个「暴论」</p>
+<blockquote>
+<p>这意味着，对于100 FPS的图像速率，最小值为1（在大多数显示器上很难呈现…），对于50 FPS的图像速率，其下一个最小值为2，而对于下一个值为3图像速率为33.3 FPS。因此，完全不可能达到60 FPS。</p>
+<p>请注意，此扩展是针对少数几秒钟延迟的帧（最大延迟约为600秒），因此1/100秒的分辨率就足够了。这当然不是视频的意思，这就是为什么该字段编码延迟而不是帧速率的原因。</p>
+<p>制作视频GIF确实是对规范的滥用（即使现在如此普遍，以至于大多数人可能没有意识到这一点，就像大多数人没有意识到GIF和JPEG使用不同类型的压缩一样，并且应该被使用）在不同种类的图像上）。</p>
+</blockquote>
+</li>
+<li><p><a target="_blank" rel="external nofollow noopener noreferrer" href="https://davidwalsh.name/how-to-change-animated-gif-speed">How to Change Animated GIF Speed</a></p>
+</li>
+</ol>
+<p>转换后听说还可能遭遇再次转回 mp4 出错的问题，可以参考这篇文章：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://my.oschina.net/u/4404738/blog/3412123">（原）关于使用imagemagick将gif叠加到图片或者画布上的方法，以及疑难杂症</a>（我一开始解决重影问题也是看得这篇文章，后面发现下面正文的参考文章中有更详细的理解，就是比较长）</p>
+<p>除此之外还有很多神秘问题，比如转换后最后一帧和第一帧之间有停顿，闪屏，花屏等，某些问题可以看压缩 gif 一文中的参考文章 3 gif modification。</p>
+<hr>
+<h3 id="转换为-tgs-后可能会出现的问题"><a href="#转换为-tgs-后可能会出现的问题" class="headerlink" title="转换为 tgs 后可能会出现的问题"></a>转换为 tgs 后可能会出现的问题</h3><p>回到正题。总结一下 tgs 转换到 gif 后，要让转换的 gif 达到能看的级别，需要解决：</p>
+<ol>
+<li>转换前动画速度过慢</li>
+<li>转换后的重影</li>
+<li>转换后透明度丢失</li>
+</ol>
+<p>操作后建议用一些工具检测一下参数（比如 delay、张数等）</p>
+<ol>
+<li><p>ffprobe（ffmpeg 随附，可显示码率、tbr/duration、fps）</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffprobe 0.gif</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>imagemagick 中的 identify 工具（magick7 以后的版本都要以 magick 命令打头）</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(magick) identify 0.gif</span><br></pre></td></tr></tbody></table></figure>
+
+<p>identify 主要用来看延迟的，那么可以修改一下命令：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">identify -verbose 0.gif  | grep Delay</span><br></pre></td></tr></tbody></table></figure>
+
+<p>或者用 identify 自身的通配符（参考：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://imagemagick.org/script/escape.php">Percent Escape Handling</a> 和 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://m.656463.com/wenda/ImagemagickGraphicsMagicktxywzml_607">Imagemagick GraphicsMagick image mean command</a>）</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">identify -format "%m:%f %wx%h %T\n" .\0.gif</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p><a target="_blank" rel="external nofollow noopener noreferrer" href="https://legacy.imagemagick.org/Usage/scripts/gif_anim_montage">gif_anim_montage</a> 脚本。可将每帧的形状，处理方式和延迟以顺序的方式集合到一张图片中。</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./gif_anim_montage 0.gif 0.jpg</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>查看视频 / gif 总帧数</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffprobe -v error -count_frames -select_streams v:0  -show_entries stream=nb_read_frames -of default=nokey=1:noprint_wrappers=1 0.gif </span><br></pre></td></tr></tbody></table></figure>
+
+</li>
+</ol>
+<h3 id="转换为-tgs-后对于动画速度较慢的处理方法"><a href="#转换为-tgs-后对于动画速度较慢的处理方法" class="headerlink" title="转换为 tgs 后对于动画速度较慢的处理方法"></a>转换为 tgs 后对于动画速度较慢的处理方法</h3><h4 id="ps-转换加速法"><a href="#ps-转换加速法" class="headerlink" title="ps 转换加速法"></a>ps 转换加速法</h4><p>就是我一开始说的方法，因为效果不错先放上来。</p>
+<ol>
+<li><p>安装相同年度版本的 ps 和 media encoder，可能要装 pr（因为经过试验 2019 ps cc 无法唤起 2020 ps pr）</p>
+</li>
+<li><p>在 ps 中打开 gif，点击窗口 -&gt; 时间轴</p>
+</li>
+<li><p>点击时间轴右下角的“转换为视频时间轴”按钮</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/FEsgkbz2OBZC9xd.jpg"></p>
+</li>
+<li><p>点击“渲染视频”（转换为视频时间轴成功后这个按钮就在附近），渲染为有 alpha 通道的 quicktime 视频（否则透明背景就会强制被白的背景填充）。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/Y8mt1nDfcKizoZC.png"></p>
+</li>
+<li><p>打开导出的视频，点击时间轴上面的小箭头，调整至相应速度（比如加速两倍，调整为 200%）</p>
+<p><img src="https://i.loli.net/2020/12/10/7PpRFV624QdyA8Z.jpg" alt="小箭头.jpg"></p>
+</li>
+<li><p>文件-&gt;导出-&gt;存储为 web 可用格式，按自己的习惯调整参数即可。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/BxqDHbuKkhpwVnM.gif" alt="0.gif"></p>
+<p>用命令 4 解析出来显示 23 张，和原视频相比没少？但用命令 3 解开就会发现实际上是实施了优化。虽然张数增多了，但实际大小应该是降低的。</p>
+</li>
+</ol>
+<h4 id="ps-直接加速法"><a href="#ps-直接加速法" class="headerlink" title="ps 直接加速法"></a>ps 直接加速法</h4><ol>
+<li>在 ps 中打开 gif，点击窗口 -&gt; 时间轴</li>
+<li>点击时间轴右下角的“转换为视频时间轴”按钮</li>
+<li>点击时间轴窗口右上角，选择设置时间轴帧速率功能</li>
+<li>降低帧率。然后修改延迟</li>
+<li>导出即可</li>
+</ol>
+<p>帧数减少的同时 delay 参数也会增加。另外这个方法其实没法准确控制最后获得的张数，要慢慢调，好处就是不用导出到视频。</p>
+<h4 id="webp-转换法"><a href="#webp-转换法" class="headerlink" title="webp 转换法"></a>webp 转换法</h4><p>需要 imagemagick 7+</p>
+<p><code>-coalesce</code>：把 gif 每帧拆分出来</p>
+<p><code>-set dispose background</code>：让下一帧显示时先清空上一帧显示的所有内容（把上一帧被描绘的像素统统删成透明） 。不使用这个参数就会造成重影。也可以把这个参数写在输入文件的前面，并改成 <code>-dispose background</code>。</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">magick  "(" 0.webp -coalesce ")"  -set dispose background -loop 0 ./0.gif</span><br></pre></td></tr></tbody></table></figure>
+
+<p>但在 windows 下最新版本好像可以直接转了。。。</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">magick 0.webp 0.gif</span><br></pre></td></tr></tbody></table></figure>
+
+<p>最后成品帧数只有 13。</p>
+<h4 id="借助-ffmpeg-转换加速"><a href="#借助-ffmpeg-转换加速" class="headerlink" title="借助 ffmpeg 转换加速"></a>借助 ffmpeg 转换加速</h4><p><code>setpts=0.5*PTS</code>：加速两倍</p>
+<p><code>-vcodec qtrle</code>：一个支持 argb（带透明通道）的编码。也可以换为 <code>-vcodec png</code>（rgba 编码，没有本质上区别）和 <code>-vcodec rawvideo</code>（体积很大，可能还要配合 <code>-pix_fmt rgba</code>）</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -i 0.gif -movflags faststart -vcodec qtrle -vf "scale=trunc(iw/2)*2:trunc(ih/2)*2" -filter:v "setpts=0.5*PTS" 0.mov</span><br></pre></td></tr></tbody></table></figure>
+
+<p>然后使用 magick，<code>-delay</code> 需要用 ffprobe 查一下原 gif 的还原进去。不过光是 qq 用不管也可以。</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">convert -dispose background -quiet -delay 3 0.mov 0_change.gif</span><br></pre></td></tr></tbody></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/tiRkpv5cmNV2Cq4.gif" alt="01.gif"></p>
+<p>如果遭遇最后一帧和第一帧直接有卡顿，需要加上 <code>-deconstruct</code> 参数。要注意使用此参数后动画速度可能进一步提高（原因不明），需要把 <code>-delay</code> 值拉大。</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">convert -dispose background -deconstruct -quiet -delay 5 0.mov 0_change.gif</span><br></pre></td></tr></tbody></table></figure>
+
+<p>此时输出的 gif 已经足够小，没有必要再使用优化参数进行优化（另一个原因是我使用 <code>-layers optimize</code> 参数后部分文件大小反而增加了）。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>zbttl
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="https://zbttl.github.io/2020-12-04-23/" title="玩一下 imagemagick">https://zbttl.github.io/2020-12-04-23/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="external nofollow noopener noreferrer" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="followme">
+  <span>欢迎关注我的其它发布渠道</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="/atom.xml">
+          <span class="icon">
+            <i class="fa fa-rss"></i>
+          </span>
+
+          <span class="label">RSS</span>
+        </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/ffmpeg/" rel="tag"># ffmpeg</a>
+              <a href="/tags/imagemagick/" rel="tag"># imagemagick</a>
+          </div>
+
+        
+  <div class="post-widgets">
+    <div class="wp_rating">
+      <div id="wpac-rating"></div>
+    </div>
+  </div>
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2020-12-02-00/" rel="prev" title="路由器跑分 && 刷机">
+                  <i class="fa fa-chevron-left"></i> 路由器跑分 && 刷机
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2020-12-06-23/" rel="next" title="解决 Windows 解码器导致的 DLNA 无法投屏问题">
+                  解决 Windows 解码器导致的 DLNA 无法投屏问题 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zbttl</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+      <span>站点总字数：</span>
+    <span title="站点总字数">137k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span>站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">2:05</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+</div><script color="120,120,120" opacity="0.5" zindex="-1" count="150" src="https://cdn.jsdelivr.net/npm/canvas-nest.js@1/dist/canvas-nest.js"></script>
+<!--《添加网站运行时间 -->
+<!--<br/>-->
+<span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+<script>
+    var now = new Date();
+
+    function createtime() {
+        var grt = new Date("12/18/2020 12:00:00"); //此处修改你的建站时间或者网站上线时间 
+        now.setTime(now.getTime() + 250);
+        days = (now - grt) / 1000 / 60 / 60 / 24;
+        dnum = Math.floor(days);
+        hours = (now - grt) / 1000 / 60 / 60 - (24 * dnum);
+        hnum = Math.floor(hours);
+        if (String(hnum).length == 1) {
+            hnum = "0" + hnum;
+        }
+        minutes = (now - grt) / 1000 / 60 - (24 * 60 * dnum) - (60 * hnum);
+        mnum = Math.floor(minutes);
+        if (String(mnum).length == 1) {
+            mnum = "0" + mnum;
+        }
+        seconds = (now - grt) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+        snum = Math.round(seconds);
+        if (String(snum).length == 1) {
+            snum = "0" + snum;
+        }
+        document.getElementById("timeDate").innerHTML = " 本站已安全运行 " + dnum + " 天 ";
+        document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒";
+    }
+    setInterval("createtime()", 250);
+</script>
+<!-- 添加网站运行时间》 -->
+
+    </div>
+  </footer>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+  <script>
+  if (CONFIG.page.isPost) {
+    wpac_init = window.wpac_init || [];
+    wpac_init.push({
+      widget: 'Rating',
+      id    : 28813,
+      el    : 'wpac-rating',
+      color : '#fc6423'
+    });
+    (function() {
+      if ('WIDGETPACK_LOADED' in window) return;
+      WIDGETPACK_LOADED = true;
+      var mc = document.createElement('script');
+      mc.type = 'text/javascript';
+      mc.async = true;
+      mc.src = '//embed.widgetpack.com/widget.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(mc, s.nextSibling);
+    })();
+  }
+  </script>
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1.7.0/dist/gitalk.css">
+
+<script>
+NexT.utils.loadComments('#gitalk-container', () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1.7.0/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : 'd99d750bdfdb31ecf37e',
+      clientSecret: '1d37215aff71dc84b66e03cb412c7e68b968d76f',
+      repo        : 'zbttl-comment',
+      owner       : 'zbpicture',
+      admin       : ['zbpicture'],
+      id          : '8fbae75bbc7339d672edc657288f16a9',
+        language: '',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+<script type="text/javascript" src=" https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+
+  <script async src="/js/cursor/text.js"></script>
+
+
+</body>
+</html>

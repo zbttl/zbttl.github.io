@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.1/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"zbttl.github.io","root":"/","images":"/images","scheme":"Muse","version":"8.1.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}};
+  </script>
+<meta name="description" content="我一直以为 powershell 没啥好玩的。。。不过最近了解了一下，比 cmd 强很多，特别是 cmd 没有历史记录这点差评，另外还有包管理器什么的，感觉发现了新世界~ 参考文章：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="powershell 全攻略">
+<meta property="og:url" content="https://zbttl.github.io/2019-09-19-00/index.html">
+<meta property="og:site_name" content="Bao&#39;s 备忘录">
+<meta property="og:description" content="我一直以为 powershell 没啥好玩的。。。不过最近了解了一下，比 cmd 强很多，特别是 cmd 没有历史记录这点差评，另外还有包管理器什么的，感觉发现了新世界~ 参考文章：">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@master/img/iiHvIIn.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/3lMO1jJ.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/phxn8xp.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/5nlZs9k.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/3znd7v3.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/So5ntqV.png">
+<meta property="article:published_time" content="2019-09-18T16:00:00.000Z">
+<meta property="article:modified_time" content="2021-01-20T19:56:13.047Z">
+<meta property="article:author" content="zbttl">
+<meta property="article:tag" content="zsh">
+<meta property="article:tag" content="terminal">
+<meta property="article:tag" content="powershell">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@master/img/iiHvIIn.png">
+
+
+<link rel="canonical" href="https://zbttl.github.io/2019-09-19-00/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+<title>powershell 全攻略 | Bao's 备忘录</title>
+  
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link rel="alternate" href="/atom.xml" title="Bao's 备忘录" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Bao's 备忘录</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80" placeholder="搜索..." spellcheck="false" type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <section class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85%E5%8C%85%E7%AE%A1%E7%90%86%E5%99%A8-chocolatey"><span class="nav-number">1.</span> <span class="nav-text">安装包管理器 chocolatey</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BE%AE%E8%BD%AF%E9%BB%98%E8%AE%A4-powershell-%E7%BE%8E%E5%8C%96"><span class="nav-number">2.</span> <span class="nav-text">微软默认 powershell 美化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%95%8C%E9%9D%A2%E9%A2%9C%E8%89%B2%E7%BE%8E%E5%8C%96"><span class="nav-number">2.1.</span> <span class="nav-text">界面颜色美化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%AE%E6%94%B9%E5%AD%97%E4%BD%93"><span class="nav-number">2.2.</span> <span class="nav-text">修改字体</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85-oh-my-posh-%E5%92%8C%E4%B8%80%E4%BA%9B%E5%85%B6%E4%BB%96%E7%9A%84%E4%B8%9C%E8%A5%BF"><span class="nav-number">3.</span> <span class="nav-text">安装 oh-my-posh 和一些其他的东西</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%88%E7%BB%99%E5%87%BA%E4%B8%80%E4%BA%9B-powershell-%E4%B8%8A%E4%B8%80%E4%BA%9B%E5%B8%B8%E7%94%A8%E7%9A%84%E6%93%8D%E4%BD%9C"><span class="nav-number">3.1.</span> <span class="nav-text">先给出一些 powershell 上一些常用的操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BB%E8%A6%81%E5%AE%89%E8%A3%85%E6%AD%A5%E9%AA%A4"><span class="nav-number">3.2.</span> <span class="nav-text">主要安装步骤</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A1%A5%E5%85%85%E6%B3%A8%E6%84%8F"><span class="nav-number">3.3.</span> <span class="nav-text">补充注意</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#powerline-%E8%A1%A5%E4%B8%81"><span class="nav-number">4.</span> <span class="nav-text">powerline 补丁</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B7%B2%E7%9F%A5%E9%97%AE%E9%A2%98%E5%85%B3%E4%BA%8E%E6%AF%8F%E8%A1%8C%E3%80%8C%E3%80%89%E3%80%8D%E7%AC%A6%E5%8F%B7%E4%B9%B1%E7%A0%81%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95"><span class="nav-number">4.1.</span> <span class="nav-text">已知问题关于每行「〉」符号乱码的解决方法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B6%E4%BB%96%E9%BB%91%E7%A7%91%E6%8A%80"><span class="nav-number">5.</span> <span class="nav-text">其他黑科技</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BD%A9%E8%89%B2%E6%A0%87%E8%AE%B0%E6%96%87%E4%BB%B6"><span class="nav-number">5.1.</span> <span class="nav-text">彩色标记文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%98%BE%E7%A4%BA%E5%85%A8%E9%83%A8%E5%8E%86%E5%8F%B2%E8%AE%B0%E5%BD%95"><span class="nav-number">5.2.</span> <span class="nav-text">显示全部历史记录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%AF%E5%8A%A8%E6%97%B6%E6%98%BE%E7%A4%BA%E6%9C%BA%E5%99%A8%E4%BF%A1%E6%81%AF"><span class="nav-number">5.3.</span> <span class="nav-text">启动时显示机器信息</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#screenfetch"><span class="nav-number">5.3.1.</span> <span class="nav-text">screenfetch</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#winfetch"><span class="nav-number">5.3.2.</span> <span class="nav-text">winfetch</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EF%BC%8820-6-26-%E6%9B%B4%E6%96%B0%EF%BC%89proxychains-powershell-%E7%89%88"><span class="nav-number">5.4.</span> <span class="nav-text">（20.6.26 更新）proxychains powershell 版</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EF%BC%8820-6-26-%E6%9B%B4%E6%96%B0%EF%BC%89curl-%E4%B8%AD%E6%96%87%E9%97%AE%E9%A2%98%EF%BC%88%E4%B8%8D%E5%AE%8C%E7%BE%8E%E8%A7%A3%E5%86%B3%EF%BC%89"><span class="nav-number">5.5.</span> <span class="nav-text">（20.6.26 更新）curl 中文问题（不完美解决）</span></a></li></ol></li></ol></div>
+        </section>
+        <!--/noindex-->
+
+        <section class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">zbttl</p>
+  <div class="site-description" itemprop="description">玩点好玩的</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">24</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">43</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/zbttl" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;zbttl" rel="external nofollow noopener noreferrer" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:zbttls@gmail.com" title="E-Mail → mailto:zbttls@gmail.com" rel="external nofollow noopener noreferrer" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fa fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+
+
+
+        </section>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://zbttl.github.io/2019-09-19-00/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="zbttl">
+      <meta itemprop="description" content="玩点好玩的">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Bao's 备忘录">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          powershell 全攻略
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2019-09-19 00:00:00" itemprop="dateCreated datePublished" datetime="2019-09-19T00:00:00+08:00">2019-09-19</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-01-21 03:56:13" itemprop="dateModified" datetime="2021-01-21T03:56:13+08:00">2021-01-21</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Windows/" itemprop="url" rel="index"><span itemprop="name">Windows</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>11k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>10 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>我一直以为 powershell 没啥好玩的。。。不过最近了解了一下，比 cmd 强很多，特别是 cmd 没有历史记录这点差评，另外还有包管理器什么的，感觉发现了新世界~</p>
+<p>参考文章：</p>
+<ul>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://beta.sspai.com/post/52868">告别 Windows 终端的难看难用，从改造 PowerShell 的外观开始</a></li>
+</ul>
+<h2 id="安装包管理器-chocolatey"><a href="#安装包管理器-chocolatey" class="headerlink" title="安装包管理器 chocolatey"></a>安装包管理器 chocolatey</h2><p>嘛。。。虽然市面上有两个包管理器，另一个叫做 scoop 理论上更合适程序员使用，但是 chocolatey 更合适懒人使用。。。于是我选择后者。</p>
+<p>安装方法，一行流：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Set-ExecutionPolicy Bypass -Scope Process -Force; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))</span><br></pre></td></tr></tbody></table></figure>
+
+<p>几个常用的命令：</p>
+<ol>
+<li><p>查找</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">clist xxx</span><br></pre></td></tr></tbody></table></figure>
+
+<p>几乎所有开源常用的软件和大多数免费的非商业都有。</p>
+</li>
+<li><p>找到了以后安装</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">choco install xxx</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>查看目前系统中 chocolate 安装的所有应用</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">clist -l</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>套代理（永久）</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">choco config set proxy http://127.0.0.1:3081</span><br></pre></td></tr></tbody></table></figure>
+
+<p>取消代理</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">choco config unset proxy</span><br></pre></td></tr></tbody></table></figure>
+
+<p>临时代理（以安装为例）</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">choco install --proxy=127.0.0.1:3081 xxx</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>卸载</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cuninstall xxx</span><br></pre></td></tr></tbody></table></figure>
+
+
+</li>
+</ol>
+<p>另外，因为国内网络因素和程序设计影响，chocolatey 不可避免的会遇到下载失败的问题，一般从几个方面去解决：</p>
+<ol>
+<li>使用<code>--pre</code>参数</li>
+<li>下载前一个或后一个版本</li>
+<li>使用<code>--checksum64+正确的md5</code>或者是<code>--ignore-checksums</code>参数</li>
+</ol>
+<p>另外，提一下，还有另一个比较热门的包管理器叫 scoop，我不打算写使用方法了，可以参考下面三篇文章：</p>
+<ul>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.jianshu.com/p/50993df76b1c">scoop——强大的Windows命令行包管理工具</a></li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://sspai.com/post/52496">「一行代码」搞定软件安装卸载，用 Scoop 管理你的 Windows 软件</a></li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://sspai.com/post/52710">给 Scoop 加上这些软件仓库，让它变成强大的 Windows 软件管理器</a></li>
+</ul>
+<p>和 chocolatey 相比，有几个优点</p>
+<ol>
+<li>支持 aria2c 进行多线程下载</li>
+<li>可以添加个人仓库，github 里面有几个热门仓库，你甚至可以考虑自己做一个</li>
+</ol>
+<p>但缺点也很多</p>
+<ol>
+<li>速度仍然堪忧，仍然有可能遭遇哈希值错误</li>
+<li>加仓库前还要先装 git</li>
+<li>不加仓库的话原有的软件包根本不够用，太少了</li>
+<li>就算是加了仓库也不够。。。github 上热门的就前几个仓库，加了仍然找不到小狼毫，而且加仓库的操作不能说不繁琐，仓库软件分布的很分散，甚至连 java 环境都有一个专门的仓库管理，想用还要加那个仓库</li>
+<li>search 本来就慢，加仓库更慢</li>
+</ol>
+<p>中间这两个生态问题，相当致命，除非是有精力自己建仓库，否则不推荐使用。</p>
+<h2 id="微软默认-powershell-美化"><a href="#微软默认-powershell-美化" class="headerlink" title="微软默认 powershell 美化"></a>微软默认 powershell 美化</h2><p>默认的 powershell 界面从颜色和字体上看都比较丑。。。有两个方案，一个是美化这个预装版，还有一个是装一个第三方，预装版的优点是加载快，所以先说怎么美化这个预装版。</p>
+<h3 id="界面颜色美化"><a href="#界面颜色美化" class="headerlink" title="界面颜色美化"></a>界面颜色美化</h3><p>利用 colortool 这个工具</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">choco install -y colortool</span><br></pre></td></tr></tbody></table></figure>
+
+<p>查看有多少种颜色方案</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">colortool -s</span><br></pre></td></tr></tbody></table></figure>
+
+<p>然后预览一下</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">colortool xxx.itermcolors</span><br></pre></td></tr></tbody></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@master/img/iiHvIIn.png"></p>
+<p>发现问题了，这颜色咋那么奇怪呢？</p>
+<p>原来是 colortool 默认是按 powershell 背景为全黑的时候设计的，当然因为 powershell 现阶段默认背景早已经是蓝色了，所以作者已经把这点当做 bug 在处理了。<a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/microsoft/terminal/issues/1150">Bug Report: ColorTool and changing colours causes strange behaviour since Windows 10 1903 #1150</a></p>
+<p>至于临时的解决方案，就是右击窗口，将颜色和默认值都调到第一个颜色上，再用 colortool 命令设置颜色。</p>
+<p>而如果要永久设置主题的话，加上 -b 参数，再右键窗口进入默认值和属性中各点一次确定生效。</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">colortool -b OneHalfDark.itermcolors</span><br></pre></td></tr></tbody></table></figure>
+
+<h3 id="修改字体"><a href="#修改字体" class="headerlink" title="修改字体"></a>修改字体</h3><p>修改字体就麻烦一些。<a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.zhihu.com/question/36344262">为什么 Windows 下 cmd 和 PowerShell 不能方便地自定义字体？</a>因为 powershell 要求字体需要满足微软规范（否则 powershell 默认值里面根本看不到）和编码代码页语言编码要求（否则等宽字体只能在默认值中看到，属性里面看不到），最好支持 powerline（待会有用），所以一共有三种方法可供使用。</p>
+<ul>
+<li>安装符合微软规范的等宽字体（符合规范的等宽字体能够在注册表相应项中找到），修改注册表，打上 powerline 补丁</li>
+<li>安装符合微软规范的字体，给所有字体打上 powerline 补丁（和当年通过工具撤销系统字体的 graph 优化然后替换是如出一辙的方法）</li>
+<li>安装符合微软规范且支持 powerline 的字体</li>
+</ul>
+<p><del>打 powerline 补丁的方法都很麻烦。。而且如果你安装的字体比较多的话，有些字体没有必要打上补丁的也打上了（打补丁不止会打符合规范的字体而是所有补丁都打），就会浪费时间和空间。</del></p>
+<p>而符合微软中文编码规范的字体，找来找去就两种，知乎 belleve 大佬的<a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/be5invis/Sarasa-Gothic">更纱黑体</a>（Inziu Iosevka）和 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/Microsoft/BashOnWindows/files/1362006/Microsoft.YaHei.Mono.zip">Microsoft YaHei Mono</a>，后者同样要打上 powerline 补丁。全部支持的就只有更纱黑体，在 powershell 中兼容性相当不错。但是。。。我觉得字形不太好看了，非常扁。（也可能是微软的规范下只能做出这样的字形？）</p>
+<p>当然还有传说中的支持 powerline 却不符合微软规范的字体。。。在这里不适用，看下面。</p>
+<p>补充：关于第一个，各种教程都写得很不详细。。。我决定补一下。</p>
+<p>参考文章：</p>
+<ul>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="http://www.voidcn.com/article/p-ueteeqcm-bdx.html">Windows 微软雅黑（Microsoft YaHei）+ Monaco 字体整合方案</a></li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.cnblogs.com/RhinoC/p/4470338.html">修改 cmd 控制台字体、巧用 FontLink 使中英文独立设置</a></li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.zhihu.com/question/54724102">win10下,cmd,power shell设置默认编码为‘UTF-8’?</a></li>
+</ul>
+<ol>
+<li><p>安装等宽字体。安装时记住名字（字体管理器里面会有写）。然后去注册表里面确认一下名字（<strong>注意！只是确认有没有安装，第二步里面的字体名字以字体管理器的为准，不要用下面注册表的！</strong>），如果是为自己安装的字体名称在<code>HKEY_CURRENT_USER\Software\Microsoft\Windows NT\CurrentVersion\Fonts</code>，为系统安装或者默认就有的字体在<code>HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts</code>，有种方法是在<code>HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Console\TrueTypeFont</code>以名称加 0 的方法添加各新编码字体，但我试了试，根本没用。</p>
+</li>
+<li><p>记好名字以后，在<code>HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\FontLink\SystemLink</code>配置中文 fallback。具体来说，新建一个多行字符串值，名称为你选的等宽字体，填入的参数为检测到中文时回退到的字体。比如你决定用<code>Cascadia Code</code>做 powershell 的字体，中文回退到微软雅黑，那么新建一个名字为<code>Cascadia Code</code>的多行字符串值，值为</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">MSYH.TTC,Microsoft YaHei UI,154,115</span><br><span class="line">MSYH.TTC,Microsoft YaHei UI</span><br></pre></td></tr></tbody></table></figure>
+
+<p>这个大小大概按照英文字体<em>比例来写。英文字体基本上是 128\</em>96，而大部分英文字体对雅黑的比例都是 1.6，所以填上面这两个数字。如果你感觉宽了或者窄了，稍微改改也可以。最后让默认值和属性都指向你想用的这个字体，改完以后重启电脑。</p>
+</li>
+<li><p>进入 powershell，更改编码，默认中文编码为 GBK，改成 GB2312 就能更改为默认字体且正确的显示中文了。</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chcp 54936</span><br></pre></td></tr></tbody></table></figure>
+
+<p>然后去属性里面改成你刚刚改的字体再重启就 ok 了。</p>
+<p>当然，每次启动前都要打这一串才能转到 gb2312，如果要启动时自动设定的话，需要动一点手脚。（1909 前的系统不需要动手脚，每次启动默认出来的就是进入 gb2312 模式后设置的字体，不过属性面板里面还写着点阵字体而已，如果还要修改需要回到 gb2313 去，写入配置文件中反而会导致中文字体挤在一起）。新建 powershell 的配置文件。</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">if (!(Test-Path -Path $PROFILE )) { New-Item -Type File -Path $PROFILE -Force }</span><br><span class="line">notepad $PROFILE</span><br></pre></td></tr></tbody></table></figure>
+
+<p>然后在弹出的 notepad 里面输入：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[System.Console]::OutputEncoding=[System.Text.Encoding]::GetEncoding(54936)</span><br></pre></td></tr></tbody></table></figure>
+
+<p>就 ok 了。</p>
+<p><del>另外，上面的文章 1 里面给了一个文件，是 monako 字体加一个注册表文件，使用完那个注册表文件以后甚至不用该编码。。。原来的 gbk 下的点阵字体直接就变成 monako 了，原因未知。</del>（其实就是进去以后改成了 monako 字体，那个注册表文件只是修改了 monako 的 fontlink）</p>
+</li>
+<li><p><strong>（21.1.9 更新）</strong> 实验过，改成 utf-8（65001）也没出什么岔子。而且我的系统经过一番操作，没加啥代码，他自动帮我换成 utf-8 了。。。另外，参考<a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.jianshu.com/p/cd3a7b196ab3">正确解决 VS Code / GCC / Clang 编译时中文乱码问题 - 简书</a>，这里有另一个指令，能修改编码为 utf-8，同样是写在 <code>notepad $PROFILE</code> 中：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$OutputEncoding = [console]::InputEncoding = [console]::OutputEncoding = New-Object System.Text.UTF8Encoding</span><br></pre></td></tr></tbody></table></figure>
+
+<p>和上面那个指令不同的是，这个指令对 chcp 同样有效（即只输入 <code>chcp</code> 会显示你当前窗口的编码，但实际上 powershell 真正的编码在属性-&gt;选项-&gt;当前编码页中。4 的命令只会修改属性里面的，而这个指令同时修改属性和 chcp 的）。不过从实际效果来看，无论是用那个指令，修改成 gb2312 还是 utf-8，暂时没发现区别。</p>
+</li>
+</ol>
+<h2 id="安装-oh-my-posh-和一些其他的东西"><a href="#安装-oh-my-posh-和一些其他的东西" class="headerlink" title="安装 oh-my-posh 和一些其他的东西"></a>安装 oh-my-posh 和一些其他的东西</h2><p>其实就是 oh-my-zsh 的 windows 版。。。</p>
+<p>参考文章：</p>
+<ul>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://blog.csdn.net/itanders/article/details/75305163">PowerShellGet系列(二)：用PowerShellGet管理你的模块包</a></li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://blog.csdn.net/WPwalter/article/details/78937346">将美化进行到底，把 PowerShell 做成 oh-my-zsh 的样子</a></li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/JanDeDobbeleer/oh-my-posh">JanDeDobbeleer/oh-my-posh</a></li>
+</ul>
+<h3 id="先给出一些-powershell-上一些常用的操作"><a href="#先给出一些-powershell-上一些常用的操作" class="headerlink" title="先给出一些 powershell 上一些常用的操作"></a>先给出一些 powershell 上一些常用的操作</h3><ol>
+<li><p>安装模块</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Install-Module xxx</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>查看当前模块版本</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Get-Module xxx</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>寻找可用模块</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Find-Module -Name xxx -AllVersions</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>卸载模块</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">remove-module posh-git</span><br></pre></td></tr></tbody></table></figure>
+
+</li>
+</ol>
+<h3 id="主要安装步骤"><a href="#主要安装步骤" class="headerlink" title="主要安装步骤"></a>主要安装步骤</h3><ol>
+<li><p>开启策略（注意，如果你的个人文档在 d 盘，系统在 c，重装系统后其实不用再走下面的步骤了，但是要走这一步；如果之前安装了 chocolatey，这一步也不用做了）</p>
+ <figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Set-ExecutionPolicy Bypass</span><br><span class="line">#Set-ExecutionPolicy Unrestricted </span><br><span class="line">#使用该策略可能会导致管理员模式下不可安装模块，需要进入普通用户模式安装</span><br></pre></td></tr></tbody></table></figure>
+
+<p> （可选）安装模块时候经常遇到提示「不受信任的储存库」，可以按 A 或 Y 跳过，也可以直接关闭检测：</p>
+ <figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Set-PSRepository -Name PSGallery -InstallationPolicy Trusted</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>安装依赖模块 posh-git 和 psreadline</p>
+ <figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Install-Module posh-git -Scope CurrentUser</span><br><span class="line">Install-Module -Name PSReadLine  -Scope CurrentUser -Force -SkipPublisherCheck                 </span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>安装模块 oh-my-posh</p>
+ <figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Install-Module oh-my-posh -Scope CurrentUser</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>然后按美化 powershell 修改字体里面的第三部新建配置文件（如果建了就不用了），填入</p>
+ <figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Import-Module posh-git</span><br><span class="line">Import-Module oh-my-posh</span><br><span class="line">Set-Theme Paradox</span><br></pre></td></tr></tbody></table></figure>
+
+</li>
+</ol>
+<p>重启 powershell 生效。</p>
+<h3 id="补充注意"><a href="#补充注意" class="headerlink" title="补充注意"></a>补充注意</h3><ol>
+<li><p>安装的 posh-git 和 psreadline 都安装的是非最新版，如果要安装最新测试版可以考虑把这两个原版卸掉，然后更新 powershellget（自带的 powershell get 好像无法识别测试版的安装参数），并重启。</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">remove-module posh-git</span><br><span class="line">remove-module psreadline</span><br><span class="line">Install-Module -Name PowerShellGet -Force</span><br></pre></td></tr></tbody></table></figure>
+
+<p>然后安装最新测试版（版本号可以去 powershell 官网要）</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Install-Module -Name PSReadLine -RequiredVersion 2.1.0-beta2 -AllowPrerelease</span><br><span class="line">Install-Module -Name posh-git -RequiredVersion 1.0.0-beta4 -AllowPrerelease	</span><br></pre></td></tr></tbody></table></figure>
+
+<p><strong>（20.8.10 更新）</strong> 可以尝试直接强制更新，而不是卸载。关闭所有 powershell 窗口，在 cmd 下运行。</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">powershell -noprofile -command "Install-Module PSReadLine -Force -SkipPublisherCheck -AllowPrerelease"</span><br><span class="line">powershell -noprofile -command "Install-Module posh-git -Force -SkipPublisherCheck -AllowPrerelease"</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>自动补全有另一种形式，就是显示出所有候选项的形式，可以通过</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Set-PSReadLineKeyHandler -Key Tab -Function Complete</span><br></pre></td></tr></tbody></table></figure>
+
+<p>来打开。当然这是暂时的打开，永久打开添加到 $profile 里就行了。</p>
+</li>
+<li><p><del>然而就算如此，教程里面展现的什么都没调整就能享受到的带方向键的自动补全。。。实在是搞不出来</del></p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/3lMO1jJ.png"></p>
+<p>如果要使用方向键式自动补全，修改 2 的语句为</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Set-PSReadLineKeyHandler -Key Tab -Function MenuComplete</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>智能提示。需更新到 2.1.0-beta1 后版本。参考：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/PowerShell/PSReadLine/issues/687">Fish-like autocompletion</a></p>
+ <figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">set-psreadlineoption -predictionsource history</span><br><span class="line">get-psreadlineoption | % predictionsource</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p> 其他有用的功能。比如上下翻选时根据当前已输入的内容进行筛查而不是安装当前历史记录。可参照配置文件 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/PowerShell/PSReadLine/blob/master/PSReadLine/SamplePSReadLineProfile.ps1"><strong>SamplePSReadLineProfile.ps1</strong></a>。需要将其所有内容放到 <code>profile.ps1</code> 的最前端。</p>
+</li>
+<li><p>如果遭遇 <code>Install-Module : A parameter cannot be found that matches parameter name AllowPrerelease.</code>，先更新 PowerShellGet。参考：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://evotec.xyz/install-module-a-parameter-cannot-be-found-that-matches-parameter-name-allowprerelease/">Install-Module : A parameter cannot be found that matches parameter name AllowPrerelease.</a></p>
+ <figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Install-Module -Name PowerShellGet -Force</span><br></pre></td></tr></tbody></table></figure>
+
+</li>
+</ol>
+<h2 id="powerline-补丁"><a href="#powerline-补丁" class="headerlink" title="powerline 补丁"></a>powerline 补丁</h2><p>oh-my-posh 装好后，使用主题会发现各种乱码，因为主题是靠各种 powerline 字体实现的。</p>
+<p>在修改字体那里说过，要么上支持 powerline 的字体要么给字体打补丁。</p>
+<p>打补丁的工具叫做 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/ryanoasis/nerd-fonts">nerd-fonts</a>，需要在 linux 环境下才能使用。当然，系统比较新的话，可以考虑用 wsl ubuntu。下文就是用这玩意进行补丁的。</p>
+<p>参考文章：</p>
+<ul>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.hanselman.com/blog/PatchingTheNewCascadiaCodeToIncludePowerlineGlyphsAndOtherNerdFontsForTheWindowsTerminal.aspx">Patching the new Cascadia Code to include Powerline Glyphs and other Nerd Fonts for the Windows Terminal</a></li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://coolcode.org/2018/03/16/how-to-make-your-powershell-beautiful/">PowerShell 美化指南</a></li>
+</ul>
+<ol>
+<li><p>安装依赖</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install software-properties-common</span><br><span class="line">sudo add-apt-repository ppa:fontforge/fontforge</span><br><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install fontforge</span><br><span class="line">sudo apt install python-pip</span><br><span class="line">sudo pip install configparser</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>通过 git 或者下载源码的方式，主要是将项目目录下的 src 文件夹和 font-patcher 脚本下载到本地</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/phxn8xp.png"></p>
+</li>
+<li><p>通过<code>explorer.exe .</code>命令，将第二部的文件以及字体全部拖到执行文件夹中。</p>
+</li>
+<li><p>打补丁</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fontforge -script font-patcher Cascadia.ttf -c</span><br></pre></td></tr></tbody></table></figure>
+
+<p>打好补丁的字体会存在执行文件夹中，安装就是了。安装后可能还需要返回修改字体那部对字体的汉字 fallback 进行设置（另外打完补丁的字体名字会发生改变）</p>
+</li>
+</ol>
+<h3 id="已知问题关于每行「〉」符号乱码的解决方法"><a href="#已知问题关于每行「〉」符号乱码的解决方法" class="headerlink" title="已知问题关于每行「〉」符号乱码的解决方法"></a><del>已知问题</del>关于每行「〉」符号乱码的解决方法</h3><p><del>在 powershell 中，尽管字体打完了补丁，但还是有一个符号会显示为方框，就是每行开头的「〉」符号。而且使用更纱黑体，换用其他终端都没问题。已向作者提出 issue：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/ryanoasis/nerd-fonts/issues/375">The symbol ‘〉’ can not display in powershell</a>。</del></p>
+<p>提问半小时，解决五分钟。。。还是自己解决的，不过还有些小疑点，看看有没有人回我 issue~</p>
+<p>简而言之，那个方框符号其实和我猜的差不多，不在 powerline 里面（因为我提问前搜索了一下 powershell 相关的 issue，也有个问题作者回了「你乱码的符号其实不是 powerline 符号」，但和我提问的符号不一样，所以我就开 issue 了」）</p>
+<p>那问题出在哪呢？另外两个 terminal 都没问题哦？突然想起，在 terminus 里面看中文和 powershell 里面我配置过 fallback 的中文字形明显不太一样，而且就算我没配过 fallback，terminus 那边的字形也还属于「能看」级别的。</p>
+<p>那我大概知道问题在哪了</p>
+<ol>
+<li>那个符号应该是靠 fallback 到正确字体显示出来的</li>
+<li>国外用的是英文 windows 操作系统，和中文操作系统的 fallback 回退可能不太一样，它们回退到了能够正确显示那个符号的字体，而我们大概率是回退到了垃圾宋体</li>
+</ol>
+<p>那问题就很好解决了，从参考文章第二篇我们可以看到作者这么处理了方框文字：</p>
+<blockquote>
+<p>在其中新建多字符串值，名称为：<code>Sarasa Term SC</code>，内容为：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">MICROSS.TTF,Microsoft Sans Serif,108,122</span><br><span class="line">MICROSS.TTF,Microsoft Sans Serif</span><br><span class="line">MINGLIU.TTC,PMingLiU</span><br><span class="line">MSMINCHO.TTC,MS PMincho</span><br><span class="line">BATANG.TTC,Batang</span><br><span class="line">MSYH.TTC,Microsoft YaHei UI</span><br><span class="line">MSJH.TTC,Microsoft JhengHei UI</span><br><span class="line">YUGOTHM.TTC,Yu Gothic UI</span><br><span class="line">MALGUN.TTF,Malgun Gothic</span><br><span class="line">SEGUISYM.TTF,Segoe UI Symbol</span><br></pre></td></tr></tbody></table></figure>
+
+<p>这段内容是复制的宋体SimSun的，如果你愿意的话，可以用同样的方法把 <code>Sarasa</code> 系列的都注册一下，如果像我这么懒的话，只修改这一个，然后重启计算机也是可以了。修改之后的效果是这样的：</p>
+</blockquote>
+<p>当然我们知道，现在最新的 sarasa（更纱黑体）已经解决这个问题了。而是否需要复制这么多的 fallback 呢。。。我尝试了一下，只需要最后一行好像就行了。当然我也不确定这样做后面会有什么新问题，这就是为什么那边的 issue 我想继续开着的原因。</p>
+<h2 id="其他黑科技"><a href="#其他黑科技" class="headerlink" title="其他黑科技"></a>其他黑科技</h2><p>以下内容设置完后记得关键指令保存到配置文件里面去~</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">notepad $PROFILE</span><br></pre></td></tr></tbody></table></figure>
+
+<h3 id="彩色标记文件"><a href="#彩色标记文件" class="headerlink" title="彩色标记文件"></a>彩色标记文件</h3><p>使用 pscolor 模块。</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Install-Module PSColor</span><br><span class="line">#关键指令</span><br><span class="line">Import-Module PSColor</span><br></pre></td></tr></tbody></table></figure>
+
+<h3 id="显示全部历史记录"><a href="#显示全部历史记录" class="headerlink" title="显示全部历史记录"></a>显示全部历史记录</h3><p>参考文章：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/set-alias?view=powershell-6">Set-Alias</a></p>
+<p>默认的<code>history</code>指令只能显示当前窗口的历史记录。如果要显示全部的历史记录，需要输入命令：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat (Get-PSReadlineOption).HistorySavePath</span><br></pre></td></tr></tbody></table></figure>
+
+<p>但这命令太长又不好记，所以用<code>alias</code>简化。</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#下面两个都是关键指令</span><br><span class="line">function his {cat (Get-PSReadlineOption).HistorySavePath}</span><br><span class="line">set-alias -name allhistory -value his</span><br></pre></td></tr></tbody></table></figure>
+
+<p>往后用 <code>his</code> 或 <code>allhistory</code>就能看到所有的历史记录了。不过有一个 bug 我暂时不知道怎么处理，历史记录中若是有中文，会显示为乱码（但乱的很整洁，起码字符数没变。。。影响不算太大）。</p>
+<h3 id="启动时显示机器信息"><a href="#启动时显示机器信息" class="headerlink" title="启动时显示机器信息"></a>启动时显示机器信息</h3><p>可能会拖慢启动速度，慎用。</p>
+<h4 id="screenfetch"><a href="#screenfetch" class="headerlink" title="screenfetch"></a>screenfetch</h4><figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Install-Module -Name windows-screenfetch</span><br></pre></td></tr></tbody></table></figure>
+
+<p>使用 </p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#关键指令</span><br><span class="line">screenfetch</span><br></pre></td></tr></tbody></table></figure>
+
+<p>启动。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/5nlZs9k.png"></p>
+<h4 id="winfetch"><a href="#winfetch" class="headerlink" title="winfetch"></a>winfetch</h4><p>磁盘信息显示没有上面这个全（只会显示系统盘），快一些，但咱不用 scoop，所以安装略微麻烦。有两种安装方法：</p>
+<ol>
+<li><p>直接通过命令安装</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Install-Script -Name winfetch</span><br></pre></td></tr></tbody></table></figure>
+
+<p>安装出来的是 v1.0 版本，界面和最新版有些差距</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/3znd7v3.png"></p>
+</li>
+<li><p>通过 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/lptstr/winfetch">github</a> 获取</p>
+<p><em>根据作者写的 wiki：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/lptstr/winfetch/wiki/Installation">Basic Usage</a>，先需要去自己的 github 中添加一个公钥，并将对应的私钥放在自己 git 目录下的 <code>.ssh</code> 文件夹中，最后通过 <code>ssh -vT git@github.com</code> 命令处理后才能运行 wiki 中的第一条命令拷贝库。</em></p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone git@github.com:lptstr/winfetch.git winfetch</span><br></pre></td></tr></tbody></table></figure>
+
+<p>不过最后验证出来是大费周章。。。直接 git 源库就好了</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/lptstr/winfetch.git</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>然后处理一下，最新版本是 v1.2.0 来着（可选，否则安装的是最新分支的测试版，如果要做第五步的自定义的话这步是必须的，测试版报错，不过经过测试，正式版也可能报错。。。）</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd winfetch</span><br><span class="line">git reset --hard v1.2.0</span><br></pre></td></tr></tbody></table></figure>
+
+<p>拷贝到 windows powershell script 默认目录下，windows 应该会自动帮你添加到系统路径里面，大概是 <code>C:\Program Files\WindowsPowerShell\Scripts</code>，如果拷进去发现不能运行的话，说明没帮你添加，需要自行添加。</p>
+</li>
+<li><p>最后运行</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#关键指令</span><br><span class="line">winfetch</span><br></pre></td></tr></tbody></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/So5ntqV.png"></p>
+</li>
+<li><p>自定义 winfetch 显示内容</p>
+<p>参考文章：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/lptstr/winfetch/wiki/Configuration">Configuration</a></p>
+<p>下载配置文件</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">winfetch -genconf</span><br></pre></td></tr></tbody></table></figure>
+
+<p>如果报错下载不下来，可以自己创建</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">notepad C:\Users\[用户名]\.config/winfetch/config.ps1</span><br></pre></td></tr></tbody></table></figure>
+
+<p>内容大概是</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"># ===== WINFETCH CONFIGURATION =====</span><br><span class="line"></span><br><span class="line"># Remove the '#' from any of the lines in</span><br><span class="line"># this file to **enable** their output.</span><br><span class="line"></span><br><span class="line">@(</span><br><span class="line">    'None'</span><br><span class="line">    'Show_Title'</span><br><span class="line">    'Show_Dashes'</span><br><span class="line">    'Show_OS'</span><br><span class="line">    'Show_Computer'</span><br><span class="line">    'Show_Uptime'</span><br><span class="line">    'Show_CPU'</span><br><span class="line">    'Show_GPU'</span><br><span class="line">    'Show_Memory'</span><br><span class="line">    'Show_Pkgs'    </span><br><span class="line">#    'Show_Terminal'</span><br><span class="line">#    'Show_Disk'</span><br><span class="line">#    'Show_Pwsh'</span><br><span class="line">) -join ','</span><br></pre></td></tr></tbody></table></figure>
+
+<p>将不需要显示的注释掉就好了，默认情况下注释掉了下面三个（如果不创建这个文件的话，其实是全部显示的）。</p>
+</li>
+</ol>
+<h3 id="（20-6-26-更新）proxychains-powershell-版"><a href="#（20-6-26-更新）proxychains-powershell-版" class="headerlink" title="（20.6.26 更新）proxychains powershell 版"></a>（20.6.26 更新）proxychains powershell 版</h3><p>linux 那边（19.11.12）的 proxychains4 在 powershell 这边也有相应的版本，就叫 proxychains。</p>
+<p>在这里下载：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/shunf4/proxychains-windows/releases">shunf4/proxychains-windows</a></p>
+<p>解压后将其中的 exe 和 dll 全部转移到一个好找的文件夹里面，比如 <code>D:\proxychains</code>。</p>
+<p>然后将该文件夹添加到系统变量 PATH 中。</p>
+<p>再把其中的 <code>proxychains.conf</code> 解压到 <code>%USERPROFILE%\.proxychains\</code> 里面，修改最后一行（其实这行默认适配 ss，如果用的是 ss 默认配置就别改了），改为</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">socks5 [ip] [端口]</span><br></pre></td></tr></tbody></table></figure>
+
+<p>然后添加 alias 简化</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#关键指令</span><br><span class="line">set-alias -name  fan -value proxychains_win32_x64</span><br></pre></td></tr></tbody></table></figure>
+
+<p>测试（注意用的是命令是 curl.exe 而不是 curl，原因见这里：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.cnblogs.com/sx00xs/p/11478936.html">powershell中调用 curl 的正确方法</a>）</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fan curl.exe cip.cc </span><br></pre></td></tr></tbody></table></figure>
+
+<h3 id="（20-6-26-更新）curl-中文问题（不完美解决）"><a href="#（20-6-26-更新）curl-中文问题（不完美解决）" class="headerlink" title="（20.6.26 更新）curl 中文问题（不完美解决）"></a>（20.6.26 更新）curl 中文问题（不完美解决）</h3><p>首先</p>
+<p>相信上一步运行时，之前没通过 <code>chcp 54936</code> 改编码（其实改了也乱码，要改成 <code>chcp 65001</code> 才有用）的诸位发现问题了。</p>
+<p>curl 出来的都是乱码。</p>
+<p>除了修改编码，还有一种方法能够解决。但必须进入 cmd，在 powershell 下除非临时改编码否则暂时无解。</p>
+<p>参考文章：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://blog.csdn.net/aganliang/article/details/84403923">CURL 中文乱码解决方法</a></p>
+<p>进入 <a target="_blank" rel="external nofollow noopener noreferrer" href="http://gnuwin32.sourceforge.net/packages/libiconv.htm">LibIconv for Windows</a> 下载 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://sourceforge.net/projects/gnuwin32/files/libiconv/1.9.2-1/libiconv-1.9.2-1.exe/download?use_mirror=netix&amp;download=">Complete package, except sources</a>，安装。</p>
+<p>增加系统变量（以默认的安装位置来说）</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">C:\Program Files (x86)\GnuWin32\bin</span><br></pre></td></tr></tbody></table></figure>
+
+<p>进入 cmd，然后运行</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cmd</span><br><span class="line">proxychains_win32_x64 curl cip.cc| iconv -f utf-8 -t gbk</span><br></pre></td></tr></tbody></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>zbttl
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="https://zbttl.github.io/2019-09-19-00/" title="powershell 全攻略">https://zbttl.github.io/2019-09-19-00/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="external nofollow noopener noreferrer" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="followme">
+  <span>欢迎关注我的其它发布渠道</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="/atom.xml">
+          <span class="icon">
+            <i class="fa fa-rss"></i>
+          </span>
+
+          <span class="label">RSS</span>
+        </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/zsh/" rel="tag"># zsh</a>
+              <a href="/tags/terminal/" rel="tag"># terminal</a>
+              <a href="/tags/powershell/" rel="tag"># powershell</a>
+          </div>
+
+        
+  <div class="post-widgets">
+    <div class="wp_rating">
+      <div id="wpac-rating"></div>
+    </div>
+  </div>
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2018-05-19-00/" rel="prev" title="各平台字体美化指南">
+                  <i class="fa fa-chevron-left"></i> 各平台字体美化指南
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2020-02-24-00/" rel="next" title="桌面版 ubuntu & debian 踩坑">
+                  桌面版 ubuntu & debian 踩坑 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zbttl</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+      <span>站点总字数：</span>
+    <span title="站点总字数">137k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span>站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">2:05</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+</div><script color="120,120,120" opacity="0.5" zindex="-1" count="150" src="https://cdn.jsdelivr.net/npm/canvas-nest.js@1/dist/canvas-nest.js"></script>
+<!--《添加网站运行时间 -->
+<!--<br/>-->
+<span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+<script>
+    var now = new Date();
+
+    function createtime() {
+        var grt = new Date("12/18/2020 12:00:00"); //此处修改你的建站时间或者网站上线时间 
+        now.setTime(now.getTime() + 250);
+        days = (now - grt) / 1000 / 60 / 60 / 24;
+        dnum = Math.floor(days);
+        hours = (now - grt) / 1000 / 60 / 60 - (24 * dnum);
+        hnum = Math.floor(hours);
+        if (String(hnum).length == 1) {
+            hnum = "0" + hnum;
+        }
+        minutes = (now - grt) / 1000 / 60 - (24 * 60 * dnum) - (60 * hnum);
+        mnum = Math.floor(minutes);
+        if (String(mnum).length == 1) {
+            mnum = "0" + mnum;
+        }
+        seconds = (now - grt) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+        snum = Math.round(seconds);
+        if (String(snum).length == 1) {
+            snum = "0" + snum;
+        }
+        document.getElementById("timeDate").innerHTML = " 本站已安全运行 " + dnum + " 天 ";
+        document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒";
+    }
+    setInterval("createtime()", 250);
+</script>
+<!-- 添加网站运行时间》 -->
+
+    </div>
+  </footer>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+  <script>
+  if (CONFIG.page.isPost) {
+    wpac_init = window.wpac_init || [];
+    wpac_init.push({
+      widget: 'Rating',
+      id    : 28813,
+      el    : 'wpac-rating',
+      color : '#fc6423'
+    });
+    (function() {
+      if ('WIDGETPACK_LOADED' in window) return;
+      WIDGETPACK_LOADED = true;
+      var mc = document.createElement('script');
+      mc.type = 'text/javascript';
+      mc.async = true;
+      mc.src = '//embed.widgetpack.com/widget.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(mc, s.nextSibling);
+    })();
+  }
+  </script>
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1.7.0/dist/gitalk.css">
+
+<script>
+NexT.utils.loadComments('#gitalk-container', () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1.7.0/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : 'd99d750bdfdb31ecf37e',
+      clientSecret: '1d37215aff71dc84b66e03cb412c7e68b968d76f',
+      repo        : 'zbttl-comment',
+      owner       : 'zbpicture',
+      admin       : ['zbpicture'],
+      id          : 'e38893d11b9aa19d192a1dc8c6003c77',
+        language: '',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+<script type="text/javascript" src=" https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+
+  <script async src="/js/cursor/text.js"></script>
+
+
+</body>
+</html>

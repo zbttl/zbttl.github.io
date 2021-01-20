@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.1/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"zbttl.github.io","root":"/","images":"/images","scheme":"Muse","version":"8.1.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}};
+  </script>
+<meta name="description" content="罗马不是一日建成的。  但我的博客可以！🐶">
+<meta property="og:type" content="article">
+<meta property="og:title" content="hexo 入门">
+<meta property="og:url" content="https://zbttl.github.io/2020-12-18-00/index.html">
+<meta property="og:site_name" content="Bao&#39;s 备忘录">
+<meta property="og:description" content="罗马不是一日建成的。  但我的博客可以！🐶">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://github.githubassets.com/images/icons/emoji/unicode/1f436.png?v8">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20201220025108.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20201220025319.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20201220033031.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20201218041918.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20201220065728.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20201219211715.png">
+<meta property="article:published_time" content="2020-12-17T16:00:00.000Z">
+<meta property="article:modified_time" content="2021-01-20T21:24:11.549Z">
+<meta property="article:author" content="zbttl">
+<meta property="article:tag" content="hexo">
+<meta property="article:tag" content="NexT">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://github.githubassets.com/images/icons/emoji/unicode/1f436.png?v8">
+
+
+<link rel="canonical" href="https://zbttl.github.io/2020-12-18-00/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+<title>hexo 入门 | Bao's 备忘录</title>
+  
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link rel="alternate" href="/atom.xml" title="Bao's 备忘录" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Bao's 备忘录</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80" placeholder="搜索..." spellcheck="false" type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <section class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%A5%E9%97%A8"><span class="nav-number">1.</span> <span class="nav-text">入门</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%BE%E5%BA%8A"><span class="nav-number">2.</span> <span class="nav-text">图床</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BE%8E%E5%8C%96"><span class="nav-number">3.</span> <span class="nav-text">美化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0%E6%A0%87%E7%AD%BE%E5%92%8C%E5%88%86%E7%B1%BB"><span class="nav-number">3.1.</span> <span class="nav-text">添加标签和分类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0%E7%81%AB%E6%9F%B4%E6%A3%92%E5%8A%A8%E6%80%81%E8%83%8C%E6%99%AF"><span class="nav-number">3.2.</span> <span class="nav-text">添加火柴棒动态背景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0%E9%BC%A0%E6%A0%87%E7%82%B9%E5%87%BB%E7%89%B9%E6%95%88"><span class="nav-number">3.3.</span> <span class="nav-text">添加鼠标点击特效</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0%E7%BD%AE%E9%A1%B6"><span class="nav-number">3.4.</span> <span class="nav-text">添加置顶</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8E%BB%E9%99%A4-hexo-%E6%94%AF%E6%8C%81%E4%BF%A1%E6%81%AF%E4%B8%8E%E4%B8%BB%E9%A2%98%E7%89%88%E6%9C%AC%E4%BF%A1%E6%81%AF%EF%BC%8C%E4%BE%A7%E8%BE%B9%E6%A0%8F%E7%A4%BE%E4%BA%A4%E4%BF%A1%E6%81%AF%E9%93%BE%E6%8E%A5%EF%BC%8C%E6%B7%BB%E5%8A%A0%E4%BB%A3%E7%A0%81%E5%9D%97%E5%A4%8D%E5%88%B6%E6%8C%89%E9%92%AE%EF%BC%8C%E6%9D%83%E5%88%A9%E5%A3%B0%E6%98%8E"><span class="nav-number">3.5.</span> <span class="nav-text">去除 hexo 支持信息与主题版本信息，侧边栏社交信息链接，添加代码块复制按钮，权利声明</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%90%9C%E7%B4%A2%E5%8A%9F%E8%83%BD"><span class="nav-number">3.6.</span> <span class="nav-text">搜索功能</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AD%97%E6%95%B0%E7%BB%9F%E8%AE%A1"><span class="nav-number">3.7.</span> <span class="nav-text">字数统计</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%9F%E8%AE%A1%E8%AE%BF%E9%97%AE%E9%87%8F"><span class="nav-number">3.8.</span> <span class="nav-text">统计访问量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%87%E7%AB%A0%E8%87%AA%E5%8A%A8%E6%8A%98%E5%8F%A0"><span class="nav-number">3.9.</span> <span class="nav-text">文章自动折叠</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B8%85%E7%90%86"><span class="nav-number">3.10.</span> <span class="nav-text">清理</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B6%E4%BB%96%E4%BC%98%E7%A7%80%E5%8F%82%E8%80%83%E6%96%87%E7%AB%A0%E9%9B%86%E5%90%88"><span class="nav-number">5.</span> <span class="nav-text">其他优秀参考文章集合</span></a></li></ol></div>
+        </section>
+        <!--/noindex-->
+
+        <section class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">zbttl</p>
+  <div class="site-description" itemprop="description">玩点好玩的</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">24</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">43</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/zbttl" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;zbttl" rel="external nofollow noopener noreferrer" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:zbttls@gmail.com" title="E-Mail → mailto:zbttls@gmail.com" rel="external nofollow noopener noreferrer" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fa fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+
+
+
+        </section>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://zbttl.github.io/2020-12-18-00/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="zbttl">
+      <meta itemprop="description" content="玩点好玩的">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Bao's 备忘录">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          hexo 入门
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-12-18 00:00:00" itemprop="dateCreated datePublished" datetime="2020-12-18T00:00:00+08:00">2020-12-18</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-01-21 05:24:11" itemprop="dateModified" datetime="2021-01-21T05:24:11+08:00">2021-01-21</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%8D%9A%E5%AE%A2/" itemprop="url" rel="index"><span itemprop="name">博客</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>9.8k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>9 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <blockquote>
+<p>罗马不是一日建成的。</p>
+</blockquote>
+<p>但我的博客可以！<span class="github-emoji"><span>🐶</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f436.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span></p>
+<p>0202 年了，要写博客选择很多，远古时期发展来的 wordpress 配置相对复杂，但发展那么多年是这里面最成熟的选择了；年中我为了续费阿里云学生机曾经快速过过一遍主页那些小教程，玩了一下里面的 vuepress 感觉也不错；还有好像挺多大佬用 typecho 的？不过作为萌新，先从当前最成熟最简单的开始，就 hexo + Next 了。</p>
+<p>hexo 网上教程烂大街了，所以步骤我介绍的很简单，详细步骤参见相应的参考文章，我只介绍大概步骤和一些坑。（说是最成熟最简单，我这个跳坑大王还是遇到不少坑。</p>
+<p>使用的软件版本：</p>
+<p>nodejs 和 hexo 运行平台：Ubuntu 19.10（话说我现在才发现这个系统过期导致 apt update 失灵，等我解决了还可以水一篇文章）</p>
+<p>nodejs（linux）：v14.6.0 <code>nodejs -v</code></p>
+<p>hexo（linux）：5.2.0 <code>cd hexo</code> <code>hexo -v</code></p>
+<p>hexo-next（linux）：7.8.0（可以在 <code>themes/next/package.json</code>内查到）</p>
+<p><a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/Molunerfinn/PicGo">pic-go</a>（windows）：2.3.0-beta.3</p>
+<p>另外先附上我们两个主角的官方中文文档：</p>
+<ul>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://hexo.io/zh-cn/docs/">hexo 文档</a></li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://theme-next.iissnan.com/getting-started.html">NexT 开始使用</a></li>
+</ul>
+<h2 id="入门"><a href="#入门" class="headerlink" title="入门"></a>入门</h2><p>参考文章：</p>
+<ul>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://blog.ichr.me/post/set-up-hexo-on-github-page/">Github Page + Hexo 免费搭建个人博客教程</a></li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="http://blog.fujian.show/2019/05/11/hexo-github-build-blog/">史上最完整教程！Hexo + GitHub page免费搭建个人博客</a></li>
+</ul>
+<ol>
+<li><p>装 nodejs 和 git</p>
+</li>
+<li><p>全局安装 hexo，新建个目录作为 <strong>hexo 根目录</strong>，在里面初始化 hexo，安装组件，生成文件。未来所有以 hexo 和 npm 开头的命令都需要在 hexo 文件夹下执行。</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sudo npm install -g hexo-cli</span><br><span class="line">mkdir hexo &amp;&amp; cd hexo</span><br><span class="line">hexo init</span><br><span class="line">npm install</span><br><span class="line">hexo g</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>装 NexT 主题（许多教程里面的 next 还用的是 iissnan/hexo-theme-next 的这个旧版，用旧版运行时会报错，且运行的时候有提示让你更新新版）</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/theme-next/hexo-theme-next.git themes/next</span><br></pre></td></tr></tbody></table></figure>
+
+<p>修改 hexo 根目录中的 <code>_config.yml</code>，将其中的 theme 改为 next。（注意，如果此处修改后运行报错参考<a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.jianshu.com/p/861307262429">搭建博客遇到Plugin load failed: %s hexo-theme-landscape错误</a>删除 <code>package.json</code> 中原主题 landscape 的依赖即可）</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">theme: next</span><br></pre></td></tr></tbody></table></figure>
+
+<p>此时就可以打开本地预览看看效果：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo s</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>建文章。本地预览中显示的这篇文章 <code>source/_posts/hello_world.md</code> 中。第一篇文章可以修改这个文件，也可以删掉重新建一个。通过终端建立新文章的方法参考<a target="_blank" rel="external nofollow noopener noreferrer" href="https://hexo.io/zh-cn/docs/writing.html">写作</a>：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo new post &lt;title&gt; title.md</span><br></pre></td></tr></tbody></table></figure>
+
+<p>文件名称（也就是 title.md）不影响在博客中显示的效果。但 title 影响。</p>
+<p>这么建文章有个问题。。。我之前写的日记，我想按我日记上的日期显示在博客里咋整？</p>
+<p>那我们可以手动对 <code>source/_posts</code> 里的 md 文件进行一些修改。</p>
+<p>原来写的日记，如果是普通的文本请改成 markdown 格式（这里不再展开），好在我原来写的日志就是 md 格式的，仿照 <code>hello-world.md</code> 在全文前面加上代表 title 和初始日期的代码块就行了。这个代码块里面还可以指定本文的分类、tag、是否置顶等属性，这个我们之后再说。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20201220025108.png"></p>
+<p>另外，之前文章的总标题我都用一级标题的形式书写的。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20201220025319.png" alt="比如这样"></p>
+<p>而刚刚代码块里面的 title 在文章中显示出来的大小和一级标题一模一样，看起来重复了。所以还要把一级标题删掉，直接放到 title 上。</p>
+</li>
+<li><p>修整一下 hexo 全局配置文件 <code>_config.yml</code> 和 next 主题的配置文件 <code>themes/next/_config.yml</code>中的相应项目。全局配置文件中，网站基本描述（修改这里的时候注意，这些参数原来冒号后面跟的是单引号，别当双引号看了，最好一开始就直接删掉那些引号，这里的参数值就算是汉字也不需要用引号括起来）</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># Site</span><br><span class="line">title: Bao's 备忘录</span><br><span class="line">subtitle: </span><br><span class="line">description: 玩点好玩的</span><br><span class="line"># keyword:</span><br><span class="line">author: zbttl</span><br><span class="line">language: zh-CN</span><br><span class="line">timezone: Asia/Shanghai</span><br></pre></td></tr></tbody></table></figure>
+
+<p>可引用外部图片</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">post_asset_folder: true</span><br></pre></td></tr></tbody></table></figure>
+
+<p>next 主题配置文件中，主页需要需要启用菜单功能（我这里多启用了关于、标签、种类三个功能）</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">menu:</span><br><span class="line">  home: / || fa fa-home</span><br><span class="line">  tags: /tags/ || fa fa-tags</span><br><span class="line">  categories: /categories/ || fa fa-th</span><br><span class="line">  archives: /archives/ || fa fa-archive</span><br><span class="line">  #schedule: /schedule/ || fa fa-calendar</span><br><span class="line">  #sitemap: /sitemap.xml || fa fa-sitemap</span><br><span class="line">  #commonweal: /404/ || fa fa-heartbeat</span><br><span class="line">  about: /about/ || fa fa-user</span><br></pre></td></tr></tbody></table></figure>
+
+<p>（多嘴一句，后面美化主题新加功能的时候少不了折腾这两个文件，特别是 next 主题的配置文件，英语过关的话认真看里面已经写了很多插件功能了，装好模块删掉注释就能开）</p>
+</li>
+<li><p>把自己之前的一些文章转换好在本地看完效果后，发布。本来是想发布到自己的服务器和域名上，想想算了。。。毕竟那个东西，是用来干一些（咳咳</p>
+<p>那就托管到 github.io 好了。在 github 上建一个名为你的用户名 .github.io 的仓库。放（或者建）一个 ssh key 到 github 里面。（玩 vps 的 ssh key 这玩意应该人手一个吧）</p>
+<p>搞定以后再次修改全局配置文件 <code>_config.yml</code>的相应内容：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"># 刚刚建的仓库的域名</span><br><span class="line">url: https://xxx.github.io/</span><br><span class="line">root: /</span><br><span class="line">#permalink: :year/:month/:day/:title/</span><br><span class="line">permalink: :title/ #使url简洁，方便搜索引擎收录</span><br><span class="line">...</span><br><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  repository: git@github.com:xxx/xxx.github.io.git</span><br><span class="line">  branch: main</span><br></pre></td></tr></tbody></table></figure>
+
+<p>repository 这项不清楚的话，打开你的项目下面，点击那个绿色的下载按钮 code-&gt;ssh</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20201220033031.png"></p>
+<p>配置 git 用户和邮箱：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.name "Your Name"</span><br><span class="line">git config --global user.email "email@example.com" </span><br></pre></td></tr></tbody></table></figure>
+
+<p>把自己 ssh key 中的私钥 <code>id_rsa</code> 放到自己 linux 用户目录的 <code>.ssh</code> 文件夹里面，改权限为 0600。</p>
+<p>安装 hexo-github 插件</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-deployer-git </span><br></pre></td></tr></tbody></table></figure>
+
+<p>提交！</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo d -g</span><br></pre></td></tr></tbody></table></figure>
+
+<p>一会儿访问 xxx.github.io 就能看到自己的博客了。</p>
+</li>
+</ol>
+<h2 id="图床"><a href="#图床" class="headerlink" title="图床"></a>图床</h2><p>参考文章：</p>
+<ul>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://blog.csdn.net/tangyb828/article/details/110389851">PicGo+GitHub 你的最佳免费图床选择！</a></li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://blog.csdn.net/weixin_43571641/article/details/106448498">[教程] PicGo+GitHub 免费图床搭建</a></li>
+</ul>
+<p>其实凑合一点存在项目内也不是不行。不过我的文章先在另一台设备的 typora 里面写完再上传到博客的，这样显然不太行。</p>
+<p>如果不考虑国内访问，存在 imgur 就可以了，还有 shareX 这种工具能够方便的截图上传。</p>
+<p>如果坚信自己的图片能够过审核！那可以存在 sm.ms。（我本来打算存那儿的，结果就那么几张为了实验找出来的图我还给敏感部位打了码最后还是被 delete 了两张）</p>
+<p>最后决定先存 github 吧。虽然 github 的 raw.githubusercontent.com 今年由于某个原因变得不稳定了起来，但偶尔还能用，而且还有 cdn 加速勉强撑着。和上面两个图床相比还有一个优势就是上传上去的图片文件名不会变。未来无论是重新下回来还是上传到其他也不会改文件名的图床都会方便一些（批量改域名就可以）。</p>
+<p>如果有 vps 而且流量多的话，可以考虑在 vps 中开一个图床，这里就不详细探究了。</p>
+<ol>
+<li><p>在 github 新建一个默认创建 README.md 的 public 仓库。（话说我有点害怕 github 来查我水表，于是我新开了了一个小号）</p>
+</li>
+<li><p>获取一个 github Personal access tokens，只需要 repo 权限。</p>
+</li>
+<li><p>在 picgo 中填写相应参数。坑来了：现在已经是 0202 年了，新项目没有 master 分支这个说法了。。。我踩进去半天才反应过来。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20201218041918.png"></p>
+<p>仓库名填 [ 账号名 ]/[ 仓库名 ]。</p>
+<p>自定义域名，可以用 github 源 url。不排除未来 github 的源 url 再次更改，没关系，项目里面不是默认有个 README.md 吗？点开他，下面有个 raw，点开以后显示的域名去掉 README.md 就是我们要往自定义域名填的东西。</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://raw.githubusercontent.com/[用户名]/[仓库名]/[分支名]</span><br></pre></td></tr></tbody></table></figure>
+
+<p>或者用加速 cdn <a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.jsdelivr.com/?docs=gh">jsdelivr</a>。version 这里填分支名。后面带上 README.md 访问一下就知道自己有没有改对 url 了。</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://cdn.jsdelivr.net/gh/user/repo@version</span><br></pre></td></tr></tbody></table></figure>
+
+<p><strong>（20.12.23 更新）</strong> 今天传图片的时候遇到问题了。传了一张 50k 的图片，在 typora 中没显示出来。用浏览器打开一看：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Package size exceeded the configured limit of 50 MB. Try https://github.com/zbpicture/picture/tree/main/img/iiHvIIn.png instead.</span><br></pre></td></tr></tbody></table></figure>
+
+<p>问题是这个图片那么小是怎么超过 50M 的？而且后面又传了两个图片，没问题。打开 github，上面三张图片都在。</p>
+<p>原因未知但有解决方法：参考<a target="_blank" rel="external nofollow noopener noreferrer" href="https://blog.shiyunhong.com/3353.html">记一下JsDelivr踩的坑</a>。</p>
+<p>把链接中的 main 改成 master 就能显示出来了。</p>
+<p>问题和解决方法都一样神秘的说。</p>
+<p><strong>(21.1.1 更新)</strong> 发现一张图片码没打全，去 github 那边手动删掉重新上传，但发现 cdn 那边还是没有更新的样子？看来只能手动更新了。参考文章：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.cnblogs.com/UncleZhao/p/13753723.html">jsdelivr CDN 使用和缓存刷新 - 易波叶平 - 博客园</a></p>
+<p>打开那张图片的 url，将其中的</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://cdn.jsdelivr.net/</span><br></pre></td></tr></tbody></table></figure>
+
+<p>切换为</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://purge.jsdelivr.net/</span><br></pre></td></tr></tbody></table></figure>
+
+<p>即可。</p>
+</li>
+</ol>
+<h2 id="美化"><a href="#美化" class="headerlink" title="美化"></a>美化</h2><h3 id="添加标签和分类"><a href="#添加标签和分类" class="headerlink" title="添加标签和分类"></a>添加标签和分类</h3><p>参考文章：</p>
+<ul>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.zhihu.com/question/29017171">hexo 下的分类和表签无法显示，怎么解决？</a></li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://aiellochan.com/2018/02/13/hexo/Hexo-%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0%E5%A4%9A%E4%B8%AA-categories/">Hexo 一篇文章多个 categories</a></li>
+</ul>
+<p>添加相应的文件夹：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hexo new page "tags"</span><br><span class="line">hexo new page "categories"</span><br></pre></td></tr></tbody></table></figure>
+
+<p>然后在 <code>source/</code> 相应文件夹下会看到一个 <code>index.md</code>，打开在代码块里面新增一个 type，type 的值就放相应的功能名。如果你不知道相应的功能名叫什么的话，去 next 配置文件里面 menu 那个地方看，或者直接往上翻，我曾经提到过。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20201220065728.png"></p>
+<p>之后就可以在对应博文的代码块中加入 categories 和 tags 属性了。要注意，如果要设置多个标签，格式是这样的：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tags：</span><br><span class="line">- tag1</span><br><span class="line">- tag2</span><br></pre></td></tr></tbody></table></figure>
+
+<p><strong>（21.1.20 更新）</strong> 可以但不推荐的方法（虽然看起来显得简洁，但如果未来要使用 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/D0n9X1n/hexo-blog-encrypt">hexo-blog-encrypt</a> 来加密文章的话，这样写最后部署会报错，参见<a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/D0n9X1n/hexo-blog-encrypt/issues/163">安装后 hexo 部署报错 · Issue #163 · D0n9X1n/hexo-blog-encrypt</a>）</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tags: [tag1,tag2]</span><br></pre></td></tr></tbody></table></figure>
+
+<p>但如果要设置多个种类，格式是这样的：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">categories:</span><br><span class="line"> - [category1]</span><br><span class="line"> - [category2]</span><br></pre></td></tr></tbody></table></figure>
+
+<p>还要注意，此时如果你边开着本地预览边改，需要重启一遍 <code>hexo s</code> 才会生效。如果你更换了文章的 tag，还需要刷新（完全重新部署，这个命令很常用，接下来还会频繁用到）：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hexo g -f</span><br><span class="line">#旧方法，新方法不灵的时候使用</span><br><span class="line">#hexo clean&amp;&amp;hexo g</span><br></pre></td></tr></tbody></table></figure>
+
+<p>注意 tags 和 categories 的大小写问题，建议做好约定以便区分，比如 categories 除了特定名词外固定首字母大写，其他小写；tags 除了固定名词外一律小写。如果不小心出现了大小写混淆导致刷新不完全的问题，参见 <a href="https://zbttl.github.io/hexo-jin-jie/">hexo 进阶</a>。</p>
+<h3 id="添加火柴棒动态背景"><a href="#添加火柴棒动态背景" class="headerlink" title="添加火柴棒动态背景"></a>添加火柴棒动态背景</h3><p>参考文章：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://lvxuefei.top/%E5%88%A9%E7%94%A8Hexo-Next%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%EF%BC%88%E4%B8%89%EF%BC%89-%E4%BC%98%E5%8C%96-%E5%90%84%E7%A7%8Dtips%E3%80%81%E9%BB%91%E7%A7%91%E6%8A%80%EF%BC%8C%E4%B8%8D%E6%96%AD%E6%9B%B4%E6%96%B0/">利用 Hexo+Next 搭建个人博客（三）—— 优化 (各种 tips、黑科技，不断更新)</a>)</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd themes/next</span><br><span class="line">git clone https://github.com/theme-next/theme-next-canvas-nest source/lib/canvas-nest</span><br></pre></td></tr></tbody></table></figure>
+
+<p>在主题配置文件中新增：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">canvas_nest:</span><br><span class="line">  enable: true			# 是否显示true|false</span><br><span class="line">  onmobile: true 		# 是否在移动端展示true|false</span><br><span class="line">  color: "120,120,120" 	# 线条的颜色（RGB表示）, 用 `,` 隔开</span><br><span class="line">  opacity: 0.5 			# 线条头透明度: 0~1</span><br><span class="line">  zIndex: -1 			# 用于控制线条所在层的位置, 默认:-1。值越大，显示的层面离用户越近。</span><br><span class="line">  count: 150			# 线条的总条数</span><br></pre></td></tr></tbody></table></figure>
+
+<h3 id="添加鼠标点击特效"><a href="#添加鼠标点击特效" class="headerlink" title="添加鼠标点击特效"></a>添加鼠标点击特效</h3><p>有两种实现方法，第一种参考<a href="Hexo%E5%8D%9A%E5%AE%A2+Next%E4%B8%BB%E9%A2%98%E9%BC%A0%E6%A0%87%E7%82%B9%E5%87%BB%E7%89%B9%E6%95%88">Hexo博客+Next主题鼠标点击特效</a>，是老版本在 <code>/themes/next/layout/_custom/custom.swig</code> 调用第三方 js，虽然新版本已经不存在 <code>/themes/next/layout/_custom/</code>这个文件夹了，但仍可以通过手工创建并在  <code>/themes/next/layout/_layout.swig</code> body 中用 include 引入生效。</p>
+<p>但我更推荐新方法：</p>
+<p>参考文章：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://dongguagua.gitee.io/archives/6f944b02.html">NexT 主题自定义样式</a></p>
+<p>相比上面的旧方法，新方法热切换鼠标点击效果的时候本地预览不会突然崩掉。</p>
+<p>在主题配置文件中找到 <code>custom_file_path:</code>，取消下面</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bodyEnd: source/_data/body-end.swig</span><br></pre></td></tr></tbody></table></figure>
+
+<p>这行的 # 号注释。</p>
+<p>编辑（新建） <code>source/_data/body-end.swig</code>，加入下面的内容：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">{# 鼠标点击特效 #}</span><br><span class="line">{% if theme.cursor_effect == "fireworks" %}</span><br><span class="line">  &lt;script async src="/js/cursor/fireworks.js"&gt;&lt;/script&gt;</span><br><span class="line">{% elseif theme.cursor_effect == "explosion" %}</span><br><span class="line">  &lt;canvas class="fireworks" style="position: fixed;left: 0;top: 0;z-index: 1; pointer-events: none;" &gt;&lt;/canvas&gt;</span><br><span class="line">  &lt;script src="//cdn.bootcss.com/animejs/2.2.0/anime.js"&gt;&lt;/script&gt;</span><br><span class="line">  &lt;script async src="/js/cursor/explosion.js"&gt;&lt;/script&gt;</span><br><span class="line">{% elseif theme.cursor_effect == "love" %}</span><br><span class="line">  &lt;script async src="/js/cursor/love.js"&gt;&lt;/script&gt;</span><br><span class="line">{% elseif theme.cursor_effect == "text" %}</span><br><span class="line">  &lt;script async src="/js/cursor/text.js"&gt;&lt;/script&gt;</span><br><span class="line">{% endif %}</span><br></pre></td></tr></tbody></table></figure>
+
+<p>然后打开 <code>source/js</code>，新建 <code>cursor</code> 文件夹。进入其中用 wget 下载四个 js 文件，对应四种特效：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">wget https://cdn.jsdelivr.net/gh/zbpicture/picture@main/explosion.min.js</span><br><span class="line">wget https://cdn.jsdelivr.net/gh/zbpicture/picture@main/fireworks.js</span><br><span class="line">wget https://cdn.jsdelivr.net/gh/zbpicture/picture@main/love.min.js</span><br><span class="line">wget https://cdn.jsdelivr.net/gh/zbpicture/picture@main/text.js</span><br></pre></td></tr></tbody></table></figure>
+
+<p>最后在主题配置文件中放入一行</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cursor_effect: text # fireworks：礼花 | explosion：爆炸 | love：浮出爱心 | text：浮出文字</span><br></pre></td></tr></tbody></table></figure>
+
+<p>即可</p>
+<p>才怪。你会发现除了 text 以为的特效都正常，但使用 text 时，什么都没发生？按下 f12，弹出这么个错误：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20201219211715.png"></p>
+<p>查了半天不知道什么问题，干脆大力出奇迹。在 <code>source/_data/body-end.swig</code> 最顶上加一行：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;script type="text/javascript" src=" https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"&gt;&lt;/script&gt;</span><br></pre></td></tr></tbody></table></figure>
+
+<p>搞定。</p>
+<h3 id="添加置顶"><a href="#添加置顶" class="headerlink" title="添加置顶"></a>添加置顶</h3><p>参考文章：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.cnblogs.com/lqerio/p/11117467.html">HEXO添加置顶功能</a></p>
+<p>卸载旧模块安装新模块：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm uninstall hexo-generator-index</span><br><span class="line">npm install hexo-generator-index-pin-top</span><br></pre></td></tr></tbody></table></figure>
+
+<p>在需要置顶的博文的开头代码块中加入</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">top: true</span><br></pre></td></tr></tbody></table></figure>
+
+<p>即可。</p>
+<h3 id="去除-hexo-支持信息与主题版本信息，侧边栏社交信息链接，添加代码块复制按钮，权利声明"><a href="#去除-hexo-支持信息与主题版本信息，侧边栏社交信息链接，添加代码块复制按钮，权利声明" class="headerlink" title="去除 hexo 支持信息与主题版本信息，侧边栏社交信息链接，添加代码块复制按钮，权利声明"></a>去除 hexo 支持信息与主题版本信息，侧边栏社交信息链接，添加代码块复制按钮，权利声明</h3><p>参考文章：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://lvxuefei.top/%E5%88%A9%E7%94%A8Hexo-Next%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%EF%BC%88%E4%B8%89%EF%BC%89-%E4%BC%98%E5%8C%96-%E5%90%84%E7%A7%8Dtips%E3%80%81%E9%BB%91%E7%A7%91%E6%8A%80%EF%BC%8C%E4%B8%8D%E6%96%AD%E6%9B%B4%E6%96%B0/">利用 Hexo+Next 搭建个人博客（三）—— 优化 (各种 tips、黑科技，不断更新)</a>)</p>
+<p>都是内置功能。</p>
+<p>可以在主题配置文件里面找到相应内容。</p>
+<p>支持信息和主题版本搜索 <code>powered</code> 和 <code>theme</code> 字段。</p>
+<p>社交信息链接搜索 <code>social</code> 字段。</p>
+<p>代码块复制按钮搜索 <code>codeblock</code> 字段，修改其中的 <code>copy_button</code> 功能。</p>
+<p>权利声明修改 <code>creative_commons</code> 字段，其中的 <code>license</code> 参数决定你使用那种权利声明，参考<a target="_blank" rel="external nofollow noopener noreferrer" href="https://zhuanlan.zhihu.com/p/154075043">怎样为自己的文章添加合适的许可（共用许可证-Creative Commons licenses）</a>，我觉得既然咱们决定用这玩意那最少也用个 by-sa。</p>
+<h3 id="搜索功能"><a href="#搜索功能" class="headerlink" title="搜索功能"></a>搜索功能</h3><p>参考文章：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://lvxuefei.top/%E5%88%A9%E7%94%A8Hexo-Next%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%EF%BC%88%E4%B8%89%EF%BC%89-%E4%BC%98%E5%8C%96-%E5%90%84%E7%A7%8Dtips%E3%80%81%E9%BB%91%E7%A7%91%E6%8A%80%EF%BC%8C%E4%B8%8D%E6%96%AD%E6%9B%B4%E6%96%B0/">利用 Hexo+Next 搭建个人博客（三）—— 优化 (各种 tips、黑科技，不断更新)</a>)</p>
+<ol>
+<li>安装 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://links.jianshu.com/go?to=https://github.com/flashlab/hexo-generator-search">hexo-generator-searchdb</a> 插件</li>
+</ol>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-generator-searchdb</span><br></pre></td></tr></tbody></table></figure>
+
+<ol start="2">
+<li>打开全局配置文件，在下面添加</li>
+</ol>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># 搜索</span><br><span class="line">search:</span><br><span class="line">  path: search.xml</span><br><span class="line">  field: post</span><br><span class="line">  format: html</span><br><span class="line">  limit: 10000</span><br></pre></td></tr></tbody></table></figure>
+
+<ol start="3">
+<li>打开主题配置文件找到 <code>Local search</code>，将 <code>enable</code> 设置为 <code>true</code></li>
+</ol>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">local_search:</span><br><span class="line">  enable: true</span><br><span class="line">  trigger: auto				# trigger若为auto, 通过改变输入触发搜索</span><br><span class="line">  							# trigger若为manual, 通过按下enter键或者点击搜索按钮触发搜索</span><br><span class="line">  top_n_per_article: 1 		# 展示每篇文章的前n个结果，如果想要展示所有结果，设置为-1</span><br><span class="line">  unescape: false			# 将html字符串转义为可读的字符串。</span><br><span class="line">  preload: false			# 当加载页面时预加载搜索结果</span><br></pre></td></tr></tbody></table></figure>
+
+<h3 id="字数统计"><a href="#字数统计" class="headerlink" title="字数统计"></a>字数统计</h3><p>安装 <code>hexo-symbols-count-time</code> 模块</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-symbols-count-time</span><br></pre></td></tr></tbody></table></figure>
+
+<p>其实就能用了。但相应的参数还可以改一下。</p>
+<p>打开主题配置文件找到 <code>symbols-count-time</code> 字段。</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">symbols_count_time:</span><br><span class="line">  separated_meta: true</span><br><span class="line">  item_text_post: true</span><br><span class="line">  item_text_total: true</span><br><span class="line">  awl: 4</span><br><span class="line">  wpm: 275</span><br></pre></td></tr></tbody></table></figure>
+
+<p>然后做一次刷新</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo g -f</span><br></pre></td></tr></tbody></table></figure>
+
+<p>避免出现不生效的 bug。（参考<a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/theme-next/hexo-symbols-count-time/issues/53">The symbols count is undefined and reading time is NaN:aN. #53</a>）</p>
+<h3 id="统计访问量"><a href="#统计访问量" class="headerlink" title="统计访问量"></a>统计访问量</h3><p>参考文章：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://lvxuefei.top/%E5%88%A9%E7%94%A8Hexo-Next%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%EF%BC%88%E4%B8%89%EF%BC%89-%E4%BC%98%E5%8C%96-%E5%90%84%E7%A7%8Dtips%E3%80%81%E9%BB%91%E7%A7%91%E6%8A%80%EF%BC%8C%E4%B8%8D%E6%96%AD%E6%9B%B4%E6%96%B0/">利用 Hexo+Next 搭建个人博客（三）—— 优化 (各种 tips、黑科技，不断更新)</a>)</p>
+<p>使用<a target="_blank" rel="external nofollow noopener noreferrer" href="http://ibruce.info/2015/04/04/busuanzi/">不蒜子</a></p>
+<p>打开主题配置文件找到 <code>busuanzi_count</code> 字段，将 <code>enbale</code> 设置为 <code>true</code></p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">busuanzi_count:</span><br><span class="line">  enable: true                #是否显示计数ture|false</span><br><span class="line">  total_visitors: true		  #访客数，uv的方式，单个用户连续点击n篇文章，只记录1次访客数</span><br><span class="line">  total_visitors_icon: user</span><br><span class="line">  total_views: true           #访问量，pv的方式，单个用户连续点击n篇文章，记录n次访问量</span><br><span class="line">  total_views_icon: eye</span><br><span class="line">  post_views: true            #是否显示每篇文章的访问次数ture|false</span><br><span class="line">  post_views_icon: eye</span><br></pre></td></tr></tbody></table></figure>
+
+<h3 id="文章自动折叠"><a href="#文章自动折叠" class="headerlink" title="文章自动折叠"></a>文章自动折叠</h3><ol>
+<li><p>安装插件 <code>hexo-excerpt</code></p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-excerpt</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>修改全局配置文件，新增以下内容（话说好多参考文章甚至是官方文档用的 <code>auto_excerpt</code> 在我这不生效，不知道啥原因）</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">excerpt:</span><br><span class="line">  depth: 2</span><br><span class="line">  excerpt_excludes: []</span><br><span class="line">  more_excludes: []</span><br><span class="line">  hideWholePostExcerpts: false</span><br></pre></td></tr></tbody></table></figure>
+
+</li>
+</ol>
+<h3 id="清理"><a href="#清理" class="headerlink" title="清理"></a>清理</h3><p>一顿操作，不免装了一些没用模块，用些命令清理一下。</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm prune</span><br><span class="line">hexo clean</span><br></pre></td></tr></tbody></table></figure>
+
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>现在博客只搞了最基础的美化，以及我觉得有必要实现的功能。其他高级一点的功能再说吧，比如 rss 啊，评论啊，说回来我评论不怎么想开（玻璃心），但想着能发动人民群众给我挑错误也还不错。不过听说评论还有好多种不同的实现方式，研究研究再说。（实在是受不了我就开个类似的东西，比如点赞？hexo 支持这玩意么）</p>
+<h2 id="其他优秀参考文章集合"><a href="#其他优秀参考文章集合" class="headerlink" title="其他优秀参考文章集合"></a>其他优秀参考文章集合</h2><ul>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.jianshu.com/p/9f0e90cc32c2">Hexo-NexT配置超炫网页效果</a></li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://tding.top/archives/567debe0.html">本博客当前使用的插件总结</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>zbttl
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="https://zbttl.github.io/2020-12-18-00/" title="hexo 入门">https://zbttl.github.io/2020-12-18-00/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="external nofollow noopener noreferrer" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="followme">
+  <span>欢迎关注我的其它发布渠道</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="/atom.xml">
+          <span class="icon">
+            <i class="fa fa-rss"></i>
+          </span>
+
+          <span class="label">RSS</span>
+        </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/hexo/" rel="tag"># hexo</a>
+              <a href="/tags/NexT/" rel="tag"># NexT</a>
+          </div>
+
+        
+  <div class="post-widgets">
+    <div class="wp_rating">
+      <div id="wpac-rating"></div>
+    </div>
+  </div>
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2020-12-06-23/" rel="prev" title="解决 Windows 解码器导致的 DLNA 无法投屏问题">
+                  <i class="fa fa-chevron-left"></i> 解决 Windows 解码器导致的 DLNA 无法投屏问题
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2020-12-21-00/" rel="next" title="hexo 进阶">
+                  hexo 进阶 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zbttl</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+      <span>站点总字数：</span>
+    <span title="站点总字数">137k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span>站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">2:05</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+</div><script color="120,120,120" opacity="0.5" zindex="-1" count="150" src="https://cdn.jsdelivr.net/npm/canvas-nest.js@1/dist/canvas-nest.js"></script>
+<!--《添加网站运行时间 -->
+<!--<br/>-->
+<span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+<script>
+    var now = new Date();
+
+    function createtime() {
+        var grt = new Date("12/18/2020 12:00:00"); //此处修改你的建站时间或者网站上线时间 
+        now.setTime(now.getTime() + 250);
+        days = (now - grt) / 1000 / 60 / 60 / 24;
+        dnum = Math.floor(days);
+        hours = (now - grt) / 1000 / 60 / 60 - (24 * dnum);
+        hnum = Math.floor(hours);
+        if (String(hnum).length == 1) {
+            hnum = "0" + hnum;
+        }
+        minutes = (now - grt) / 1000 / 60 - (24 * 60 * dnum) - (60 * hnum);
+        mnum = Math.floor(minutes);
+        if (String(mnum).length == 1) {
+            mnum = "0" + mnum;
+        }
+        seconds = (now - grt) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+        snum = Math.round(seconds);
+        if (String(snum).length == 1) {
+            snum = "0" + snum;
+        }
+        document.getElementById("timeDate").innerHTML = " 本站已安全运行 " + dnum + " 天 ";
+        document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒";
+    }
+    setInterval("createtime()", 250);
+</script>
+<!-- 添加网站运行时间》 -->
+
+    </div>
+  </footer>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+  <script>
+  if (CONFIG.page.isPost) {
+    wpac_init = window.wpac_init || [];
+    wpac_init.push({
+      widget: 'Rating',
+      id    : 28813,
+      el    : 'wpac-rating',
+      color : '#fc6423'
+    });
+    (function() {
+      if ('WIDGETPACK_LOADED' in window) return;
+      WIDGETPACK_LOADED = true;
+      var mc = document.createElement('script');
+      mc.type = 'text/javascript';
+      mc.async = true;
+      mc.src = '//embed.widgetpack.com/widget.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(mc, s.nextSibling);
+    })();
+  }
+  </script>
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1.7.0/dist/gitalk.css">
+
+<script>
+NexT.utils.loadComments('#gitalk-container', () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1.7.0/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : 'd99d750bdfdb31ecf37e',
+      clientSecret: '1d37215aff71dc84b66e03cb412c7e68b968d76f',
+      repo        : 'zbttl-comment',
+      owner       : 'zbpicture',
+      admin       : ['zbpicture'],
+      id          : '0b545d5f7667b7113edc6fb11f17af9c',
+        language: '',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+<script type="text/javascript" src=" https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+
+  <script async src="/js/cursor/text.js"></script>
+
+
+</body>
+</html>
