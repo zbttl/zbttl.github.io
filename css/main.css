@@ -559,17 +559,10 @@ figure.highlight .gutter pre {
   padding-left: 10px;
   padding-right: 10px;
   text-align: right;
-  white-space: pre;
-  overflow-x: auto;
-  overflow-y: hidden;
-  word-break: inherit;
-  overflow-wrap: break-word;
 }
 figure.highlight .code pre {
   padding-left: 10px;
   width: 100%;
-  white-space: pre-wrap;
-  word-break: break-all;
 }
 pre .caption,
 pre figcaption {
@@ -2790,7 +2783,7 @@ mark.search-keyword {
   vertical-align: middle;
 }
 .links-of-author a::before {
-  background: #acff39;
+  background: #c8659d;
   display: inline-block;
   margin-right: 3px;
   transform: translateY(-2px);

@@ -996,7 +996,7 @@
 <li><p>刷新，此时查看 public 文件夹中应该正确生成 baidusitemap.xml（和 sitemap.xml），可打开查看域名是否正确。</p>
 <figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">hexo clean&amp;&amp;hexo g</span><br></pre></td></tr></tbody></table></figure>
 </li>
-<li><p>nofollow 和 robots.txt 之前部署谷歌收录的时候部署过了，在百度这里通用，没有进行谷歌收录部署的可以往上翻谷歌部署的第 7、8 步；直接部署站点地图就好了。点站点管理页面左侧侧边栏的资源提交 -&gt; 普通提交 -&gt; sitemap，输入 <code>[镜像站名]/baidusitemap.xml</code>，提交即可。</p>
+<li><p>nofollow 和 robots.txt 之前部署谷歌收录的时候部署过了，在百度这里通用（除了 robots.txt 中百度站点地图的地址可能要改成镜像站地址），没有进行谷歌收录部署的可以往上翻谷歌部署的第 7、8 步；直接部署站点地图就好了。点站点管理页面左侧侧边栏的资源提交 -&gt; 普通提交 -&gt; sitemap，输入 <code>[镜像站名]/baidusitemap.xml</code>，提交即可。</p>
 <p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210124023841.png"></p>
 </li>
 <li><p>（可选，仅 url 设置为镜像站域名时可用）配置主动提交。参考不使用镜像站时的第 4 步，区别只是全局配置中的相应 host 参数改为镜像站的。</p>
