@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.1/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"zbttl-github-io.vercel.app","root":"/","images":"/images","scheme":"Muse","version":"8.1.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}};
+  </script>
+<meta name="description" content="debian 安装时是否使用网络安装一定要选是，然后选 163 源，否则后面安装虽然说默认从本地 iso 安装但 kde 之类的东西实际上还是远程安装，默认的国外源非常慢。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="桌面版 ubuntu &amp; debian 踩坑">
+<meta property="og:url" content="https://zbttl-github-io.vercel.app/zhuo-mian-ban-ubuntu-debian-cai-keng/index.html">
+<meta property="og:site_name" content="Bao&#39;s 备忘录">
+<meta property="og:description" content="debian 安装时是否使用网络安装一定要选是，然后选 163 源，否则后面安装虽然说默认从本地 iso 安装但 kde 之类的东西实际上还是远程安装，默认的国外源非常慢。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/q6xrR3g.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/IigBKYQ.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/qK0mouw.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/vKqB7kT.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/xZwC5zQ.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/rPP1F98.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20201222235724.png">
+<meta property="article:published_time" content="2020-02-23T16:00:00.000Z">
+<meta property="article:modified_time" content="2021-01-20T19:56:26.313Z">
+<meta property="article:author" content="zbttl">
+<meta property="article:tag" content="terminal">
+<meta property="article:tag" content="vscode">
+<meta property="article:tag" content="ubuntu">
+<meta property="article:tag" content="debian">
+<meta property="article:tag" content="wireguard">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/q6xrR3g.png">
+
+
+<link rel="canonical" href="https://zbttl-github-io.vercel.app/zhuo-mian-ban-ubuntu-debian-cai-keng/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+<title>桌面版 ubuntu & debian 踩坑 | Bao's 备忘录</title>
+  
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link rel="alternate" href="/atom.xml" title="Bao's 备忘录" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Bao's 备忘录</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80" placeholder="搜索..." spellcheck="false" type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <section class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#debian-%E5%AE%89%E8%A3%85%E6%97%B6"><span class="nav-number">1.</span> <span class="nav-text">debian 安装时</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#debian-%E5%AE%89%E8%A3%85-vmware-tools"><span class="nav-number">2.</span> <span class="nav-text">debian 安装 vmware-tools</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#python-%E7%89%88%E6%9C%AC%E9%97%AE%E9%A2%98"><span class="nav-number">3.</span> <span class="nav-text">python 版本问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%AD%E8%A8%80%E9%97%AE%E9%A2%98"><span class="nav-number">4.</span> <span class="nav-text">语言问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#root-%E7%94%A8%E6%88%B7%E9%97%AE%E9%A2%98"><span class="nav-number">5.</span> <span class="nav-text">root 用户问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E6%B5%8F%E8%A7%88%E5%99%A8-root-%E5%BC%80%E5%90%AF"><span class="nav-number">6.</span> <span class="nav-text">文件浏览器 root 开启</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#wireshark-%E5%AE%89%E8%A3%85"><span class="nav-number">7.</span> <span class="nav-text">wireshark 安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#vscode-%E7%82%B9%E5%87%BB%E5%85%B3%E9%97%AD%E6%8C%89%E9%92%AE%E6%95%B4%E4%B8%AA%E7%95%8C%E9%9D%A2%E5%8D%A1%E6%AD%BB"><span class="nav-number">8.</span> <span class="nav-text">vscode 点击关闭按钮整个界面卡死</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#zsh"><span class="nav-number">9.</span> <span class="nav-text">zsh</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9D%91-1%EF%BC%9A%E4%BF%AE%E6%94%B9%E9%BB%98%E8%AE%A4-shell"><span class="nav-number">9.1.</span> <span class="nav-text">坑 1：修改默认 shell</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9D%91-2%EF%BC%9A%E5%AD%97%E4%BD%93%E6%94%AF%E6%8C%81"><span class="nav-number">9.2.</span> <span class="nav-text">坑 2：字体支持</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9D%91-3%EF%BC%9A%E7%B3%BB%E7%BB%9F-%E7%94%A8%E6%88%B7%E5%8F%98%E9%87%8F-alias"><span class="nav-number">9.3.</span> <span class="nav-text">坑 3：系统 &#x2F; 用户变量 &#x2F;alias</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9D%91-4-%EF%BC%9Azsh-%E4%B8%8B-ssh-%E9%94%AE%E4%BD%8D%E9%94%99%E8%AF%AF"><span class="nav-number">9.4.</span> <span class="nav-text">坑 4 ：zsh 下 ssh 键位错误</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9D%91-5%EF%BC%9A%E5%9B%A0%E4%B8%8D%E6%AD%A3%E5%B8%B8%E5%85%B3%E6%9C%BA%E5%AF%BC%E8%87%B4-zsh-history-%E6%8A%A5%E9%94%99"><span class="nav-number">9.5.</span> <span class="nav-text">坑 5：因不正常关机导致 zsh history 报错</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#debian-%E5%92%8C-ubuntu-%E6%98%BE%E8%91%97%E5%8C%BA%E5%88%AB%EF%BC%88%E4%BB%A5%E5%8F%8A-debian-ppa-%E4%BD%BF%E7%94%A8%EF%BC%89"><span class="nav-number">10.</span> <span class="nav-text">debian 和 ubuntu 显著区别（以及 debian ppa 使用）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%EF%BC%8812-22-%E6%9B%B4%E6%96%B0%EF%BC%89-%E8%BF%87%E6%9C%9F%E7%9A%84-ubuntu"><span class="nav-number">11.</span> <span class="nav-text">（12.22 更新） 过期的 ubuntu</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#apt-update-%E5%A4%B1%E6%95%88"><span class="nav-number">11.1.</span> <span class="nav-text">apt update 失效</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#do-release-upgrade-%E4%B9%9F%E5%A4%B1%E6%95%88"><span class="nav-number">11.2.</span> <span class="nav-text">do-release-upgrade 也失效</span></a></li></ol></li></ol></div>
+        </section>
+        <!--/noindex-->
+
+        <section class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">zbttl</p>
+  <div class="site-description" itemprop="description">玩点好玩的</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">26</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">43</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/zbttl" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;zbttl" rel="external nofollow noopener noreferrer" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:zbttls@gmail.com" title="E-Mail → mailto:zbttls@gmail.com" rel="external nofollow noopener noreferrer" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fa fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+
+
+
+        </section>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://zbttl-github-io.vercel.app/zhuo-mian-ban-ubuntu-debian-cai-keng/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="zbttl">
+      <meta itemprop="description" content="玩点好玩的">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Bao's 备忘录">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          桌面版 ubuntu & debian 踩坑
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-02-24 00:00:00" itemprop="dateCreated datePublished" datetime="2020-02-24T00:00:00+08:00">2020-02-24</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-01-21 03:56:26" itemprop="dateModified" datetime="2021-01-21T03:56:26+08:00">2021-01-21</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>12k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>10 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h2 id="debian-安装时"><a href="#debian-安装时" class="headerlink" title="debian 安装时"></a>debian 安装时</h2><p>是否使用网络安装一定要选是，然后选 163 源，否则后面安装虽然说默认从本地 iso 安装但 kde 之类的东西实际上还是远程安装，默认的国外源非常慢。</p>
+<h2 id="debian-安装-vmware-tools"><a href="#debian-安装-vmware-tools" class="headerlink" title="debian 安装 vmware-tools"></a>debian 安装 vmware-tools</h2><ol>
+<li><p>先到 <code>etc/apt/sources.list</code> 里面把光盘源删掉，并保证里面剩余的源来自 163。</p>
+</li>
+<li><p>安装编译其他依赖：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt-get install autoconf automake binutils cpp gcc linux-headers-$(uname -r) make psmisc</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>点击 vmware 外界面中的「安装 vmware tools」，弹出文件夹后以命令行方式运行 <code>vmware-install.pl</code>，一路回车，重启搞掂。</p>
+</li>
+</ol>
+<h2 id="python-版本问题"><a href="#python-版本问题" class="headerlink" title="python 版本问题"></a>python 版本问题</h2><p>ubuntu 的 python2 和 python3 是共存的，带来一系列问题</p>
+<ol>
+<li><p>要用 python3 需要写 <code>python3</code> 而不是 python，有点麻烦，可以通过 alias 解决。</p>
+</li>
+<li><p>某些 python3 下的模块用 pip3 装以后不能直接用，因为 python3 不在用户变量里面，需要加进去</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export PATH=/usr/lib/python3/dist-packages/:$PATH</span><br></pre></td></tr></tbody></table></figure>
+
+<p>然后用 pip 装模块的时候需要在前面加 sudo。</p>
+</li>
+</ol>
+<h2 id="语言问题"><a href="#语言问题" class="headerlink" title="语言问题"></a>语言问题</h2><p>ubuntu 可以直接在设置里面换源。换源之后再添加语言，添加后退出一遍就能看到。</p>
+<p>设置为中文后会提示你要不要把用户文件夹里的子文件夹改成中文。最好不要。</p>
+<h2 id="root-用户问题"><a href="#root-用户问题" class="headerlink" title="root 用户问题"></a>root 用户问题</h2><p>桌面版的 debian&amp;&amp;ubuntu 默认都没有开启 root 用户，取而代之的是给当前用户 sudo 的权限。</p>
+<p>想要开启 root 用户可以直接 sudo passwd root 搞定。不过即使这样登录的时候也不能直接用 root 而是只能在登录普通用户后用 <code>su</code> 切换。</p>
+<p>另外还有一个问题，那就是系统变量/alias。只有 root 用户的话写在 <code>/root/.bashrc</code> 或 <code>/root/.profile</code> 下就好了。而现在应该写在具体用户目录下的这两个文件内，即 <code>%HOME/.bashrc</code> 或 <code>%HOME/.profile</code>，但此时一旦使用 <code>sudo</code> 或者用 <code>su</code> 切换到 root 下时，这两个系统变量就会失效。解决方法是把内容写到 <code>/etc/bashrc</code> 或 <code>/etc/profile</code> 下，这两个目录下的文件名前面没有 <code>.</code>，也就是不隐藏的。</p>
+<p>sudo 很麻烦但非常常用，许多命令不用 sudo 的话会报错和显示找不到（特别是新装了个新软件结果发现敲命令提示 no found，不是没装好而是没用 sudo），比如 <code>ifconfig</code> 和 <code>service</code>，还有 <code>make install</code> 也需要 sudo 才能顺利安装。</p>
+<p>因为帐号一开始就有 sudo 权限，实际上在 debian 中帐号已经写入 <code>visudo</code> 中了。如果需要 sudo 不设密码的话，直接加 <code>NOPASSWD:</code>，比如：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">zbttl ALL=(ALL:ALL) NOPASSWD:ALL</span><br></pre></td></tr></tbody></table></figure>
+
+<p>另外还有些 gui 下的软件需要 root 模式下启动（比如 vscode），可以用 <code>sudo [软件名] &amp;</code> 启动，比如</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo wireshark &amp;</span><br></pre></td></tr></tbody></table></figure>
+
+<p>如果不知道软件名，可以打开后用 top 查看。</p>
+<p>另外，还有特殊一点的，vscode 的某些插件需要 root 下才能生效（比如换背景那个插件），但使用 sudo 打开的话，没办法读取当前用户的配置，就没法生效。正确的办法是：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/vscode-extension/vscode-background-cover/issues/28">参考文章</a></p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">chown -R 你的用户名  /usr/share/code</span><br><span class="line">#insiders 版本</span><br><span class="line">chown -R 你的用户名  /usr/share/code-insiders</span><br></pre></td></tr></tbody></table></figure>
+
+
+
+<h2 id="文件浏览器-root-开启"><a href="#文件浏览器-root-开启" class="headerlink" title="文件浏览器 root 开启"></a>文件浏览器 root 开启</h2><p>没有 root 模式的话很多文件没法直接复制粘贴。</p>
+<p>ubuntu：安装 nautilus-admin</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install nautilus-admin</span><br></pre></td></tr></tbody></table></figure>
+
+<p>刷新一遍 natuilus</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nautilus -q</span><br></pre></td></tr></tbody></table></figure>
+
+<p>然后就可以右键管理员模式打开文件夹了。</p>
+<h2 id="wireshark-安装"><a href="#wireshark-安装" class="headerlink" title="wireshark 安装"></a>wireshark 安装</h2><p>参考文章：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.itdaan.com/tw/9a3a0e3fe1182c4af85ac6fb42c54cc6">【Tools】Wireshark 在 Linux 系統下的安裝及使用</a></p>
+<p>wireshark 可以通过 apt 安装旧版，也可以通过 ppa 安装新版。安装时会出现弹窗，大概意思是要不要授予非 root 用户监听权限，选 yes。</p>
+<p>之后</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vim /etc/group</span><br></pre></td></tr></tbody></table></figure>
+
+<p>找到 wireshark 这一行，冒号后面添加当前用户，比如</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wireshark:x:124:</span><br></pre></td></tr></tbody></table></figure>
+
+<p>改为</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wireshark:x:124:zbttl</span><br></pre></td></tr></tbody></table></figure>
+
+<p>重启即可。</p>
+<h2 id="vscode-点击关闭按钮整个界面卡死"><a href="#vscode-点击关闭按钮整个界面卡死" class="headerlink" title="vscode 点击关闭按钮整个界面卡死"></a>vscode 点击关闭按钮整个界面卡死</h2><p>20.7.2 在 code-insiders 可复现。</p>
+<p>解决方法：</p>
+<ol>
+<li><p>先关掉 code-insiders。通过其他 tty 或者 ssh 链接，使用命令 <code>top</code>，一般前两个 cpu 占用大户，即 code-insider 和 gnome-shell，是本次卡死问题的主角，记住他们的进程号（pid）。</p>
+</li>
+<li><p>强行关闭 code-insiders。</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kill -9 [code-insiders pid]</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>获取 gnome-shell 重启指令</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ps -ef | grep gnome-shell </span><br></pre></td></tr></tbody></table></figure>
+
+<p>一般会出好几条，找到对的上上面卡死的 gnome-shell pid 的那条，一般是</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/bin/gnome-shell</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>干掉 gnome-shell</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kill -9 [gnome-shell pid]</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>重启</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/bin/gnome-shell</span><br></pre></td></tr></tbody></table></figure>
+
+<p>此时如果用的 xshell，估计会叫你下载 xmanager，不用管，取消就好。然后实际那边应该就能动了。</p>
+</li>
+</ol>
+<h2 id="zsh"><a href="#zsh" class="headerlink" title="zsh"></a>zsh</h2><p>直接参考 19.4.14 的 termux 文章。。。</p>
+<p>结果发现不太对，很多细节对不上，重写吧。那篇文章详细写的部分我就一笔带过。</p>
+<p>安装</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install zsh -y</span><br><span class="line">zsh</span><br></pre></td></tr></tbody></table></figure>
+
+<p>第一次打开会弹出欢迎界面（仅桌面端），提醒你对 zsh 进行一些设置</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/q6xrR3g.png"></p>
+<p>当然你可以选 1 看看，但由于后面我们装了 Oh My Zsh 后这些设置就没用了，所以推荐选 2 就行了。</p>
+<h3 id="坑-1：修改默认-shell"><a href="#坑-1：修改默认-shell" class="headerlink" title="坑 1：修改默认 shell"></a>坑 1：修改默认 shell</h3><figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chsh -s zsh</span><br></pre></td></tr></tbody></table></figure>
+
+<p>提示需要输入密码。如果是 vps，这时别不输入密码就退出了！否则 ssh 和 vnc 都进不来了。。。只能重装。（另外，也可以执行完下面的步骤再来运行这个指令）。</p>
+<p>但输入密码后大概率会提示 zsh 无效。</p>
+<p>参考这里的解决方案：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://askubuntu.com/questions/812420/chsh-always-asking-a-password-and-get-pam-authentication-failure">chsh always asking a password , and get <code>PAM: Authentication failure</code></a></p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/pam.d/chsh</span><br></pre></td></tr></tbody></table></figure>
+
+<p>将</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">auth       required   pam_shells.so</span><br></pre></td></tr></tbody></table></figure>
+
+<p>改为</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">auth       sufficient   pam_shells.so</span><br></pre></td></tr></tbody></table></figure>
+
+<p>或者直接运行：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo sed s/required/sufficient/g -i /etc/pam.d/chsh </span><br></pre></td></tr></tbody></table></figure>
+
+<p>如果仍然错误（提示 shell 不存在 <code>chsh: Warning: zsh does not exist</code>），查看一下 shell 列表：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat /etc/shells</span><br></pre></td></tr></tbody></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/IigBKYQ.png"></p>
+<p>然后使用 <code>which zsh</code> 看一眼。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/qK0mouw.png"></p>
+<p>看起来得改改命令：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo chsh -s /usr/bin/zsh zbttl</span><br></pre></td></tr></tbody></table></figure>
+
+<p>再去 <code>/etc/passwd</code> 看看，或者用下一个命令刷新生效（也许还需要重启，vps 一般直接用 root，所以断开重连就行，<strong>下面再涉及这个操作，我都用重连来替代</strong>）后使用 <code>echo $shell</code>，确认已经在使用 zsh 了。</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">source ~/.zshrc</span><br></pre></td></tr></tbody></table></figure>
+
+<p>安装 oh my zsh，更换主题。</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"</span><br><span class="line">git clone --depth=1 https://github.com/romkatv/powerlevel10k.git $ZSH_CUSTOM/themes/powerlevel10k</span><br><span class="line">sed -i '/^ZSH_THEME=/c\ZSH_THEME="powerlevel10k/powerlevel10k"' ~/.zshrc</span><br><span class="line">source ~/.zshrc</span><br></pre></td></tr></tbody></table></figure>
+
+<p>转换为 zsh 后，之前的 bash 里的历史记录不再显示，但可以迁移过来。</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">wget https://gist.githubusercontent.com/goyalankit/a1c88bfc69107f93cda1/raw/ed58ae6b8929021353001b1826694780c033291a/bash_to_zsh_history.rb</span><br><span class="line">ruby bash_to_zsh_history.rb</span><br></pre></td></tr></tbody></table></figure>
+
+<h3 id="坑-2：字体支持"><a href="#坑-2：字体支持" class="headerlink" title="坑 2：字体支持"></a>坑 2：字体支持</h3><p>之后重连，进入 p10k 设置界面，来了。这个坑在 vps 端和桌面端都有。vps 端，只要 vps 控制端（windows，windows 下字体相当好装）装好 powerline 的字体，问题都不大。但 vps 端本身也有问题，问题出在 xshell 等 terminal 上：xshell 在 powerlevel10k 的设置中无法进入 prompt style 这项中（一路下一步你发现没有这项），最后设置完效果是纯字符型的，不好看；但如果从能够弹 prompt stlye 的地方设置好了，再从 xshell 进入你会发现显示没问题（我在本地端的 debian 上开开 ssh 然后用 xshell 链接发现了这个问题）。</p>
+<p>那么 vps 远程端没办法实机登录（vnc 下字体不好设）怎么办呢，换个 terminal 就好了。windows terminal 并未出现这个问题。</p>
+<p>单纯的桌面端，debian 下安装字体比较麻烦。直接从字体管理器安装字体会直接卡死，得手动命令行装。将字体放到某一个文件夹中，在文件夹内打开终端。</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">sudo mkdir /usr/share/fonts/truetype/CustomizedFonts</span><br><span class="line">sudo cp *.ttf /usr/share/fonts/truetype/CustomizedFonts</span><br><span class="line">sudo chmod 777 -R /usr/share/fonts/truetype/CustomizedFonts </span><br><span class="line">cd /usr/share/fonts/truetype/CustomizedFonts</span><br><span class="line">sudo mkfontscale</span><br><span class="line">sudo mkfontdir</span><br><span class="line">sudo fc-cache</span><br></pre></td></tr></tbody></table></figure>
+
+<p>重启后在终端启用新字体即可。另外字体可以从我以前写的 powershell 攻略中的 nerd fonts github 项目内获取。我也尝试过用那个方法手工做的 Cascadia Code，后来发现会导致错位，还是直接用官方的好。</p>
+<p>另外字体以显示（控制）端为准，也就是即使 vps 远程端装好了字体，控制端没装好也是乱码；反之亦然。</p>
+<h3 id="坑-3：系统-用户变量-alias"><a href="#坑-3：系统-用户变量-alias" class="headerlink" title="坑 3：系统 / 用户变量 /alias"></a>坑 3：系统 / 用户变量 /alias</h3><p>参考文章：</p>
+<ul>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://superuser.com/questions/183870/difference-between-bashrc-and-bash-profile">Difference between .bashrc and .bash_profile</a></li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://askubuntu.com/questions/566399/why-isnt-profile-sourced-when-opening-a-terminal">Why isn’t .profile sourced when opening a terminal?</a></li>
+</ul>
+<p>其实也不能算个坑，可以说是个 feature。</p>
+<p>我们先了解一下 linux 这个系统变量是怎么整的：</p>
+<ol>
+<li>用户变量：只对当前用户有效，放在用户目录下，文件以隐藏形式呈现（前面加.）<ol>
+<li>rc 文件：启动终端时加载，如默认的 <code>.bashrc</code>，zsh 的 <code>.zshrc</code>。一般放快捷路径（alias）。</li>
+<li>profile 文件：登录后第一次打开终端加载，如默认的 <code>.profile</code>，zsh 的 <code>.zprofile</code>。一般放懒得使用 systemd 或 supervisor 启动的自启程序，以及系统/用户变量（export xxx）。but，从图形界面运行的终端默认不加载这个文件，如果要加载，需要在终端中找到类似「以登录 shell 方式运行命令」的选项。当然有种说法，这么干会搞乱登录环境，那么对于这些变量，也可以直接写在 rc 文件中（后果是反复用 source 或者打开多个终端的时候，查看变量的话会发现重复加载了若干个写在 rc 文件中的变量，但并没有什么严重的后果；而自启程序就用 systemd 等替代就好了）。</li>
+</ol>
+</li>
+<li>系统变量。对所有用户起效。放在 <code>/etc/</code> 目录下，不一定是某一个文件（默认文件名和系统有关），也不一定直接位于<code>/etc</code> 下（zsh 就位于 <code>/etc/zsh</code> 下）。和用户变量不同，不需要隐藏。<ol>
+<li>rc 文件。默认的可能是 <code>bash.bashsrc</code>；zsh 固定为 <code>zshrc</code>；</li>
+<li>profile 文件：默认为 <code>profile</code>；zsh 为 <code>zprofile</code>。</li>
+</ol>
+</li>
+</ol>
+<p>所以，接下来我所讲的部分变量设置我将以放在 <code>/etc/zshrc</code> 处写命令，而重连则使用</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo source /etc/zsh/zshrc</span><br></pre></td></tr></tbody></table></figure>
+
+<h3 id="坑-4-：zsh-下-ssh-键位错误"><a href="#坑-4-：zsh-下-ssh-键位错误" class="headerlink" title="坑 4 ：zsh 下 ssh 键位错误"></a>坑 4 ：zsh 下 ssh 键位错误</h3><p>参考：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.jianshu.com/p/f867f786b584">zsh 中加入 home end，以及小键盘的支持</a></p>
+<p>小键盘区和功能键区在 zsh 下功能错误。这次就不是 xshell 的锅了，ssh 过去的都这个毛病。解决方法有两种：</p>
+<ol>
+<li><p>通过 xshell。在属性中，选择终端-&gt;终端类型，改为 linux。</p>
+</li>
+<li><p>在 <code>/etc/zsh/zshrc</code> 中加入</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"># key bindings</span><br><span class="line">bindkey "\e[1~" beginning-of-line</span><br><span class="line">bindkey "\e[4~" end-of-line</span><br><span class="line">bindkey "\e[5~" beginning-of-history</span><br><span class="line">bindkey "\e[6~" end-of-history</span><br><span class="line"># for rxvt</span><br><span class="line">bindkey "\e[8~" end-of-line</span><br><span class="line">bindkey "\e[7~" beginning-of-line</span><br><span class="line"># for non RH/Debian xterm, can't hurt for RH/DEbian xterm</span><br><span class="line">bindkey "\eOH" beginning-of-line</span><br><span class="line">bindkey "\eOF" end-of-line</span><br><span class="line"># for freebsd console</span><br><span class="line">bindkey "\e[H" beginning-of-line</span><br><span class="line">bindkey "\e[F" end-of-line</span><br><span class="line"># completion in the middle of a line</span><br><span class="line">bindkey '^i' expand-or-complete-prefix</span><br><span class="line"># Fix numeric keypad  </span><br><span class="line"># 0 . Enter  </span><br><span class="line">bindkey -s "^[Op" "0"</span><br><span class="line">bindkey -s "^[On" "."</span><br><span class="line">bindkey -s "^[OM" "^M"</span><br><span class="line"># 1 2 3  </span><br><span class="line">bindkey -s "^[Oq" "1"</span><br><span class="line">bindkey -s "^[Or" "2"</span><br><span class="line">bindkey -s "^[Os" "3"</span><br><span class="line"># 4 5 6  </span><br><span class="line">bindkey -s "^[Ot" "4"</span><br><span class="line">bindkey -s "^[Ou" "5"</span><br><span class="line">bindkey -s "^[Ov" "6"</span><br><span class="line"># 7 8 9  </span><br><span class="line">bindkey -s "^[Ow" "7"</span><br><span class="line">bindkey -s "^[Ox" "8"</span><br><span class="line">bindkey -s "^[Oy" "9"</span><br><span class="line"># + - * /  </span><br><span class="line">bindkey -s "^[Ol" "+"</span><br><span class="line">bindkey -s "^[Om" "-"</span><br><span class="line">bindkey -s "^[Oj" "*"</span><br><span class="line">bindkey -s "^[Oo" "/"</span><br></pre></td></tr></tbody></table></figure>
+
+<p>重连生效。</p>
+</li>
+</ol>
+<p>接着装一堆插件</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install python</span><br><span class="line">git clone https://github.com/zsh-users/zsh-syntax-highlighting $ZSH_CUSTOM/plugins/zsh-syntax-highlighting</span><br><span class="line">git clone https://github.com/zsh-users/zsh-autosuggestions $ZSH_CUSTOM/plugins/zsh-autosuggestions</span><br><span class="line">git clone https://github.com/zsh-users/zsh-completions $ZSH_CUSTOM/plugins/zsh-completions</span><br><span class="line">git clone git://github.com/joelthelion/autojump.git</span><br><span class="line">cd autojump</span><br><span class="line">./install.py</span><br><span class="line">cd</span><br><span class="line">[ -z "`grep "autoload -U compinit &amp;&amp; compinit" ~/.zshrc`" ] &amp;&amp; echo "autoload -U compinit &amp;&amp; compinit" &gt;&gt; ~/.zshrc</span><br><span class="line">sed -i '/^plugins=/c\plugins=(git z zsh-syntax-highlighting zsh-autosuggestions zsh-completions autojump)' ~/.zshrc</span><br><span class="line">source ~/.zshrc</span><br><span class="line">#实际上不需要，除非是单独安装的autojump，sed那条命令已经包含了下面这条命令的功能。</span><br><span class="line">#echo "[[ -s $HOME/.autojump/etc/profile.d/autojump.sh ]] &amp;&amp; source $HOME/.autojump/etc/profile.d/autojump.sh" &gt;&gt; ~/.zshrc</span><br><span class="line">#不一定需要，如果使用中输入cd经常报错 _z_dirs:2: no such file or directory:/root/.z 就运行一句</span><br><span class="line">#wget https://raw.githubusercontent.com/rupa/z/master/z.sh -O ~/.z</span><br></pre></td></tr></tbody></table></figure>
+
+<h3 id="坑-5：因不正常关机导致-zsh-history-报错"><a href="#坑-5：因不正常关机导致-zsh-history-报错" class="headerlink" title="坑 5：因不正常关机导致 zsh history 报错"></a>坑 5：因不正常关机导致 zsh history 报错</h3><figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cp .zsh_history zsh_history</span><br><span class="line">rm -f .zsh_history </span><br><span class="line">strings zsh_history&gt;.zsh_history</span><br><span class="line">fc -R .zsh_history</span><br></pre></td></tr></tbody></table></figure>
+
+<p>最后一句是仅存在于zsh中的fc语句，意思是从某文件中读取历史记录</p>
+<p>另外 zsh 还有个 feature（但不一定每一次都能触发），复制粘贴多行的时候并不会和传统 bashrc 一行行运行而是堆在一起，回车时才会一起运行。好处是如果是几句常用的命令，利用上下方向键找历史记录时会直接找到拼成一块的这几个语句；坏处是利用 history 查看历史的时候看见这些句子被拼成一句，中间用 <code>\n</code> 做间隔，直接复制出来没法用，得自己处理。</p>
+<h2 id="debian-和-ubuntu-显著区别（以及-debian-ppa-使用）"><a href="#debian-和-ubuntu-显著区别（以及-debian-ppa-使用）" class="headerlink" title="debian 和 ubuntu 显著区别（以及 debian ppa 使用）"></a>debian 和 ubuntu 显著区别（以及 debian ppa 使用）</h2><ol>
+<li><p>debian 的内核比较旧而稳定，ubuntu 通常用的是最新内核。旧内核也有好处，bbr 和锐速，以及 fullcone 的那个内核组件比较好装。</p>
+</li>
+<li><p>debian 以下操作均只能通过命令完成：</p>
+<ul>
+<li>换源</li>
+</ul>
+</li>
+<li><p>ubuntu 在非 root 状态下使用的命令若尚未安装，会给一句 apt 命令提示告诉你应该装啥。</p>
+</li>
+<li><p>ubuntu 的文件管理器的地址栏切换为可复制的文字路径的方法很隐蔽，需要快捷键 ctrl+L。当然也有办法让其一直工作在可复制文件路径下。需要先安装 dconf-editor。</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt install dconf-editor -y</span><br></pre></td></tr></tbody></table></figure>
+
+<p>搜索应用程序 dconf，就能看到 dconf 系统配置编辑器。打开后从 org –&gt; gnome –&gt; nautilus –&gt; preferences 进入就能看到相关选项了。</p>
+</li>
+<li><p>debian 没有 ppa 功能，虽然也能用，但比较麻烦（但因为 ubuntu 内核新 ppa 里面有些内容也很新，所以 debian 死活装不上，比如最新的 wireshark，<del>而旧版 wireshark 无法探测到本地的网卡，导致其实没法用</del>。debian 下 ppa 的具体使用方法参考这里：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://blog.skk.moe/post/add-ppa-to-debian/">在 Debian 上添加 PPA 并安装软件包</a>。文章中有一部比较难以理解：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo sed -i 's/disco/bionic/g' /etc/apt/sources.list.d/lazygit-team-ubuntu-daily-disco.list</span><br></pre></td></tr></tbody></table></figure>
+
+<p>实际上就是进入 <code>/etc/apt/sources.list.d</code>，在上一步 ppa 中会下载两个跟你要装的软件相关的源文件，里面的系统名太新了（比如我下到的就是 groovy，而上面那行代码是 bionic，作者选择替换成当时最新的 lts bionic 系统）可以 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://zh.wikipedia.org/wiki/Ubuntu">wiki 查看</a>，选择一个合适的版本。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/vKqB7kT.png"></p>
+<p>另外也可以通过软件 ppa 页面，查看当前版本是否有相关的包，比如 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://launchpad.net/~wireshark-dev/+archive/ubuntu/stable?field.series_filter=">wireshark 界面</a>：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/xZwC5zQ.png"></p>
+<p>很明显确实没有最新的 groovy 版本，而只有上一个版本 focal 版，那么我们可以改成 focal 或者直接复制粘贴图中的两行代码。</p>
+<p>另外也可以翻翻 sid 包，有没有相关的包，我反正翻到 sid 包里面也有 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://packages.debian.org/sid/amd64/wireshark/download">wireshark 的最新版本</a>。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/rPP1F98.png"></p>
+<p>从这里找一个最近的源，比如 <a target="_blank" rel="external nofollow noopener noreferrer" href="http://ftp.cn.debian.org/debian%EF%BC%8C%E6%8C%89%E7%BD%91%E9%A1%B5%E9%A1%B6%E4%B8%8A%E7%9A%84%E8%A6%81%E6%B1%82%E6%8B%BC%E6%8E%A5%E4%B8%80%E4%B8%8B%E3%80%82%E4%B8%BA%E4%BA%86%E9%81%BF%E5%85%8D%E5%92%8C%E6%AD%A3%E5%B8%B8%E6%BA%90%E6%B7%B7%E5%9C%A8%E4%B8%80%E8%B5%B7%EF%BC%8C%E6%88%91%E4%BB%AC%E6%96%B0%E5%BC%80%E4%B8%80%E4%B8%AA%E6%BA%90%E6%96%87%E4%BB%B6%EF%BC%8C%E5%91%BD%E5%90%8D%E4%B8%BA">http://ftp.cn.debian.org/debian，按网页顶上的要求拼接一下。为了避免和正常源混在一起，我们新开一个源文件，命名为</a> sid.list。</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo sh -c 'printf "deb http://ftp.cn.debian.org/debian sid main " &gt; /etc/apt/sources.list.d/sid.list'</span><br><span class="line">sudo apt update</span><br><span class="line">sudo apt -t sid install wireshark -y</span><br></pre></td></tr></tbody></table></figure>
+
+<p>但很遗憾，无论用 ppa 直接安装，ppa 直接编译还是 sid 源的方法安装 wireshark 都报错，依赖不对，估计手动编译也是一样的结果。</p>
+</li>
+</ol>
+<h2 id="（12-22-更新）-过期的-ubuntu"><a href="#（12-22-更新）-过期的-ubuntu" class="headerlink" title="（12.22 更新） 过期的 ubuntu"></a><strong>（12.22 更新）</strong> 过期的 ubuntu</h2><p>虚拟机的 ubuntu 是去年才装的。</p>
+<p>看了一下 ubuntu 有普通版和 long-term 版，long-term 版？应该是和 windows ltsb / ltsc 一个性质的东西吧。</p>
+<p>「装在虚拟机里面的东西要什么 long-term，给我来最新的」然后我就装了 19.10。</p>
+<p>结果最近 apt update 总是报错，说是什么</p>
+<blockquote>
+<p>仓库 “<a target="_blank" rel="external nofollow noopener noreferrer" href="http://mirrors.tuna.tsinghua.edu.cn/ubuntu">http://mirrors.tuna.tsinghua.edu.cn/ubuntu</a> eoan-updates Release” 没有 Release 文件。</p>
+</blockquote>
+<p>是不是清华的源又整活了？用「软件与更新」换个源看看。</p>
+<p>结果选择最佳服务器的时候就告诉我网络有问题（肯定不是网络原因，科学和 dns 这些我熟的很），退出的时候整个软件直接崩了。。。</p>
+<p>兜兜转转我得出一个结论：这个 ubuntu 版本今年 7 月过期，连着源一块过期访问不到了。（这比 windows 10 版本寿命还短）</p>
+<p>怎么办？尝试升级，好在和 window 不一样，普通版本也能升到 lt 版，升到 lt 版不折腾了。</p>
+<p>关键是升级前要 apt update 的啊，这 apt update 都运行不了怎么办？</p>
+<h3 id="apt-update-失效"><a href="#apt-update-失效" class="headerlink" title="apt update 失效"></a>apt update 失效</h3><p>参考 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.digitalocean.com/community/questions/unable-to-apt-update-my-ubuntu-19-04">Unable to ‘apt update’ my Ubuntu 19.04</a>，旧的源过期了不过会存档起来，但网址也改了。但我用的是镜像源，镜像源我猜不会改网址而是直接删库。。。保险起见找一下初始源。结果没找到官方的，找到一个这样的：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://gist.github.com/malikalichsan">malikalichsan</a>/<a target="_blank" rel="external nofollow noopener noreferrer" href="https://gist.github.com/malikalichsan/860b8134a74c65a394efe09711d0b95f">sources.list</a></p>
+<p>瞄了下大概的地址格式</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">deb http://id.archive.ubuntu.com/ubuntu/ eoan main restricted</span><br></pre></td></tr></tbody></table></figure>
+
+<p>用 vscode 把 archive 批量替换为 old-releases</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">deb http://id.old-releases.ubuntu.com/ubuntu/ eoan main restricted</span><br></pre></td></tr></tbody></table></figure>
+
+<p>update 一看，找不到仓库。对比一下网上的其他源地址，我们这个地址前面的 id 好突兀，删掉</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">deb http://old-releases.ubuntu.com/ubuntu/ eoan main restricted</span><br></pre></td></tr></tbody></table></figure>
+
+<p>成了。</p>
+<h3 id="do-release-upgrade-也失效"><a href="#do-release-upgrade-也失效" class="headerlink" title="do-release-upgrade 也失效"></a>do-release-upgrade 也失效</h3><p>ubuntu 也有专属的系统更新命令，那就是 <code>sudo do-release-upgrade</code>。然后我运行了一边，又告诉我没网络了。。。。</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Failed to connect to https://changelogs.ubuntu.com/meta-release. Check your Internet connection or proxy settings</span><br></pre></td></tr></tbody></table></figure>
+
+<p>继续问谷歌：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://askubuntu.com/questions/1200494/failed-to-connect-to-http-changelogs-ubuntu-com-meta-release-lts-after-upgrade">Failed to connect to http://changelogs.ubuntu.com/meta-release-lts after upgrade</a></p>
+<p>说是删掉 <code>/var/lib/ubuntu-release-upgrader/release-upgrade-available</code> 这个文件，然后用 <code>/var/lib/ubuntu-release-upgrader/release-upgrade-motd</code> 这个程序再获取一遍地址。</p>
+<p>没用，甚至运行这个 <code>release-upgrade-motd</code> 直接报错无网络。</p>
+<p>算了，直接大力出奇迹好了。用 debian 的更新方法。</p>
+<p>但话说 ubuntu 最新 lts 的版本缩写在 url 内怎么表示？等等上面那个报错信息里面不是有个网址。</p>
+<p>打开看看。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20201222235724.png"></p>
+<p>很好，直接换：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo cp  /etc/apt/sources.list /etc/apt/sources.list.bak</span><br><span class="line">sudo sed -i 's/eoan/focal/g' /etc/apt/sources.list</span><br></pre></td></tr></tbody></table></figure>
+
+<p>更新：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt update&amp;&amp;sudo apt upgrade&amp;&amp;sudo apt dist-upgrade</span><br></pre></td></tr></tbody></table></figure>
+
+<p>收工。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>zbttl
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="https://zbttl-github-io.vercel.app/zhuo-mian-ban-ubuntu-debian-cai-keng/" title="桌面版 ubuntu &amp; debian 踩坑">https://zbttl-github-io.vercel.app/zhuo-mian-ban-ubuntu-debian-cai-keng/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="external nofollow noopener noreferrer" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="followme">
+  <span>欢迎关注我的其它发布渠道</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="/atom.xml">
+          <span class="icon">
+            <i class="fa fa-rss"></i>
+          </span>
+
+          <span class="label">RSS</span>
+        </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/terminal/" rel="tag"># terminal</a>
+              <a href="/tags/vscode/" rel="tag"># vscode</a>
+              <a href="/tags/ubuntu/" rel="tag"># ubuntu</a>
+              <a href="/tags/debian/" rel="tag"># debian</a>
+              <a href="/tags/wireguard/" rel="tag"># wireguard</a>
+          </div>
+
+        
+  <div class="post-widgets">
+    <div class="wp_rating">
+      <div id="wpac-rating"></div>
+    </div>
+  </div>
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/powershell-quan-gong-lue/" rel="prev" title="powershell 全攻略">
+                  <i class="fa fa-chevron-left"></i> powershell 全攻略
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/shuang-xiang-jia-su-ruan-jian/" rel="next" title="双向加速软件">
+                  双向加速软件 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zbttl</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+      <span>站点总字数：</span>
+    <span title="站点总字数">153k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span>站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">2:19</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+</div><script color="120,120,120" opacity="0.5" zindex="-1" count="150" src="https://cdn.jsdelivr.net/npm/canvas-nest.js@1/dist/canvas-nest.js"></script>
+<!--《添加网站运行时间 -->
+<!--<br/>-->
+<span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+<script>
+    var now = new Date();
+
+    function createtime() {
+        var grt = new Date("12/18/2020 12:00:00"); //此处修改你的建站时间或者网站上线时间 
+        now.setTime(now.getTime() + 250);
+        days = (now - grt) / 1000 / 60 / 60 / 24;
+        dnum = Math.floor(days);
+        hours = (now - grt) / 1000 / 60 / 60 - (24 * dnum);
+        hnum = Math.floor(hours);
+        if (String(hnum).length == 1) {
+            hnum = "0" + hnum;
+        }
+        minutes = (now - grt) / 1000 / 60 - (24 * 60 * dnum) - (60 * hnum);
+        mnum = Math.floor(minutes);
+        if (String(mnum).length == 1) {
+            mnum = "0" + mnum;
+        }
+        seconds = (now - grt) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+        snum = Math.round(seconds);
+        if (String(snum).length == 1) {
+            snum = "0" + snum;
+        }
+        document.getElementById("timeDate").innerHTML = " 本站已安全运行 " + dnum + " 天 ";
+        document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒";
+    }
+    setInterval("createtime()", 250);
+</script>
+<!-- 添加网站运行时间》 -->
+
+    </div>
+  </footer>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+  <script>
+  if (CONFIG.page.isPost) {
+    wpac_init = window.wpac_init || [];
+    wpac_init.push({
+      widget: 'Rating',
+      id    : 28813,
+      el    : 'wpac-rating',
+      color : '#fc6423'
+    });
+    (function() {
+      if ('WIDGETPACK_LOADED' in window) return;
+      WIDGETPACK_LOADED = true;
+      var mc = document.createElement('script');
+      mc.type = 'text/javascript';
+      mc.async = true;
+      mc.src = '//embed.widgetpack.com/widget.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(mc, s.nextSibling);
+    })();
+  }
+  </script>
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1.7.0/dist/gitalk.css">
+
+<script>
+NexT.utils.loadComments('#gitalk-container', () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1.7.0/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : 'd99d750bdfdb31ecf37e',
+      clientSecret: '1d37215aff71dc84b66e03cb412c7e68b968d76f',
+      repo        : 'zbttl-comment',
+      owner       : 'zbpicture',
+      admin       : ['zbpicture'],
+      id          : 'bb74122a99eff5252bbd1bf7dfa8943b',
+        language: '',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+<script type="text/javascript" src=" https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+
+  <script async src="/js/cursor/text.js"></script>
+
+
+
+
+</body>
+</html>

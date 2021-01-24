@@ -498,7 +498,8 @@ code {
   border-radius: 3px;
   font-size: 0.875em;
   padding: 2px 4px;
-  overflow-wrap: break-word;
+  white-space: pre-wrap;
+  word-break: break-all;
 }
 kbd {
   border: 2px solid #ccc;
@@ -558,10 +559,17 @@ figure.highlight .gutter pre {
   padding-left: 10px;
   padding-right: 10px;
   text-align: right;
+  white-space: pre;
+  overflow-x: auto;
+  overflow-y: hidden;
+  word-break: inherit;
+  overflow-wrap: break-word;
 }
 figure.highlight .code pre {
   padding-left: 10px;
   width: 100%;
+  white-space: pre-wrap;
+  word-break: break-all;
 }
 pre .caption,
 pre figcaption {
@@ -2782,7 +2790,7 @@ mark.search-keyword {
   vertical-align: middle;
 }
 .links-of-author a::before {
-  background: #d4c6ff;
+  background: #acff39;
   display: inline-block;
   margin-right: 3px;
   transform: translateY(-2px);

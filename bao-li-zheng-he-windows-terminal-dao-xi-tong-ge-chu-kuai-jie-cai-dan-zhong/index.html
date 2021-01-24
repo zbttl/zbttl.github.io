@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.1/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"zbttl-github-io.vercel.app","root":"/","images":"/images","scheme":"Muse","version":"8.1.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}};
+  </script>
+<meta name="description" content="参考文章：  使用系统管理员身分开启Windows Terminal 分页 Windows Terminal 安装与配置指南">
+<meta property="og:type" content="article">
+<meta property="og:title" content="暴力整合 windows terminal 到系统各处快捷菜单中">
+<meta property="og:url" content="https://zbttl-github-io.vercel.app/bao-li-zheng-he-windows-terminal-dao-xi-tong-ge-chu-kuai-jie-cai-dan-zhong/index.html">
+<meta property="og:site_name" content="Bao&#39;s 备忘录">
+<meta property="og:description" content="参考文章：  使用系统管理员身分开启Windows Terminal 分页 Windows Terminal 安装与配置指南">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/yipzGkz.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/7aWLpPK.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/2nY5sPB.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/Uz0jDk6.png">
+<meta property="article:published_time" content="2020-03-31T16:00:00.000Z">
+<meta property="article:modified_time" content="2021-01-20T19:56:49.747Z">
+<meta property="article:author" content="zbttl">
+<meta property="article:tag" content="terminal">
+<meta property="article:tag" content="powershell">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/yipzGkz.png">
+
+
+<link rel="canonical" href="https://zbttl-github-io.vercel.app/bao-li-zheng-he-windows-terminal-dao-xi-tong-ge-chu-kuai-jie-cai-dan-zhong/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+<title>暴力整合 windows terminal 到系统各处快捷菜单中 | Bao's 备忘录</title>
+  
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link rel="alternate" href="/atom.xml" title="Bao's 备忘录" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Bao's 备忘录</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80" placeholder="搜索..." spellcheck="false" type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <section class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0%E7%AE%A1%E7%90%86%E5%91%98%E6%A8%A1%E5%BC%8F-powershell"><span class="nav-number">1.</span> <span class="nav-text">添加管理员模式 powershell</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0%E8%BF%9B%E5%8F%B3%E9%94%AE%E8%8F%9C%E5%8D%95"><span class="nav-number">2.</span> <span class="nav-text">添加进右键菜单</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0%E8%BF%9B-win-x-%E5%BF%AB%E9%80%9F%E9%93%BE%E6%8E%A5%E8%8F%9C%E5%8D%95"><span class="nav-number">3.</span> <span class="nav-text">添加进 win+x 快速链接菜单</span></a></li></ol></div>
+        </section>
+        <!--/noindex-->
+
+        <section class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">zbttl</p>
+  <div class="site-description" itemprop="description">玩点好玩的</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">26</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">43</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/zbttl" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;zbttl" rel="external nofollow noopener noreferrer" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:zbttls@gmail.com" title="E-Mail → mailto:zbttls@gmail.com" rel="external nofollow noopener noreferrer" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fa fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+
+
+
+        </section>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://zbttl-github-io.vercel.app/bao-li-zheng-he-windows-terminal-dao-xi-tong-ge-chu-kuai-jie-cai-dan-zhong/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="zbttl">
+      <meta itemprop="description" content="玩点好玩的">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Bao's 备忘录">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          暴力整合 windows terminal 到系统各处快捷菜单中
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-04-01 00:00:00" itemprop="dateCreated datePublished" datetime="2020-04-01T00:00:00+08:00">2020-04-01</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-01-21 03:56:49" itemprop="dateModified" datetime="2021-01-21T03:56:49+08:00">2021-01-21</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Windows/" itemprop="url" rel="index"><span itemprop="name">Windows</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>3.7k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>3 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>参考文章：</p>
+<ul>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://poychang.github.io/run-windows-terminal-as-administrator-with-elevated-admin-permissions/">使用系统管理员身分开启Windows Terminal 分页</a></li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://printempw.github.io/windows-terminal-setup-guide/">Windows Terminal 安装与配置指南</a></li>
+</ul>
+<h2 id="添加管理员模式-powershell"><a href="#添加管理员模式-powershell" class="headerlink" title="添加管理员模式 powershell"></a>添加管理员模式 powershell</h2><ol>
+<li><p>安装 gsudo</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">choco install gsudo -y</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>新增 json 配置块，点击加号-&gt;settings，在 profiles-&gt;list 中添加。</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">{</span><br><span class="line">    "guid": "{0667cbea-6f8d-43d6-b50a-e4f795569d86}",</span><br><span class="line">    "name": "Elevated PowerShell",</span><br><span class="line">    "commandline": "gsudo.exe PowerShell",</span><br><span class="line">    "icon": "C:/Users/zbttl/Pictures/powershell_red_scale-200.ico",</span><br><span class="line">    "hidden": false,</span><br><span class="line">    "colorScheme": "AdventureTime"</span><br><span class="line">},</span><br></pre></td></tr></tbody></table></figure>
+
+<p>其中，icon 里的图标可从参考文章 1 中下载，下载后需要处理，图片像素缩小为 32x32（否则会出现明显的锯齿）。并转为 .ico 格式，主要保留透明度（即保证背景不是黑色的而是透明的），因为后面一步注册表中的参数不认得 ico 格式以为的图片。这些修改都可以用 ifranview 搞掂。</p>
+<p>而 colorScheme，可以从这里找：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/mbadolato/iTerm2-Color-Schemes/tree/master/windowsterminal">mbadolato/iTerm2-Color-Schemes</a>，选好想要的主题，找到对应的配置文件，将其中的代码加到 schemes 中。修改的目的是让管理员模式和普通用户模式有区分度。</p>
+</li>
+<li><p>保存后在加号处就能看到该配置了。</p>
+</li>
+</ol>
+<h2 id="添加进右键菜单"><a href="#添加进右键菜单" class="headerlink" title="添加进右键菜单"></a>添加进右键菜单</h2><ol>
+<li><p>输入代码</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$basePath = "Registry::HKEY_CLASSES_ROOT\Directory\Background\shell"</span><br><span class="line">New-Item -Path "$basePath\wt" -Force -Value "Windows Terminal"</span><br><span class="line">New-ItemProperty -Path "$basePath\wt" -Force -Name "Icon" -PropertyType ExpandString -Value "X:\path\to\terminal.ico"</span><br><span class="line">New-Item -Path "$basePath\wt\command" -Force -Type ExpandString -Value '"%LOCALAPPDATA%\Microsoft\WindowsApps\wt.exe" -p "Windows PowerShell" -d "%V"'</span><br></pre></td></tr></tbody></table></figure>
+
+<p>其中，<code>"X:\path\to\terminal.ico"</code> 修改为上一步通过修改的 ico 文件路径。最后一句中 -p 后面的参数 <code>Windows PowerShell</code> 改成自己配置文件中 powershell 所在代码块的 name。当然如果输错也可以进入注册表中再做修改，键值在 <code>HKEY_CLASSES_ROOT\Directory\Background\shell\wt</code> 中。</p>
+</li>
+<li><p>上面添加的是在文件管理器中右键以普通用户打开 windows terminal。而以管理员模式打开，还需要再新建键值。在上面代码块的第二句 <code>$basePath\wt</code> 中的 wt 键值需要修改为其他名字，-p 后的代码块也要更换，图标最好也更换一下。打个比方：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">New-Item -Path "$basePath\wtAdmin" -Force -Value "Windows Terminal(Admin)"</span><br><span class="line">New-ItemProperty -Path "$basePath\wtAdmin" -Force -Name "Icon" -PropertyType ExpandString -Value "X:\path\to\terminal.ico"</span><br><span class="line">New-Item -Path "$basePath\wtAdmin\command" -Force -Type ExpandString -Value '"%LOCALAPPDATA%\Microsoft\WindowsApps\wt.exe" -p "Elevated PowerShell" -d "%V"'</span><br></pre></td></tr></tbody></table></figure>
+
+
+</li>
+</ol>
+<h2 id="添加进-win-x-快速链接菜单"><a href="#添加进-win-x-快速链接菜单" class="headerlink" title="添加进 win+x 快速链接菜单"></a>添加进 win+x 快速链接菜单</h2><p>参考文章：</p>
+<ul>
+<li>[How to Add or Remove Default Items on Win+X Quick Link Menu in Windows 10](How to Add or Remove Default Items on Win+X Quick Link Menu in Windows 10)</li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/riverar/hashlnk">riverar/hashlnk</a></li>
+</ul>
+<p>很多时候我们要右键打开 powershell 还要退到桌面或是资源管理器处，如果在快速链接菜单（右键 windows 徽标）就能打开 windows terminal 就会方便很多。</p>
+<p>右键菜单的结构，取决于 <code>%LocalAppdata%\Microsoft\Windows\WinX</code> 这个目录的结构。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/yipzGkz.png"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/7aWLpPK.jpg"></p>
+<p>总结一下，有这么几个规律：</p>
+<ol>
+<li><p>里面的项目都是快捷方式，这个应该一眼就能看出来。你看到的文件名并不是真实的文件名，用第三方资源管理器或者用 dir 命令查看就知道</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/2nY5sPB.png"></p>
+</li>
+<li><p>但修改某项文件名不会使该项消失，而是会改变某项的位置。具体位置取决于真实文件名按名称方式倒序排列后的位置。</p>
+<ul>
+<li>也就是说，如果你想让新加进来的项目排在 group 的最顶上，其实什么都不用动，因为一般来说程序都是以字母开头，字母开头一定会排在原来这些数字开头程序的上面（倒序）。</li>
+<li>反过来，如果你要把新增的项目放在中间，那就要修改其中一个项目的真实文件名，比如你要将新建的项目放在计算机管理的后面，并把计算机管理调到最前，你可以将计算机管理的真实文件名前面的序号改成 11，在新增项目的真实文件名前面加上 <code>03 - </code>；</li>
+<li>如果不想调整计算机管理的位置，那么将新增项目的真实文件名前面加上 <code>02b - </code> 应该也可以；如果想把新增项目放在最后，将新增项目的真实文件名前面加上 <code>00 - </code> 就行。</li>
+</ul>
+<p>另外，因为 group3 项目比较多，所以才用两位数字的前缀，group2 就用的是一个数字的前缀，但原理相同。</p>
+</li>
+<li><p>不过，新增的项目不会立刻生效，而其前缀也会在资源管理器中表现出来，而不是和原有的项目一样自动将前缀隐藏。原因是，原有的项目在注册表中绑定了，绑定的依据是快捷方式属性中的「目标」这一项。所以你想通过修改原来快捷方式的目标直接让其打开其他程序这个方法是不行的。直接将新增项目放进文件夹里面也不会识别，修改这些原有项目的文件名不会使快捷链接中项目的名字被变更。但反过来，直接删除这些快捷方式的话，是能够生效的。</p>
+</li>
+<li><p>所以，如果要新增项目的话，就需要用上面参考文章的 hashlnk 这款软件。使用方法也很简单，先把快捷方式放到相应位置，快捷方式的参数也可以进行适当修改。之后，就需要运行命令（powershell 不认 %LOCALAPPDATA%，只能用全名）。</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hashlnk.exe 'C:\Users\[用户名]\AppData\Local\Microsoft\Windows\WinX\Group3\[快捷方式名]'</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>要修改快捷链接中的名字也可以，在相应项目属性中修改描述就行了。</p>
+</li>
+</ol>
+<p>综上，我们要添加 windows terminal，按以下步骤：</p>
+<ol>
+<li><p>复制 <code>%LOCALAPPDATA%\Microsoft\WindowsApps\wt.exe</code>，在 <code>%LocalAppdata%\Microsoft\Windows\WinX\Group3</code> 中粘贴<strong>快捷方式</strong>。</p>
+</li>
+<li><p>修改快捷方式 <code>wt.exe</code> 的属性和文件名。文件名修改成你顺耳的，并且我想让其挨在 powershell 的项目旁边。所以我将名字修改为 <code>00 - windowsTerminal</code>。属性中，目标修改为 <code>"%LOCALAPPDATA%\Microsoft\WindowsApps\wt.exe" -p "Windows PowerShell"</code>，描述修改为 <code>Windows Terminal</code>。</p>
+</li>
+<li><p>在 hashInk.exe 所在目录运行</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.\hashlnk.exe 'C:\Users\zbttl\AppData\Local\Microsoft\Windows\WinX\Group3\00 - windowsTerminal.lnk'</span><br></pre></td></tr></tbody></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/Uz0jDk6.png"></p>
+</li>
+</ol>
+<p>重启资源管理器即可。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>zbttl
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="https://zbttl-github-io.vercel.app/bao-li-zheng-he-windows-terminal-dao-xi-tong-ge-chu-kuai-jie-cai-dan-zhong/" title="暴力整合 windows terminal 到系统各处快捷菜单中">https://zbttl-github-io.vercel.app/bao-li-zheng-he-windows-terminal-dao-xi-tong-ge-chu-kuai-jie-cai-dan-zhong/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="external nofollow noopener noreferrer" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="followme">
+  <span>欢迎关注我的其它发布渠道</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="/atom.xml">
+          <span class="icon">
+            <i class="fa fa-rss"></i>
+          </span>
+
+          <span class="label">RSS</span>
+        </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/terminal/" rel="tag"># terminal</a>
+              <a href="/tags/powershell/" rel="tag"># powershell</a>
+          </div>
+
+        
+  <div class="post-widgets">
+    <div class="wp_rating">
+      <div id="wpac-rating"></div>
+    </div>
+  </div>
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/shuang-xiang-jia-su-ruan-jian/" rel="prev" title="双向加速软件">
+                  <i class="fa fa-chevron-left"></i> 双向加速软件
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/ma-que-sui-xiao-wu-zang-ju-quan-android-duan-terminal-termux-shang-shou-diao-xiao-zhi-nan/" rel="next" title="「麻雀虽小，五脏俱全」：Android 端 terminal termux 上手调校指南">
+                  「麻雀虽小，五脏俱全」：Android 端 terminal termux 上手调校指南 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zbttl</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+      <span>站点总字数：</span>
+    <span title="站点总字数">153k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span>站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">2:19</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+</div><script color="120,120,120" opacity="0.5" zindex="-1" count="150" src="https://cdn.jsdelivr.net/npm/canvas-nest.js@1/dist/canvas-nest.js"></script>
+<!--《添加网站运行时间 -->
+<!--<br/>-->
+<span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+<script>
+    var now = new Date();
+
+    function createtime() {
+        var grt = new Date("12/18/2020 12:00:00"); //此处修改你的建站时间或者网站上线时间 
+        now.setTime(now.getTime() + 250);
+        days = (now - grt) / 1000 / 60 / 60 / 24;
+        dnum = Math.floor(days);
+        hours = (now - grt) / 1000 / 60 / 60 - (24 * dnum);
+        hnum = Math.floor(hours);
+        if (String(hnum).length == 1) {
+            hnum = "0" + hnum;
+        }
+        minutes = (now - grt) / 1000 / 60 - (24 * 60 * dnum) - (60 * hnum);
+        mnum = Math.floor(minutes);
+        if (String(mnum).length == 1) {
+            mnum = "0" + mnum;
+        }
+        seconds = (now - grt) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+        snum = Math.round(seconds);
+        if (String(snum).length == 1) {
+            snum = "0" + snum;
+        }
+        document.getElementById("timeDate").innerHTML = " 本站已安全运行 " + dnum + " 天 ";
+        document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒";
+    }
+    setInterval("createtime()", 250);
+</script>
+<!-- 添加网站运行时间》 -->
+
+    </div>
+  </footer>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+  <script>
+  if (CONFIG.page.isPost) {
+    wpac_init = window.wpac_init || [];
+    wpac_init.push({
+      widget: 'Rating',
+      id    : 28813,
+      el    : 'wpac-rating',
+      color : '#fc6423'
+    });
+    (function() {
+      if ('WIDGETPACK_LOADED' in window) return;
+      WIDGETPACK_LOADED = true;
+      var mc = document.createElement('script');
+      mc.type = 'text/javascript';
+      mc.async = true;
+      mc.src = '//embed.widgetpack.com/widget.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(mc, s.nextSibling);
+    })();
+  }
+  </script>
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1.7.0/dist/gitalk.css">
+
+<script>
+NexT.utils.loadComments('#gitalk-container', () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1.7.0/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : 'd99d750bdfdb31ecf37e',
+      clientSecret: '1d37215aff71dc84b66e03cb412c7e68b968d76f',
+      repo        : 'zbttl-comment',
+      owner       : 'zbpicture',
+      admin       : ['zbpicture'],
+      id          : '267d63db62b05d241fbf5ef63b661bb6',
+        language: '',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+<script type="text/javascript" src=" https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+
+  <script async src="/js/cursor/text.js"></script>
+
+
+
+
+</body>
+</html>
