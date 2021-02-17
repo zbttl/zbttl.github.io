@@ -42,7 +42,7 @@
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202021-01-27%20035053.jpg">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202021-01-27%20035508.jpg">
 <meta property="article:published_time" content="2021-01-26T16:00:00.000Z">
-<meta property="article:modified_time" content="2021-01-28T18:10:28.908Z">
+<meta property="article:modified_time" content="2021-02-17T17:03:41.879Z">
 <meta property="article:author" content="zbttl">
 <meta property="article:tag" content="xbox">
 <meta property="article:tag" content="padavan">
@@ -310,7 +310,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2021-01-29 02:10:28" itemprop="dateModified" datetime="2021-01-29T02:10:28+08:00">2021-01-29</time>
+        <time title="修改时间：2021-02-18 01:03:41" itemprop="dateModified" datetime="2021-02-18T01:03:41+08:00">2021-02-18</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -367,8 +367,8 @@
 <ul>
 <li><p>AP 工作模式。分为 AP（禁用桥接）、WDS桥接（禁用AP）、WDS中继（桥接+AP）、APCliet（禁用AP）、APClient（APClient+AP) 五种。 </p>
 <p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202021-01-27%20073051.jpg"></p>
-<p>AP（禁用桥接）为默认禁用桥接时的模式，而 WDS中继（桥接+AP）、APClient（APClient+AP) 是在剩下两种上开启 AP（无线信号）的模式，所以我们在这两种中间选一种就行了。WDS （注意不要和那个有漏洞的 WPS 功能混淆了）是指将中继 AP ssid 设置为与主路由 AP 相同的 ssid，让设备自己选择链接哪一个 AP；而 APClient 则相反。</p>
-<p><strong>建议使用后者</strong>，一个是因为设备<del>不太聪明（误）</del>的中继算法普遍不太好，可能会乱切信号或者不切信号（导致连了信号弱的那个 AP)，正因为这样现在市场上才会出现 WDS 中继的升级版 —— mesh，这个大家估计很熟了。更重要的是选用 APClient 可以在中继的同时还能够方便的管理中继的路由（要进入中继路由的管理界面首先要保证 ap 链接到中继路由了，或者中继路由 ip 在计算机链接的网段中）。</p>
+<p>AP（禁用桥接）为默认不使用桥接时的模式，而 WDS中继（桥接+AP）、APClient（APClient+AP) 是在剩下两种上开启 AP（无线信号）的模式，所以我们在这两种中间选一种就行了。WDS （注意不要和那个有漏洞的 WPS 功能混淆了）是指将中继 AP ssid 设置为与主路由 AP 相同的 ssid，让设备自己选择链接哪一个 AP；而 APClient 则相反。</p>
+<p><strong>建议使用后者</strong>，一个是因为设备<del>不太聪明（误）</del>的中继算法普遍不太好，可能会乱切信号或者不切信号（导致连了信号弱的那个 AP)，正因为这样现在市场上才会出现 WDS 中继的升级版 —— mesh（听起来熟悉多了吧，这两年各大厂都在吹这玩意）。更重要的是选用 APClient 可以在中继的同时还能够方便的管理中继的路由（要进入中继路由的管理界面首先要保证 ap 链接到中继路由了，或者中继路由 ip 在计算机链接的网段中）。</p>
 </li>
 <li><p>无线 AP-Client 角色。分为 LAN bridge 和 WAN（Wireless ISP）两种。简单来说，前者是网桥，后者是路由。之前用极路由 2 做 xbox 中继加速的时候，加速器在极路由上安装，所以是路由模式（极路由的中继也只有路由模式可选）；此处我们用 K2 做加速，但加速器在主路由（ac86u）上安装，那么就得用网桥模式。</p>
 <p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202021-01-27%20182740.jpg"></p>
