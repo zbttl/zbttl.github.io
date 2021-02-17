@@ -8,8 +8,8 @@
 
 
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/bao32x32.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/bao16x16.ico">
   <link rel="mask-icon" href="/images/logo.svg" color="#222">
 
 <link rel="stylesheet" href="/css/main.css">
@@ -40,12 +40,14 @@
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210128215625.png">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210128215847.png">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210128220009.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210130041803.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210130022757.png">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210128220516.png">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210128221237.png">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210125183046.png">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210129020611.png">
 <meta property="article:published_time" content="2021-01-24T16:00:00.000Z">
-<meta property="article:modified_time" content="2021-01-28T18:12:18.338Z">
+<meta property="article:modified_time" content="2021-01-29T20:22:39.269Z">
 <meta property="article:author" content="zbttl">
 <meta property="article:tag" content="羊毛">
 <meta property="article:tag" content="github">
@@ -210,6 +212,7 @@
 
         <section class="site-overview-wrap sidebar-panel">
           <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="zbttl" src="/images/avatar.jpg">
   <p class="site-author-name" itemprop="name">zbttl</p>
   <div class="site-description" itemprop="description">玩点好玩的</div>
 </div>
@@ -218,7 +221,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">28</span>
+          <span class="site-state-item-count">29</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -231,7 +234,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">46</span>
+        <span class="site-state-item-count">63</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -264,6 +267,7 @@
     <i class="fa fa-arrow-up"></i>
     <span>0%</span>
   </div>
+  <div class="reading-progress-bar"></div>
 
 <noscript>
   <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
@@ -284,7 +288,7 @@
     <link itemprop="mainEntityOfPage" href="https://zbttl-github-io.vercel.app/github-xue-sheng-bao-he-azure-yang-mao/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="image" content="/images/avatar.jpg">
       <meta itemprop="name" content="zbttl">
       <meta itemprop="description" content="玩点好玩的">
     </span>
@@ -312,7 +316,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2021-01-29 02:12:18" itemprop="dateModified" datetime="2021-01-29T02:12:18+08:00">2021-01-29</time>
+        <time title="修改时间：2021-01-30 04:22:39" itemprop="dateModified" datetime="2021-01-30T04:22:39+08:00">2021-01-30</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -339,14 +343,14 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>2.9k</span>
+      <span>3.2k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>3 分钟</span>
+      <span>6 分钟</span>
     </span>
 </div>
 
@@ -416,7 +420,12 @@
 </li>
 <li><p>设置好后就可以点底下的查看 + 创建了。</p>
 </li>
-<li><p>点开刚创建的虚拟机 -&gt; 网络，NIC 公共 IP 后面跟着的蓝色数字串是目前的动态 ip 地址，这个 ip 重启后会自动变更，不方便我们使用，点开他，选中左侧的「配置」，在右侧的「分配」处改为静态即可。</p>
+<li><p><strong>（可选）</strong> 使用静态 ip。点开刚创建的虚拟机 -&gt; 网络，NIC 公共 IP 后面跟着的蓝色数字串是目前的动态 ip 地址，这个 ip 重启后会自动变更，不方便我们使用，点开他，选中左侧的「配置」，在右侧的「分配」处改为静态并保存即可。</p>
+<p>不过静态 ip 每天要花差不多 0.04 刀，用一年可能就差不多十几刀了，如果不用静态 ip 的话建议绑个域名方便记忆，动态 ip 在面板中重启机器时会变换，换了以后再去域名里面改解析，稍微麻烦但还是比直接用域名要方便一些。（在 ssh 中使用 reboot 并不会导致 ip 被更换）</p>
+<p>从动态 ip 改成静态 ip 很简单，但从静态 ip 改回动态 ip 略微麻烦，要先解绑网卡。可能需要先停机。在刚刚设置 ip 的地方，点击左边的「概述」进入概述页面，再点击「取消关联」。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210130041803.png"></p>
+<p>再次回到「配置」，在右侧的「分配」处改为动态并保存；回到概述页面，点击关联，在右侧弹出的窗口中，「资源类型」改为网络接口，网络接口处点击下拉按钮就会显示有刚刚解绑的设备，选上并确定即可。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210130022757.png"></p>
 </li>
 <li><p><strong>（可选）</strong> 增加入站出站端口。我个人用 vps 是不喜欢开防火墙的，安全要求没那么高。点开刚创建的虚拟机 -&gt; 网络 -&gt; 入站端口规则 -&gt; 添加入站端口规则，目标端口范围 0-65535 满上。安全一些只开高端口 10000-65535 也可以，另外现在最新的某类型工具通过 fallback 能让所有那种类型的流量都通过 443 出入，那这里啥都不加也都可以，自己选择吧。</p>
 <p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210128220516.png"></p>
@@ -574,14 +583,14 @@
       <i class="fa fa-chart-line"></i>
     </span>
       <span>站点总字数：</span>
-    <span title="站点总字数">158k</span>
+    <span title="站点总字数">201k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">2:24</span>
+    <span title="站点阅读时长">6:05</span>
   </span>
 </div>
 <div class="busuanzi-count">
@@ -593,7 +602,9 @@
         <span id="busuanzi_value_site_uv"></span>
       </span>
     </span>
-</div><script color="120,120,120" opacity="0.5" zindex="-1" count="150" src="https://cdn.jsdelivr.net/npm/canvas-nest.js@1/dist/canvas-nest.js"></script>
+</div>
+  <div class="powered-by">本博客使用 <a href="https://hexo.io/" class="theme-link" rel="external nofollow noopener noreferrer" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" class="theme-link" rel="external nofollow noopener noreferrer" target="_blank">NexT.Muse</a> 
+  </div><script color="120,120,120" opacity="0.5" zindex="-1" count="150" src="https://cdn.jsdelivr.net/npm/canvas-nest.js@1/dist/canvas-nest.js"></script>
 <!--《添加网站运行时间 -->
 <!--<br/>-->
 <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>

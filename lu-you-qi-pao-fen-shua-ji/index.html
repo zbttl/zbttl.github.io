@@ -8,8 +8,8 @@
 
 
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/bao32x32.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/bao16x16.ico">
   <link rel="mask-icon" href="/images/logo.svg" color="#222">
 
 <link rel="stylesheet" href="/css/main.css">
@@ -41,11 +41,13 @@
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/newifi%20pandorabox.png">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/newifi%20openwrt%202016.png">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/bcm4906.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210130060354.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210130060150.png">
 <meta property="article:published_time" content="2020-12-01T16:00:00.000Z">
-<meta property="article:modified_time" content="2021-01-20T17:38:48.294Z">
+<meta property="article:modified_time" content="2021-01-31T18:46:24.498Z">
 <meta property="article:author" content="zbttl">
-<meta property="article:tag" content="openwrt">
 <meta property="article:tag" content="padavan">
+<meta property="article:tag" content="openwrt">
 <meta property="article:tag" content="merlin">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://i.imgur.com/oicnOOy.png">
@@ -201,12 +203,13 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <section class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B7%91%E5%88%86%E5%B7%A5%E5%85%B7"><span class="nav-number">1.</span> <span class="nav-text">跑分工具</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#linux-%E5%86%85%E7%BD%AE%E6%B5%AE%E7%82%B9%E5%88%86%E6%95%B0%E6%98%BE%E7%A4%BA"><span class="nav-number">1.1.</span> <span class="nav-text">linux 内置浮点分数显示</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#coremark"><span class="nav-number">1.2.</span> <span class="nav-text">coremark</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#dhrystone"><span class="nav-number">1.3.</span> <span class="nav-text">dhrystone</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%B7%E6%9C%BA%EF%BC%88mt7620-gt-openwrt%EF%BC%89"><span class="nav-number">2.</span> <span class="nav-text">刷机（mt7620-&gt;openwrt）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Linux-%E7%BC%96%E8%AF%91"><span class="nav-number">2.1.</span> <span class="nav-text">Linux 编译</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#github-action"><span class="nav-number">2.2.</span> <span class="nav-text">github action</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%B7%E6%9C%BA%EF%BC%88asus-%E5%AE%98%E6%96%B9-gt-asus-%E6%A2%85%E6%9E%97%EF%BC%89"><span class="nav-number">3.</span> <span class="nav-text">刷机（asus 官方-&gt;asus 梅林）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B7%91%E5%88%86%E7%BB%93%E6%9E%9C"><span class="nav-number">4.</span> <span class="nav-text">跑分结果</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#coremark-1"><span class="nav-number">4.1.</span> <span class="nav-text">coremark</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#dhrystone-1"><span class="nav-number">4.2.</span> <span class="nav-text">dhrystone</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B6%E4%BB%96%E5%8F%82%E8%80%83%E6%96%87%E7%AB%A0%E5%92%8C%E5%B0%8F%E5%8F%91%E7%8E%B0"><span class="nav-number">5.</span> <span class="nav-text">其他参考文章和小发现</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B7%91%E5%88%86%E5%B7%A5%E5%85%B7"><span class="nav-number">1.</span> <span class="nav-text">跑分工具</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#linux-%E5%86%85%E7%BD%AE%E6%B5%AE%E7%82%B9%E5%88%86%E6%95%B0%E6%98%BE%E7%A4%BA"><span class="nav-number">1.1.</span> <span class="nav-text">linux 内置浮点分数显示</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#coremark"><span class="nav-number">1.2.</span> <span class="nav-text">coremark</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#dhrystone"><span class="nav-number">1.3.</span> <span class="nav-text">dhrystone</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%EF%BC%8821-1-30-%E6%9B%B4%E6%96%B0%EF%BC%89openssl-%E8%B7%91%E5%88%86"><span class="nav-number">2.</span> <span class="nav-text">（21.1.30 更新）openssl 跑分</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%B7%E6%9C%BA%EF%BC%88mt7620-gt-openwrt%EF%BC%89"><span class="nav-number">3.</span> <span class="nav-text">刷机（mt7620-&gt;openwrt）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Linux-%E7%BC%96%E8%AF%91"><span class="nav-number">3.1.</span> <span class="nav-text">Linux 编译</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#github-action"><span class="nav-number">3.2.</span> <span class="nav-text">github action</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%B7%E6%9C%BA%EF%BC%88asus-%E5%AE%98%E6%96%B9-gt-asus-%E6%A2%85%E6%9E%97%EF%BC%89"><span class="nav-number">4.</span> <span class="nav-text">刷机（asus 官方-&gt;asus 梅林）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B7%91%E5%88%86%E7%BB%93%E6%9E%9C"><span class="nav-number">5.</span> <span class="nav-text">跑分结果</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#coremark-1"><span class="nav-number">5.1.</span> <span class="nav-text">coremark</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#dhrystone-1"><span class="nav-number">5.2.</span> <span class="nav-text">dhrystone</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#openssl"><span class="nav-number">5.3.</span> <span class="nav-text">openssl</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B6%E4%BB%96%E5%8F%82%E8%80%83%E6%96%87%E7%AB%A0%E5%92%8C%E5%B0%8F%E5%8F%91%E7%8E%B0"><span class="nav-number">6.</span> <span class="nav-text">其他参考文章和小发现</span></a></li></ol></div>
         </section>
         <!--/noindex-->
 
         <section class="site-overview-wrap sidebar-panel">
           <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="zbttl" src="/images/avatar.jpg">
   <p class="site-author-name" itemprop="name">zbttl</p>
   <div class="site-description" itemprop="description">玩点好玩的</div>
 </div>
@@ -215,7 +218,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">28</span>
+          <span class="site-state-item-count">29</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -228,7 +231,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">46</span>
+        <span class="site-state-item-count">63</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -261,6 +264,7 @@
     <i class="fa fa-arrow-up"></i>
     <span>0%</span>
   </div>
+  <div class="reading-progress-bar"></div>
 
 <noscript>
   <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
@@ -281,7 +285,7 @@
     <link itemprop="mainEntityOfPage" href="https://zbttl-github-io.vercel.app/lu-you-qi-pao-fen-shua-ji/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="image" content="/images/avatar.jpg">
       <meta itemprop="name" content="zbttl">
       <meta itemprop="description" content="玩点好玩的">
     </span>
@@ -309,7 +313,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2021-01-21 01:38:48" itemprop="dateModified" datetime="2021-01-21T01:38:48+08:00">2021-01-21</time>
+        <time title="修改时间：2021-02-01 02:46:24" itemprop="dateModified" datetime="2021-02-01T02:46:24+08:00">2021-02-01</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -336,14 +340,14 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>6.6k</span>
+      <span>6.8k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>6 分钟</span>
+      <span>12 分钟</span>
     </span>
 </div>
 
@@ -368,6 +372,10 @@
 <p>不过 padavan 和许多 openwrt 固件下附带有本测试工具，也不用我编译了。</p>
 <h3 id="dhrystone"><a href="#dhrystone" class="headerlink" title="dhrystone"></a>dhrystone</h3><p>来自：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.openwrtdl.com/wordpress/%E6%9D%A5%E6%B5%8B%E6%B5%8B%E8%B7%AF%E7%94%B1%E5%99%A8cpu%E6%80%A7%E8%83%BD%E8%B7%91%E5%88%86">[源码]来测测路由器cpu性能跑分</a></p>
 <p>另一个二进制跑分工具。其中的二进制文件 <code>gcc_dry2-mt7621</code> 在 mt7620A 路由极路由 2 原版系统下可以直接运行。但在 newifi mini padavan 下运行结果报 0。而另一个含有 mt7620 的二进制文件 <code>dhrystone_2.1-1_ramips_1004kc_mt7621.ipk</code> 在两个设备上运行都报错（毕竟原本就应该是在 openwrt 下安装运行的） 。另外 x86 二进制在 linux 下不能运行，另外也没有 ac86u 用的版本（bcm4903）。但不知道其他固件是否附带有相应版本。</p>
+<h2 id="（21-1-30-更新）openssl-跑分"><a href="#（21-1-30-更新）openssl-跑分" class="headerlink" title="（21.1.30 更新）openssl 跑分"></a><strong>（21.1.30 更新）</strong>openssl 跑分</h2><p>在翻油管<a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.youtube.com/watch?v=7xKGoveWmrs&amp;t=316s">软路由相关视频</a>时偶然发现的。适用于自带 openssl 命令的设备（基本上 linux 都带的）。</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openssl speed -evp aes-256-gcm</span><br></pre></td></tr></tbody></table></figure>
+
+<p><code>aes-256-gcm</code> 也可以换成其他加密方式，比如 <code>chacha20-poly1305</code> 啥的。</p>
 <h2 id="刷机（mt7620-gt-openwrt）"><a href="#刷机（mt7620-gt-openwrt）" class="headerlink" title="刷机（mt7620->openwrt）"></a>刷机（mt7620-&gt;openwrt）</h2><p>直接编译上面那几个工具不管用。</p>
 <p>看来只能刷点大众版本然后从库里面找看看。先刷 newifi mini / 极路由 2。这两款路由同样是 mt7620A 方案，128m ram，8m flash。区别只有 newifi mini 的无线方案是 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.mediatek.cn/products/broadbandWifi/mt7612e">MediaTek | MT7612E</a>（参数来源：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.igao7.com/news/201501/2krIHZXzLCFRAVLO.html">迷你也满血，联想新路由newifi mini评测 | 爱搞机</a>），极路由的无线方案是 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.mediatek.com/products/broadbandWifi/mt7610e">MediaTek | MT7610E</a>（参数来源：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.zhihu.com/question/21971379/answer/19977583">如何评价极路由公司 2013 年 11 月发布的「极贰」路由器？ - 张导的回答 - 知乎</a>)。前者是 2x2，后者弱一些 1x1（但 5g wifi 速度同样是 433mhz）。还有！极路由 2 刷机前请用 breed 事先备份好 key，就在固件备份里面有一个单独的选项（我直接掉坑里爬不出来了，但到后面人家直接把这条路都铲了。。。详情可以看月底的后日谈）。</p>
 <p>注意：刷 breed 和 breed 怎么操作这个东西，本文不涉及，百度吧。</p>
@@ -416,7 +424,7 @@
 <li><p>开始编译（如果上面这步添加了许多功能，则需要开科学工具）。轻量服务器只有一个核心，所以 <code>-j1</code>，如果用物理机则看自己的配置改了。</p>
 <figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make -j1 V=s</span><br></pre></td></tr></tbody></table></figure>
 </li>
-<li><p>编译成功的固件和模块，在 <code>lede/bin/targets/ramips/mt7620</code> 里面，注意，如果按默认配置编译了 squashfs 版本的话，里面的 bin 应该有两个版本，一个叫 <code>xxxx.initramfs-kernel</code>，一个叫 <code>xxxxx.squashfs-sysupgrade</code>，记得刷后者！前者是只读的，我看后者有个 upgrade 还以为是更新专用第一次应该刷前一个，刷完以后我还纳闷软件包怎么可用空间为 0 重启后配置重置了，折腾了两天居然是这里出了问题-_-</p>
+<li><p>编译成功的固件和模块，在 <code>lede/bin/targets/ramips/mt7620</code> 里面，注意，如果按默认配置编译了 squashfs 版本的话，里面的 bin 应该有两个版本，一个叫 <code>xxxx.initramfs-kernel</code>，一个叫 <code>xxxxx.squashfs-sysupgrade</code>，记得刷后者！前者是只读的，我看后者有个 upgrade，还以为是更新专用的 rom，首次刷机不应该刷这个；刷完 initramfs-kernel 后我还纳闷软件包怎么可用空间为 0，配置好了重启一下怎么重置了，折腾了两天居然是这里出了问题-_-</p>
 </li>
 <li><p>刷完以后看看剩余空间，5g wifi，usb 驱动有没有问题（这几个地方容易出问题）。</p>
 </li>
@@ -496,6 +504,11 @@
 <p>有请终极 boss ac86u：</p>
 <p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/bcm4906.png"></p>
 <p>7620A 那几个菜鸡互啄，感觉不同系统差距不大？nono，其实我还测出过 280 多分忘记截图了，不记得是哪个拉跨系统了。。。但这几个比较正一点的系统看起来速度都还差不多。但到 ac86u 这里画风突变，10 倍杀。。。</p>
+<h3 id="openssl"><a href="#openssl" class="headerlink" title="openssl"></a>openssl</h3><p>极路由 2：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210130060354.png"></p>
+<p>ac86u：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210130060150.png"></p>
+<p>30 倍，直接秒成渣。。。</p>
 <h2 id="其他参考文章和小发现"><a href="#其他参考文章和小发现" class="headerlink" title="其他参考文章和小发现"></a>其他参考文章和小发现</h2><ol>
 <li><p>openwrt 目前还有几个小问题处理不掉，比如 ssh 中会突然出现乱码，特别是想按 tab 自动不全的时候，前面的命令可能就会突然冒出几个符号导致最后整条命令都错了。极路由 2 装上 openwrt 已联网提示灯亮不起来了。</p>
 </li>
@@ -556,8 +569,8 @@
 </div>
 
           <div class="post-tags">
-              <a href="/tags/openwrt/" rel="tag"># openwrt</a>
               <a href="/tags/padavan/" rel="tag"># padavan</a>
+              <a href="/tags/openwrt/" rel="tag"># openwrt</a>
               <a href="/tags/merlin/" rel="tag"># merlin</a>
           </div>
 
@@ -633,14 +646,14 @@
       <i class="fa fa-chart-line"></i>
     </span>
       <span>站点总字数：</span>
-    <span title="站点总字数">158k</span>
+    <span title="站点总字数">201k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">2:24</span>
+    <span title="站点阅读时长">6:05</span>
   </span>
 </div>
 <div class="busuanzi-count">
@@ -652,7 +665,9 @@
         <span id="busuanzi_value_site_uv"></span>
       </span>
     </span>
-</div><script color="120,120,120" opacity="0.5" zindex="-1" count="150" src="https://cdn.jsdelivr.net/npm/canvas-nest.js@1/dist/canvas-nest.js"></script>
+</div>
+  <div class="powered-by">本博客使用 <a href="https://hexo.io/" class="theme-link" rel="external nofollow noopener noreferrer" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" class="theme-link" rel="external nofollow noopener noreferrer" target="_blank">NexT.Muse</a> 
+  </div><script color="120,120,120" opacity="0.5" zindex="-1" count="150" src="https://cdn.jsdelivr.net/npm/canvas-nest.js@1/dist/canvas-nest.js"></script>
 <!--《添加网站运行时间 -->
 <!--<br/>-->
 <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
