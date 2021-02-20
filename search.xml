@@ -14,7 +14,7 @@
 </ul>
 <p>后两篇是第一篇的补充 / 原项目，在这里整合一下。</p>
 <h3 id="azure-面板操作"><a href="#azure-面板操作" class="headerlink" title="azure 面板操作"></a>azure 面板操作</h3><ol>
-<li><p>手工获取 <code>client_id</code> 和 <code>client secret</code>。上一篇文章中我详细讲过，跳过。</p>
+<li><p>手工获取 <code>client_id</code> 和 <code>client secret</code>。<a href="https://zbttl.github.io/azure-yang-mao-er/#%E9%85%8D%E7%BD%AE-OneIndex">上一篇文章</a>中我详细讲过，跳过。</p>
 </li>
 <li><p>获取 <code>authorization code</code> 和 <code>refresh_token</code>。这里的问题在于文章中获取 <code>refresh_token</code> 接口的<a href="https://heymind.github.io/tools/microsoft-graph-api-auth">网站</a>已经 gg 了。不过里面获取 code 的功能还能用。而获取 <code>access_token</code>，可以参考微软官网的操作 <a href="https://docs.microsoft.com/en-us/onedrive/developer/rest-api/getting-started/graph-oauth?view=odsp-graph-online#code-flow">Authorization for OneDrive API via Microsoft Graph - OneDrive dev center | Microsoft Docs</a> 手工获取。</p>
 <ol>
@@ -167,7 +167,7 @@
 <ul>
 <li>离线下载，<code>proxyDownload</code>，默认已打开；</li>
 <li>缓存，<code>cache</code>，默认已打开；</li>
-<li>小文件上传，<code>upload</code>，默认未打开，如需要打开，还得回到 azure 面板中打开 <code>Files.ReadWrite</code> 权限，可参考前一篇文章。</li>
+<li>小文件上传，<code>upload</code>，默认未打开，如需要打开，还得回到 azure 面板中打开 <code>Files.ReadWrite</code> 权限，可参考<a href="https://zbttl.github.io/azure-yang-mao-er/#%E9%85%8D%E7%BD%AE-OneIndex">上一篇文章</a>。</li>
 </ul>
 <p>未提到的，图床的缩略图功能并没有代码控制，不用手动打开。</p>
 <p>加密功能，类似于 oneIndex 的 <code>.password</code> 文件，在 <code>src/auth/config.js</code> 中，默认未打开。</p>
