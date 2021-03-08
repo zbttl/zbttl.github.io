@@ -23,36 +23,26 @@
     var NexT = window.NexT || {};
     var CONFIG = {"hostname":"zbttl-github-io.vercel.app","root":"/","images":"/images","scheme":"Muse","version":"8.1.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}};
   </script>
-<meta name="description" content="azure 学生包除了那一个 Linux 服务器，还有以下的东西（参考Azure 学生订阅包含内容 - 简书）  一年时间内包括： 100美元额度 2个免费主机（b1s 1核1G） 1个windows主机 1个linux主机 2个64G的免费磁盘 一个250G的SQLSERVER数据库 一个5 GB Azure Cosmos DB （可当做mongodb用） 每月20G流出流量免费（流入流量全免）">
+<meta name="description" content="fullcone 是啥？也称 nat1 或者是 nat 开放。简单来说，通讯中对方能获取你未修改的源 ip 和源端口基本就能识别成 fullcone nat。nat 一共有四种，就不细展开了。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="azure 羊毛（二）">
 <meta property="og:url" content="https://zbttl-github-io.vercel.app/azure-yang-mao-er/index.html">
 <meta property="og:site_name" content="Bao&#39;s 备忘录">
-<meta property="og:description" content="azure 学生包除了那一个 Linux 服务器，还有以下的东西（参考Azure 学生订阅包含内容 - 简书）  一年时间内包括： 100美元额度 2个免费主机（b1s 1核1G） 1个windows主机 1个linux主机 2个64G的免费磁盘 一个250G的SQLSERVER数据库 一个5 GB Azure Cosmos DB （可当做mongodb用） 每月20G流出流量免费（流入流量全免）">
+<meta property="og:description" content="fullcone 是啥？也称 nat1 或者是 nat 开放。简单来说，通讯中对方能获取你未修改的源 ip 和源端口基本就能识别成 fullcone nat。nat 一共有四种，就不细展开了。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210217185446.png">
-<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210218003811.png">
-<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210218015139.png">
-<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210218020450.png">
-<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210218032603.png">
-<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210218044156.png">
-<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210218045918.png">
-<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210218050036.png">
-<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210218051832.png">
-<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210218052107.png">
-<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210218052427.png">
-<meta property="article:published_time" content="2021-02-14T16:00:00.000Z">
-<meta property="article:modified_time" content="2021-02-19T23:43:57.548Z">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@master/img/20210118082936.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/pcfullcone.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/androidfullcone.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210116050102.png">
+<meta property="article:published_time" content="2020-04-01T16:00:00.000Z">
+<meta property="article:modified_time" content="2021-02-25T21:58:13.267Z">
 <meta property="article:author" content="zbttl">
-<meta property="article:tag" content="羊毛">
-<meta property="article:tag" content="azure">
-<meta property="article:tag" content="windows server">
-<meta property="article:tag" content="app service">
-<meta property="article:tag" content="acme.sh">
-<meta property="article:tag" content="托管">
-<meta property="article:tag" content="onedrive">
+<meta property="article:tag" content="游戏加速">
+<meta property="article:tag" content="socks">
+<meta property="article:tag" content="nat">
+<meta property="article:tag" content="fullcone">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210217185446.png">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@master/img/20210118082936.png">
 
 
 <link rel="canonical" href="https://zbttl-github-io.vercel.app/azure-yang-mao-er/">
@@ -205,7 +195,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <section class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Windows-server"><span class="nav-number">1.</span> <span class="nav-text">Windows server</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA"><span class="nav-number">1.1.</span> <span class="nav-text">创建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%81%E4%B9%A6%E7%94%B3%E8%AF%B7%E4%B8%8E%E9%AA%8C%E8%AF%81"><span class="nav-number">1.2.</span> <span class="nav-text">证书申请与验证</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OneIndex-app-service-version"><span class="nav-number">2.</span> <span class="nav-text">OneIndex app service version</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BB%BA%E7%AB%8B-Web-%E5%BA%94%E7%94%A8%EF%BC%88web%EF%BC%8C%E4%BA%8C%E9%80%89%E4%B8%80%EF%BC%89"><span class="nav-number">2.1.</span> <span class="nav-text">建立 Web 应用（web，二选一）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BB%BA%E7%AB%8B-web-%E5%BA%94%E7%94%A8%EF%BC%88CLI%EF%BC%8C%E4%BA%8C%E9%80%89%E4%B8%80%EF%BC%89"><span class="nav-number">2.2.</span> <span class="nav-text">建立 web 应用（CLI，二选一）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AF%BC%E5%85%A5%E9%A1%B9%E7%9B%AE"><span class="nav-number">2.3.</span> <span class="nav-text">导入项目</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE-OneIndex"><span class="nav-number">2.4.</span> <span class="nav-text">配置 OneIndex</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B6%E4%BB%96%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="nav-number">2.5.</span> <span class="nav-text">其他注意事项</span></a></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#fullcone-%E6%98%AF%E5%95%A5%EF%BC%9F"><span class="nav-number">1.</span> <span class="nav-text">fullcone 是啥？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BA%E5%95%A5%E6%8B%BF%E4%B8%8D%E5%88%B0-nat1%EF%BC%9F"><span class="nav-number">2.</span> <span class="nav-text">为啥拿不到 nat1？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#nat-%E6%B5%8B%E8%AF%95"><span class="nav-number">3.</span> <span class="nav-text">nat 测试</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95-nat-%E7%9A%84%E5%B7%A5%E5%85%B7"><span class="nav-number">3.1.</span> <span class="nav-text">测试 nat 的工具</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#windows"><span class="nav-number">3.1.1.</span> <span class="nav-text">windows</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#android"><span class="nav-number">3.1.2.</span> <span class="nav-text">android</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B5%8B-udp-%E6%98%AF%E5%90%A6%E8%81%94%E9%80%9A%E7%9A%84%E6%89%8B%E6%AE%B5%EF%BC%88%E6%90%AD%E7%9D%80%E6%A2%AF%E5%AD%90%E4%BA%A6%E5%8F%AF%E6%B5%8B%EF%BC%89"><span class="nav-number">3.2.</span> <span class="nav-text">测 udp 是否联通的手段（搭着梯子亦可测）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#vpn-%E4%BB%A3%E7%90%86%E8%BD%AF%E4%BB%B6-nat-%E6%B5%8B%E8%AF%95%E7%BB%93%E6%9E%9C%EF%BC%8821-1-18-%E8%AF%81%E6%98%8E%E5%B7%B2%E4%BD%9C%E5%BA%9F%EF%BC%89"><span class="nav-number">3.3.</span> <span class="nav-text">vpn 代理软件 nat 测试结果（21.1.18 证明已作废）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#socks-%E4%BB%A3%E7%90%86%E8%BD%AF%E4%BB%B6-fullcone-%E6%B5%8B%E8%AF%95%E7%BB%93%E6%9E%9C"><span class="nav-number">3.4.</span> <span class="nav-text">socks 代理软件 fullcone 测试结果</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E8%A7%A3%E5%86%B3%E4%B8%8D%E6%98%AF-nat1-%E7%9A%84%E9%97%AE%E9%A2%98%EF%BC%9F"><span class="nav-number">4.</span> <span class="nav-text">如何解决不是 nat1 的问题？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%AE%E6%94%B9%E8%B7%AF%E7%94%B1%E5%99%A8%EF%BC%8C%E4%BD%BF%E7%94%A8%E6%A1%A5%E6%8E%A5%E6%A8%A1%E5%BC%8F%E6%88%96%E6%8D%A2%E7%94%A8%E6%94%AF%E6%8C%81-nat1-%E7%9A%84%E5%9B%BA%E4%BB%B6"><span class="nav-number">4.1.</span> <span class="nav-text">修改路由器，使用桥接模式或换用支持 nat1 的固件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E7%AC%AC%E4%B8%89%E6%96%B9%E5%8A%A0%E9%80%9F%E5%99%A8-vps"><span class="nav-number">4.2.</span> <span class="nav-text">使用第三方加速器 &#x2F; vps</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%AE%E6%94%B9%E5%86%85%E6%A0%B8%EF%BC%8C%E5%AE%9E%E7%8E%B0-fullcone"><span class="nav-number">4.3.</span> <span class="nav-text">修改内核，实现 fullcone</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#centos7-%E5%86%85%E6%A0%B8%E6%94%B9%E8%A3%85"><span class="nav-number">4.3.1.</span> <span class="nav-text">centos7 内核改装</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#debian-%E5%86%85%E6%A0%B8%E6%94%B9%E8%A3%85"><span class="nav-number">4.3.2.</span> <span class="nav-text">debian 内核改装</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#iptables-fullcone-%E8%AE%BE%E7%BD%AE"><span class="nav-number">4.3.3.</span> <span class="nav-text">iptables fullcone 设置</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E7%B1%BB-vpn-%E5%B7%A5%E5%85%B7"><span class="nav-number">4.4.</span> <span class="nav-text">使用类 vpn 工具</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-socks-%E4%BB%A3%E7%90%86%E8%BD%AC-vpn-%E5%B7%A5%E5%85%B7"><span class="nav-number">4.5.</span> <span class="nav-text">使用 socks 代理转 vpn 工具</span></a></li></ol></li></ol></div>
         </section>
         <!--/noindex-->
 
@@ -220,7 +210,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">31</span>
+          <span class="site-state-item-count">33</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -233,7 +223,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">69</span>
+        <span class="site-state-item-count">73</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -308,14 +298,14 @@
       </span>
       <span class="post-meta-item-text">发表于</span>
 
-      <time title="创建时间：2021-02-15 00:00:00" itemprop="dateCreated datePublished" datetime="2021-02-15T00:00:00+08:00">2021-02-15</time>
+      <time title="创建时间：2020-04-02 00:00:00" itemprop="dateCreated datePublished" datetime="2020-04-02T00:00:00+08:00">2020-04-02</time>
     </span>
       <span class="post-meta-item">
         <span class="post-meta-item-icon">
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2021-02-20 07:43:57" itemprop="dateModified" datetime="2021-02-20T07:43:57+08:00">2021-02-20</time>
+        <time title="修改时间：2021-02-26 05:58:13" itemprop="dateModified" datetime="2021-02-26T05:58:13+08:00">2021-02-26</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -342,14 +332,14 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>5.8k</span>
+      <span>13k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>11 分钟</span>
+      <span>24 分钟</span>
     </span>
 </div>
 
@@ -360,154 +350,275 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <p>azure 学生包除了那一个 Linux 服务器，还有以下的东西（参考<a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.jianshu.com/p/98c77e0ea05d">Azure 学生订阅包含内容 - 简书</a>）</p>
-<blockquote>
-<p><strong>一年时间内包括：</strong></p>
-<p>100美元额度</p>
-<p>2个免费主机（b1s 1核1G）<br> 1个windows主机<br> 1个linux主机</p>
-<p>2个64G的免费磁盘</p>
-<p>一个250G的SQLSERVER数据库</p>
-<p>一个5 GB Azure Cosmos DB （可当做mongodb用）</p>
-<p>每月20G流出流量免费（流入流量全免）</p>
-<p>10个免费的App Service（可用于搭建OneIndex等不太占用流量的站点，好处有自带https，自带伪静态支持，自带用户验证，可以设成只有自己和指定的微软账号才能访问网站，并且全鼠标可视化操作，无需命令行敲代码。）</p>
-</blockquote>
-<p>20G 这个存疑（我之前得到的消息是 15G）。两个数据库没想通有啥用。。。那剩下的羊毛，就是 windows server 和 app service 这俩玩意了。</p>
-<h2 id="Windows-server"><a href="#Windows-server" class="headerlink" title="Windows server"></a>Windows server</h2><h3 id="创建"><a href="#创建" class="headerlink" title="创建"></a>创建</h3><p>参考文章：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://51.ruyo.net/11319.html">Windows Azure学生订阅额度完全使用(薅干)指南教程 - 教程资源|网络资源 - 如有乐享</a></p>
-<p>参考文章说的很清楚了，总结起来就是：</p>
-<ol>
-<li>建的时候选 b1s  smalldisk windows server 2012 r2，不用 smalldisk 后续磁盘缩不到 64g；单核也不建议用更高配置的系统；</li>
-<li>创建成功后停止虚拟机，修改磁盘大小。</li>
+        <h2 id="fullcone-是啥？"><a href="#fullcone-是啥？" class="headerlink" title="fullcone 是啥？"></a>fullcone 是啥？</h2><p>也称 nat1 或者是 nat 开放。简单来说，通讯中对方能获取你未修改的源 ip 和源端口基本就能识别成 fullcone nat。nat 一共有四种，就不细展开了。</p>
+<p>fullcone nat 的好处在许多网络游戏（尤其是 cod），只有 fullcone nat 才能匹配到最多的人，nat1 可以匹配 nat 全类型的人，相比之下 nat3 只能匹配到 nat1 和 nat3 的人，nat4 就只能匹配到 nat4 的人，也就是基本鬼服。另外在电驴和 ed2k 网络中，fullcone 能连到最多的节点，ed2k 想要获取 high id 也需要在 fullcone 下。</p>
+<p><strong>（21.2.6 更新）</strong> 推荐阅读 xray 作者 rprx 的最新力作：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/XTLS/Xray-core/discussions/237">进阶必读：代理协议 UDP 全方位透彻解析 · Discussion #237 · XTLS/Xray-core</a></p>
+<h2 id="为啥拿不到-nat1？"><a href="#为啥拿不到-nat1？" class="headerlink" title="为啥拿不到 nat1？"></a>为啥拿不到 nat1？</h2><p>从原理上来说，因为全球的 ip 地址不足以及安全上的原因，一般我们拿到的公网 ip 会被 nat 再次处理为内网 ip，如果对方收到的是设备的内网 ip 或者是被 nat 设备转发过的端口号，无法将数据准确返回，则会标为其他类型 nat。</p>
+<p>因此我一开始以为是内网 ip 的锅，毕竟公网 ip 比较难获取。后来发现并不是，虽然电信分配的并不是个固定 ip，但也是一个唯一的 ip，并没有其他人跟我共用这一个分配的 ip。</p>
+<p>真正的原因是，常见的路由器和光猫所使用的系统基于 linux 内核，linux 默认 nat 转发类型就是 Symmetric NAT，只要通过其进行转发，就会变成其他类型的 nat。</p>
+<p>另外，windows 防火墙的错误设置，以及对 udp 的限制（nat 的测试是在 udp 基础上进行的），都会造成 nat 测试结果变为其他类型。</p>
+<h2 id="nat-测试"><a href="#nat-测试" class="headerlink" title="nat 测试"></a>nat 测试</h2><h3 id="测试-nat-的工具"><a href="#测试-nat-的工具" class="headerlink" title="测试 nat 的工具"></a>测试 nat 的工具</h3><p>各类 nat 测试工具原理上有一些差异，导致测试出的结果经常会让人感到迷惑：例如 linux 本身的 nat 实际上是 nat4，但部分测试工具测出来的结果却是 nat2。不过从另一个角度说，nat 类型影响到的应用场景很有限，大部分情况也就是下载和游戏这两个场景受到的影响较大，所以直接通过下载软件、游戏测试当然最好。如果没有呢？测试用到了虚拟机，总不能让人装个 200g 的 cod 进虚拟机。。。</p>
+<h4 id="windows"><a href="#windows" class="headerlink" title="windows"></a>windows</h4><ol>
+<li>NatTypeTester。注意，该软件默认情况下可能不会触发 windows 防火墙的放行通知，导致测试出来的结果出错，得手动放行。</li>
+<li>pynat。可使用 pip 安装。<del>推荐，但极少数时候服务器出错会导致结果为 block。</del></li>
+<li><strong>（21.1.18 更新）</strong> <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/HMBSbige/NatTypeTester">HMBSbige/NatTypeTester: 测试当前网络的 NAT 类型（STUN）</a>。多个 stun 地址，支持 socks 代理。</li>
+<li><strong>（21.1.18 更新）</strong><a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/NetchX/Netch">NetchX/Netch: Game network accelerator. Support Socks5, Shadowsocks, ShadowsocksR, Trojan, VMess, VLess proxies. UDP NAT FullCone</a>。是测试工具，同时也是加速工具。</li>
 </ol>
-<p>另外还有两个细节：</p>
-<ol>
-<li>关闭实例优惠（默认应该就是关着的，而且一般人账号里面真的会有 windows server 2012 的授权吗）</li>
-<li>用新的资源组，和之前 Linux 那个资源组区分开，以免删除的时候出现不必要的麻烦。</li>
+<h4 id="android"><a href="#android" class="headerlink" title="android"></a>android</h4><ol>
+<li>STUNner。谷歌商店能下到，不过在 vpn 环境下（比如 wireguard）似乎不是很准。</li>
+<li>pynat。通过终端模拟器（推荐 termux） ，用 pip 安装运行。</li>
 </ol>
+<h3 id="测-udp-是否联通的手段（搭着梯子亦可测）"><a href="#测-udp-是否联通的手段（搭着梯子亦可测）" class="headerlink" title="测 udp 是否联通的手段（搭着梯子亦可测）"></a>测 udp 是否联通的手段（搭着梯子亦可测）</h3><p>udp 阻塞也是 nat 类型不为开放的原因之一。下文 nat 测试结果提到的某些工具，比如 kcptun-sip003 的 tcp 通过 udp 转发后 udp 直接被拦阻了；<del>以及几乎所有的手机端代理公族，都不转发 udp</del>（虽然手机端游戏很少有 nat 的说法，但阻塞的 udp 一定程度上会导致游戏加速效果不佳）。而测试 udp 是否连通，方法有以下几种。</p>
+<ol>
+<li><p>iperf（参考 17.2.10 日记）</p>
+</li>
+<li><p>dig udp dns</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dig '@208.67.222.222' -p 443 www.twitter.com</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>udpping</p>
+</li>
+</ol>
+<h3 id="vpn-代理软件-nat-测试结果（21-1-18-证明已作废）"><a href="#vpn-代理软件-nat-测试结果（21-1-18-证明已作废）" class="headerlink" title="vpn 代理软件 nat 测试结果（21.1.18 证明已作废）"></a><del>vpn 代理软件 nat 测试结果（21.1.18 证明已作废）</del></h3><p>socks 系代理配合 mellow。</p>
+<p>开放：</p>
+<ul>
+<li>ss 原版</li>
+<li>v2 原版</li>
+<li>v2 + tls</li>
+<li>v2 + kcptun</li>
+<li>ss + kcptun + udpspeeder</li>
+<li><del>ss + cloak 2.0</del>（原 ss 的 udp 未做处理，但 tcp 被拦阻，所以实际上是 ss 原版）</li>
+<li>trojan</li>
+</ul>
+<p>无 udp：</p>
+<ul>
+<li>ss + kcptun-sip003 </li>
+<li>ss + cloak 1.0</li>
+<li>v2ray mkcp</li>
+</ul>
+<p>对称：</p>
+<ul>
+<li>wireguard</li>
+<li>openvpn</li>
+</ul>
+<h3 id="socks-代理软件-fullcone-测试结果"><a href="#socks-代理软件-fullcone-测试结果" class="headerlink" title="socks 代理软件 fullcone 测试结果"></a>socks 代理软件 fullcone 测试结果</h3><p>促使我再做一次测试的导火索，是 xray 1.21 的更新日志：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@master/img/20210118082936.png"></p>
+<p>可我上次测试出的结论是 vmess 支持 fullcone 啊？后来我发现自己忽略了一个重要的问题：代理工具只转发 tcp 流量时，udp 可能 blocked 也可能直连，直连的情况下 fullcone 测试结果将套用的是本地路由的 nat 类型。。。而测试时我路由器安装的系统是 padavan，已经被我设置为光猫桥接 + nat1 模式了，最终造成报道上出了偏差（</p>
+<p>第二次测试不带那些正经的 vpn 玩了（正经的 vpn 都是全流量转发，不存在漏网之鱼的），只带上主流的 socks 代理工具，ss、trojan 和 v2ray（xray） 这三个。同时测试本次 xray 更新究竟能带来什么效果。这次我专门套了一个 nat3 的 openwrt 极路由用来测试。</p>
+<p>测试结果如下面两张图所示。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/pcfullcone.png"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/androidfullcone.png"></p>
+<p>第一张结果来自 windows，第二张结果来自 android。本来只计划测试 pc 端效果。后来发现 各 nat 测试工具连直连测试测出来的结果都不一致，索性把手机拉进来一起测，找找规律。</p>
+<p>测试结果不算太严谨，有少数几个测试的结果前面的测试做完就水落石出了，我觉得没必要再去测了，比如手机端的 xray 1.21-&gt; server 端 xray 1.22，更新日志里面都写了两边都要大于 1.21 的版本就会获得 fullcone，电脑这边也测过了，手机这边就不测了 。</p>
+<ul>
+<li><p>测试到一半我基本就理解 xray 的更新日志中这个 fullcone 指的是什么了，即<strong>旧版本 xray/v2ray/v2fly 的 ss 和 trojan udp 机制有问题导致 nat 类型错误</strong>，原版 ss 和 trojan/trojan-go 并不存在这个问题；vmess/vless 也有这个问题但对于它们来说这不是 bug 而是 feature。。。所以，更新前，server 和 client 有一端使用了 v2ray（xray) 本身的 trojan/ss 功能的话会出问题，更新后无论是 xray 内部的 trojan/ss 还是原版 ss/trojan 两两互联 nat 都不会有问题。值得一提的是，xray trojan 即使是使用 xray 的新特性由 vless+tcp 同端口 fallback 而来的，nat 也能保持在 1。</p>
+</li>
+<li><p>nat 测试工具中，我原本最为信任的 pynat 反而效果最为拉跨，只要用了代理就弹 fullcone；本身应该弹 fullcone 的反而弹 nat3（使用 mellow 时，不过不排除是 mellow 本身的问题）。新版 NatTypeTester 尚可，没出现什么原则性错误，就是有时用不同的 stun 测试机结果可能会不一样，个人感觉 <code>stun.qq.com</code> 比较准，而默认的 syncthing stun 在 Symmetric 下经常会报 UnsupportServer。netch 虽然准却有「既当运动员又当裁判」的嫌疑；手机端 stunner 除了需要多次测试出结果外，准确率也尚可。</p>
+</li>
+<li><p>某些场景下出现了「假打洞」的现象：多次测试后本身结果应为 nat3 的会慢慢变成 nat2 甚至是 nat1。常出现于在虚拟机 vmware 中使用 pynat 和在 android 中使用 pynat 的情况，偶尔也出现在 NatTypeTester 测试中（无论是虚拟机还是实机）。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210116050102.png"></p>
+</li>
+<li><p>所以原则上我不用虚拟机进行 nat 测试，但。。。mellow 现在的表现实在拉跨，我在实机上开几次才能成功连上一次，bug 不少。用较为干净的虚拟机，清理了注册表后，勉强能进行测试，不过嘛。。。看这测试效果，也许是我配置错了什么地方？</p>
+</li>
+<li><p>标黄色部分的 pynat 测试结果，nat 测出 3 是因为刚开始我不太会配置 netch 的进程模式。之后用 mellow 的时，通过内置的流量路径监控日志才观察到 pynat 的流量路径是这样的：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">windowsTerminal.exe-&gt;powershell.exe-&gt;pynat.exe-&gt;python.exe</span><br></pre></td></tr></tbody></table></figure>
+
+<p>把这些全加到代理的进程列表中就行了。不过看后续的测试效果，也能估计出那些标黄的应该都是 nat1，没有改变 pynat 拉跨的结论（该标 3 的全部给标 1 了）。</p>
+</li>
+<li><p>netch 通过 socks 配合其他代理使用只能在进程模式下生效。在 tap 模式没办法排除进程会导致无限 loopback；<del>用除了 socks 以外的代理，启动时都会开一个 socks5 一个 http 代理端口，但用 socks5 的话 netch 就只会开一个 http 端口，好死不死 NatTypeTester 不支持 http 代理</del>（废话，http 代理不支持 udp 还测个啥）。。。所以除了 tun/tap 的测试中我没引入加了二级代理才有的功能。</p>
+</li>
+</ul>
+<p><strong>(21.2.14 更新)</strong> xray 的最新更新通过巧妙的方法解决了 fullcone 的问题，鼓掌！而且通过测试 mkcp 也能正常的获取 fullcone 了。另外当时我的 netTester 版本为 3.4，目前最新的版本据悉已经解决了 vmess 显示为 unsupported 的诡异问题（待测试）。</p>
+<h2 id="如何解决不是-nat1-的问题？"><a href="#如何解决不是-nat1-的问题？" class="headerlink" title="如何解决不是 nat1 的问题？"></a>如何解决不是 nat1 的问题？</h2><h3 id="修改路由器，使用桥接模式或换用支持-nat1-的固件"><a href="#修改路由器，使用桥接模式或换用支持-nat1-的固件" class="headerlink" title="修改路由器，使用桥接模式或换用支持 nat1 的固件"></a>修改路由器，使用桥接模式或换用支持 nat1 的固件</h3><p>之前说过 linux 内核设备只要经过流量转发 nat 就不是 fullcone 了。换言之，通过 ssh 连进路由器，在路由器上运行 nat 检测那还会是 fullcone nat，但在连入路由器的设备上检测那就都是 nat4了。</p>
+<p>更别说许多家庭用户使用光猫 + 路由器的组合，而光猫也处在路由模式下，就会造成双重 nat。</p>
+<p>解决方法有几种，包括：</p>
+<ol>
+<li>使用 dmz 和 upnp。通过搜索引擎能查到最常见的方法，实际使用中就会发现一个是在多重 nat 环境中配置复杂，<del>而且实际上我没配置好 upnp 后就没生效成功过，</del> dmz 一次只对一个设备有效，设置了 dmz 也只能保证内网里其中一台设备的 nat 为 1。</li>
+<li>在需要 nat1 的设备上进行拨号，将 linux 设备设置为桥接。对于光猫后面挂着路由器的用户来说，完全没有必要用光猫进行路由，或者家中只有一台网络设备（比如电脑），或者能够进行多拨的地区，就算是直接链接光猫也可以这么设置，因为完全没必要路由。但如果家中有多台设备且不能多拨，那如此设置的话就只有其中进行拨号的那台设备能上网了。另外，想要把光猫设置为桥接模式可能需要超级管理员帐号。</li>
+<li>使<del>需要进行拨号并</del>开启路由的设备支持 fullcone 转发，比如使用 windows 系统的软路由；或是是刷入支持 fullcone 模式的固件，新版本的 padavan 和 openwrt 应该都可以。意料之外的是某些光猫也支持设置为 fullcone 模式，比如臭名昭著的 tewa-e500。。。不过同样需要超管帐号。</li>
+</ol>
+<p>总结一下，对于大部分光猫 + 路由的用户，将光猫设置为桥接，路由开启 fullcone 转发即可。而单光猫或者无光猫单路由则需要在光猫上开启 fullcone，或者直接用需要 nat1 的设备拨号（比如 windows 电脑，比如 xbox/ps4）。</p>
 <hr>
-<p>接着就能通过 rdp 愉快的使用了。一般来说，windows server 我们是用来挂机的，不过。。。如果我也想用这玩意来做「科学」用途呢（</p>
-<h3 id="证书申请与验证"><a href="#证书申请与验证" class="headerlink" title="证书申请与验证"></a>证书申请与验证</h3><p>Windows 的各种操作大部分人都很熟悉，但搭建像 Linux 那样用途的服务器，因为环境和生态的原因，操作上还是有巨大的差距的。Windows 这边申请证书虽然有比较官方的 win-acme，但一个是刚转过来的我对这玩意比较陌生，二个是它用的 cloudflare 接口不仅是外挂的而且还要单开 api 接口参数， 而 Linux 这边的 acme.sh 只需要默认的 CF_Key，这么一对比还是后者更趁手。Windows 上用熟悉的 Linux 工具解决问题，呃。。。这很不优雅但有用（x）</p>
-<ol>
-<li><p>装 chocolatey 和 git。</p>
-<p>吐槽一句自带的服务器版 ie 实在是太烦人了。。。还好有 chocolatey 可以直接装东西不用通过浏览器（</p>
-<p>装 git 的原因是因为 git 自带精简版的 mingw。当然如果你要运行的东西需要一些其他的 dependence，装 cygwin 或 msys2 也不是不行（</p>
-<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))</span><br><span class="line">choco install git -y</span><br></pre></td></tr></tbody></table></figure>
-</li>
-<li><p>用 choco 安装 acme.sh。</p>
-<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">choco install acme.sh -y</span><br></pre></td></tr></tbody></table></figure>
-
-<p>导航到 acme.sh 的安装目录，目前最新的版本是 2.88，用 chocolatey 安装的话大概就会在 <code>C:\ProgramData\chocolatey\lib\acme-sh\tools\acme.sh-2.8.8</code> 这里。</p>
-<p>右键空白处，点击 <code>git bash here</code>。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210217185446.png"></p>
-</li>
-<li><p>接下来就是大家熟悉的操作了。可以参考<a target="_blank" rel="external nofollow noopener noreferrer" href="https://zbttl.github.io/yi-bu-dao-wei-de-vps-cong-ru-men-dao-fang-qi/#%E5%85%B3%E4%BA%8E%E8%AF%81%E4%B9%A6%E7%9A%84%E9%85%8D%E7%BD%AE">一步到位的vps从入门到放弃 | Bao’s 备忘录</a>。最后证书建议安装在一个路径固定的目录（方便以后操作，放在桌面等 <code>C:/Users/xxx</code> 打头的目录），但不要放在 c 盘根（权限问题）。我自己放在 %public% 文件夹（即  <code>C:\Users\Public</code>），新建的 <code>ssl</code> 文件夹中。</p>
-<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">export CF_Key="xxxxxx"</span><br><span class="line">export CF_Email="xxxxxx"</span><br><span class="line">./acme.sh --issue --dns dns_cf -d baobaobao.club -d *.baobaobao.club -k ec-256</span><br><span class="line">mkdir C:\\Users\\Public\\ssl</span><br><span class="line">./acme.sh --installcert -d baobaobao.club --keypath 'C:\Users\Public\ssl\baobaobao.key' --fullchainpath 'C:\Users\Public\ssl\baobaobao.crt' --ecc</span><br></pre></td></tr></tbody></table></figure>
-</li>
-<li><p>acme.sh 的自动续签依赖于 Linux 的 crontab。windows 没这玩意，只能自己搞个伪劣版（</p>
-<p>新建 <code>acme-cron.sh</code> 放在 %public% 下</p>
-<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">#!/usr/bin/env bash</span><br><span class="line">cd 'C:\ProgramData\chocolatey\lib\acme-sh\tools\acme.sh-2.8.8'</span><br><span class="line">./acme.sh --renew --dns dns_cf -d baobaobao.club -d '*.baobaobao.club' -k ec-256</span><br><span class="line"> ./acme.sh --installcert -d baobaobao.club --keypath 'C:\Users\Public\ssl\baobaobao.key' --fullchainpath 'C:\Users\Public\ssl\baobaobao.crt' --ecc</span><br></pre></td></tr></tbody></table></figure>
-
-<p>在同一目录下新建 <code>acme.bat</code></p>
-<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">@echo off</span><br><span class="line">cmd /c ""%PROGRAMFILES%\Git\bin\bash.exe" --login -i -- %PUBLIC%\acme-cron.sh"</span><br></pre></td></tr></tbody></table></figure>
-
-<p>新建一个计划任务</p>
-<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">schtasks /Create /tn acme-renew /tr "%public%/acme.bat" /sc  DAILY /st  00:00:00</span><br></pre></td></tr></tbody></table></figure>
-
-<p>每天 0 点这个脚本就会弹窗定时续签了。反正是远程 rdp，又不是 24 小时盯着的，弹窗啥的，无所谓吧~</p>
-</li>
-</ol>
+<p>不过，如果是配合代理使用，上述措施均不需要。请看下文。</p>
+<h3 id="使用第三方加速器-vps"><a href="#使用第三方加速器-vps" class="headerlink" title="使用第三方加速器 / vps"></a>使用第三方加速器 / vps</h3><p>最省心的方法。只要你购买的服务器/加速器上 nat 转发配置正确，经过代理后你的 nat 就会处于开放类型。你只需要付钱即可。</p>
+<p>当然，比较低端便宜的加速器技术人员这方面可能弄得不太行（最典型的，雷神加速器就是这样）。</p>
+<p>对于 bt 下载也是如此，你可以将直接使用 vps 上搭建的相关工具下载，下载完后再拖回本地，vps 的 ip 一般处在公网且位于国外，能获取到质量最好的 tracker。小心蜜罐种子就是。</p>
 <hr>
-<p>什么你说其他内容？不就剩下一个工具吗。</p>
-<p>工具选择 v2，因为 v2 客户端服务端二进制是二合一的，只取决于配置文件如何配置，不需要再去考虑自己二进制版本是 sever 版还是 client 版。还有记得开放防火墙。</p>
-<p>还不会就手放键盘脑补吧，前有嘴含内存条脑补游戏画面，今有申请了证书后手放键盘脑补 p 站首页（雾</p>
-<h2 id="OneIndex-app-service-version"><a href="#OneIndex-app-service-version" class="headerlink" title="OneIndex app service version"></a>OneIndex app service version</h2><p>我刚好有 office 365 家庭版，也试过挂在 vps 上，但 app service 这类 PaaS 我没那么熟，这次就折腾看看。</p>
+<p>然而使用本地的 pc bt 工具（比如 qbitorrent）通过代理下载 bt 时，就要考虑代理性能问题了（虽然一般的游戏用的 vpn / 加速器禁止 bt）。udp 不通的代理查看流量走向的话，会发现软件流量走代理， bt 不走代理（不过我怀疑 tcp 方面的流量代理上了有部分加速效果）。而 udp 通畅但 nat 类型不对的话可能代理后效果比代理前还差（存疑）。</p>
+<h3 id="修改内核，实现-fullcone"><a href="#修改内核，实现-fullcone" class="headerlink" title="修改内核，实现 fullcone"></a>修改内核，实现 fullcone</h3><p><del>对于本身会修改规则和转发的代理工具来说，直接代理（socks 代理）就会实现 nat1，比如 ss，v2ray，不过他们本身用于科学用途，流量经过多重加密，性能反而一般，用在游戏上拖慢速度和丢包。</del> 其实综合来算 socks 代理效率要高于 vpn（vpn 要保证安全性，使用的加密算法强度普遍较高），不过部分 socks 代理的 udp 代理实现有问题，而正经一点的 vpn（wireguard，openvpn 等），不存在这方面的问题。（虽然有另一种说法 wireguard + udpspeeder 是代理加速游戏最好的方案，但我目前用本地电信实验效果并不理想，况且我家电信还没有受到 udp qos 影响）。</p>
+<p>然而全流量代理的会直接套用被代理设备系统 netfilter 的 nat，造成测出的 nat 变为 4。</p>
+<p>解决方案是，让系统支持 fullcone nat 并修改其 iptables 使中转流量全部按 fullcone nat 处理。</p>
 <p>参考文章：</p>
-<ul>
-<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.imaegoo.com/2020/azure-app-service/">体验 Azure 应用服务：可以白嫖的 OneIndex 空间 - iMaeGoo’s Blog</a></li>
-</ul>
-<p>开服务既可以走 web 也可以走 cli：</p>
-<h3 id="建立-Web-应用（web，二选一）"><a href="#建立-Web-应用（web，二选一）" class="headerlink" title="建立 Web 应用（web，二选一）"></a>建立 Web 应用（web，二选一）</h3><ol>
-<li><p>在 azure 首页 -&gt; 创建资源 -&gt; 查看全部，搜索框中输入 web 应用，创建。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210218003811.png"></p>
-</li>
-<li><p>创建页面参考上一篇文章 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://zbttl.github.io/github-xue-sheng-bao-he-azure-yang-mao/#%E5%88%9B%E5%BB%BA%E8%99%9A%E6%8B%9F%E6%9C%BA">github 学生包和 azure 羊毛 - 创建虚拟机</a>，同样的最好不要和别的项目共用资源组。唯一要修改的地方是运行时堆栈选择 php 7.3。没提到的地方保持默认。最后点击下一步 -&gt; 创建，等他创建完成。</p>
-</li>
-</ol>
-<h3 id="建立-web-应用（CLI，二选一）"><a href="#建立-web-应用（CLI，二选一）" class="headerlink" title="建立 web 应用（CLI，二选一）"></a>建立 web 应用（CLI，二选一）</h3><p>微软的 web 面板反应迟钝，也可以通过 CLI 创建，需要通过 azure-cli 软件。下文参考<a target="_blank" rel="external nofollow noopener noreferrer" href="https://ld246.com/article/1542285912094">使用 Azure App Service 免费计划部署 Solo 博客过程记录 - 链滴</a>。</p>
 <ol>
-<li><p>安装 azure-cli</p>
-<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">choco install azure-cli -y</span><br></pre></td></tr></tbody></table></figure>
-</li>
-<li><p>登录 Azure 账号</p>
-<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">az login</span><br></pre></td></tr></tbody></table></figure>
-
-<p>查看所有订阅，这里面 “id” 后面的这一串就是待会要用到的订阅 id</p>
-<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">az account list --all</span><br></pre></td></tr></tbody></table></figure>
-
-<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210218015139.png"></p>
-<p>选择一个education 订阅进行操作</p>
-<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">az account set -s [订阅ID]</span><br></pre></td></tr></tbody></table></figure>
-
-<p>创建部署用户（用户名密码自己起）</p>
-<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">az webapp deployment user set --user-name [用户名] --password [密码]</span><br></pre></td></tr></tbody></table></figure>
-
-<p>查看所有部署用户</p>
-<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">az webapp deployment user show</span><br></pre></td></tr></tbody></table></figure>
-
-<p>查看所有可用区域</p>
-<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">az account list-locations</span><br></pre></td></tr></tbody></table></figure>
-
-<p>创建资源组，-l 这里输入刚刚可用区域里面找到的相应区域名字，这里选择 East Asia（即香港区，其实部署在哪里无所谓啦，最后流量也不走服务器，目录查看并不太吃流量和速度）</p>
-<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">az group create -l eastasia -n [资源组名称]</span><br></pre></td></tr></tbody></table></figure>
-
-<p>创建免费的应用服务计划，注意这里 -n 参数和上面的 -n 参数含义不一样（毕竟 -n 应该是代表 new），这里的是服务器计划名称，资源组名称填在 -g。服务计划名称中不能含有下划线。</p>
-<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">az appservice plan create -n [服务计划名称] -g [资源组名称] --sku FREE</span><br></pre></td></tr></tbody></table></figure>
-
-<p>查看运行时堆栈</p>
-<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">az webapp list-runtimes</span><br></pre></td></tr></tbody></table></figure>
-
-<p>创建应用。这里 -n 又变成应用服务名称了，服务计划名称放在 -p（plan）。我用的是 powershell，后面 -r 这里需要双重转义。用 cmd 的填 <code>-r "php|7.3"</code> 就行。</p>
-<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">az webapp create -g [资源组名称] -p [服务计划名称] -n [应用服务名称] -r '"php|7.3"'</span><br></pre></td></tr></tbody></table></figure>
-
-</li>
+<li>指南类</li>
 </ol>
-<h3 id="导入项目"><a href="#导入项目" class="headerlink" title="导入项目"></a>导入项目</h3><ol>
-<li><p>创建完毕后从 azure 面板资源组找到创建的应用服务和应用服务计划，点开应用服务。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210218020450.png"></p>
-</li>
-<li><p>找到左侧的部署中心，右边会显示「未配置 CI/CD」，顺着按钮转到设置。在设置一项 -&gt; 源中选择本地 git 并保存。另外提一嘴，这里用 github 应该才是最方便的，但选 github 底下堆栈那里找不到 php，莫非是不支持？那就没辙了。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210218032603.png"></p>
-</li>
-<li><p>转到右侧的凭据，记下克隆 url，用户名和密码。用户名只用记以 $ 打头的后半部分（不知道为啥新版部署中心这里这么写，我第头几次输用户名的时候疯狂报错，后来到旁边的经典部署中心才发现斜杠前面的部分是多余的，不过旧版部署中心。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210218044156.png"></p>
-</li>
-<li><p>拉取 oneindex 项目到本地。oneindex 源项目已经被删掉挺久了。。。这里给出两个克隆 / 魔改版：</p>
 <ul>
-<li><del><a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/steven52880/Oneindex-Mod">steven52880/Oneindex-Mod: 适用于有较快php空间、小文件长时间展示不修改的情况。 比如展示多个小文件html，展示markdown等。</a></del></li>
-<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/cyrilsoy/Oneindex">cyrilsoy/Oneindex: Onedrive Directory Index</a></li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://kotori.net/2020/01/08/%e7%ae%80%e5%8d%95%e6%93%8d%e4%bd%9c%e4%bd%bf-centos-%e6%94%af%e6%8c%81-fullcone-nat/">简单操作使 CentOS 支持 Fullcone NAT</a></li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.jianshu.com/p/88e7cd6a0c95">Centos 7当网关启用Fullcone nat</a></li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://888777.xyz/vpstalk/45203.html">有玩实况足球在线对战的朋友么，需要买哪里的服务器？（详情见评论区）</a></li>
 </ul>
-<p>后者是谷歌搜到的第一个，我翻了一下代码，又亲自部署了一下感觉没问题；前者来自 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://t.me/NewlearnerChannel">Newlearnerの自留地</a> 之前的推荐（后续发现部署错误，疑似回调接口损坏）。</p>
-   <figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/steven52880/Oneindex-Mod.git</span><br><span class="line">cd oneindex</span><br><span class="line">git remote add azure [部署URL]</span><br><span class="line">git push azure -f</span><br></pre></td></tr></tbody></table></figure>
+<ol start="2">
+<li>细节类</li>
+</ol>
+<ul>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.centos.bz/2017/08/upgrade-centos-7-6-kernel-to-4-12-4/">升级Centos 7/6内核版本到4.12.4的方法</a></li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.jianshu.com/p/fdf6bb6c5b9c">CentOS 7. × 系统及内核升级指南</a></li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://blog.csdn.net/xu_Melon/article/details/79043320">解决service iptables save出错please try to use systemctl.</a></li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://linux.vbird.org/linux_server/centos6/0250simple_firewall.php#netfilter_syntax_policy">第九章、防火牆與 NAT 伺服器</a></li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://dev.to/isabelcmdcosta/installing-nftables-from-sources-ondebian--4ic">Installing nftables from sources on Debian</a></li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://blog.csdn.net/w504430863/article/details/42964133">设置未识别的网络默认为专用网络</a></li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://askubuntu.com/questions/1052919/iptables-reload-restart-on-ubuntu-18-04">Iptables reload/restart on Ubuntu 18.04</a></li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://blog.csdn.net/hunanchenxingyu/article/details/38867931">ubuntu/debian 模块加载方式</a></li>
+</ul>
+<p>尽管我常用 debian，不过好像没有找到 debian 类系统的教学（主要不同点在于内核更换，模块的加载，还有 iptables 的自启上），centos 的倒是蛮多。但 centos 坑也不少，所以先试试 centos7 的。</p>
+<h4 id="centos7-内核改装"><a href="#centos7-内核改装" class="headerlink" title="centos7 内核改装"></a>centos7 内核改装</h4><ol>
+<li><p>更换内核。先吐槽一句，centos 更换内核比 debian 麻烦多了，后者下好内核和 header 就能用，centos 还得多下 devel 之类的几样东西，而且还得在官方源里面下，自己下载上传的不好装。。。</p>
+<p>fullcone-nat 模块对内核版本还是有一定要求，太新不行太旧也不行，好消息是支持 bbr 那几个内核基本都成，连 bbr-plus 那个自制内核都成。但锐速那个旧内核，和 centos7 默认定制的这个 3.10 就不要想了。。。</p>
+<p>先添加源</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">rpm -import https://www.elrepo.org/RPM-GPG-KEY-elrepo.org</span><br><span class="line">rpm -Uvh http://www.elrepo.org/elrepo-release-7.0-2.el7.elrepo.noarch.rpm</span><br></pre></td></tr></tbody></table></figure>
 
-<p>如果 git push 这一步密码不慎输错的话。。。有可能需要到 windows 的凭据管理器 -&gt; windows 凭据中删除相应凭据回来再执行最后一步（直接修改可能不行）。</p>
+<p>查看有哪些内核能用：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum --disablerepo="*" --enablerepo="elrepo-kernel" list available</span><br></pre></td></tr></tbody></table></figure>
+
+<p>现阶段能看到，mainline 的内核有点新，都是 5.x 系的；而长期支持版内核符合要求，装 lt 就好了。</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y --enablerepo=elrepo-kernel install kernel-lt.x86_64</span><br></pre></td></tr></tbody></table></figure>
+
+<p>装完重启。</p>
+<p>重启以后查看默认内核顺序</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">awk -F\' '$1=="menuentry " {print $2}' /etc/grub2.cfg</span><br></pre></td></tr></tbody></table></figure>
+
+<p>改 lt 内核顺序到开机顺序第一位</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/default/grub</span><br></pre></td></tr></tbody></table></figure>
+
+<p>改这句的数字到刚刚查看开机顺序看到 lt 内核所在的未知，注意位置是从 0 开始算。</p>
+<p>打个比方查看到的内核顺序，lt 内核在第二位</p>
+<p>那么，改 grub 文件的这一行为</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GRUB_DEFAULT=1</span><br></pre></td></tr></tbody></table></figure>
+
+<p>更新 grub</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">grub2-mkconfig -o /boot/grub2/grub.cfg</span><br></pre></td></tr></tbody></table></figure>
+
+<p>重启后查看当前内核对不对</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">uname -r</span><br></pre></td></tr></tbody></table></figure>
+
+<p>然后查看当前内核与相关的编译模块有哪些</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpm -qa | grep kernel</span><br></pre></td></tr></tbody></table></figure>
+
+<p>原来 3.10 相关的 devel 和 header 等等等，全部删掉，否则待会会干扰 lt 内核其他模块的安装（下面这个命令只是打个比方，肯定不止这一个模块）</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum remove -y kernel-tools-3.10.0-514.26.2.el7.x86_64</span><br></pre></td></tr></tbody></table></figure>
+
+<p>然后安装剩下的 lt 模块，如果不知道还剩哪些的话，可以用「查看有哪些内核能用」那里的命令再确认一下。下面的命令也是仅供参考：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y --enablerepo=elrepo-kernel install kernel-lt-devel.x86_64 kernel-lt-headers.x86_64 kernel-lt-tools.x86_64 </span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>安装依赖。注意，安装依赖一定在更新内核之后，因为依赖和内核版本挂钩。然后待会的编译一定在安装依赖之后，原因相同。如果发现装的内核不对的话，更新完内核还要再装一边依赖，然后再去编译，否则大概率出现奇奇怪怪的问题。</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install gcc gcc-c++ autoconf autogen libmnl libmnl-devel libtool-devel libtool git -y</span><br></pre></td></tr></tbody></table></figure>
+
+<p>另外，装一个原版的 iptables，先把 firewalld 干了（不过我感觉大部分 centos7 默认都不装这玩意）</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">systemctl stop firewalld</span><br><span class="line">systemctl mask firewalld</span><br></pre></td></tr></tbody></table></figure>
+
+<p>然后安装，设置开机启动</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">yum install iptables-services</span><br><span class="line">systemctl enable iptables</span><br></pre></td></tr></tbody></table></figure>
+
+<p>看看版本，应该是 v1.42</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -V</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>下载所要编译的三个模块源码，一个是 fullcone-nat 模块的依赖，一个是模块本身，另一个是 iptables 模块</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git clone git://git.netfilter.org/libnftnl.git</span><br><span class="line">git clone git://git.netfilter.org/iptables.git</span><br><span class="line">git clone https://github.com/Chion82/netfilter-full-cone-nat.git</span><br></pre></td></tr></tbody></table></figure>
+
+<p>然后就是编译安装</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">#编译 libnftnl</span><br><span class="line">cd libnftnl</span><br><span class="line">sh autogen.sh</span><br><span class="line">./configure</span><br><span class="line">make</span><br><span class="line">make install</span><br><span class="line"></span><br><span class="line">cd ..</span><br><span class="line"></span><br><span class="line">#编译fullcone-nat</span><br><span class="line">cd ~/netfilter-full-cone-nat</span><br><span class="line">make</span><br><span class="line">modprobe nf_nat</span><br><span class="line">insmod xt_FULLCONENAT.ko</span><br><span class="line"></span><br><span class="line">cd ..</span><br><span class="line"></span><br><span class="line">#编译 iptables</span><br><span class="line">cp ~/netfilter-full-cone-nat/libipt_FULLCONENAT.c ~/iptables/extensions/</span><br><span class="line">ln -sfv /usr/sbin/xtables-multi /usr/bin/iptables-xml</span><br><span class="line">./autogen.sh</span><br><span class="line">PKG_CONFIG_PATH=/usr/local/lib/pkgconfig</span><br><span class="line">export PKG_CONFIG_PATH</span><br><span class="line">./configure</span><br><span class="line">make</span><br><span class="line">make install</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>关闭原来 iptables 的 service，换入现在 iptables 的 service，因为刚刚安装的位置和真正 iptables services 指向的位置不一样，没有执行替换的话，待会写入带 FULLCONENAT 的 nat 规则后用 <code>service iptables save</code> 保存就会报错。</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">#先关闭iptables</span><br><span class="line">systemctl  stop iptables</span><br><span class="line">#删除原来的iptables</span><br><span class="line">rm -rf /sbin/iptables</span><br><span class="line">rm -rf /sbin/iptables-restore</span><br><span class="line">rm -rf /sbin/iptables-save</span><br><span class="line">#复制你自己编译的iptables</span><br><span class="line">cd /usr/local/sbin</span><br><span class="line">cp /usr/local/sbin/iptables /sbin/     </span><br><span class="line">cp /usr/local/sbin/iptables-restore /sbin/</span><br><span class="line">cp /usr/local/sbin/iptables-save /sbin/</span><br><span class="line">#检验iptables版本，应该是 1.8.4</span><br><span class="line">iptables -V</span><br></pre></td></tr></tbody></table></figure>
+
+<p>注意那三句 cp 一句句执行，因为每句都要按一次 y，全部一起执行的话只会出一次 y，只替换第一个 iptables 文件。</p>
+</li>
+<li><p>设置开机自动加载 Fullcone 模块</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">kernel=`uname -r`</span><br><span class="line">cp ~/netfilter-full-cone-nat/xt_FULLCONENAT.ko  /lib/modules/$kernel/</span><br><span class="line">depmod</span><br><span class="line">echo "modprobe xt_FULLCONENAT" &gt; /etc/sysconfig/modules/xt_FULLCONENAT.modules</span><br><span class="line">chmod 755 /etc/sysconfig/modules/xt_FULLCONENAT.modules</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>重启，检查</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lsmod | grep xt_FULLCONENAT</span><br></pre></td></tr></tbody></table></figure>
+
+<p>有输出即可。</p>
+</li>
+<li><p>未来保存规则，可通过</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">service iptables save</span><br><span class="line">service iptables restart</span><br></pre></td></tr></tbody></table></figure>
+
+<p>生效。</p>
 </li>
 </ol>
-<h3 id="配置-OneIndex"><a href="#配置-OneIndex" class="headerlink" title="配置 OneIndex"></a>配置 OneIndex</h3><p>在部署中心处点击右侧的浏览，进入 OneIndex 站点。如果进去的时候发现不是下面这个样子，多半是还在部署，等等吧，等日志中显示部署成功。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210218045918.png"></p>
-<p>点击下一步，点击获取应用 id 和机密，按要求操作，不出意料第一个界面会返回 client secret 而第二个界面中有 client_id，回来填入即可。</p>
-<p>如果不成功的话，可以尝试手动获取。其中一个框里面已经填上了网址，这就是待会要用到的回调 url。记下来。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210218050036.png"></p>
-<p>「回到」 azure。这里的回到打引号是因为开服务的这个号可以完成使命了，你可以换另一个号来获取剩下的内容（当然继续用开服务的这个号也可以）。搜索并进入「应用注册」，名称随便填；受支持的账户类型选最长的那一个；重定向 url 就填我们刚刚获得的回调 url。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210218051832.png"></p>
-<p>点击确定后跳转到概要，记下其中的应用程序(客户端) ID。这个是 OneIndex 注册界面中 Client_id 的值。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210218052107.png"></p>
-<p>从左侧面板来到证书和密码，点新客户端密码，说明随便起，截止日期可选从不。点击添加后，这个值便是 OneIndex 注册界面中的 Client_secret。记得保存好，出了该页面再回来这个值就会被打码（不过也没什么，删掉再建就行）。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210218052427.png"></p>
-<p>来到 api 权限，点击添加权限，看到那个大大的 microsoft Graph，点进去，选委托的权限，勾选 OpenId 类下的 <code>offline_access</code>，Files 类下的 <code>Files.Read</code>、<code>Files.Read.All</code> 共三个权限，点击添加权限即可。</p>
-<p>回到 OneIndex，填上这两个值即可。</p>
-<p>后续按照流程绑定账号，不出意料就能进入管理界面了（默认密码 OneIndex）。完成部署。</p>
-<h3 id="其他注意事项"><a href="#其他注意事项" class="headerlink" title="其他注意事项"></a>其他注意事项</h3><p>OneIndex 我只想共享两个目录的内容，但根目录下那么多文件夹一个个设置排除很麻烦，所以我干脆又做了一个 app service。部署的时候设置的 Client_id 和 client secret 可以反复使用，不用重新生成。</p>
-<p>onedrive 目录类项目还有好多个变种，要换另一个试试的话，某些情况下直接导入到原来部署好的应用服务也可以生效，如果部署日志显示成功那就是可以。但也有很多情况需要重新删掉原来的应用服务重新建一个，比如要换 client_id 和 client_secret 的时候；不同的项目可能有不同的回调 url，如果用的同一个 client_id 的话，记得在对应的 client_id 应用 -&gt; 身份验证中添加对应的回调 url。</p>
-<p>目前能部署的貌似只有 OneIndex?多个版本的 OLAINDEX 用这个方法部署不上去，估计可能是什么依赖没装。</p>
+<h4 id="debian-内核改装"><a href="#debian-内核改装" class="headerlink" title="debian 内核改装"></a>debian 内核改装</h4><ol>
+<li><p>安装内核。跳过。一键脚本那么多，教程也写的这么多了。</p>
+</li>
+<li><p>安装依赖。</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt install build-essential libtool libnfnetlink0 libnfnetlink-dev libpcap0.8-dev libtool autoconf autogen git -y</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>下载四个模块的源码。原因是 apt 库中没有 libnftnl 模块的依赖 libmnl 下。</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git clone git://git.netfilter.org/libmnl</span><br><span class="line">git clone git://git.netfilter.org/libnftnl.git</span><br><span class="line">git clone git://git.netfilter.org/iptables.git</span><br><span class="line">git clone https://github.com/Chion82/netfilter-full-cone-nat.git</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>编译安装。又一个和 centos 不一样的地方，debian 没有 iptables-xml，也没有 pkg_config_path</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">#编译libmnl</span><br><span class="line">cd libnftnl</span><br><span class="line">sh autogen.sh</span><br><span class="line">./configure --disable-dependency-tracking</span><br><span class="line">#直接configure好像报错</span><br><span class="line">#./configure</span><br><span class="line">make</span><br><span class="line">make install</span><br><span class="line"></span><br><span class="line">#编译 libnftnl</span><br><span class="line">cd libnftnl</span><br><span class="line">sh autogen.sh</span><br><span class="line">./configure</span><br><span class="line">make</span><br><span class="line">make install</span><br><span class="line"></span><br><span class="line">cd ..</span><br><span class="line"></span><br><span class="line">#编译fullcone-nat</span><br><span class="line">cd ~/netfilter-full-cone-nat</span><br><span class="line">make</span><br><span class="line">modprobe nf_nat</span><br><span class="line">insmod xt_FULLCONENAT.ko</span><br><span class="line"></span><br><span class="line">cd ..</span><br><span class="line"></span><br><span class="line">#编译 iptables</span><br><span class="line">cp ~/netfilter-full-cone-nat/libipt_FULLCONENAT.c ~/iptables/extensions/</span><br><span class="line">./autogen.sh</span><br><span class="line">./configure</span><br><span class="line">make</span><br><span class="line">make install</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>设置开机加载模块</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">kernel=`uname -r`</span><br><span class="line">cp ~/netfilter-full-cone-nat/xt_FULLCONENAT.ko  /lib/modules/$kernel/</span><br><span class="line">depmod</span><br><span class="line">echo "xt_FULLCONENAT"&gt;&gt;/etc/modules</span><br></pre></td></tr></tbody></table></figure>
+
+<p>重启，检测</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lsmod | grep xt_FULLCONENAT</span><br></pre></td></tr></tbody></table></figure>
+
+<p>另外这里不需要检测 iptables 版本号，因为 debian 默认情况下就安装了最新版的 iptables，所以无论是安装修改版 iptables 之前还是之后，查看版本号都是 1.8.4。</p>
+</li>
+<li><p>安装 iptables 自动加载服务。</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt install iptables-persistent -y</span><br></pre></td></tr></tbody></table></figure>
+
+<p>未来保存规则时，需要用以下命令</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables-save &gt; /etc/iptables/rules.v4</span><br></pre></td></tr></tbody></table></figure>
+
+</li>
+</ol>
+<h4 id="iptables-fullcone-设置"><a href="#iptables-fullcone-设置" class="headerlink" title="iptables fullcone 设置"></a>iptables fullcone 设置</h4><ol>
+<li><p>先看目前的 iptables 表，尽管其实一共三张表，但有一张默认不怎么管，一开始也是空的，所以只看 nat 表和 filter 表就够了</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">iptables -L -v</span><br><span class="line">iptables -L -t nat -v</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>默认情况下，貌似有 drop 规则会干扰使用，需要删掉</p>
+<p>或者直接清空路由表：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">iptables -F</span><br><span class="line">iptables -Z</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>理论上，只用添加下面这两句就能生效了</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">iptables -t nat -A POSTROUTING -o eth0 -j FULLCONENAT</span><br><span class="line">iptables -t nat -A PREROUTING -i eth0 -j FULLCONENAT</span><br></pre></td></tr></tbody></table></figure>
+
+<p>还有两个可选规则（准备给 wireguard 的），我测试过没啥用</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">iptables -t nat -A PREROUTING -i wg0 -j FULLCONENAT</span><br><span class="line">iptables -t nat -A POSTROUTING -s 10.0.0.0/24 -o wg0 -j MASQUERADE</span><br></pre></td></tr></tbody></table></figure>
+
+<p>另外也可以把命令中的 -A 换成 -I 强制添加规则到第一行（不过大部分时候 chain 里面都只有这一条规则）</p>
+<p>而有的 wireguard 教程里面的 postup 和 postdown 也可以加，非 fullcone 下必加，但 fullcone nat 模块开启后就可以不加了</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">PostUp = iptables -I FORWARD -i wg0 -j ACCEPT; iptables -I FORWARD -o wg0 -j ACCEPT</span><br><span class="line">PostDown = iptables -D FORWARD -i wg0 -j ACCEPT; iptables -D FORWARD -o wg0 -j ACCEPT</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>初步判断 iptables 规则是否有用，可以跑一段时间流量后通过第一步的两个查询命令查看是否有流量通过。注意，有流量通过的规则并不一定是关键有效的，比如 postup 和 postdown 这两句执行后会发现也有流量经过，但去掉了也不影响连通性。</p>
+<p>修改了以后重新观察是否连通正确可以先执行 <code>iptables -Z</code> 清空流量统计。</p>
+</li>
+<li><p>修改后记得保存，然后重启后通过第一步或者 <code>iptables-save</code> 查看是否重启时自动加载了路由表。</p>
+</li>
+</ol>
+<h3 id="使用类-vpn-工具"><a href="#使用类-vpn-工具" class="headerlink" title="使用类 vpn 工具"></a>使用类 vpn 工具</h3><p>类 vpn 工具同样代理全部流量，区别在于它们的 udp 流量经过特殊处理，能够保证 nat 类型为 fullcone。目前有以下这么几种：</p>
+<ul>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/zhxie/ikago">zhxie/ikago: IkaGo is a proxy which helps bypassing UDP blocking, UDP QoS and NAT firewall written in Go.</a>（不太推荐）<br> 使用体验：</li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/wangyu-/tinyfecVPN">wangyu- / tinyfecVPN：专为有损链接而设计的VPN，具有内置的前向纠错（FEC）支持。 在高延迟有损链路上提高网络质量。</a></li>
+</ul>
+<p>ikago 不推荐的原因是 bug 较为影响使用。</p>
+<h3 id="使用-socks-代理转-vpn-工具"><a href="#使用-socks-代理转-vpn-工具" class="headerlink" title="使用 socks 代理转 vpn 工具"></a>使用 socks 代理转 vpn 工具</h3><ul>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.proxifier.com/">Proxifier - The Most Advanced Proxy Client</a></li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/FQrabbit/SSTap-Rule/releases/tag/SSTap%E5%B8%B8%E7%94%A8%E7%89%88%E6%9C%AC%E5%8F%8A%E5%8E%BB%E5%B9%BF%E5%91%8A">SSTAP</a></li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/mellow-io/mellow">mellow</a>（不太推荐）<br> 使用体验：</li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/zhxie/pcap2socks">zhxie/pcap2socks: Redirect traffic to SOCKS proxy with pcap.</a>（不太推荐）<br> 使用体验：</li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/zhxie/pcap2socks-gui">zhxie/pcap2socks-gui: A front-end interface for pcap2socks.</a><br> 使用体验：</li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/NetchX/Netch">NetchX/Netch: Game network accelerator. Support Socks5, Shadowsocks, ShadowsocksR, Trojan, VMess, VLess proxies. UDP NAT FullCone</a><br> 使用体验：</li>
+</ul>
+<p>mellow 和 pcap2socks 不推荐的原因同样是 bug 不少，另外 mellow 的配置门槛还挺高的。不过 mellow 的最大贡献是应该本身 go 的 tun/tap 实现。pcap2socks 就比较神秘，cli 界面用着用着就会报错，但 gui 并不会报错。</p>
+<p>剩下的几个，Proxifier 专注于进程代理，能给多个进程配置不同的代理和 dns，我觉得更适合作为那些个长期挂在后台，需要代理却不支持 http 代理也没有 socks 配置设置的应用使用。</p>
+<p>netch 是这几个中我最为推荐的，直接支持多种协议不需要再用二级代理进行转发（除非是使用 mkcp+seed，目前 netch 中还不支持相关配置）。不过之前也提到，tun/tap 全局代理尚未可用（容易 loopback）。且 netch 的 tun/tap，确实也有几次上不去网的状况发生，不算非常稳定。</p>
+<p>SSTAP 可用全局代理，通过设置路由能够避免 loopback 的产生。不过人家在项目主页上也说了，使用 sstap 不仅不能解决 nat 问题，nat 还会永远被固定在 Symmetric 的状态。</p>
+<p>上面这些工具，除了 pcap2socks 外工作方式无非进程代理和 tun/tap 转发两种。tun/tap 转发在建立了正确 ip 表的前提下效果完美，但可靠性欠佳（极少情况下反复开关几回以后网卡都工作不正常了，表现为啥网页都开不开，重启后才正常）。而进程代理方式有可能会遗漏一些游戏进程外的相关进程，就会造成类似 cod16 中游戏流量显然已经被加速过（丢包减少，能进游戏），然而丢包显示错误（始终为 0）的情况，或者是类似微软系第一方游戏上未加速 xbox live 服务导致云同步工作不正常的情况。</p>
+<p>pcap2socks 工作方式又和上面这些不太一样，大概应该属于旁路由，好处是可以给主机加速，坏处是加速设备不能和游戏设备是同一台，各类第三方加速器的主机加速模式也是这个原理。类 vpn 工具中的 ikago 同样也是旁路由原理，不过是 ikago 还拥有转发流量到 vps 的功能，而 pcap2socks 则把这个功能交给了 socks 代理来实现。</p>
+<p>话说回来，几种 socks 代理工具中，ss 和 ssr 属于 UOU（udp over udp），能够配合 udpspeeder/udp2raw/kcptun 使用；trojan 和 vless 属于 UOT（udp over tcp），只能配合 kcptun 使用。还有一个问题，就是在部分游戏的丢包显示中（比如 cod16），使用 UOT 代理做隧道的话，丢包显示不准确，始终为 0。未来 xray 如果能实现 smux 功能的话，就能部分替代 udpspeeder/kcptun 的加速效果。</p>
 
     </div>
 
@@ -551,13 +662,10 @@
 </div>
 
           <div class="post-tags">
-              <a href="/tags/%E7%BE%8A%E6%AF%9B/" rel="tag"># 羊毛</a>
-              <a href="/tags/azure/" rel="tag"># azure</a>
-              <a href="/tags/windows-server/" rel="tag"># windows server</a>
-              <a href="/tags/app-service/" rel="tag"># app service</a>
-              <a href="/tags/acme-sh/" rel="tag"># acme.sh</a>
-              <a href="/tags/%E6%89%98%E7%AE%A1/" rel="tag"># 托管</a>
-              <a href="/tags/onedrive/" rel="tag"># onedrive</a>
+              <a href="/tags/%E6%B8%B8%E6%88%8F%E5%8A%A0%E9%80%9F/" rel="tag"># 游戏加速</a>
+              <a href="/tags/socks/" rel="tag"># socks</a>
+              <a href="/tags/nat/" rel="tag"># nat</a>
+              <a href="/tags/fullcone/" rel="tag"># fullcone</a>
           </div>
 
         
@@ -569,13 +677,13 @@
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/padavan-zhong-ji/" rel="prev" title="padavan 中继">
-                  <i class="fa fa-chevron-left"></i> padavan 中继
+                <a href="/bao-li-zheng-he-windows-terminal-dao-xi-tong-ge-chu-kuai-jie-cai-dan-zhong/" rel="prev" title="暴力整合 windows terminal 到系统各处快捷菜单中">
+                  <i class="fa fa-chevron-left"></i> 暴力整合 windows terminal 到系统各处快捷菜单中
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/onedrive-gua-zai-dao-cloudflare/" rel="next" title="onedrive 挂载到 cloudflare">
-                  onedrive 挂载到 cloudflare <i class="fa fa-chevron-right"></i>
+                <a href="/ma-que-sui-xiao-wu-zang-ju-quan-android-duan-terminal-termux-shang-shou-diao-xiao-zhi-nan/" rel="next" title="「麻雀虽小，五脏俱全」：Android 端 terminal termux 上手调校指南">
+                  「麻雀虽小，五脏俱全」：Android 端 terminal termux 上手调校指南 <i class="fa fa-chevron-right"></i>
                 </a>
             </div>
           </div>
@@ -632,14 +740,14 @@
       <i class="fa fa-chart-line"></i>
     </span>
       <span>站点总字数：</span>
-    <span title="站点总字数">212k</span>
+    <span title="站点总字数">227k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">6:26</span>
+    <span title="站点阅读时长">6:53</span>
   </span>
 </div>
 <div class="busuanzi-count">

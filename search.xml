@@ -1474,7 +1474,7 @@
 <li><p><strong>（21.1.21）</strong>后续我更新了一下网站结构，十多天过去了，google 没读取我新的站点地图，得手动刷新。方法是到覆盖率中，找到任意一个 404 的网页，点击已解决。</p>
 </li>
 </ol>
-<h3 id="百度"><a href="#百度" class="headerlink" title="百度"></a>百度</h3><p>我自己没有亲自实验过，但听说 baidu 搜索引擎是没办法爬 <code>github.io</code> 的，说是百度爬的太多被 github 官方 ban 了。解决方法有三种：</p>
+<h3 id="百度（存疑）"><a href="#百度（存疑）" class="headerlink" title="百度（存疑）"></a>百度（存疑）</h3><p>我自己没有亲自实验过，但听说 baidu 搜索引擎是没办法爬 <code>github.io</code> 的，说是百度爬的太多被 github 官方 ban 了。解决方法有三种：</p>
 <ul>
 <li>双线部署。部署到 coding 或者 gitlab 上。coding 被腾讯收购了，速度有保障，但要实名啥的，好像还要域名；gitlab 不需要手机号啥的，但访问速度比 github 还要不乐观。可以参考 <a href="https://zhuanlan.zhihu.com/p/111796666">Hexo 双线部署到 Coding 和 GitHub 提升访问速度 - 知乎</a>。</li>
 <li>镜像部署，我现在用的是这种。参考<a href="https://zhuanlan.zhihu.com/p/111773896">如何让百度收录 GitHub Pages 个人博客 - 知乎</a>。部署到 <a href="https://vercel.com/">Vercel</a> 上，当检测到 github 仓库更新，vercel 这边也会自动重新拉取并部署。自带 cdn 也能保证速度，部署起来比前一种方便，缺点就是每个月只有 20G 访问流量，目前对于我这种小透明博客也够用了；还有就是注册的时候还是要用到手机号的。</li>
@@ -1510,6 +1510,10 @@
 <p>重新部署即可。</p>
 </li>
 </ol>
+<p><strong>（21.2.26 更新）</strong> 照上面的一通做下来：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210226061535.png"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210226061627.png"></p>
+<p>啊这。。。我明明提交的是后面这个网站呀？</p>
 <h4 id="使用镜像站"><a href="#使用镜像站" class="headerlink" title="使用镜像站"></a>使用镜像站</h4><ol>
 <li><p>两种镜像站只简单写写我用的这种，也就是第二种。打开 <a href="https://vercel.com/">Vercel</a>，注册一个账号后关联自己的 github，导入博客的 repo，后面部署的选项维持默认即可，注意 <code>FRAMEWORK PRESET</code> 这里不要选择 hexo，维持 other 即可。部署需要一定时间，部署完一切正常的话，点开 view build logs 应该是这样的：</p>
 <p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210124021027.png"></p>
@@ -2937,6 +2941,289 @@
       </tags>
   </entry>
   <entry>
+    <title>azure 羊毛（二）</title>
+    <url>/azure-yang-mao-er/</url>
+    <content><![CDATA[<h2 id="fullcone-是啥？"><a href="#fullcone-是啥？" class="headerlink" title="fullcone 是啥？"></a>fullcone 是啥？</h2><p>也称 nat1 或者是 nat 开放。简单来说，通讯中对方能获取你未修改的源 ip 和源端口基本就能识别成 fullcone nat。nat 一共有四种，就不细展开了。</p>
+<p>fullcone nat 的好处在许多网络游戏（尤其是 cod），只有 fullcone nat 才能匹配到最多的人，nat1 可以匹配 nat 全类型的人，相比之下 nat3 只能匹配到 nat1 和 nat3 的人，nat4 就只能匹配到 nat4 的人，也就是基本鬼服。另外在电驴和 ed2k 网络中，fullcone 能连到最多的节点，ed2k 想要获取 high id 也需要在 fullcone 下。</p>
+<p><strong>（21.2.6 更新）</strong> 推荐阅读 xray 作者 rprx 的最新力作：<a href="https://github.com/XTLS/Xray-core/discussions/237">进阶必读：代理协议 UDP 全方位透彻解析 · Discussion #237 · XTLS/Xray-core</a></p>
+<h2 id="为啥拿不到-nat1？"><a href="#为啥拿不到-nat1？" class="headerlink" title="为啥拿不到 nat1？"></a>为啥拿不到 nat1？</h2><p>从原理上来说，因为全球的 ip 地址不足以及安全上的原因，一般我们拿到的公网 ip 会被 nat 再次处理为内网 ip，如果对方收到的是设备的内网 ip 或者是被 nat 设备转发过的端口号，无法将数据准确返回，则会标为其他类型 nat。</p>
+<p>因此我一开始以为是内网 ip 的锅，毕竟公网 ip 比较难获取。后来发现并不是，虽然电信分配的并不是个固定 ip，但也是一个唯一的 ip，并没有其他人跟我共用这一个分配的 ip。</p>
+<p>真正的原因是，常见的路由器和光猫所使用的系统基于 linux 内核，linux 默认 nat 转发类型就是 Symmetric NAT，只要通过其进行转发，就会变成其他类型的 nat。</p>
+<p>另外，windows 防火墙的错误设置，以及对 udp 的限制（nat 的测试是在 udp 基础上进行的），都会造成 nat 测试结果变为其他类型。</p>
+<h2 id="nat-测试"><a href="#nat-测试" class="headerlink" title="nat 测试"></a>nat 测试</h2><h3 id="测试-nat-的工具"><a href="#测试-nat-的工具" class="headerlink" title="测试 nat 的工具"></a>测试 nat 的工具</h3><p>各类 nat 测试工具原理上有一些差异，导致测试出的结果经常会让人感到迷惑：例如 linux 本身的 nat 实际上是 nat4，但部分测试工具测出来的结果却是 nat2。不过从另一个角度说，nat 类型影响到的应用场景很有限，大部分情况也就是下载和游戏这两个场景受到的影响较大，所以直接通过下载软件、游戏测试当然最好。如果没有呢？测试用到了虚拟机，总不能让人装个 200g 的 cod 进虚拟机。。。</p>
+<h4 id="windows"><a href="#windows" class="headerlink" title="windows"></a>windows</h4><ol>
+<li>NatTypeTester。注意，该软件默认情况下可能不会触发 windows 防火墙的放行通知，导致测试出来的结果出错，得手动放行。</li>
+<li>pynat。可使用 pip 安装。<del>推荐，但极少数时候服务器出错会导致结果为 block。</del></li>
+<li><strong>（21.1.18 更新）</strong> <a href="https://github.com/HMBSbige/NatTypeTester">HMBSbige/NatTypeTester: 测试当前网络的 NAT 类型（STUN）</a>。多个 stun 地址，支持 socks 代理。</li>
+<li><strong>（21.1.18 更新）</strong><a href="https://github.com/NetchX/Netch">NetchX/Netch: Game network accelerator. Support Socks5, Shadowsocks, ShadowsocksR, Trojan, VMess, VLess proxies. UDP NAT FullCone</a>。是测试工具，同时也是加速工具。</li>
+</ol>
+<h4 id="android"><a href="#android" class="headerlink" title="android"></a>android</h4><ol>
+<li>STUNner。谷歌商店能下到，不过在 vpn 环境下（比如 wireguard）似乎不是很准。</li>
+<li>pynat。通过终端模拟器（推荐 termux） ，用 pip 安装运行。</li>
+</ol>
+<h3 id="测-udp-是否联通的手段（搭着梯子亦可测）"><a href="#测-udp-是否联通的手段（搭着梯子亦可测）" class="headerlink" title="测 udp 是否联通的手段（搭着梯子亦可测）"></a>测 udp 是否联通的手段（搭着梯子亦可测）</h3><p>udp 阻塞也是 nat 类型不为开放的原因之一。下文 nat 测试结果提到的某些工具，比如 kcptun-sip003 的 tcp 通过 udp 转发后 udp 直接被拦阻了；<del>以及几乎所有的手机端代理公族，都不转发 udp</del>（虽然手机端游戏很少有 nat 的说法，但阻塞的 udp 一定程度上会导致游戏加速效果不佳）。而测试 udp 是否连通，方法有以下几种。</p>
+<ol>
+<li><p>iperf（参考 17.2.10 日记）</p>
+</li>
+<li><p>dig udp dns</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">dig '@208.67.222.222' -p 443 www.twitter.com</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>udpping</p>
+</li>
+</ol>
+<h3 id="vpn-代理软件-nat-测试结果（21-1-18-证明已作废）"><a href="#vpn-代理软件-nat-测试结果（21-1-18-证明已作废）" class="headerlink" title="vpn 代理软件 nat 测试结果（21.1.18 证明已作废）"></a><del>vpn 代理软件 nat 测试结果（21.1.18 证明已作废）</del></h3><p>socks 系代理配合 mellow。</p>
+<p>开放：</p>
+<ul>
+<li>ss 原版</li>
+<li>v2 原版</li>
+<li>v2 + tls</li>
+<li>v2 + kcptun</li>
+<li>ss + kcptun + udpspeeder</li>
+<li><del>ss + cloak 2.0</del>（原 ss 的 udp 未做处理，但 tcp 被拦阻，所以实际上是 ss 原版）</li>
+<li>trojan</li>
+</ul>
+<p>无 udp：</p>
+<ul>
+<li>ss + kcptun-sip003 </li>
+<li>ss + cloak 1.0</li>
+<li>v2ray mkcp</li>
+</ul>
+<p>对称：</p>
+<ul>
+<li>wireguard</li>
+<li>openvpn</li>
+</ul>
+<h3 id="socks-代理软件-fullcone-测试结果"><a href="#socks-代理软件-fullcone-测试结果" class="headerlink" title="socks 代理软件 fullcone 测试结果"></a>socks 代理软件 fullcone 测试结果</h3><p>促使我再做一次测试的导火索，是 xray 1.21 的更新日志：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@master/img/20210118082936.png"></p>
+<p>可我上次测试出的结论是 vmess 支持 fullcone 啊？后来我发现自己忽略了一个重要的问题：代理工具只转发 tcp 流量时，udp 可能 blocked 也可能直连，直连的情况下 fullcone 测试结果将套用的是本地路由的 nat 类型。。。而测试时我路由器安装的系统是 padavan，已经被我设置为光猫桥接 + nat1 模式了，最终造成报道上出了偏差（</p>
+<p>第二次测试不带那些正经的 vpn 玩了（正经的 vpn 都是全流量转发，不存在漏网之鱼的），只带上主流的 socks 代理工具，ss、trojan 和 v2ray（xray） 这三个。同时测试本次 xray 更新究竟能带来什么效果。这次我专门套了一个 nat3 的 openwrt 极路由用来测试。</p>
+<p>测试结果如下面两张图所示。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/pcfullcone.png"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/androidfullcone.png"></p>
+<p>第一张结果来自 windows，第二张结果来自 android。本来只计划测试 pc 端效果。后来发现 各 nat 测试工具连直连测试测出来的结果都不一致，索性把手机拉进来一起测，找找规律。</p>
+<p>测试结果不算太严谨，有少数几个测试的结果前面的测试做完就水落石出了，我觉得没必要再去测了，比如手机端的 xray 1.21-&gt; server 端 xray 1.22，更新日志里面都写了两边都要大于 1.21 的版本就会获得 fullcone，电脑这边也测过了，手机这边就不测了 。</p>
+<ul>
+<li><p>测试到一半我基本就理解 xray 的更新日志中这个 fullcone 指的是什么了，即<strong>旧版本 xray/v2ray/v2fly 的 ss 和 trojan udp 机制有问题导致 nat 类型错误</strong>，原版 ss 和 trojan/trojan-go 并不存在这个问题；vmess/vless 也有这个问题但对于它们来说这不是 bug 而是 feature。。。所以，更新前，server 和 client 有一端使用了 v2ray（xray) 本身的 trojan/ss 功能的话会出问题，更新后无论是 xray 内部的 trojan/ss 还是原版 ss/trojan 两两互联 nat 都不会有问题。值得一提的是，xray trojan 即使是使用 xray 的新特性由 vless+tcp 同端口 fallback 而来的，nat 也能保持在 1。</p>
+</li>
+<li><p>nat 测试工具中，我原本最为信任的 pynat 反而效果最为拉跨，只要用了代理就弹 fullcone；本身应该弹 fullcone 的反而弹 nat3（使用 mellow 时，不过不排除是 mellow 本身的问题）。新版 NatTypeTester 尚可，没出现什么原则性错误，就是有时用不同的 stun 测试机结果可能会不一样，个人感觉 <code>stun.qq.com</code> 比较准，而默认的 syncthing stun 在 Symmetric 下经常会报 UnsupportServer。netch 虽然准却有「既当运动员又当裁判」的嫌疑；手机端 stunner 除了需要多次测试出结果外，准确率也尚可。</p>
+</li>
+<li><p>某些场景下出现了「假打洞」的现象：多次测试后本身结果应为 nat3 的会慢慢变成 nat2 甚至是 nat1。常出现于在虚拟机 vmware 中使用 pynat 和在 android 中使用 pynat 的情况，偶尔也出现在 NatTypeTester 测试中（无论是虚拟机还是实机）。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210116050102.png"></p>
+</li>
+<li><p>所以原则上我不用虚拟机进行 nat 测试，但。。。mellow 现在的表现实在拉跨，我在实机上开几次才能成功连上一次，bug 不少。用较为干净的虚拟机，清理了注册表后，勉强能进行测试，不过嘛。。。看这测试效果，也许是我配置错了什么地方？</p>
+</li>
+<li><p>标黄色部分的 pynat 测试结果，nat 测出 3 是因为刚开始我不太会配置 netch 的进程模式。之后用 mellow 的时，通过内置的流量路径监控日志才观察到 pynat 的流量路径是这样的：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">windowsTerminal.exe-&gt;powershell.exe-&gt;pynat.exe-&gt;python.exe</span><br></pre></td></tr></tbody></table></figure>
+
+<p>把这些全加到代理的进程列表中就行了。不过看后续的测试效果，也能估计出那些标黄的应该都是 nat1，没有改变 pynat 拉跨的结论（该标 3 的全部给标 1 了）。</p>
+</li>
+<li><p>netch 通过 socks 配合其他代理使用只能在进程模式下生效。在 tap 模式没办法排除进程会导致无限 loopback；<del>用除了 socks 以外的代理，启动时都会开一个 socks5 一个 http 代理端口，但用 socks5 的话 netch 就只会开一个 http 端口，好死不死 NatTypeTester 不支持 http 代理</del>（废话，http 代理不支持 udp 还测个啥）。。。所以除了 tun/tap 的测试中我没引入加了二级代理才有的功能。</p>
+</li>
+</ul>
+<p><strong>(21.2.14 更新)</strong> xray 的最新更新通过巧妙的方法解决了 fullcone 的问题，鼓掌！而且通过测试 mkcp 也能正常的获取 fullcone 了。另外当时我的 netTester 版本为 3.4，目前最新的版本据悉已经解决了 vmess 显示为 unsupported 的诡异问题（待测试）。</p>
+<h2 id="如何解决不是-nat1-的问题？"><a href="#如何解决不是-nat1-的问题？" class="headerlink" title="如何解决不是 nat1 的问题？"></a>如何解决不是 nat1 的问题？</h2><h3 id="修改路由器，使用桥接模式或换用支持-nat1-的固件"><a href="#修改路由器，使用桥接模式或换用支持-nat1-的固件" class="headerlink" title="修改路由器，使用桥接模式或换用支持 nat1 的固件"></a>修改路由器，使用桥接模式或换用支持 nat1 的固件</h3><p>之前说过 linux 内核设备只要经过流量转发 nat 就不是 fullcone 了。换言之，通过 ssh 连进路由器，在路由器上运行 nat 检测那还会是 fullcone nat，但在连入路由器的设备上检测那就都是 nat4了。</p>
+<p>更别说许多家庭用户使用光猫 + 路由器的组合，而光猫也处在路由模式下，就会造成双重 nat。</p>
+<p>解决方法有几种，包括：</p>
+<ol>
+<li>使用 dmz 和 upnp。通过搜索引擎能查到最常见的方法，实际使用中就会发现一个是在多重 nat 环境中配置复杂，<del>而且实际上我没配置好 upnp 后就没生效成功过，</del> dmz 一次只对一个设备有效，设置了 dmz 也只能保证内网里其中一台设备的 nat 为 1。</li>
+<li>在需要 nat1 的设备上进行拨号，将 linux 设备设置为桥接。对于光猫后面挂着路由器的用户来说，完全没有必要用光猫进行路由，或者家中只有一台网络设备（比如电脑），或者能够进行多拨的地区，就算是直接链接光猫也可以这么设置，因为完全没必要路由。但如果家中有多台设备且不能多拨，那如此设置的话就只有其中进行拨号的那台设备能上网了。另外，想要把光猫设置为桥接模式可能需要超级管理员帐号。</li>
+<li>使<del>需要进行拨号并</del>开启路由的设备支持 fullcone 转发，比如使用 windows 系统的软路由；或是是刷入支持 fullcone 模式的固件，新版本的 padavan 和 openwrt 应该都可以。意料之外的是某些光猫也支持设置为 fullcone 模式，比如臭名昭著的 tewa-e500。。。不过同样需要超管帐号。</li>
+</ol>
+<p>总结一下，对于大部分光猫 + 路由的用户，将光猫设置为桥接，路由开启 fullcone 转发即可。而单光猫或者无光猫单路由则需要在光猫上开启 fullcone，或者直接用需要 nat1 的设备拨号（比如 windows 电脑，比如 xbox/ps4）。</p>
+<hr>
+<p>不过，如果是配合代理使用，上述措施均不需要。请看下文。</p>
+<h3 id="使用第三方加速器-vps"><a href="#使用第三方加速器-vps" class="headerlink" title="使用第三方加速器 / vps"></a>使用第三方加速器 / vps</h3><p>最省心的方法。只要你购买的服务器/加速器上 nat 转发配置正确，经过代理后你的 nat 就会处于开放类型。你只需要付钱即可。</p>
+<p>当然，比较低端便宜的加速器技术人员这方面可能弄得不太行（最典型的，雷神加速器就是这样）。</p>
+<p>对于 bt 下载也是如此，你可以将直接使用 vps 上搭建的相关工具下载，下载完后再拖回本地，vps 的 ip 一般处在公网且位于国外，能获取到质量最好的 tracker。小心蜜罐种子就是。</p>
+<hr>
+<p>然而使用本地的 pc bt 工具（比如 qbitorrent）通过代理下载 bt 时，就要考虑代理性能问题了（虽然一般的游戏用的 vpn / 加速器禁止 bt）。udp 不通的代理查看流量走向的话，会发现软件流量走代理， bt 不走代理（不过我怀疑 tcp 方面的流量代理上了有部分加速效果）。而 udp 通畅但 nat 类型不对的话可能代理后效果比代理前还差（存疑）。</p>
+<h3 id="修改内核，实现-fullcone"><a href="#修改内核，实现-fullcone" class="headerlink" title="修改内核，实现 fullcone"></a>修改内核，实现 fullcone</h3><p><del>对于本身会修改规则和转发的代理工具来说，直接代理（socks 代理）就会实现 nat1，比如 ss，v2ray，不过他们本身用于科学用途，流量经过多重加密，性能反而一般，用在游戏上拖慢速度和丢包。</del> 其实综合来算 socks 代理效率要高于 vpn（vpn 要保证安全性，使用的加密算法强度普遍较高），不过部分 socks 代理的 udp 代理实现有问题，而正经一点的 vpn（wireguard，openvpn 等），不存在这方面的问题。（虽然有另一种说法 wireguard + udpspeeder 是代理加速游戏最好的方案，但我目前用本地电信实验效果并不理想，况且我家电信还没有受到 udp qos 影响）。</p>
+<p>然而全流量代理的会直接套用被代理设备系统 netfilter 的 nat，造成测出的 nat 变为 4。</p>
+<p>解决方案是，让系统支持 fullcone nat 并修改其 iptables 使中转流量全部按 fullcone nat 处理。</p>
+<p>参考文章：</p>
+<ol>
+<li>指南类</li>
+</ol>
+<ul>
+<li><a href="https://kotori.net/2020/01/08/%e7%ae%80%e5%8d%95%e6%93%8d%e4%bd%9c%e4%bd%bf-centos-%e6%94%af%e6%8c%81-fullcone-nat/">简单操作使 CentOS 支持 Fullcone NAT</a></li>
+<li><a href="https://www.jianshu.com/p/88e7cd6a0c95">Centos 7当网关启用Fullcone nat</a></li>
+<li><a href="https://888777.xyz/vpstalk/45203.html">有玩实况足球在线对战的朋友么，需要买哪里的服务器？（详情见评论区）</a></li>
+</ul>
+<ol start="2">
+<li>细节类</li>
+</ol>
+<ul>
+<li><a href="https://www.centos.bz/2017/08/upgrade-centos-7-6-kernel-to-4-12-4/">升级Centos 7/6内核版本到4.12.4的方法</a></li>
+<li><a href="https://www.jianshu.com/p/fdf6bb6c5b9c">CentOS 7. × 系统及内核升级指南</a></li>
+<li><a href="https://blog.csdn.net/xu_Melon/article/details/79043320">解决service iptables save出错please try to use systemctl.</a></li>
+<li><a href="https://linux.vbird.org/linux_server/centos6/0250simple_firewall.php#netfilter_syntax_policy">第九章、防火牆與 NAT 伺服器</a></li>
+<li><a href="https://dev.to/isabelcmdcosta/installing-nftables-from-sources-ondebian--4ic">Installing nftables from sources on Debian</a></li>
+<li><a href="https://blog.csdn.net/w504430863/article/details/42964133">设置未识别的网络默认为专用网络</a></li>
+<li><a href="https://askubuntu.com/questions/1052919/iptables-reload-restart-on-ubuntu-18-04">Iptables reload/restart on Ubuntu 18.04</a></li>
+<li><a href="https://blog.csdn.net/hunanchenxingyu/article/details/38867931">ubuntu/debian 模块加载方式</a></li>
+</ul>
+<p>尽管我常用 debian，不过好像没有找到 debian 类系统的教学（主要不同点在于内核更换，模块的加载，还有 iptables 的自启上），centos 的倒是蛮多。但 centos 坑也不少，所以先试试 centos7 的。</p>
+<h4 id="centos7-内核改装"><a href="#centos7-内核改装" class="headerlink" title="centos7 内核改装"></a>centos7 内核改装</h4><ol>
+<li><p>更换内核。先吐槽一句，centos 更换内核比 debian 麻烦多了，后者下好内核和 header 就能用，centos 还得多下 devel 之类的几样东西，而且还得在官方源里面下，自己下载上传的不好装。。。</p>
+<p>fullcone-nat 模块对内核版本还是有一定要求，太新不行太旧也不行，好消息是支持 bbr 那几个内核基本都成，连 bbr-plus 那个自制内核都成。但锐速那个旧内核，和 centos7 默认定制的这个 3.10 就不要想了。。。</p>
+<p>先添加源</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">rpm -import https://www.elrepo.org/RPM-GPG-KEY-elrepo.org</span><br><span class="line">rpm -Uvh http://www.elrepo.org/elrepo-release-7.0-2.el7.elrepo.noarch.rpm</span><br></pre></td></tr></tbody></table></figure>
+
+<p>查看有哪些内核能用：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">yum --disablerepo="*" --enablerepo="elrepo-kernel" list available</span><br></pre></td></tr></tbody></table></figure>
+
+<p>现阶段能看到，mainline 的内核有点新，都是 5.x 系的；而长期支持版内核符合要求，装 lt 就好了。</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">yum -y --enablerepo=elrepo-kernel install kernel-lt.x86_64</span><br></pre></td></tr></tbody></table></figure>
+
+<p>装完重启。</p>
+<p>重启以后查看默认内核顺序</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">awk -F\' '$1=="menuentry " {print $2}' /etc/grub2.cfg</span><br></pre></td></tr></tbody></table></figure>
+
+<p>改 lt 内核顺序到开机顺序第一位</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">vim /etc/default/grub</span><br></pre></td></tr></tbody></table></figure>
+
+<p>改这句的数字到刚刚查看开机顺序看到 lt 内核所在的未知，注意位置是从 0 开始算。</p>
+<p>打个比方查看到的内核顺序，lt 内核在第二位</p>
+<p>那么，改 grub 文件的这一行为</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">GRUB_DEFAULT=1</span><br></pre></td></tr></tbody></table></figure>
+
+<p>更新 grub</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">grub2-mkconfig -o /boot/grub2/grub.cfg</span><br></pre></td></tr></tbody></table></figure>
+
+<p>重启后查看当前内核对不对</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">uname -r</span><br></pre></td></tr></tbody></table></figure>
+
+<p>然后查看当前内核与相关的编译模块有哪些</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">rpm -qa | grep kernel</span><br></pre></td></tr></tbody></table></figure>
+
+<p>原来 3.10 相关的 devel 和 header 等等等，全部删掉，否则待会会干扰 lt 内核其他模块的安装（下面这个命令只是打个比方，肯定不止这一个模块）</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">yum remove -y kernel-tools-3.10.0-514.26.2.el7.x86_64</span><br></pre></td></tr></tbody></table></figure>
+
+<p>然后安装剩下的 lt 模块，如果不知道还剩哪些的话，可以用「查看有哪些内核能用」那里的命令再确认一下。下面的命令也是仅供参考：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">yum -y --enablerepo=elrepo-kernel install kernel-lt-devel.x86_64 kernel-lt-headers.x86_64 kernel-lt-tools.x86_64 </span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>安装依赖。注意，安装依赖一定在更新内核之后，因为依赖和内核版本挂钩。然后待会的编译一定在安装依赖之后，原因相同。如果发现装的内核不对的话，更新完内核还要再装一边依赖，然后再去编译，否则大概率出现奇奇怪怪的问题。</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">yum install gcc gcc-c++ autoconf autogen libmnl libmnl-devel libtool-devel libtool git -y</span><br></pre></td></tr></tbody></table></figure>
+
+<p>另外，装一个原版的 iptables，先把 firewalld 干了（不过我感觉大部分 centos7 默认都不装这玩意）</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">systemctl stop firewalld</span><br><span class="line">systemctl mask firewalld</span><br></pre></td></tr></tbody></table></figure>
+
+<p>然后安装，设置开机启动</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">yum install iptables-services</span><br><span class="line">systemctl enable iptables</span><br></pre></td></tr></tbody></table></figure>
+
+<p>看看版本，应该是 v1.42</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">iptables -V</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>下载所要编译的三个模块源码，一个是 fullcone-nat 模块的依赖，一个是模块本身，另一个是 iptables 模块</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">git clone git://git.netfilter.org/libnftnl.git</span><br><span class="line">git clone git://git.netfilter.org/iptables.git</span><br><span class="line">git clone https://github.com/Chion82/netfilter-full-cone-nat.git</span><br></pre></td></tr></tbody></table></figure>
+
+<p>然后就是编译安装</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">#编译 libnftnl</span><br><span class="line">cd libnftnl</span><br><span class="line">sh autogen.sh</span><br><span class="line">./configure</span><br><span class="line">make</span><br><span class="line">make install</span><br><span class="line"></span><br><span class="line">cd ..</span><br><span class="line"></span><br><span class="line">#编译fullcone-nat</span><br><span class="line">cd ~/netfilter-full-cone-nat</span><br><span class="line">make</span><br><span class="line">modprobe nf_nat</span><br><span class="line">insmod xt_FULLCONENAT.ko</span><br><span class="line"></span><br><span class="line">cd ..</span><br><span class="line"></span><br><span class="line">#编译 iptables</span><br><span class="line">cp ~/netfilter-full-cone-nat/libipt_FULLCONENAT.c ~/iptables/extensions/</span><br><span class="line">ln -sfv /usr/sbin/xtables-multi /usr/bin/iptables-xml</span><br><span class="line">./autogen.sh</span><br><span class="line">PKG_CONFIG_PATH=/usr/local/lib/pkgconfig</span><br><span class="line">export PKG_CONFIG_PATH</span><br><span class="line">./configure</span><br><span class="line">make</span><br><span class="line">make install</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>关闭原来 iptables 的 service，换入现在 iptables 的 service，因为刚刚安装的位置和真正 iptables services 指向的位置不一样，没有执行替换的话，待会写入带 FULLCONENAT 的 nat 规则后用 <code>service iptables save</code> 保存就会报错。</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">#先关闭iptables</span><br><span class="line">systemctl  stop iptables</span><br><span class="line">#删除原来的iptables</span><br><span class="line">rm -rf /sbin/iptables</span><br><span class="line">rm -rf /sbin/iptables-restore</span><br><span class="line">rm -rf /sbin/iptables-save</span><br><span class="line">#复制你自己编译的iptables</span><br><span class="line">cd /usr/local/sbin</span><br><span class="line">cp /usr/local/sbin/iptables /sbin/     </span><br><span class="line">cp /usr/local/sbin/iptables-restore /sbin/</span><br><span class="line">cp /usr/local/sbin/iptables-save /sbin/</span><br><span class="line">#检验iptables版本，应该是 1.8.4</span><br><span class="line">iptables -V</span><br></pre></td></tr></tbody></table></figure>
+
+<p>注意那三句 cp 一句句执行，因为每句都要按一次 y，全部一起执行的话只会出一次 y，只替换第一个 iptables 文件。</p>
+</li>
+<li><p>设置开机自动加载 Fullcone 模块</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">kernel=`uname -r`</span><br><span class="line">cp ~/netfilter-full-cone-nat/xt_FULLCONENAT.ko  /lib/modules/$kernel/</span><br><span class="line">depmod</span><br><span class="line">echo "modprobe xt_FULLCONENAT" &gt; /etc/sysconfig/modules/xt_FULLCONENAT.modules</span><br><span class="line">chmod 755 /etc/sysconfig/modules/xt_FULLCONENAT.modules</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>重启，检查</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">lsmod | grep xt_FULLCONENAT</span><br></pre></td></tr></tbody></table></figure>
+
+<p>有输出即可。</p>
+</li>
+<li><p>未来保存规则，可通过</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">service iptables save</span><br><span class="line">service iptables restart</span><br></pre></td></tr></tbody></table></figure>
+
+<p>生效。</p>
+</li>
+</ol>
+<h4 id="debian-内核改装"><a href="#debian-内核改装" class="headerlink" title="debian 内核改装"></a>debian 内核改装</h4><ol>
+<li><p>安装内核。跳过。一键脚本那么多，教程也写的这么多了。</p>
+</li>
+<li><p>安装依赖。</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">apt install build-essential libtool libnfnetlink0 libnfnetlink-dev libpcap0.8-dev libtool autoconf autogen git -y</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>下载四个模块的源码。原因是 apt 库中没有 libnftnl 模块的依赖 libmnl 下。</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">git clone git://git.netfilter.org/libmnl</span><br><span class="line">git clone git://git.netfilter.org/libnftnl.git</span><br><span class="line">git clone git://git.netfilter.org/iptables.git</span><br><span class="line">git clone https://github.com/Chion82/netfilter-full-cone-nat.git</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>编译安装。又一个和 centos 不一样的地方，debian 没有 iptables-xml，也没有 pkg_config_path</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">#编译libmnl</span><br><span class="line">cd libnftnl</span><br><span class="line">sh autogen.sh</span><br><span class="line">./configure --disable-dependency-tracking</span><br><span class="line">#直接configure好像报错</span><br><span class="line">#./configure</span><br><span class="line">make</span><br><span class="line">make install</span><br><span class="line"></span><br><span class="line">#编译 libnftnl</span><br><span class="line">cd libnftnl</span><br><span class="line">sh autogen.sh</span><br><span class="line">./configure</span><br><span class="line">make</span><br><span class="line">make install</span><br><span class="line"></span><br><span class="line">cd ..</span><br><span class="line"></span><br><span class="line">#编译fullcone-nat</span><br><span class="line">cd ~/netfilter-full-cone-nat</span><br><span class="line">make</span><br><span class="line">modprobe nf_nat</span><br><span class="line">insmod xt_FULLCONENAT.ko</span><br><span class="line"></span><br><span class="line">cd ..</span><br><span class="line"></span><br><span class="line">#编译 iptables</span><br><span class="line">cp ~/netfilter-full-cone-nat/libipt_FULLCONENAT.c ~/iptables/extensions/</span><br><span class="line">./autogen.sh</span><br><span class="line">./configure</span><br><span class="line">make</span><br><span class="line">make install</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>设置开机加载模块</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">kernel=`uname -r`</span><br><span class="line">cp ~/netfilter-full-cone-nat/xt_FULLCONENAT.ko  /lib/modules/$kernel/</span><br><span class="line">depmod</span><br><span class="line">echo "xt_FULLCONENAT"&gt;&gt;/etc/modules</span><br></pre></td></tr></tbody></table></figure>
+
+<p>重启，检测</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">lsmod | grep xt_FULLCONENAT</span><br></pre></td></tr></tbody></table></figure>
+
+<p>另外这里不需要检测 iptables 版本号，因为 debian 默认情况下就安装了最新版的 iptables，所以无论是安装修改版 iptables 之前还是之后，查看版本号都是 1.8.4。</p>
+</li>
+<li><p>安装 iptables 自动加载服务。</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">apt install iptables-persistent -y</span><br></pre></td></tr></tbody></table></figure>
+
+<p>未来保存规则时，需要用以下命令</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">iptables-save &gt; /etc/iptables/rules.v4</span><br></pre></td></tr></tbody></table></figure>
+
+</li>
+</ol>
+<h4 id="iptables-fullcone-设置"><a href="#iptables-fullcone-设置" class="headerlink" title="iptables fullcone 设置"></a>iptables fullcone 设置</h4><ol>
+<li><p>先看目前的 iptables 表，尽管其实一共三张表，但有一张默认不怎么管，一开始也是空的，所以只看 nat 表和 filter 表就够了</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">iptables -L -v</span><br><span class="line">iptables -L -t nat -v</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>默认情况下，貌似有 drop 规则会干扰使用，需要删掉</p>
+<p>或者直接清空路由表：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">iptables -F</span><br><span class="line">iptables -Z</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>理论上，只用添加下面这两句就能生效了</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">iptables -t nat -A POSTROUTING -o eth0 -j FULLCONENAT</span><br><span class="line">iptables -t nat -A PREROUTING -i eth0 -j FULLCONENAT</span><br></pre></td></tr></tbody></table></figure>
+
+<p>还有两个可选规则（准备给 wireguard 的），我测试过没啥用</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">iptables -t nat -A PREROUTING -i wg0 -j FULLCONENAT</span><br><span class="line">iptables -t nat -A POSTROUTING -s 10.0.0.0/24 -o wg0 -j MASQUERADE</span><br></pre></td></tr></tbody></table></figure>
+
+<p>另外也可以把命令中的 -A 换成 -I 强制添加规则到第一行（不过大部分时候 chain 里面都只有这一条规则）</p>
+<p>而有的 wireguard 教程里面的 postup 和 postdown 也可以加，非 fullcone 下必加，但 fullcone nat 模块开启后就可以不加了</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">PostUp = iptables -I FORWARD -i wg0 -j ACCEPT; iptables -I FORWARD -o wg0 -j ACCEPT</span><br><span class="line">PostDown = iptables -D FORWARD -i wg0 -j ACCEPT; iptables -D FORWARD -o wg0 -j ACCEPT</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>初步判断 iptables 规则是否有用，可以跑一段时间流量后通过第一步的两个查询命令查看是否有流量通过。注意，有流量通过的规则并不一定是关键有效的，比如 postup 和 postdown 这两句执行后会发现也有流量经过，但去掉了也不影响连通性。</p>
+<p>修改了以后重新观察是否连通正确可以先执行 <code>iptables -Z</code> 清空流量统计。</p>
+</li>
+<li><p>修改后记得保存，然后重启后通过第一步或者 <code>iptables-save</code> 查看是否重启时自动加载了路由表。</p>
+</li>
+</ol>
+<h3 id="使用类-vpn-工具"><a href="#使用类-vpn-工具" class="headerlink" title="使用类 vpn 工具"></a>使用类 vpn 工具</h3><p>类 vpn 工具同样代理全部流量，区别在于它们的 udp 流量经过特殊处理，能够保证 nat 类型为 fullcone。目前有以下这么几种：</p>
+<ul>
+<li><a href="https://github.com/zhxie/ikago">zhxie/ikago: IkaGo is a proxy which helps bypassing UDP blocking, UDP QoS and NAT firewall written in Go.</a>（不太推荐）<br> 使用体验：</li>
+<li><a href="https://github.com/wangyu-/tinyfecVPN">wangyu- / tinyfecVPN：专为有损链接而设计的VPN，具有内置的前向纠错（FEC）支持。 在高延迟有损链路上提高网络质量。</a></li>
+</ul>
+<p>ikago 不推荐的原因是 bug 较为影响使用。</p>
+<h3 id="使用-socks-代理转-vpn-工具"><a href="#使用-socks-代理转-vpn-工具" class="headerlink" title="使用 socks 代理转 vpn 工具"></a>使用 socks 代理转 vpn 工具</h3><ul>
+<li><a href="https://www.proxifier.com/">Proxifier - The Most Advanced Proxy Client</a></li>
+<li><a href="https://github.com/FQrabbit/SSTap-Rule/releases/tag/SSTap%E5%B8%B8%E7%94%A8%E7%89%88%E6%9C%AC%E5%8F%8A%E5%8E%BB%E5%B9%BF%E5%91%8A">SSTAP</a></li>
+<li><a href="https://github.com/mellow-io/mellow">mellow</a>（不太推荐）<br> 使用体验：</li>
+<li><a href="https://github.com/zhxie/pcap2socks">zhxie/pcap2socks: Redirect traffic to SOCKS proxy with pcap.</a>（不太推荐）<br> 使用体验：</li>
+<li><a href="https://github.com/zhxie/pcap2socks-gui">zhxie/pcap2socks-gui: A front-end interface for pcap2socks.</a><br> 使用体验：</li>
+<li><a href="https://github.com/NetchX/Netch">NetchX/Netch: Game network accelerator. Support Socks5, Shadowsocks, ShadowsocksR, Trojan, VMess, VLess proxies. UDP NAT FullCone</a><br> 使用体验：</li>
+</ul>
+<p>mellow 和 pcap2socks 不推荐的原因同样是 bug 不少，另外 mellow 的配置门槛还挺高的。不过 mellow 的最大贡献是应该本身 go 的 tun/tap 实现。pcap2socks 就比较神秘，cli 界面用着用着就会报错，但 gui 并不会报错。</p>
+<p>剩下的几个，Proxifier 专注于进程代理，能给多个进程配置不同的代理和 dns，我觉得更适合作为那些个长期挂在后台，需要代理却不支持 http 代理也没有 socks 配置设置的应用使用。</p>
+<p>netch 是这几个中我最为推荐的，直接支持多种协议不需要再用二级代理进行转发（除非是使用 mkcp+seed，目前 netch 中还不支持相关配置）。不过之前也提到，tun/tap 全局代理尚未可用（容易 loopback）。且 netch 的 tun/tap，确实也有几次上不去网的状况发生，不算非常稳定。</p>
+<p>SSTAP 可用全局代理，通过设置路由能够避免 loopback 的产生。不过人家在项目主页上也说了，使用 sstap 不仅不能解决 nat 问题，nat 还会永远被固定在 Symmetric 的状态。</p>
+<p>上面这些工具，除了 pcap2socks 外工作方式无非进程代理和 tun/tap 转发两种。tun/tap 转发在建立了正确 ip 表的前提下效果完美，但可靠性欠佳（极少情况下反复开关几回以后网卡都工作不正常了，表现为啥网页都开不开，重启后才正常）。而进程代理方式有可能会遗漏一些游戏进程外的相关进程，就会造成类似 cod16 中游戏流量显然已经被加速过（丢包减少，能进游戏），然而丢包显示错误（始终为 0）的情况，或者是类似微软系第一方游戏上未加速 xbox live 服务导致云同步工作不正常的情况。</p>
+<p>pcap2socks 工作方式又和上面这些不太一样，大概应该属于旁路由，好处是可以给主机加速，坏处是加速设备不能和游戏设备是同一台，各类第三方加速器的主机加速模式也是这个原理。类 vpn 工具中的 ikago 同样也是旁路由原理，不过是 ikago 还拥有转发流量到 vps 的功能，而 pcap2socks 则把这个功能交给了 socks 代理来实现。</p>
+<p>话说回来，几种 socks 代理工具中，ss 和 ssr 属于 UOU（udp over udp），能够配合 udpspeeder/udp2raw/kcptun 使用；trojan 和 vless 属于 UOT（udp over tcp），只能配合 kcptun 使用。还有一个问题，就是在部分游戏的丢包显示中（比如 cod16），使用 UOT 代理做隧道的话，丢包显示不准确，始终为 0。未来 xray 如果能实现 smux 功能的话，就能部分替代 udpspeeder/kcptun 的加速效果。</p>
+]]></content>
+      <categories>
+        <category>Network</category>
+      </categories>
+      <tags>
+        <tag>游戏加速</tag>
+        <tag>socks</tag>
+        <tag>nat</tag>
+        <tag>fullcone</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>暴力整合 windows terminal 到系统各处快捷菜单中</title>
     <url>/bao-li-zheng-he-windows-terminal-dao-xi-tong-ge-chu-kuai-jie-cai-dan-zhong/</url>
     <content><![CDATA[<p>参考文章：</p>
@@ -3311,6 +3598,58 @@
       </tags>
   </entry>
   <entry>
+    <title>mellow 使用体验</title>
+    <url>/mellow-shi-yong-ti-yan/</url>
+    <content><![CDATA[<p><a href="https://github.com/mellow-io/mellow">mellow</a> 竞品我都用过，所以一图流：</p>
+<p><img src="https://mlgbgtf8qq4t.i.optimole.com/Mvdl5Q-pbiVlKII/w:720/h:681/q:auto/https://i0.wp.com/files.catbox.moe/q4fdfx.png" alt="github新项目mellow也能访问谷歌等知名网站"></p>
+<p>就是用来 socks5 代理转 vpn 的。</p>
+<p>不过虽然看起来功能很多，但因为全部依赖配置文件所以用起来繁琐，而且因为本身不像 sstap 就是为 socks5 转 vpn 服务的，所以本身连防本地环回的功能都没搞。。。</p>
+<ol>
+<li><p>抄官方的默认配置，或者导入 url（可能有点困难，github raw 这个网址被墙了）：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">https://raw.githubusercontent.com/ConnersHua/Profiles/master/Mellow/Pro.conf</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>修改，主要修改 <code>[Endpoint]</code></p>
+<p>我只用 v2-tls 和 v2+kcptun，对于 v2-tls，mellow 原生支持，但没有详细写描述怎么配置，只能找猫画虎：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">Proxy-1, vmess1, vmess1://75da2e14-4d08-480b-b3cb-0079a0c51275@example.com:443/path?network=ws&amp;tls=true&amp;ws.host=example.com</span><br></pre></td></tr></tbody></table></figure>
+
+<p>注意 path 和 host。</p>
+<p>对于另一种，需要通过 sokcs 转接，官网上 socks 用了 Socks-Out 这种标法，如果没有做 <code>[EndpointGroup]</code> 照抄会出错，正确的写法是：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">Proxy-1, builtin, socks, address=127.0.0.1, port=3080</span><br></pre></td></tr></tbody></table></figure>
+
+<p>然后！在 <code>[RoutingRule]</code> 里面加上代理的 app，防止本地环回，本例中，是这样：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">PROCESS-NAME, kcptun.exe, Direct</span><br><span class="line">PROCESS-NAME, wv2ray.exe, Direct</span><br><span class="line">PROCESS-NAME, v2rayN.exe, Direct</span><br></pre></td></tr></tbody></table></figure>
+
+<p>然后保存，重载配置，connect，按提示安装虚拟网卡，即可使用。</p>
+<p><strong>（21.1.17 更新）</strong> 几点小注意（bug）：</p>
+<ol>
+<li><p>启动不起来，或者启动报错，看下安装日志，很有可能是虚拟网卡创建失败或者名字不对。解决方案是将 mellow 用的虚拟网卡（网络适配器）<code>TAP-Windows Adapter V9</code> 卸载后打开软件自动重装，仍然错误再手动更名为 <code>mellow-tap0</code>。</p>
+</li>
+<li><p>socks 转接的话，转接的代理工具配置文件中地址得用 ip 而不能用域名。如果一定要用域名，需要在 mellow 配置文件中增加 host，类似于：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">[DnsHost]</span><br><span class="line">; domain = ip</span><br><span class="line">xxx.xxx = [vps的ip]</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>内置 vmess 似乎不支持 tcp http 伪装。</p>
+</li>
+<li><p>不建议 socks 转接时使用重新连接功能，经常报错端口占用，应该是进程退不干净。如要重新连接最好断开连接过段时间再连。</p>
+</li>
+<li><p>和一些 tap 代理工具有冲突，比如 clash。使用前请关闭，否则也报端口占用。也许更改初始端口可以解决（待验证）。</p>
+</li>
+<li><p>仍然大量报错的话建议用工具清理注册表。</p>
+</li>
+<li><p>本工具已经略显过时，主要是因为配置麻烦和 bug 过多。如果不是为了全局 tap/tun 代理并忽略部分进程，建议使用 netch 替代（netch 全局代理暂不可用）。</p>
+</li>
+</ol>
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>Network</category>
+      </categories>
+      <tags>
+        <tag>socks</tag>
+        <tag>mellow</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>powershell 全攻略</title>
     <url>/powershell-quan-gong-lue/</url>
     <content><![CDATA[<p>我一直以为 powershell 没啥好玩的。。。不过最近了解了一下，比 cmd 强很多，特别是 cmd 没有历史记录这点差评，另外还有包管理器什么的，感觉发现了新世界~</p>
@@ -3654,7 +3993,7 @@
       </tags>
   </entry>
   <entry>
-    <title>一步到位的vps从入门到放弃</title>
+    <title>一步到位的 vps 从入门到放弃</title>
     <url>/yi-bu-dao-wei-de-vps-cong-ru-men-dao-fang-qi/</url>
     <content><![CDATA[<p>包含网盘，下载工具，远程控制，端口穿透，科学上网工具，以及上面这些技术的环境基础搭建</p>
 <h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><p>debian 9,512m/1024m 内存 vps</p>
@@ -4026,13 +4365,14 @@
 <p>另外如果想映射到虚拟主机目录下（比如域名使用 xxx/filemanager:777 时有效)，需要加入 –baseurl 参数，可以写在刚刚的配置文件中，这里以写在命令中为例。务必加在镜像名后，如：</p>
 <figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">docker run -d -u 1000 -v /home/zbttl:/srv -v /home/filebrowser/filebrowser.db:/database.db -v /home/filebrowser/.filebrowser.json:/.filebrowser.json -p 7777:7777 filebrowser/filebrowser --baseurl /filemanager/</span><br></pre></td></tr></tbody></table></figure>
 <p>主要用于你想用手上现有的域名 + 虚拟主机而不是另开新的三级域名来搭建 filemanager 时使用（后面讲 nginx 时我会再提到）</p>
-<h4 id="aria2-docker"><a href="#aria2-docker" class="headerlink" title="aria2 docker"></a>aria2 docker</h4><p>参考文章：<a href="https://p3terx.com/archives/docker-aria2-pro.html">Aria2 Pro - 更好用的 Aria2 Docker 容器镜像</a></p>
+<h4 id="aria2-docker"><a href="#aria2-docker" class="headerlink" title="aria2 docker"></a>aria2 docker</h4><p>有条件先去看离线下载类的 aria2，配置文件和破解线程限制的指南在那里。</p>
+<p>参考文章：<a href="https://p3terx.com/archives/docker-aria2-pro.html">Aria2 Pro - 更好用的 Aria2 Docker 容器镜像</a></p>
 <p>官方命令：</p>
 <figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">docker run -d \</span><br><span class="line">    --name aria2-pro \</span><br><span class="line">    --restart unless-stopped \</span><br><span class="line">    --log-opt max-size=1m \</span><br><span class="line">    -e PUID=$UID \</span><br><span class="line">    -e PGID=$GID \</span><br><span class="line">    -e RPC_SECRET=&lt;TOKEN&gt; \</span><br><span class="line">    -p 6800:6800 \</span><br><span class="line">    -p 6888:6888 \</span><br><span class="line">    -p 6888:6888/udp \</span><br><span class="line">    -v ~/aria2-config:/config \</span><br><span class="line">    -v ~/downloads:/downloads \</span><br><span class="line">    p3terx/aria2-pro</span><br></pre></td></tr></tbody></table></figure>
 
 <p>和 aria2 一键脚本相比，添加了 PUID 和 PGID 两个参数，方便以指定的身份下载文件，不过实现的方法和通用方法 -u 参数（参见 filemanager docker）不同，用了 -e 参数（实测，-e 和 -u 不可混用，需要配合具体容器使用）。两个 -v 对应的目录一个是配置目录一个是下载，这里还可以开一个 -v，链接破解过线程的 aria2 二进制文件，注意该文件需要提前加够 755 权限。另外，这里的 TOKEN 是密码，也需要进行定义。</p>
 <p>根据非 docker aria2 的默认设置，下载文件放置于 <code>/home/zbttl/download/aria2</code>，程序放置于 <code>/usr/local/bin</code>，docker 内 aria2 同样放置于 <code>/usr/local/bin/</code>，配置文件由于和原来有一些出入（不过大概只有目标目录那里需要验证，默认的 <code>/root/Downloads</code> 不知道能不能改），所以不建议修改映射，但可以部署完后进行修改保存，下次继续用。</p>
-<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">docker run -d \</span><br><span class="line">    --name aria2-pro \</span><br><span class="line">    --restart unless-stopped \</span><br><span class="line">    --log-opt max-size=1m \</span><br><span class="line">    -e PUID=1000 \</span><br><span class="line">    -e PGID=$GID \</span><br><span class="line">    -e RPC_SECRET=asd123zxcar \</span><br><span class="line">    -p 6800:6800 \</span><br><span class="line">    -p 6888:6888 \</span><br><span class="line">    -p 6888:6888/udp \</span><br><span class="line">    -v ~/aria2-config:/config \</span><br><span class="line">    -v /home/zbttl/download/aria2:/downloads \</span><br><span class="line">    -v /usr/local/bin/aria2c:/usr/local/bin/aria2c \</span><br><span class="line">    p3terx/aria2-pro</span><br></pre></td></tr></tbody></table></figure>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">docker run -d \</span><br><span class="line">    --name aria2-pro \</span><br><span class="line">    --restart unless-stopped \</span><br><span class="line">    --log-opt max-size=1m \</span><br><span class="line">    -e PUID=1000 \</span><br><span class="line">    -e PGID=$GID \</span><br><span class="line">    -e RPC_SECRET=[登录密码] \</span><br><span class="line">    -p 6800:6800 \</span><br><span class="line">    -p 6888:6888 \</span><br><span class="line">    -p 6888:6888/udp \</span><br><span class="line">    -v ~/aria2-config:/config \</span><br><span class="line">    -v /home/zbttl/download/aria2:/downloads \</span><br><span class="line">    -v /usr/local/bin/aria2c:/usr/local/bin/aria2c \</span><br><span class="line">    p3terx/aria2-pro</span><br></pre></td></tr></tbody></table></figure>
 
 <p>另外，这里有一个不算啥问题的问题。。。如果和 aria2 一键脚本混用且 aria2 一键脚本已安装并启动，同时打开该容器（在端口经过修改没有冲突程序打开成功的情况下），此时停止 aria2 脚本安装的 aria2 程序，然后再次运行启动脚本，会提示该脚本启动的 aria2 仍在开启。不过也不会有人无聊到混用的吧。</p>
 <h4 id="amule（docker）"><a href="#amule（docker）" class="headerlink" title="amule（docker）"></a>amule（docker）</h4><p>参考文章：<a href="https://hub.docker.com/r/tchabaud/amule">tchabaud/amule</a></p>
@@ -4041,7 +4381,7 @@
 <figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">docker run -p 4712:4712 -p 4662:4662 -p 4672:4672/udp \</span><br><span class="line">    -e PUID=[wanted_uid] -e PGID=[wanted_gid] \</span><br><span class="line">    -e GUI_PWD=[wanted_password_for_gui] \</span><br><span class="line">    -v ./amule/conf:/home/amule/.aMule -v ./amule/incoming:/incoming -v ./amule/tmp:/temp tchabaud/amule</span><br></pre></td></tr></tbody></table></figure>
 
 <p>其实经过前几个 docker 的搭建这些参数我都差不多熟悉了。。。不过这里有个小坑。 -v 这里有三个目录，按理来说，我们需要修改的 conf 参数在 docker 命令中已经包括了，所以实际上 -v 只需要映射 <code>/incoming</code> 目录就好了。然而我这么做了以后，发现下载速度比原版 amule 慢了不少。。。试了两三次，只有最后一次，放置了两三个小时后，amule 的 kad 正确的连接了，速度才正常了起来，而当正确的映射三个目录的时候，运行正常。所以看来还是得乖乖映射两个没啥用的目录。。。</p>
-<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">mkdir /home/zbttl/download/amule&amp;&amp;cd /home/zbttl/download/amule</span><br><span class="line">mkdir ./conf</span><br><span class="line">mkdir ./tmp</span><br><span class="line">mkdir ./incoming</span><br><span class="line">chown -R zbttl ./conf ./tmp ./incoming</span><br><span class="line">docker run -d -p 4711:4711 -p 4662:4662 -p 4672:4672/udp     -e PUID=1000 -e PGID=1000     -e WEBUI_PWD=asd123zxcam     -v /home/zbttl/download/amule/conf:/home/amule/.aMule -v /home/zbttl/download/amule/incoming:/incoming -v /home/zbttl/download/amule/tmp:/temp tchabaud/amule</span><br></pre></td></tr></tbody></table></figure>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">mkdir /home/zbttl/download/amule&amp;&amp;cd /home/zbttl/download/amule</span><br><span class="line">mkdir ./conf</span><br><span class="line">mkdir ./tmp</span><br><span class="line">mkdir ./incoming</span><br><span class="line">chown -R zbttl ./conf ./tmp ./incoming</span><br><span class="line">docker run -d -p 4711:4711 -p 4662:4662 -p 4672:4672/udp     -e PUID=1000 -e PGID=1000     -e WEBUI_PWD=[登录密码]    -v /home/zbttl/download/amule/conf:/home/amule/.aMule -v /home/zbttl/download/amule/incoming:/incoming -v /home/zbttl/download/amule/tmp:/temp tchabaud/amule</span><br></pre></td></tr></tbody></table></figure>
 
 <p>当然，不要和通常版 amule 一起使用，即使端口错开，后开那个也只能得到 low id。</p>
 <h4 id="mldonkey（docker）"><a href="#mldonkey（docker）" class="headerlink" title="mldonkey（docker）"></a>mldonkey（docker）</h4><p>参考文章：<a href="https://github.com/logicwar">logicwar</a>/<strong><a href="https://github.com/logicwar/mldonkey">mldonkey</a></strong></p>
@@ -4055,7 +4395,7 @@
 <h4 id="vscoder"><a href="#vscoder" class="headerlink" title="vscoder"></a>vscoder</h4><p>参考文章：<a href="https://hub.docker.com/r/linuxserver/code-server">linuxserver/code-server</a></p>
 <p>新建了一个 coder 用户，用户文件夹为 <code>/home/coder</code>，<code>id coder</code> 查询结果喂 1003。</p>
 <p>docker-compose.yml：</p>
-<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">version: "2.1"</span><br><span class="line">services:</span><br><span class="line">  code-server:</span><br><span class="line">    image: linuxserver/code-server</span><br><span class="line">    container_name: code-server</span><br><span class="line">    environment:</span><br><span class="line">      - PUID=1003</span><br><span class="line">      - PGID=1003</span><br><span class="line">      - TZ=Asia/Shanghai</span><br><span class="line">      - PASSWORD=asd123zxcvs #optional</span><br><span class="line">      - SUDO_PASSWORD=asd123zxc #optional</span><br><span class="line">    volumes:</span><br><span class="line">      - /home/coder/:/config</span><br><span class="line">    ports:</span><br><span class="line">      - 8443:8443</span><br><span class="line">    restart: unless-stopped</span><br></pre></td></tr></tbody></table></figure>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">version: "2.1"</span><br><span class="line">services:</span><br><span class="line">  code-server:</span><br><span class="line">    image: linuxserver/code-server</span><br><span class="line">    container_name: code-server</span><br><span class="line">    environment:</span><br><span class="line">      - PUID=1003</span><br><span class="line">      - PGID=1003</span><br><span class="line">      - TZ=Asia/Shanghai</span><br><span class="line">      - PASSWORD=[登录密码] #optional</span><br><span class="line">      - SUDO_PASSWORD=[linux用户密码] #optional</span><br><span class="line">    volumes:</span><br><span class="line">      - /home/coder/:/config</span><br><span class="line">    ports:</span><br><span class="line">      - 8443:8443</span><br><span class="line">    restart: unless-stopped</span><br></pre></td></tr></tbody></table></figure>
 
 <p>另外还有一种 <a href="https://github.com/cdr/code-server">cdr/code-server</a> 我试了半天都没办法用非 root 用户映射本地目录，算了。</p>
 <h3 id="离线下载类"><a href="#离线下载类" class="headerlink" title="离线下载类"></a>离线下载类</h3><h4 id="aria2（19-11-18-更新）"><a href="#aria2（19-11-18-更新）" class="headerlink" title="aria2（19.11.18 更新）"></a>aria2（19.11.18 更新）</h4><p>因为 aria2 有线程限制，所以建议自己下载源码修改以后进行编译。<del>不过编译过后的二进制文件好像会大很多的样子。。。</del></p>
@@ -4100,13 +4440,12 @@
 </li>
 </ol>
 <h5 id="文件修改"><a href="#文件修改" class="headerlink" title="文件修改"></a>文件修改</h5><ol>
-<li>需要修改的是那些以 cc 为后缀的编译源文件，具体是哪几个文件可以去看参考资料 2 里面的 .patch 文件。但因为我们最主要的是修改服务器最大连接数和服务器最小分割尺寸，所以只需要修改其中的 OptionHandlerFactory.cc。</li>
-<li>寻找 OptionHandlerFactory.cc 文件，一般在 aria2 的 src 目录里面，可以通过 find 命令来寻找</li>
-</ol>
-<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">find / -name OptionHandlerFactory.cc</span><br></pre></td></tr></tbody></table></figure>
+<li><p>需要修改的是那些以 cc 为后缀的编译源文件，具体是哪几个文件可以去看参考资料 2 里面的 .patch 文件。但因为我们最主要的是修改服务器最大连接数和服务器最小分割尺寸，所以只需要修改其中的 OptionHandlerFactory.cc。</p>
+</li>
+<li><p>寻找 OptionHandlerFactory.cc 文件，一般在 aria2 的 src 目录里面，可以通过 find 命令来寻找</p>
+ <figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">find / -name OptionHandlerFactory.cc</span><br></pre></td></tr></tbody></table></figure>
 <p>假设在 aria2 目录下的<code>/src/OptionHandlerFactory.cc</code>内，那么输入</p>
-<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">vim /root/aria2-${aria2_new_ver}/src/OptionHandlerFactory.cc</span><br></pre></td></tr></tbody></table></figure>
-<ol start="3">
+ <figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">vim /root/aria2-${aria2_new_ver}/src/OptionHandlerFactory.cc</span><br></pre></td></tr></tbody></table></figure></li>
 <li><p>文件里代码密密麻麻，有用的是类似这样的代码块：</p>
 <figure class="highlight c++"><table><tbody><tr><td class="code"><pre><span class="line"><span class="function">OptionHandler* <span class="title">op</span><span class="params">(<span class="keyword">new</span> NumberOptionHandler(PREF_MAX_CONNECTION_PER_SERVER,</span></span></span><br><span class="line"><span class="function"><span class="params">                                               TEXT_MAX_CONNECTION_PER_SERVER,</span></span></span><br><span class="line"><span class="function"><span class="params">                                               <span class="string">"1"</span>, <span class="number">1</span>, <span class="number">16</span>, <span class="string">'x'</span>))</span></span>;</span><br></pre></td></tr></tbody></table></figure>
 
@@ -4241,7 +4580,7 @@
 <li><p>某些老古董（比如 tx 云）还在使用 ext3，那么就需要修改 <code>file-allocation</code>，除了 <code>falloc</code> 以外都可以。</p>
 <p>还有一个要手工添加的 bt-tracker，需要在最末尾添加<code>bt-tracker=</code>,等号后面跟上 tracker 网址。tracker 网址可以从<a href="https://github.com/ngosang/trackerslist">这里</a>找，然后复制到有正则功能的编辑器里面（比如 notepad++，注意 vscode 不行），将<code>(?&lt;=\r\n)\r\n</code>替换为空，将<code>\r\n</code>替换为逗号，即可。</p>
 <p>例子：</p>
-<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">    ## '#'开头为注释内容, 选项都有相应的注释说明, 根据需要修改 ##</span><br><span class="line">    ## 被注释的选项填写的是默认值, 建议在需要修改时再取消注释  ##</span><br><span class="line">    </span><br><span class="line">    ## 文件保存相关 ##</span><br><span class="line">    </span><br><span class="line">    # 文件的保存路径(可使用绝对路径或相对路径), 默认: 当前启动位置</span><br><span class="line">    dir=/home/zbttl/download/aria2</span><br><span class="line">    # 启用磁盘缓存, 0为禁用缓存, 需1.16以上版本, 默认:16M</span><br><span class="line">    #disk-cache=32M</span><br><span class="line">    # 文件预分配方式, 能有效降低磁盘碎片, 默认:prealloc</span><br><span class="line">    # 预分配所需时间: none &lt; falloc ? trunc &lt; prealloc</span><br><span class="line">    # falloc和trunc则需要文件系统和内核支持</span><br><span class="line">    # NTFS建议使用falloc, EXT3/4建议trunc, MAC 下需要注释此项</span><br><span class="line">    # file-allocation=none</span><br><span class="line">    # 断点续传</span><br><span class="line">    continue=true</span><br><span class="line">    </span><br><span class="line">    ## 下载连接相关 ##</span><br><span class="line">    </span><br><span class="line">    # 最大同时下载任务数, 运行时可修改, 默认:5</span><br><span class="line">    max-concurrent-downloads=10</span><br><span class="line">    # 同一服务器连接数, 添加时可指定, 默认:1</span><br><span class="line">    max-connection-per-server=32</span><br><span class="line">    # 最小文件分片大小, 添加时可指定, 取值范围1M -1024M, 默认:20M</span><br><span class="line">    # 假定size=10M, 文件为20MiB 则使用两个来源下载; 文件为15MiB 则使用一个来源下载</span><br><span class="line">    min-split-size=1M</span><br><span class="line">    # 单个任务最大线程数, 添加时可指定, 默认:5</span><br><span class="line">    split=32</span><br><span class="line">    # 整体下载速度限制, 运行时可修改, 默认:0</span><br><span class="line">    #max-overall-download-limit=0</span><br><span class="line">    # 单个任务下载速度限制, 默认:0</span><br><span class="line">    #max-download-limit=0</span><br><span class="line">    # 整体上传速度限制, 运行时可修改, 默认:0</span><br><span class="line">    max-overall-upload-limit=1M</span><br><span class="line">    # 单个任务上传速度限制, 默认:0</span><br><span class="line">    #max-upload-limit=1000</span><br><span class="line">    # 禁用IPv6, 默认:false</span><br><span class="line">    disable-ipv6=false</span><br><span class="line">    </span><br><span class="line">    ## 进度保存相关 ##</span><br><span class="line">    </span><br><span class="line">    # 从会话文件中读取下载任务</span><br><span class="line">    input-file=/root/aria2/aria2.session</span><br><span class="line">    # 在Aria2退出时保存`错误/未完成`的下载任务到会话文件</span><br><span class="line">    save-session=/root/aria2/aria2.session</span><br><span class="line">    # 定时保存会话, 0为退出时才保存, 需1.16.1以上版本, 默认:0</span><br><span class="line">    save-session-interval=60</span><br><span class="line">    </span><br><span class="line">    ## RPC相关设置 ##</span><br><span class="line">    </span><br><span class="line">    # 启用RPC, 默认:false</span><br><span class="line">    enable-rpc=true</span><br><span class="line">    # 允许所有来源, 默认:false</span><br><span class="line">    rpc-allow-origin-all=true</span><br><span class="line">    # 允许非外部访问, 默认:false</span><br><span class="line">    rpc-listen-all=true</span><br><span class="line">    # 事件轮询方式, 取值:[epoll, kqueue, port, poll, select], 不同系统默认值不同</span><br><span class="line">    #event-poll=select</span><br><span class="line">    # RPC监听端口, 端口被占用时可以修改, 默认:6800</span><br><span class="line">    rpc-listen-port=6800</span><br><span class="line">    # 设置的RPC授权令牌, v1.18.4新增功能, 取代 --rpc-user 和 --rpc-passwd 选项</span><br><span class="line">    rpc-secret=asd123zxc</span><br><span class="line">    # 设置的RPC访问用户名, 此选项新版已废弃, 建议改用 --rpc-secret 选项</span><br><span class="line">    #rpc-user=&lt;USER&gt;</span><br><span class="line">    # 设置的RPC访问密码, 此选项新版已废弃, 建议改用 --rpc-secret 选项</span><br><span class="line">    #rpc-passwd=&lt;PASSWD&gt;</span><br><span class="line">    # 是否启用 RPC 服务的 SSL/TLS 加密,</span><br><span class="line">    # 启用加密后 RPC 服务需要使用 https 或者 wss 协议连接</span><br><span class="line">    #rpc-secure=true</span><br><span class="line">    # 在 RPC 服务中启用 SSL/TLS 加密时的证书文件(.pem/.crt)</span><br><span class="line">    #rpc-certificate=/root/xxx.pem</span><br><span class="line">    # 在 RPC 服务中启用 SSL/TLS 加密时的私钥文件(.key)</span><br><span class="line">    #rpc-private-key=/root/xxx.key</span><br><span class="line">    </span><br><span class="line">    ## BT/PT下载相关 ##</span><br><span class="line">    </span><br><span class="line">    # 当下载的是一个种子(以.torrent结尾)时, 自动开始BT任务, 默认:true</span><br><span class="line">    follow-torrent=true</span><br><span class="line">    # BT监听端口, 当端口被屏蔽时使用, 默认:6881-6999</span><br><span class="line">    listen-port=51414</span><br><span class="line">    # 单个种子最大连接数, 默认:55</span><br><span class="line">    #bt-max-peers=55</span><br><span class="line">    # 打开DHT功能, PT需要禁用, 默认:true</span><br><span class="line">    enable-dht=true</span><br><span class="line">    # 打开IPv6 DHT功能, PT需要禁用</span><br><span class="line">    #enable-dht6=false</span><br><span class="line">    # DHT网络监听端口, 默认:6881-6999</span><br><span class="line">    #dht-listen-port=6881-6999</span><br><span class="line">    # 本地节点查找, PT需要禁用, 默认:false</span><br><span class="line">    #bt-enable-lpd=true</span><br><span class="line">    # 种子交换, PT需要禁用, 默认:true</span><br><span class="line">    enable-peer-exchange=true</span><br><span class="line">    # 每个种子限速, 对少种的PT很有用, 默认:50K</span><br><span class="line">    #bt-request-peer-speed-limit=50K</span><br><span class="line">    # 客户端伪装, PT需要</span><br><span class="line">    peer-id-prefix=-TR2770-</span><br><span class="line">    user-agent=Transmission/2.77</span><br><span class="line">    # 当种子的分享率达到这个数时, 自动停止做种, 0为一直做种, 默认:1.0</span><br><span class="line">    seed-ratio=0.1</span><br><span class="line">    # 强制保存会话, 即使任务已经完成, 默认:false</span><br><span class="line">    # 较新的版本开启后会在任务完成后依然保留.aria2文件</span><br><span class="line">    force-save=true</span><br><span class="line">    # BT校验相关, 默认:true</span><br><span class="line">    #bt-hash-check-seed=true</span><br><span class="line">    # 继续之前的BT任务时, 无需再次校验, 默认:false</span><br><span class="line">    bt-seed-unverified=true</span><br><span class="line">    # 保存磁力链接元数据为种子文件(.torrent文件), 默认:false</span><br><span class="line">    #bt-save-metadata=true</span><br><span class="line">    </span><br><span class="line">    #把 max-tries 设为 0，retry-wait 设为 5（大于零整数，不要太小），这样当线程太多而被服务器返回 50X 时能自动重连，保持总线程数不下降;</span><br><span class="line">    max-tries=0</span><br><span class="line">    retry-wait=5</span><br><span class="line">    #max-file-not-found 设为 0 （此项默认就是 0），无限等待服务器发送数据直到完成下载。</span><br><span class="line">max-file-not-found=0</span><br></pre></td></tr></tbody></table></figure>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">    ## '#'开头为注释内容, 选项都有相应的注释说明, 根据需要修改 ##</span><br><span class="line">    ## 被注释的选项填写的是默认值, 建议在需要修改时再取消注释  ##</span><br><span class="line">    </span><br><span class="line">    ## 文件保存相关 ##</span><br><span class="line">    </span><br><span class="line">    # 文件的保存路径(可使用绝对路径或相对路径), 默认: 当前启动位置</span><br><span class="line">    dir=/home/zbttl/download/aria2</span><br><span class="line">    # 启用磁盘缓存, 0为禁用缓存, 需1.16以上版本, 默认:16M</span><br><span class="line">    #disk-cache=32M</span><br><span class="line">    # 文件预分配方式, 能有效降低磁盘碎片, 默认:prealloc</span><br><span class="line">    # 预分配所需时间: none &lt; falloc ? trunc &lt; prealloc</span><br><span class="line">    # falloc和trunc则需要文件系统和内核支持</span><br><span class="line">    # NTFS建议使用falloc, EXT3/4建议trunc, MAC 下需要注释此项</span><br><span class="line">    # file-allocation=none</span><br><span class="line">    # 断点续传</span><br><span class="line">    continue=true</span><br><span class="line">    </span><br><span class="line">    ## 下载连接相关 ##</span><br><span class="line">    </span><br><span class="line">    # 最大同时下载任务数, 运行时可修改, 默认:5</span><br><span class="line">    max-concurrent-downloads=10</span><br><span class="line">    # 同一服务器连接数, 添加时可指定, 默认:1</span><br><span class="line">    max-connection-per-server=32</span><br><span class="line">    # 最小文件分片大小, 添加时可指定, 取值范围1M -1024M, 默认:20M</span><br><span class="line">    # 假定size=10M, 文件为20MiB 则使用两个来源下载; 文件为15MiB 则使用一个来源下载</span><br><span class="line">    min-split-size=1M</span><br><span class="line">    # 单个任务最大线程数, 添加时可指定, 默认:5</span><br><span class="line">    split=32</span><br><span class="line">    # 整体下载速度限制, 运行时可修改, 默认:0</span><br><span class="line">    #max-overall-download-limit=0</span><br><span class="line">    # 单个任务下载速度限制, 默认:0</span><br><span class="line">    #max-download-limit=0</span><br><span class="line">    # 整体上传速度限制, 运行时可修改, 默认:0</span><br><span class="line">    max-overall-upload-limit=1M</span><br><span class="line">    # 单个任务上传速度限制, 默认:0</span><br><span class="line">    #max-upload-limit=1000</span><br><span class="line">    # 禁用IPv6, 默认:false</span><br><span class="line">    disable-ipv6=false</span><br><span class="line">    </span><br><span class="line">    ## 进度保存相关 ##</span><br><span class="line">    </span><br><span class="line">    # 从会话文件中读取下载任务</span><br><span class="line">    input-file=/root/aria2/aria2.session</span><br><span class="line">    # 在Aria2退出时保存`错误/未完成`的下载任务到会话文件</span><br><span class="line">    save-session=/root/aria2/aria2.session</span><br><span class="line">    # 定时保存会话, 0为退出时才保存, 需1.16.1以上版本, 默认:0</span><br><span class="line">    save-session-interval=60</span><br><span class="line">    </span><br><span class="line">    ## RPC相关设置 ##</span><br><span class="line">    </span><br><span class="line">    # 启用RPC, 默认:false</span><br><span class="line">    enable-rpc=true</span><br><span class="line">    # 允许所有来源, 默认:false</span><br><span class="line">    rpc-allow-origin-all=true</span><br><span class="line">    # 允许非外部访问, 默认:false</span><br><span class="line">    rpc-listen-all=true</span><br><span class="line">    # 事件轮询方式, 取值:[epoll, kqueue, port, poll, select], 不同系统默认值不同</span><br><span class="line">    #event-poll=select</span><br><span class="line">    # RPC监听端口, 端口被占用时可以修改, 默认:6800</span><br><span class="line">    rpc-listen-port=6800</span><br><span class="line">    # 设置的RPC授权令牌, v1.18.4新增功能, 取代 --rpc-user 和 --rpc-passwd 选项</span><br><span class="line">    rpc-secret=[登录密码]</span><br><span class="line">    # 设置的RPC访问用户名, 此选项新版已废弃, 建议改用 --rpc-secret 选项</span><br><span class="line">    #rpc-user=&lt;USER&gt;</span><br><span class="line">    # 设置的RPC访问密码, 此选项新版已废弃, 建议改用 --rpc-secret 选项</span><br><span class="line">    #rpc-passwd=&lt;PASSWD&gt;</span><br><span class="line">    # 是否启用 RPC 服务的 SSL/TLS 加密,</span><br><span class="line">    # 启用加密后 RPC 服务需要使用 https 或者 wss 协议连接</span><br><span class="line">    #rpc-secure=true</span><br><span class="line">    # 在 RPC 服务中启用 SSL/TLS 加密时的证书文件(.pem/.crt)</span><br><span class="line">    #rpc-certificate=/root/xxx.pem</span><br><span class="line">    # 在 RPC 服务中启用 SSL/TLS 加密时的私钥文件(.key)</span><br><span class="line">    #rpc-private-key=/root/xxx.key</span><br><span class="line">    </span><br><span class="line">    ## BT/PT下载相关 ##</span><br><span class="line">    </span><br><span class="line">    # 当下载的是一个种子(以.torrent结尾)时, 自动开始BT任务, 默认:true</span><br><span class="line">    follow-torrent=true</span><br><span class="line">    # BT监听端口, 当端口被屏蔽时使用, 默认:6881-6999</span><br><span class="line">    listen-port=51414</span><br><span class="line">    # 单个种子最大连接数, 默认:55</span><br><span class="line">    #bt-max-peers=55</span><br><span class="line">    # 打开DHT功能, PT需要禁用, 默认:true</span><br><span class="line">    enable-dht=true</span><br><span class="line">    # 打开IPv6 DHT功能, PT需要禁用</span><br><span class="line">    #enable-dht6=false</span><br><span class="line">    # DHT网络监听端口, 默认:6881-6999</span><br><span class="line">    #dht-listen-port=6881-6999</span><br><span class="line">    # 本地节点查找, PT需要禁用, 默认:false</span><br><span class="line">    #bt-enable-lpd=true</span><br><span class="line">    # 种子交换, PT需要禁用, 默认:true</span><br><span class="line">    enable-peer-exchange=true</span><br><span class="line">    # 每个种子限速, 对少种的PT很有用, 默认:50K</span><br><span class="line">    #bt-request-peer-speed-limit=50K</span><br><span class="line">    # 客户端伪装, PT需要</span><br><span class="line">    peer-id-prefix=-TR2770-</span><br><span class="line">    user-agent=Transmission/2.77</span><br><span class="line">    # 当种子的分享率达到这个数时, 自动停止做种, 0为一直做种, 默认:1.0</span><br><span class="line">    seed-ratio=0.1</span><br><span class="line">    # 强制保存会话, 即使任务已经完成, 默认:false</span><br><span class="line">    # 较新的版本开启后会在任务完成后依然保留.aria2文件</span><br><span class="line">    force-save=true</span><br><span class="line">    # BT校验相关, 默认:true</span><br><span class="line">    #bt-hash-check-seed=true</span><br><span class="line">    # 继续之前的BT任务时, 无需再次校验, 默认:false</span><br><span class="line">    bt-seed-unverified=true</span><br><span class="line">    # 保存磁力链接元数据为种子文件(.torrent文件), 默认:false</span><br><span class="line">    #bt-save-metadata=true</span><br><span class="line">    </span><br><span class="line">    #把 max-tries 设为 0，retry-wait 设为 5（大于零整数，不要太小），这样当线程太多而被服务器返回 50X 时能自动重连，保持总线程数不下降;</span><br><span class="line">    max-tries=0</span><br><span class="line">    retry-wait=5</span><br><span class="line">    #max-file-not-found 设为 0 （此项默认就是 0），无限等待服务器发送数据直到完成下载。</span><br><span class="line">max-file-not-found=0</span><br></pre></td></tr></tbody></table></figure>
 </li>
 </ul>
 <ol start="2">
