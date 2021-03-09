@@ -1,6 +1,193 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>斐讯 n1 折腾记录</title>
+    <url>/fei-xun-n1-zhe-teng-ji-lu/</url>
+    <content><![CDATA[<p>本来想等自己有钱的时候再买一个性能强悍啥都能干的 x86 软路由的。。。</p>
+<p>但最近折腾加速器，实在受不了这帮硬路由的憨憨性能了：明明 ac86u 性能还凑合但内存只有 512m 结果刷了梅林各种问题各种崩，其他 mt7621 就更不用说了</p>
+]]></content>
+      <categories>
+        <category>路由器</category>
+      </categories>
+      <tags>
+        <tag>羊毛</tag>
+        <tag>openwrt</tag>
+        <tag>yyf</tag>
+        <tag>n1</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>netch 使用体验（代理规则获取）</title>
+    <url>/netch-shi-yong-ti-yan-dai-li-gui-ze-huo-qu/</url>
+    <content><![CDATA[<p><a href="https://github.com/NetchX/Netch">Netch</a> 这么一个功能强大且逻辑合理的 gui，才出不久但各种文档已经足够详细，还要详细谈谈的必要嘛。。。</p>
+<p>还真有（</p>
+<p>netch 本身自带的规则并不丰富，进程全局模式可用度不高，因此需要手动提取规则。</p>
+<p>官方引用了 SSTAP-rule 处的文档<a href="https://github.com/FQrabbit/SSTap-Rule/wiki">Home · FQrabbit/SSTap-Rule Wiki</a>，给出了几种提取规则的方法：</p>
+<blockquote>
+<p><a href="https://github.com/oooldtoy/SSTAP_ip_crawl_tool#sstap_ip_crawl_tool">一个自动获取游戏远程ip，并自动写成SSTAP规则文件的脚本。 </a>(建议优先考虑此工具)</p>
+</blockquote>
+<pre><code>[使用 openQPA 进行基于游戏进程的ip地址获取](https://github.com/NormanBB/N/blob/master/intro.md)
+
+[提取加速器规则（超详细）](https://github.com/FQrabbit/SSTap-Rule/blob/master/doc/UU-extract.md)</code></pre>
+<p>经过实验，方法三加速效果最好也最简单。但也有两个问题：</p>
+<ol>
+<li>你得有 uu 加速器（tx 不行）会员，或者你有认识的人帮你提取（有会员为啥还要自建？）。</li>
+<li>tun/tap 没有程序代理模式用起来那么稳定，特别是如果 netch 是二级代理模式那就更容易出问题了（有几率导致 loopback）。</li>
+</ol>
+<p>方法一，是提取游戏进程的路由。但问题的关键似乎并不是「该提取哪些路由规则」而是「哪些程序需要代理」。譬如 cod16 在仅代理本体 <code>ModernWarfare.exe</code> 的情况下游戏能够顺利进入，但丢包显示错误，且游戏下载并未加速。</p>
+<p>方法二能找到游戏需要代理的进程（其本身也能找到需要加速进程的路由），需要将后台尽量清空，测试时流量跑的多的未知进程基本上就是需要代理的进程了。当然也不一定用方法 2 这个工具，许多工具都能达成目的，不过方法 2 这个程序，足够直观。缺点是，安装有点繁琐：</p>
+<ol>
+<li><p>安装 python2，如果之前安装有并主用 python3 的，不需要把 python2 加入 path 中。</p>
+</li>
+<li><p>安装 PyQt4。可以从<a href="https://sourceforge.net/projects/pyqt/files/PyQt4/PyQt-4.11.4/PyQt4-4.11.4-gpl-Py2.7-Qt4.8.7-x64.exe/download">这个地址</a>，也可以用 chocolatey 安装</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">choco install pyqt4 -y</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>[)下载</p>
+</li>
+<li><p>安装模块。参见 <a href="https://python.freelycode.com/contribution/detail/139">[官解]Windows上Python2和3如何兼容？</a></p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">py -2 -m pip install xmltodict==0.11.0</span><br><span class="line">py -2 -m pip install httplib2</span><br><span class="line">py -2 -m pip install bs4</span><br><span class="line">py -2 -m pip install dpkt</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>下载并解压 <a href="https://github.com/l7dpi/openQPA">openQPA</a>（没有 release，直接拉取整个项目就行），双击 <code>QPA.py</code> 打开，如果。跑两圈需要加速的应用然后把闹得欢的进程加入加速名单吧！</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210228063445.png"></p>
+</li>
+</ol>
+<p>另外，tun/tap 的全局进程代理模式和绕过大陆/局域网模式：<code>[3] Bypass LAN and China (TUN/TAP)</code>，以及后续的全局进程白名单模式，我尚未进行测试，如果效果好上面这些操作就当闲的没事干了（</p>
+]]></content>
+      <categories>
+        <category>game</category>
+      </categories>
+      <tags>
+        <tag>游戏加速</tag>
+        <tag>netch</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>ikago 和 pcap2socks 使用体验</title>
+    <url>/ikago-he-pcap2socks-shi-yong-ti-yan/</url>
+    <content><![CDATA[<p>参考文章：<a href="https://www.v2ex.com/t/672367#r_8979623">分享自己用 Go 写的游戏加速器 IkaGo - V2EX</a></p>
+<p>从 <a href="https://t.me/NewlearnerChannel">Newlearner の自留地</a> 了解到的游戏加速软件。</p>
+<p>后来发现作者还写了一个 pcap2socks 的项目，同样用于游戏加速。</p>
+<p>区别在于，</p>
+<ul>
+<li>ikago 是完整的一套游戏加速方案；</li>
+<li>pcap2socks 只保留了旁路由的功能，还需搭配 socks 代理使用。</li>
+</ul>
+<p>和很多专攻 pc 代理的加速器不同，这类型加速器的加速原理是旁路由，常见于给各种游戏主机加速。用过各种游戏加速器 pc 客户端主机加速的都应该有印象：在 pc 这边开好主机加速，再在游戏机那一段设置好 ip 配置，正确设置的话 pc 加速器这边会显示已成功加速。而这俩加速器的使用步骤也差不多是这样。</p>
+<p>当然，自建加速器和大厂加速器的取舍我已经在<a href="">另一篇</a>文章里提过了，这里只谈这种方案在技术上对普通加速器的优势：</p>
+<p>各个大厂的游戏加速器的主机加速功能只能为一台设备加速，而且这台设备还有平台限制；而自建加速器想加速多少设备就加速多少设备；只要你想，加速 pc 、手机也可以。</p>
+<p>当然了，旁路由加速要求加速设备和被加速设备不能是同一个设备，用过大厂游戏加速器主机加速的人也应该对此深有体会，自己想玩主机却还要一直开着电脑？大厂们也知道这点，于是就趁机贩卖起能够更为小巧省电，独立运行器加速器的主机盒；以及我在<a href="https://zbttl.github.io/lu-you-qi-pao-fen-shua-ji-hou-ri-tan-ji-ji-ge-jia-su-qi-shi-yong-qing-kuang-shou-ji/?highlight=%E8%B7%AF%E7%94%B1#%E6%80%BB%E7%BB%93%E6%88%91%E7%94%A8%E8%BF%87%E7%9A%84%E4%B8%80%E4%BA%9B%E5%8A%A0%E9%80%9F%E5%99%A8%E7%9A%84%E4%BC%98%E5%8A%A3%EF%BC%88%E6%8C%81%E7%BB%AD%E6%9B%B4%E6%96%B0%EF%BC%89">另一篇文章</a>中谈到那些能安装加速器插件的路由器。其实原理都并没有脱离 arp 劫持 + 代理流量的旁路由模式。自建就更灵活了：只要你的设备能跑起 go，就能运行。各类软路由，甚至手机上的 termux，都可以达成要求，这里就不详细阐述了。</p>
+<h2 id="ikago"><a href="#ikago" class="headerlink" title="ikago"></a><a href="https://github.com/zhxie/ikago">ikago</a></h2><h3 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h3><p>server 和 client 端运行平台是 linux 或者 windows 的，直接下载对应 release。或者按文档给的方法，安装 go 并 git clone 项目后使用 go run 运行，适合其他平台。</p>
+<h3 id="服务端配置"><a href="#服务端配置" class="headerlink" title="服务端配置"></a>服务端配置</h3><p>vps 这边新建一个 server.json，假设就放在 <code>/root</code> 下吧</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">{</span><br><span class="line">"listen-devices": [],</span><br><span class="line">"upstream-device": "",</span><br><span class="line">"gateway": "",</span><br><span class="line">"mode": "faketcp",</span><br><span class="line">"method": "aes-128-gcm",</span><br><span class="line">"password": "[密码]",</span><br><span class="line">"rule": true,</span><br><span class="line">"monitor": 9400,</span><br><span class="line">"verbose": false,</span><br><span class="line">"log": "",</span><br><span class="line">"mtu": 1400,</span><br><span class="line">"kcp": false,</span><br><span class="line">"kcp-tuning": {</span><br><span class="line">    "sndwnd": 100,</span><br><span class="line">    "rcvwnd": 100,</span><br><span class="line">    "datashard": 20,</span><br><span class="line">    "parityshard": 20,</span><br><span class="line">    "acknodelay": false,</span><br><span class="line">    "nodelay": false,</span><br><span class="line">    "interval": 10,</span><br><span class="line">    "resend": 0,</span><br><span class="line">    "nc": 0</span><br><span class="line">},</span><br><span class="line"></span><br><span class="line">"fragment": 1400,</span><br><span class="line">"port": 9300</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<p>可以改的几个地方：</p>
+<ul>
+<li>monitor 是和 web 监控端链接的接口。不过 monitor 这个接口在 client 端开就足够了，不一定要在 server 端这里再开一个。</li>
+<li>verbose，详情，设为 true 日志会变得更详细。</li>
+<li>log。日志输出位置。但后续我们会用 supervisor 开启自启的同时去输出日志，所以没必要开这个。</li>
+<li>port。远程端口。</li>
+</ul>
+<p>看起来可以调但其实不能调的地方：</p>
+<ul>
+<li>mode。文档写可选 tcp 和 faketcp，但实际上用 tcp 的话不能开启加密，即 method 那里只能填 none，否则连不通。</li>
+<li>kcp。kcp 设为打开的话，client 端平台不能是 windows，否则也连不通，会报错 <code>network layer type not support</code>。</li>
+</ul>
+<p>这俩应该是 bug 吧（前者在项目的 <a href="https://github.com/zhxie/ikago#known-issues">Known Issues</a> 中有提到）。。。不过看作者项目好久没动，我也不好意思提 issue 去了（又不是不能用）。</p>
+<p>假设咱的 release 版 server 端二进制文件放在 <code>/root/ikago</code> 下吧，启动看看：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">/root/ikago/ikago-server -c /root/ikago/server.json</span><br></pre></td></tr></tbody></table></figure>
+<p>大概效果是这样的：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210224092039.png"></p>
+<h3 id="客户端配置"><a href="#客户端配置" class="headerlink" title="客户端配置"></a>客户端配置</h3><p>以 windows 为例，新建 client.json:</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">{</span><br><span class="line">"listen-devices": [],</span><br><span class="line">"upstream-device": "",</span><br><span class="line">"gateway": "",</span><br><span class="line">"mode": "faketcp",</span><br><span class="line">"method": "aes-128-gcm",</span><br><span class="line">"password": "[密码]",</span><br><span class="line">"rule": true,</span><br><span class="line">"monitor": 9400,</span><br><span class="line">"verbose": true,</span><br><span class="line">"log": "",</span><br><span class="line">"mtu": 1400,</span><br><span class="line">"kcp": false,</span><br><span class="line">"kcp-tuning": {</span><br><span class="line">    "sndwnd": 100,</span><br><span class="line">    "rcvwnd": 100,</span><br><span class="line">    "datashard": 20,</span><br><span class="line">    "parityshard": 20,</span><br><span class="line">    "acknodelay": false,</span><br><span class="line">    "nodelay": false,</span><br><span class="line">    "interval": 10,</span><br><span class="line">    "resend": 0,</span><br><span class="line">    "nc": 0</span><br><span class="line">},</span><br><span class="line"></span><br><span class="line">"publish": "10.6.0.2",</span><br><span class="line">"fragment": 1400,</span><br><span class="line">"port": 0,</span><br><span class="line">"sources": [</span><br><span class="line">    "10.6.0.1",</span><br><span class="line">    "10.6.0.3"</span><br><span class="line">],</span><br><span class="line">"server": "[vps_ip]:9300"</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<ul>
+<li>monitor 和 verbose，和 server 那边含义一致。client 这边建议都开启。</li>
+<li>sources：劫持并监听的本地 ip，即要加速的设备在路由器下的本地 ip。</li>
+<li>publish：除了使用 arp 或者到路由器中获取需要加速设备的 ip 并填入 sources 中，更推荐的方法是单独做一个网段，用过加速器主机加速的各位应该都不陌生。作者选用的方法是模仿 tx 加速器的网段设置，被加速主机 ip 填 10.6.0.1，网关填 10.6.0.2,前者写到 sources 中，后者写到 publish 中，我个人又多加了一个 ip，这样如果还有另一个加速的设备就不用回来再修改了。</li>
+</ul>
+<p>启动</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">.\ikago-client.exe -c .\client.json</span><br></pre></td></tr></tbody></table></figure>
+
+<p>效果差不多是这样的：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210225090832.jpg"></p>
+<h3 id="开始使用"><a href="#开始使用" class="headerlink" title="开始使用"></a>开始使用</h3><p>被加速设备改用手动获取 ip 地址，publish 处的地址填入网关一项中；sources 处的其中一个地址填入 ip 一项中，子网掩码为 255.255.255.0，dns 一项填入 8.8.8.8。</p>
+<p>打开 ikago-web，可以选择拉取项目 <a href="https://github.com/zhxie/ikago-web">zhxie/ikago-web: IkaGo Web is a front-end interface for IkaGo.</a> 在本地打开或者自搭，也可以使用<a href="http://ikago.ikas.ink/">作者搭建的 web 页面</a>。</p>
+<p>点击 configure，path 改成 <code>localhost:9400</code>。正确设置的话，status 处会显示为 active，并且左下角显示有已经加速上的设备。</p>
+<h3 id="服务端设置自启（可选）"><a href="#服务端设置自启（可选）" class="headerlink" title="服务端设置自启（可选）"></a>服务端设置自启（可选）</h3><ol>
+<li><p>安装 supervisor</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">apt install supervisorctl -y</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>新建一个 <code>ikago.conf</code>，内容如下</p>
+ <figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">[program:ikago]</span><br><span class="line">user=root</span><br><span class="line">command=/root/ikago/ikago-server -c /root/ikago/server.json</span><br><span class="line">autostart=true</span><br><span class="line">redirect_stderr = true</span><br><span class="line">stdout_logfile_maxbytes = 1MB </span><br><span class="line">stdout_logfile = /tmp/ikago.log</span><br></pre></td></tr></tbody></table></figure>
+
+<p> 把这个文件放进 <code>/etc/supervisor/conf.d</code>。</p>
+</li>
+<li><p>运行</p>
+ <figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">supervisorctl reload</span><br></pre></td></tr></tbody></table></figure>
+
+<p> 后续直接通过</p>
+ <figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">tail -f /tmp/ikago.log</span><br></pre></td></tr></tbody></table></figure>
+
+<p> 查看日志。</p>
+</li>
+</ol>
+<h3 id="其他问题"><a href="#其他问题" class="headerlink" title="其他问题"></a>其他问题</h3><ol>
+<li><p>有时虽然配置正确了，被加速设备在 web 面板中却未出现，且被加速设备也连接不上网络。尝试重启笔记本和路由器，还有可能是某些路由器本身系统因素导致出现问题，我曾经就遭遇过加速设备在主路由（ac86u，梅林改，本身就不算稳定的系统）加速不上，挂上一个刷入小米路由器的联想 newifi mini 并让加速和被加速设备连上后加速成功的例子。</p>
+<p> 另一种情况是我一开始习惯把网关设为 <code>.1</code> 为结尾的地址，因此 publish 处我填了 <code>10.6.0.1</code>，sources 处填了 <code>10.6.0.2</code>，而被加速设备处也进行相应顺序上的调换，结果发现加速不上；换回来就成功了。这就比较玄学了。。。后面的 pcapsocks 也出现过这样的问题。</p>
+</li>
+<li><p>我在<a href="">前一篇</a>文章中写过不太推荐这个加速器，原因就在于，我运行后也没在使用，但五六天后我的探针给我报警了，回来一查：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/Xshell_D1Iuwab1Dc.png"></p>
+<p>摊手（</p>
+</li>
+</ol>
+<h2 id="pcap2socks-和-pcap2socks-gui"><a href="#pcap2socks-和-pcap2socks-gui" class="headerlink" title="pcap2socks 和 pcap2socks-gui"></a><a href="https://github.com/zhxie/pcap2socks">pcap2socks</a> 和 <a href="https://github.com/zhxie/pcap2socks-gui">pcap2socks-gui</a></h2><p>和 ikago 略有差异，pcap2socks 隧道的工作交给 socks5 了，只需要一个放在本地的二进制文件即可。假设 socks 开在 1080 端口，则：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">.\pcap2socks.exe -s 10.6.0.1 -p 10.6.0.2 -d 127.0.0.1:1080</span><br></pre></td></tr></tbody></table></figure>
+
+<p>这里的 <code>-s</code> 和 <code>-p</code> 在上面的 ikago client 配置中都有对应项，还不熟悉的可以返回去看。</p>
+<p>这时多半会报错</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">error: Cannot determine the interface. Available interfaces are listed below, and please use -i &lt;INTERFACE&gt; to designate:</span><br></pre></td></tr></tbody></table></figure>
+
+<p>然后底下这些就是设备列表，找到你的上网网卡的设备，复制前面那一长串 <code>\Device\NPF_{xxx}</code>，在命令用 <code>-i</code> 参数带上，即再次输入：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">.\pcap2socks.exe -s 10.6.0.1 -p 10.6.0.2 -d 127.0.0.1:1080 -i '\Device\NPF_{xxx}'</span><br></pre></td></tr></tbody></table></figure>
+
+<p>主机端参考 ikago 那边的设置就行了。</p>
+<p>这个我还是不推荐用。。。因为有时运行一段时间就报错：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">warning: receive from proxy: TCP: xxx:443 -&gt; 0: 你的主机中的软件中止了一个已建立的连接。 (os error 10053)</span><br></pre></td></tr></tbody></table></figure>
+
+<p>但其 gui 版本经过我实验表现相对稳定，也不用考虑网卡那串长长的 CLSID，甚至有 tx/uu 加速器默认的 ip 方案可直接选用，推荐使用。（这都喂到嘴里了，应该不用教了吧，gui 教程还要截图挺累的）</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210227054945.png"></p>
+<p>（唯一的缺点也许是不能在软路由上用 gui 版。不过软路由直接设置成旁路由然后全局代理他不香嘛？）</p>
+<p>不过这里还是有个小问题，某些设备（特别是 windows 20H2）打开这个 gui 看到的是一片空白，我排查了一下，应该是新版 edge 的锅，有这么几种解决方案：</p>
+<ol>
+<li><p>（优先使用）作者在项目中底下写的，启用 loopback 。以管理员权限运行 powershell，输入：</p>
+ <figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">CheckNetIsolation.exe LoopbackExempt -a -n="Microsoft.Win32WebViewHost_cw5n1h2txyewy"</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>安装 chromium edge dev。可以从 <a href="https://www.microsoftedgeinsider.com/zh-cn/download/">Microsoft Edge Insider Channels</a> 下载。也可以直接用 chocolatey 安装。</p>
+ <figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">choco install microsoft-edge-insider-dev -y</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>嫌 chromium edge dev 太臃肿？也可以只下 runtime：<a href="https://developer.microsoft.com/zh-cn/microsoft-edge/webview2/#download-section">Webview2 - Microsoft Edge Developer</a>。下载安装里面的 x64 版「常青版独立安装程序」（卧槽这翻译和坐和放宽有的一拼）。</p>
+</li>
+<li><p>（并不是正确的解决方法，但我潜意识感觉后续可能会有用，记录一下）更新 <code>WebView2Loader.dll</code>。<br> 安装 nuget</p>
+ <figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">choco install NuGet.CommandLine -y</span><br></pre></td></tr></tbody></table></figure>
+
+<p>  安装 <a href="https://www.nuget.org/packages/Microsoft.Web.WebView2">NuGet Gallery | Microsoft.Web.WebView2 1.0.705.50</a>：</p>
+  <figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">nuget install Microsoft.Web.WebView2</span><br></pre></td></tr></tbody></table></figure>
+
+<p>  提取 <code>WebView2Loader.dll</code>，可利用 everything 搜索，一般在 <code>C:\Windows\System32\Microsoft.Web.WebView2.1.0.705.50\build\x64\</code> 下，everything 可能会搜索到其他几个 x64 目录下也有 <code>WebView2Loader.dll</code>，应该都是同一个文件。pcap2socks 自带的 <code>WebView2Loader.dll</code> 应该包含了几个平台的依赖，大小 400 多 k，我们提取的 x64 版只有 133k。（这年头不会还有用 x86 的吧？用 x86 寨板跑加速？）</p>
+<p>  然后把提取到的文件覆盖进 pcap2socks 目录内就行。</p>
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>game</category>
+      </categories>
+      <tags>
+        <tag>游戏加速</tag>
+        <tag>ikago</tag>
+        <tag>pcap2socks</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>onedrive 挂载到 cloudflare</title>
     <url>/onedrive-gua-zai-dao-cloudflare/</url>
     <content><![CDATA[<p>感觉 azure 做的 oneIndex 目录打开还是贼慢。</p>
@@ -77,24 +264,16 @@
 <p>在 postman 中新建页面，请求类型设为 post，地址为 <a href="https://login.microsoftonline.com/common/oauth2/v2.0/token%EF%BC%9B%E5%88%87%E6%8D%A2%E5%88%B0">https://login.microsoftonline.com/common/oauth2/v2.0/token；切换到</a> boy 这个 tab，底下一栏选中 application/x-www-form-urlencoded；然后新建五个 key：</p>
 <ul>
 <li><code>grant_type</code> 填 authorization_code</li>
+<li><code>code </code>填刚刚获取的 <code>authorization code</code></li>
+<li><code>redirect_uri</code> 填刚刚那一步用的回调 url</li>
+<li><code>client_id</code>：你们懂得。</li>
+<li><code>client_secret</code>：同上。</li>
 </ul>
-</li>
-</ol>
-<ul>
-<li><p><code>code </code>填刚刚获取的 <code>authorization code</code></p>
-<ul>
-<li><p><code>redirect_uri</code> 填刚刚那一步用的回调 url</p>
-</li>
-<li><p><code>client_id</code>：你们懂得。</p>
-</li>
-<li><p><code>client_secret</code>：同上。</p>
 <p>点击 send，不出意外的话结果里就会有 <code>access_token</code> 和 <code>refresh_token</code>。记录下 <code>refresh_token</code>。</p>
 <p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210220035446.png"></p>
 <p>不过如果获取失败（比如显示 <code>error: "invalid_request"</code>），那么就说明参数有误。注意，此时需要重新从第一小步开始获取 <code>authorization code</code>，因为 <code>authorization code</code> 只能用一次。另外 authorization code 多次获取的话也只有最后一次获取的 code 能用来获取 <code>refresh_token</code>。</p>
 </li>
-</ul>
-</li>
-</ul>
+</ol>
 </li>
 </ol>
 <h3 id="cloudflare-面板操作"><a href="#cloudflare-面板操作" class="headerlink" title="cloudflare 面板操作"></a>cloudflare 面板操作</h3><ol>
@@ -357,34 +536,34 @@
       </tags>
   </entry>
   <entry>
-    <title>padavan 中继</title>
-    <url>/padavan-zhong-ji/</url>
+    <title>k2 中继</title>
+    <url>/k2-zhong-ji/</url>
     <content><![CDATA[<p>曾经在<a href="https://zbttl.github.io/lu-you-qi-pao-fen-shua-ji-hou-ri-tan-ji-ji-ge-jia-su-qi-shi-yong-qing-kuang-shou-ji/#%E5%B0%8F%E7%B1%B3%E5%9B%BA%E4%BB%B6%E5%8A%A0%E9%80%9F%E7%9A%84%E5%8A%A3%E5%8A%BF%EF%BC%8C%E5%92%8C%E5%90%8E%E7%BB%AD%E5%8A%A0%E9%80%9F%E6%96%B9%E6%A1%88%E7%9A%84%E5%AF%BB%E6%89%BE">路由器跑分 &amp;&amp; 刷机 后日谈 及 几个加速器使用情况收集</a>中提到过</p>
 <blockquote>
 <p>刷个 padavan 在家当非单独子网的无线中继好了，加速器识别到家中的华硕主路由器，让华硕来加速，这个就仅仅弥补 xbox 无线拉跨的问题。</p>
 </blockquote>
 <p>今天就谈谈中继的问题。</p>
-<p>参考文章：<a href="https://www.bilibili.com/read/cv5828717/">老毛子Padavan固件（华硕固件）无线中继设置以及自动切换脚本中继 - 哔哩哔哩</a></p>
-<p>padavan 界面经过几次调整，现在的中继菜单项在高级设置（记点进去而不是在它本身的下拉菜单项） -&gt; 无线 2.4 GHz/无线 5 Ghz -&gt; 无线桥接中。</p>
+<h2 id="padavan"><a href="#padavan" class="headerlink" title="padavan"></a>padavan</h2><p>参考文章：<a href="https://www.bilibili.com/read/cv5828717/">老毛子Padavan固件（华硕固件）无线中继设置以及自动切换脚本中继 - 哔哩哔哩</a></p>
+<h3 id="打开中继"><a href="#打开中继" class="headerlink" title="打开中继"></a>打开中继</h3><p>padavan 界面经过几次调整，现在的中继菜单项在高级设置（记点进去而不是在它本身的下拉菜单项） -&gt; 无线 2.4 GHz/无线 5 Ghz -&gt; 无线桥接中。</p>
 <p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202021-01-27%20072941.jpg"></p>
 <p>需要做说明的就是其中的无线 AP 工作模式和无线 AP-Client 角色。</p>
 <ul>
 <li><p>AP 工作模式。分为 AP（禁用桥接）、WDS桥接（禁用AP）、WDS中继（桥接+AP）、APCliet（禁用AP）、APClient（APClient+AP) 五种。 </p>
 <p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202021-01-27%20073051.jpg"></p>
-<p>AP（禁用桥接）为默认不使用桥接时的模式，而 WDS中继（桥接+AP）、APClient（APClient+AP) 是在剩下两种上开启 AP（无线信号）的模式，所以我们在这两种中间选一种就行了。WDS （注意不要和那个有漏洞的 WPS 功能混淆了）是指将中继 AP ssid 设置为与主路由 AP 相同的 ssid，让设备自己选择链接哪一个 AP；而 APClient 则相反。</p>
-<p><strong>建议使用后者</strong>，一个是因为设备<del>不太聪明（误）</del>的中继算法普遍不太好，可能会乱切信号或者不切信号（导致连了信号弱的那个 AP)，正因为这样现在市场上才会出现 WDS 中继的升级版 —— mesh（听起来熟悉多了吧，这两年各大厂都在吹这玩意）。更重要的是选用 APClient 可以在中继的同时还能够方便的管理中继的路由（要进入中继路由的管理界面首先要保证 ap 链接到中继路由了，或者中继路由 ip 在计算机链接的网段中）。</p>
+<p>AP（禁用桥接）为默认不使用桥接时的模式，而 WDS中继（桥接+AP）、APClient（APClient+AP) 是在剩下两种上开启 AP（无线信号）的模式，所以我们在这两种中间选一种就行了。</p>
+<p>WDS （注意不要和那个有漏洞的 WPS 功能混淆了）需要在被中继的路由上开启相关功能，ap 则不需要，本文我们选择后者。另外 WDS 中继还有升级版 —— 被称作 mesh（听起来熟悉多了吧，这两年各大厂都在吹这玩意）。</p>
 </li>
 <li><p>无线 AP-Client 角色。分为 LAN bridge 和 WAN（Wireless ISP）两种。简单来说，前者是网桥，后者是路由。之前用极路由 2 做 xbox 中继加速的时候，加速器在极路由上安装，所以是路由模式（极路由的中继也只有路由模式可选）；此处我们用 K2 做加速，但加速器在主路由（ac86u）上安装，那么就得用网桥模式。</p>
 <p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202021-01-27%20182740.jpg"></p>
 </li>
 </ul>
 <p>之后只要点开上级 SSID 搜索并选主路由的 SSID，输好密码，其他保持默认就行。</p>
-<p>但如果选择网桥中继，还需要做一些其他的设置：</p>
+<h3 id="网桥中继关闭-dhcp-及调整网段"><a href="#网桥中继关闭-dhcp-及调整网段" class="headerlink" title="网桥中继关闭 dhcp 及调整网段"></a>网桥中继关闭 dhcp 及调整网段</h3><p>但如果选择网桥中继，还需要做一些其他的设置：</p>
 <ul>
 <li>内部网络（LAN） -&gt; DHCP 服务器，关闭「启用 DHCP 服务器」的开关，因为主路由的 DHCP 会和中继路由的 DHCP 冲突。</li>
 <li>内部网络（LAN）-&gt; 内网设置 -&gt; ip 地址，填入一个 ip 地址，格式为 192.168.x.y。x 和 y 的地址原则上随意，但 x 最好在自己常中继的设备的网段中，y 要避免和自己常中继设备网段设备中的设备 ip 冲突。打个比方，自己主路由的网关是 192.168.111.1，且通过查询主路由管理界面发现自己没有 ip 为 192.168.111.2 的设备，那么就可以把这个地址设置为 192.168.111.2。</li>
 </ul>
-<p>成功中继后，路由器有可能就不能直接用原来的 ip 地址进入管理界面了。有两种情况：</p>
+<h3 id="打开中继后进入中继路由管理界面"><a href="#打开中继后进入中继路由管理界面" class="headerlink" title="打开中继后进入中继路由管理界面"></a>打开中继后进入中继路由管理界面</h3><p>成功中继后，路由器有可能就不能直接用原来的 ip 地址进入管理界面了。有两种情况：</p>
 <ol>
 <li><p>按上面所说的中继路由内部网络 ip 在主路由网段内。那么此时先尝试访问之前我们填的 ip 地址。如果访问不到，说明中继路由被主路由重新分配了 ip 地址。我们需要一些方法「探测」到中继路由在网段内的 ip 地址：</p>
 <ul>
@@ -409,7 +588,9 @@
 <p>修改完中继参数后记得再把系统这个 ip 设置改回自动获得。另外一点，设置好中继后有可能在主路由中看到中继路由，但因为网段不一样，所以是没法直接访问的，除非去改中继路由的内网 ip 地址。可拿回家又要再改，没必要。</p>
 </li>
 </ul>
-<p>因为中继路由我只在自己家和我同学家使用，每次换地方设置中继都要折腾一边，有没有自动切换的方法？当然有。</p>
+</li>
+</ol>
+<h3 id="自动切换被中继路由"><a href="#自动切换被中继路由" class="headerlink" title="自动切换被中继路由"></a>自动切换被中继路由</h3><p>因为中继路由我只在自己家和我同学家使用，每次换地方设置中继都要折腾一边，有没有自动切换的方法？当然有。</p>
 <p>就在中继页面的底部，可以编辑 ap_script，按照说明，在自动切换中继信号处写两条规则就行了。写完后点应用然后重启路由。注意！不要直接拔电源重启，而是按页面顶部的重启键重启，因为后者重启时会检测配置是否保存了，而前者有可能重启后你发现刚写的配置没了。</p>
 <p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202021-01-28%20033440.jpg"></p>
 <p>最后一点。在系统管理 -&gt; 操作模式处，也可以设置路由模式为无线接入点。</p>
@@ -418,6 +599,159 @@
 <p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202021-01-27%20035053.jpg"></p>
 <p>但使用这个模式会导致 ap_script 脚本失效（日志中显示连接了然后又断开再显示无法连接），和无线路由器模式相比没有优势（唯一算优势的地方，就是路由器模式下 LAN bridge 就算连上网了指示灯也是红的，而无线接入点模式下连上网灯是黄的，也就是正常的）。</p>
 <p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202021-01-27%20035508.jpg"></p>
+<hr>
+<p><strong>（21.2.6 更新）</strong> 灯的问题属于 hiboy padavan 独有问题。自编译 <a href="https://github.com/hanwckf/rt-n56u">hanwckf/rt-n56u: Padavan</a> 中继模式灯颜色正常，但自编译又没有自切换中继信号的功能了。</p>
+<p>另外 padavan 这么中继问题不小。。。过了几天拿到我朋友家，发现中继没有正常工作，不仅如此，用任何方法 web 管理界面都进不去了（包括访问我们修改过的内部网络 ip，通过有线接到别人的路由下等方法），甚至 pingtools 都探测不到中继路由的 ip，只得重置，感觉 padavan 不靠谱。</p>
+<p><strong>(21.2.10 更新)</strong> 之前中继的时候用的是 newifi Y1S 附赠的 12V 1.5a 电源。后续买了一个 ppd 的 n1，送了一个 12v 1.5a 的电源，意外发现有时用 Y1S 电源时中继失败但换用 n1 电源就可以中继成功，看来电源稳定性对中继是有影响的（联想的几个硬件相对斐讯那算是「偷工减料」了），这个现象在后面的 asus 固件中继中又出现了一次。</p>
+<h2 id="openwrt（21-2-6-更新）"><a href="#openwrt（21-2-6-更新）" class="headerlink" title="openwrt（21.2.6 更新）"></a>openwrt<strong>（21.2.6 更新）</strong></h2><p>padavan 不太行，那就换用 openwrt 吧。</p>
+<h3 id="安装插件"><a href="#安装插件" class="headerlink" title="安装插件"></a>安装插件</h3><p>openwrt 的中继和自动切换热点需要加入两个 luci 插件：<code>luci-proto-relay</code> 和 <code>luci-app-travelmate</code>，可以自己用 ssh 的 opkg 命令安装，我的选择是在编译过程中添加，避免自己用 opkg 安装时出现依赖问题，<code>luci-proto-relay</code> 在  LuCI -&gt; Protocols 下；<code>luci-app-travelmate</code> 在 LuCI -&gt; Applications 下，不懂的编译的同学可以参考<a href="https://zbttl.github.io/lu-you-qi-pao-fen-shua-ji/?highlight=openwrt">这篇文章</a>。吐槽一句，k2 要编译成功还得多精简几个东西（比如 ipv6 啊，usb 驱动啊），8m 的 rom 太拮据了。。。</p>
+<p>另外 travelmate 有两个前身。</p>
+<p>一个叫 auto-ap，参考</p>
+<ul>
+<li><a href="https://www.right.com.cn/forum/thread-171010-1-1.html">【2016-05-12】 更新 - autoap 自动切换中继信号插件-支持LUCI界面配置 - OPENWRT专版 - 恩山无线论坛 - Powered by Discuz!</a> </li>
+<li><a href="https://www.right.com.cn/forum/thread-347014-1-1.html">openwrt插件autoap（自动切换中继信号）系统配置配合调整 - OPENWRT专版 - 恩山无线论坛 - Powered by Discuz!</a>）</li>
+</ul>
+<p>另一个叫 luci-app-autorepeater，参考 <a href="https://github.com/peter-tank/luci-app-autorepeater">peter-tank/luci-app-autorepeater: Helps you turn your router as automatic repeater, by join scanned wireless station from ssid or bssid.</a></p>
+<p>在最新的 openwrt R21.2.1 版本中，这两个插件已均不生效（但后来我尝试刷入旧版 openwrt 这俩东西也没成功生效过。。。）</p>
+<h3 id="配置-travelmate"><a href="#配置-travelmate" class="headerlink" title="配置 travelmate"></a>配置 travelmate</h3><p>先配置自动切换中继路由的功能。在服务 -&gt; travelmate 处，默认的未配置情况下这里是 Interface Wizard 页面，需要在 <code>Create Uplink interface</code> 处把默认的 <code>trm_wwan</code> 改为自己的无线 wifi 中继接口。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210302001719.png"></p>
+<p>默认为 <code>wwan</code>，改好后确定保存，即可进入真正的配置界面。</p>
+<p>转到 Wireless Stations 处。此处的扫描 radio0 是扫描 5g 信号，radio1 则是扫描 2.4g 信号。通过扫描，把需要中继的信号都加进去，调整好顺序。</p>
+<p>如果说目前受限于地理位置，无法通过扫描添加未来要自动切换的被中继信号呢？可以通过 Advanced -&gt; Edit Wireless Configuration，在下面的代码编辑器最后一行下面添加</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">config wifi-iface</span><br><span class="line">	option network 'wwan'</span><br><span class="line">	option device 'radio0'</span><br><span class="line">	option mode 'sta'</span><br><span class="line">	option ssid '[被中继信号ssid]'</span><br><span class="line">	option encryption 'psk2'</span><br><span class="line">	option key '[被中继信号密码]'</span><br><span class="line">	option disabled '1'</span><br></pre></td></tr></tbody></table></figure>
+
+<p>最后回到总览。启用 <code>Enable travelmate</code>，建议关闭 <code>Captive Portal Detection</code>（出门在外，可能会中继外面的 wifi 或自己的手机热点，信号没那么稳定，再开这个选项切来切去体验就会变差），最后保存并应用。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210302022533.png"></p>
+<h3 id="配置中继桥"><a href="#配置中继桥" class="headerlink" title="配置中继桥"></a>配置中继桥</h3><p>参考文章：</p>
+<ul>
+<li><a href="https://openwrt.org/zh/docs/guide-user/network/wifi/relay_configuration">[OpenWrt Wiki] Wifi扩展器、中继器及桥接配置</a></li>
+</ul>
+<p>说到这里，使用 openwrt 有个好处：可以配置完所有功能再应用。padavan 配置网桥的话，如果顺序没有安排好，先配置关闭 dhcp 后还得手动调整自己机子的 ip 地址才能返回 web 管理界面；openwrt 则可以一次配置完后再去获取当前网段下中继路由的 ip。</p>
+<ol>
+<li><p>调整 wwan 的防火墙类型。在网络 -&gt; 接口中找到 wwan，选择修改，在配置 -&gt; 防火墙区域中把区域从 wan 调到 lan，并保存。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210302082144.png"></p>
+</li>
+<li><p>新建中继桥。新增一个接口，新接口协议选择「中继桥」（须安装 <code>luci-proto-relay</code> 才会有这个）。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210302082255.png"></p>
+<p>提交后修改「网络间中继」，勾选 lan 和 wwan。然后同样将这个中继桥的防火墙区域指向 lan，保存。（这样设置其实还不行，但我卖一个关子，待会在 bug 那里说）</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210302082616.png"></p>
+</li>
+<li><p>修改 lan 接口。和 padavan 不同，这里设置的 lan ip 必须不在被中继路由子网内，比如被中继路由网关 ip 是 <code>192.168.100.1</code>，这里就不能填 <code>192.168.100.2</code> 之类的，可以填 <code>192.168.101.1</code>。勾选 dhcp 中的「忽略此接口」。此时可以保存并应用，必要时重启路由。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210302082916.png"></p>
+</li>
+</ol>
+<h3 id="bug"><a href="#bug" class="headerlink" title="bug"></a>bug</h3><p>这么一通配置完了，发现几个问题：</p>
+<ol>
+<li><p>上不去网，因为 ip 没下发，看来是 dhcp 的包没从被中继路由那边传过来。</p>
+</li>
+<li><p>手动配置网关和 ip 后， windows 10 的网络连接显示从无连接变成了已连接。但几乎所有程序都还连不上网，除了浏览器，原因是浏览器我挂上了 cfw，我的 cfw 开起了 dns 服务。用 nslookup 检测的话，会报错 dns。也就是 dns 的包也没传过来。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210307075634.png"></p>
+</li>
+<li><p>时不时网络卡顿。</p>
+</li>
+</ol>
+<p>第二点，可通过修改中继桥的本地 ipv4 地址解决。需要修改成中继路由在主路由中的 ip，可从总览 -&gt; 网络处获取。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210307075734.png"></p>
+<p>但一和三就麻烦了，参考文章中也列出了该种 bug：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210305071401.png"></p>
+<p>上面这段说明里面的 kmod-trelay，可以参考 <a href="https://forum.openwrt.org/t/howto-kmod-trelay/49610/2">Howto kmod-trelay - Installing and Using OpenWrt / Network and Wireless Configuration - OpenWrt Forum</a>。但我实验了几天，没成功，而且为了 dhcp 预计会导致两个更大的问题：</p>
+<ol>
+<li>只能用于无线中继转有线。起码无线连不上。参考文章中要给 wwan 改 mac，改成连接到中继路由设备的 mac，我用笔记本无线连接后改成笔记本无线网卡的 mac，一重启路由，发现笔记本找不到中继路由发的 5g 信号，估计是 wwan 拿的笔记本 mac 走的 5g 中继，笔记本也通过路由发送的 5g 连接路由器，两个 mac 冲突了。</li>
+<li>因为第一点，导致只能中继一个设备，因为路由只有一个网卡，只能改一个 mac。</li>
+</ol>
+<hr>
+<p>要配置网桥，移动地点后不能直接中继还得进 web 管理界面改网桥地址，这就太麻烦了。</p>
+<p>还有诸如以下的麻烦：</p>
+<ol>
+<li>不能直接从 web 看在线了多少设备（曾经在线过的设备也会显示在在线列表中，而且不显示是否离线）。可以通过 ssh 命令 <code>ip neigh | grep REACHABLE</code>。</li>
+<li>可能会有某个有线网口失效。</li>
+<li>使用开源驱动导致 k2 的 pa+lna 信号放大芯片不生效，信号差一点。</li>
+</ol>
+<p>不过我也发现两个优势：</p>
+<ol>
+<li>手动修改 ip 连上中继并能正常上网后，仍然可以通过 lan ip 进入 web 管理界面。其他系统做不到这点，因为 lan ip 和中继路由不在一个网段，其他系统想进去 web 界面得手动修改到 lan ip 的网段；padavan 可以设置 lan ip 到中继路由的网段，但移动地点以后多半又不在同一个网段了，还是不如 openwrt 方便；</li>
+<li>可以同时使用网桥中继和 WISP 中继。比如以下的方案——新开一个 wwan2.4 接口和 lan2 接口，lan2 和 wwan2.4 接口接起来，lan2 开启 dhcp，wwan2.4 和 2.4g 无线接起来，就可以达成连接 2.4g 进入相对稳定而方便的 WISP 中继，连接 5g 并手动设置 ip 进入网桥中继。有线一般走 lan，也就是网桥中继，这大家也可以自己设置，就不详细阐述了。另外从 2.4g 无法进入 ssh，因为在系统 -&gt; 管理权处 dropbear 只给了 lan 接口，可以多开一个给 lan2 接口，或者设置为未指定。</li>
+</ol>
+<p>看来 openwrt 也不太行。。。</p>
+<p>转了一圈，试过了高铬，发现除了有个检测在线 qq 的功能，并没有其他优势，中继里也没有中继桥功能可用。</p>
+<p>然后发现了带有 pa+lna 驱动的华硕固件，刷进去发现还不错。</p>
+<h2 id="asus-中继（21-2-7-更新）"><a href="#asus-中继（21-2-7-更新）" class="headerlink" title="asus 中继（21.2.7 更新）"></a>asus 中继<strong>（21.2.7 更新）</strong></h2><p><a href="https://www.right.com.cn/forum/thread-4052903-1-1.html">K2 ASUS_AC1200HP自动编译版 - 斐讯无线路由器以及其它斐迅网络设备 - 恩山无线论坛 - Powered by Discuz!</a></p>
+<p>第一次连接，就可以选择中继模式。这里的中继模式就直接是网桥（中继桥）模式了。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210307133213.png"></p>
+<p>华硕的固件比较傲娇，成功中继后在被中继路由的管理界面看不到中继路由 ip，使用其他方法（比如 pingtools）也找不到。得使用华硕自己的软件 <a href="https://www.asus.com/uk/support/FAQ/1037094/">ASUS Device Discovery</a>。这个软件在苹果端 app store 和安卓端 google play 也有对应平台的移动端。虽说得多装个软件吧，但使用起来比用 arp 探测的几个方法要方便可靠多了：打开软件就能找到设备，点击配置就直接跳到 web 管理界面。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210307132240.png"></p>
+<p>asus 固件没有自动切换中继功能，但手动切换中继比 padavan 方便多了。找不到中继信号的 asus k2 应该会把自己的 ip 自动设回 192.168.1.1，直接访问就行，不成功再用上面介绍的 app 找到管理 ip 并进入。点击主页的重新搜寻即可重新进入中继设置界面。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210307180031.png"></p>
+<p>此时不点击自动设置无线就可以使用之前设置的无线密码连接中继路由。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210307180258.png"></p>
+<p>当然进不去中继路由管理界面还有一种可能就是用了不可靠的电源。之前我换到同学家使用不仅打不开中继界面，连无线信号和联网状态也断断续续，把 Y1S 的电源换成 n1 原装电源解决。另一次供电不足甚至造成了无线 loopback，在主路由 web 中一瞬显示中继路由下挂了 30 多个设备。。。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/chrome_IrYpRrhfUV.png"></p>
+<p>我感觉网桥中继模式应该比较吃供电来着。</p>
+<hr>
+<p>相比 padavan 另一个好评的地方是，灯颜色对了（</p>
+<p>网桥中继除了有供电上的毛病，有时候设备第一次链接中继路由会发现第一时间上不去网，其实是通过中继路由一时半会拿不到主路由 dhcp 分配的 ip 地址。（主路由你快点！给主路由倒一杯卡布奇诺）</p>
+<p>如果有多余的路由器，下面这个方案才是最合适的，集速度稳定网桥中继于一身，甚至就算供电不太稳使用起来依旧没什么问题。</p>
+<h2 id="集客-ap-中继（21-3-1-更新）"><a href="#集客-ap-中继（21-3-1-更新）" class="headerlink" title="集客 ap 中继（21.3.1 更新）"></a>集客 ap 中继<strong>（21.3.1 更新）</strong></h2><p>参考文章：</p>
+<ul>
+<li><a href="https://www.right.com.cn/forum/thread-1501038-1-1.html">集客AC AP 知识大全 FAQ 小白扫盲贴 - 斐讯无线路由器以及其它斐迅网络设备 - 恩山无线论坛 - Powered by Discuz!</a></li>
+<li><a href="https://www.right.com.cn/forum/thread-4046510-1-1.html">星际宝盒 CM520 刷集客AP MESH组网 - 斐讯无线路由器以及其它斐迅网络设备 - 恩山无线论坛 - Powered by Discuz!</a></li>
+</ul>
+<p>集客 ap 和普通网桥中继原理略有不同。集客 ap 需要通过有线方式挂一个路由器在主路由下，这个挂在主路由下的路由叫做 ac 面板。而真正的中继路由被称为 ap，ap 能通过各种方式和 ac 完成配对，完成配对后的 ac 和 ap，迁移环境后无需再次配对——也就是说，只要我在家里配置好 ac 和 ap，带到同学家，只要把 ac 挂到他的路由器上，ap 无论放在那里，只要一插电，过一会就能用了。因为 ac 面板有处理能力，dhcp 的速度和中继的稳定性也优于直接中继。另外 ap 除了可以通过无线配对，也能通过有线配对，被称为有线/无线回程。</p>
+<p>记得我在 padavan 那边提到的 WDS 么？集客 ap 此处实现的功能便是 mesh 的一部分，WDS 这里也可以使用额外的两台路由完成中继，mesh 和 WDS 的区别在于，mesh 的管理功能和稳定性都要更强；不过 WDS 有一定泛用性，有的时候支持某两种不同品牌 / 系统的路由。但类似于 asus，使用 wds 需要进入两边的路由 web 界面把各自的 mac 添加进去；openwrt 还需要像上面网桥中继教程那样在中继路由上手动设置被中继路由的网关与 ip，跟 mesh 即插即用相比差了不是一点点。</p>
+<p>集客 ap 下载地址：<a href="http://file.cnrouter.com/index.php/Index/apbeta.html">文件管理</a></p>
+<p>页面中集客 AP_MTK_MIPS 是 ap，集客微路由_MTK 是 ac 面板。但 ap 中实际上带有微 ac，可以带最多 16 台 ap，所以我们下两个 ap 就好了，这样两个路由都可以胜任 ac / 中继 ap。我多出来的路由是极路由 2 和 newifi Y1S，这两个都没带 pa+lna，所以虽然处理器相同但要下的固件和 k2 的固件是不一样的，k2 下 AP230EP，另外两个路由应该下 AP230IP，我尝试给极路由 2 用 AP230EP，结果无线 mesh 回程失效，只剩有线回程可用。</p>
+<h3 id="进入管理界面"><a href="#进入管理界面" class="headerlink" title="进入管理界面"></a>进入管理界面</h3><ol>
+<li><p>第一次配对需要先把两个路由都通过网线接入同一个局域网。可以把 ac /  中继 ap 路由都接入主路由中；也可以把 ac / 中继 ap 的其中一个插到主路由上，另一个插到中继 ap / ac 上。但必须有一个路由接到主路由上，否则微 ap 中 -&gt; ap 列表中不会显示任何内容。</p>
+</li>
+<li><p>接着可以通过三种方法进入管理界面：</p>
+<ul>
+<li>在中继 ap / ac <strong>已连接</strong>到被中继路由（主路由）的情况下，连接到主路由，通过 arp 或者主路由 web 界面（详情见<a href="#%E6%89%93%E5%BC%80%E4%B8%AD%E7%BB%A7%E5%90%8E%E8%BF%9B%E5%85%A5%E4%B8%AD%E7%BB%A7%E8%B7%AF%E7%94%B1%E7%AE%A1%E7%90%86%E7%95%8C%E9%9D%A2">上文</a>）找到挂在主路由下的 ip 并进入；</li>
+<li>手动修改连接设备的 ip，ip 地址修改为 6.6.6.1，子网掩码 255.0.0.0。然后连接到 ac / 中继 ap 发出的节点，节点名为 GECOOSAP-XXXX，浏览器输入 6.6.6.6 进入；</li>
+<li>在中继 ap / ac <strong>未连接</strong>到被中继路由（主路由）的情况下，<del>按下路由的 reset 键，</del>过一会会出现一个 SOS_XXXX<del>（值得一提的是，同一个设备这里的 XXXX 和第二个方法中 GECOOSAP-XXXX 这一串里的 XXXX 是一样的字符串，刚开始开起了多个设备但不知道设备对应的节点名称是什么，可以用这个方法来确定）</del> 的节点，默认 wifi 密码为 88888888，由于没有连上主路由，所以中继 ap / ac 会打开自己的 dhcp，因此不需要和上面那个方法一样手动修改连接设备的 ip，直接输入 6.6.6.6 进入即可。</li>
+</ul>
+<p>第三点划去的部分是因为新版固件在检测到连接不上网络时就会自动释放 sos 节点，并且原来ac / 中继 ap 发出的节点末尾会增加一个感叹号。</p>
+<p>进入成功后使用默认密码 admin 登录。</p>
+</li>
+</ol>
+<h3 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h3><p>参考：<a href="https://www.bilibili.com/video/BV1yJ411P748">200块的无缝组网体验堪比1699mesh套装？斐讯K2T无线路由KVR组网实战_哔哩哔哩 (゜-゜)つロ 干杯~-bilibili</a></p>
+<ol>
+<li><p>在 ac 和中继 ap 系统管理 -&gt; 基本设置中设置好格子的设备名称，将自动重启设为 0 天，修改密码。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202021-03-08%20204346.png"></p>
+</li>
+<li><p>进入 ac 的无线管理 -&gt; ssid 设置中，设置好相应的 2.4g / 5g 无线配置。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210308234442.png"></p>
+</li>
+<li><p>进入 ac 的微 ap -&gt; ap 列表，这里应该会显示 ac 和所有中继 ap 的设备名单，在这里我勾选上网络里的唯一一台中继 ap，选择克隆 -&gt; 克隆无线配置。当然此处也可以根据当前的网络环境自己调成各个节点的信道，不过因为我可能要带出门，各个地点的网络环境都不同所以就保持自动好了。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210308234608.png"></p>
+</li>
+</ol>
+<h3 id="无线-mesh-回程"><a href="#无线-mesh-回程" class="headerlink" title="无线 mesh 回程"></a>无线 mesh 回程</h3><ol>
+<li><p>此时在 ap 列表中，直接点击 ap 一栏的超链接就能进入相应设备的 web 管理界面了。</p>
+</li>
+<li><p>在 ac 端 -&gt; mesh 设置，开启 mesh，角色选择主 mesh，配对标识自己设置，待会在子 mesh 处要填一样的。射频选 5g。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202021-03-08%20234741.png"></p>
+</li>
+<li><p>从 ap 列表中进入 ap 中继端，在上面所述同样的地方开启 mesh，设置基本一致，除了角色需要选择为子 mesh。</p>
+</li>
+<li><p>拔掉子 mesh 端的网线，过一会子 mesh 就会通过无线连接上主 mesh 了。在子 mesh 上能看到无线回程变为在线状态：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210309000533.png"></p>
+<p>主 mesh 这边：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210309001359.png"></p>
+</li>
+</ol>
+<hr>
+<p>集客 ap 几个中继路由可以选择不同的信道这点是其他中继做不到的。</p>
+<p>风传集客 ap 中继能不受有线网口速度影响，我试了一下，是假的，中继后 speedtest 网速最高高不过百兆（几个中继路由都只有百兆口）。</p>
+<p>除了需要用两台设备，缺点还有这么几个：</p>
+<ol>
+<li><p>k2 灯颜色不对，全程红灯；</p>
+</li>
+<li><p>设备间使用的加密没得选。参考文章中有提到：</p>
+<blockquote>
+<ol start="9">
+<li>问：相比用过的其他固件,我想设置加密方式为 WPA2,不用WPA,2.4G协议能不能只802n, 802b/g兼容关掉,类似这种选项能否开放出来?<br> 答：集客AP定们是工程级，在功能满足的情况下更多是要考虑降低安装和维护成本，尽量做到即插即用，加密方式目前只使用的最安全的。</li>
+</ol>
+</blockquote>
 </li>
 </ol>
 ]]></content>
@@ -428,6 +762,9 @@
         <tag>xbox</tag>
         <tag>padavan</tag>
         <tag>中继</tag>
+        <tag>openwrt</tag>
+        <tag>asusfirmware</tag>
+        <tag>集客ap</tag>
       </tags>
   </entry>
   <entry>
@@ -926,7 +1263,8 @@
 <li>曾经是唯一支持用 pc 管理路由加速的加速器（下载 6 月左右的旧版 pc 客户端也许还可用）</li>
 <li>不限设备绑定，不限单路由下加速设备数量</li>
 <li>但路由加速 bug 频发，最主要的 bug 就是加速一段时间，加速的设备重启或者待机唤醒后就会断网。通过重启路由，或者通过 ssh 进入路由器，用 <code>netstat -plun</code> 检索 tx 加速进程（名为 pmplugin），kill 后重新加速即可。</li>
-<li>基本不支持下载加速。实测 cod16 和微软模拟飞行下载加速都很慢，烂橘子效果尚可。</li>
+<li>下载加速节点大多数属于空气节点。实测 cod16 和微软模拟飞行下载加速都很慢，烂橘子效果尚可。</li>
+<li>微软商店的游戏几乎都加速不起来。腐烂国度 2 windows store 版加速基本没效果。</li>
 <li>手机端不支持 xbox 云游戏加速。</li>
 <li>支持设备最少。</li>
 </ul>
@@ -936,7 +1274,8 @@
 <li>下载加速效果不错。</li>
 <li>支持 xbox 云游戏加速。</li>
 <li>openwrt 路由插件不能用手机 app 直接安装。</li>
-<li> 没有 tx 那样的 bug。</li>
+<li>没有 tx 那样的 bug。</li>
+<li>过节时线路拥堵，延迟会变高。</li>
 </ul>
 <h3 id="灵缇加速器"><a href="#灵缇加速器" class="headerlink" title="灵缇加速器"></a>灵缇加速器</h3><ul>
 <li>价格居中（16 元/月）</li>
@@ -944,6 +1283,25 @@
 <li>支持 padavan。</li>
 <li>支持 openwrt 手机安装和 padavan。但 openwrt 路由器需要提前安装 kmod-tun 功能（目前如果是自己编译的 openwrt，直接安装源上的 kmod-tun 会提示你当前依赖版本太低，但其实 kmod-tun 功能已经作为模块编译了，去编译目录找一下安装就行，实测成功）。</li>
 <li>也没有 tx 那样的 bug。</li>
+</ul>
+<h3 id="雷神加速器"><a href="#雷神加速器" class="headerlink" title="雷神加速器"></a>雷神加速器</h3><ul>
+<li>便宜到爆。按使用时间付费而不是按月付费，冲个几千小时基本用不完。</li>
+<li>效果玄学。电信环境下，也就是开了比不开好一点点的效果，但和其他加速器相比，两个字，拉跨。</li>
+<li>不支持任何路由器。</li>
+<li>cod16 拿不到 nat 开放。</li>
+</ul>
+<h3 id="自建"><a href="#自建" class="headerlink" title="自建"></a>自建</h3><p>自建加速器方案有很多，我也写过一些，这里只分析一波自建和上面大厂加速器的取舍：</p>
+<ol>
+<li>线路是一个加速器是否好用的关键。除非花了大价钱，否则自建的线路会烂一些。各个大厂专营的加速器们把主要成本都花在了线路优化上面，加速器走的远程隧道基本都是专线，后续再通过用户数量来摊薄成本，自建加速器自然比不上；可选多个线路这点更是同价格自建无法比拟的。</li>
+<li>自建第一个优势在于更为灵活。大厂加速器通过账号和客户端限制能加速几台设备，而自建完全没有这种限制，想加速几台加速几台。</li>
+<li>大厂加速器把大多数钱投入线路上，再把剩下的一部分钱投入服务器负载均衡技术上，估计剩下的一点油渣才是给加速器实现技术的；其次一般情况下技术难度 = 规模 + 功能，加速器用户基数大导致研发新功能还需要考量到服务器稳定性的问题，最后导致无论是啥加速器都有其暂时不支持，无法加速的游戏/设备。而各类开源的自建加速器的技术发展到现在，单纯功能上讲基本完爆闭源的大厂加速器几条街。只要你肯折腾，没有啥加速不上的设备。</li>
+<li>线路上的劣势能通过技术手段弥补吗？部分情况下可以，使用多倍发包，前向纠错等技术，付出多一些流量，可以较为有效的改善丢包和延迟问题。</li>
+<li>当然，技术不是万能的，但钱在这里也许是万能的。某些线路过高的丢包就算是用各种技术去弥补也无济于事，这时候我们可以考虑更换线路，更换运营商等方式。只要肯加钱上专线，完爆大厂加速器不是梦！</li>
+</ol>
+<p>总结：自建适合</p>
+<ul>
+<li>有钱有时间的人</li>
+<li>没钱有时间的人，玩的游戏对延迟敏感度不高</li>
 </ul>
 ]]></content>
       <categories>
@@ -2005,7 +2363,7 @@
 
 <h4 id="shu"><a href="#shu" class="headerlink" title="shu"></a>shu</h4><p>ios 上的 shu，美区有售。可将 tgs 批量导出为各种格式，如 webp、gif、pngs 等。</p>
 <h4 id="tgs-to-gif-12-14-更新"><a href="#tgs-to-gif-12-14-更新" class="headerlink" title="tgs-to-gif (12.14 更新)"></a>tgs-to-gif <strong>(12.14 更新)</strong></h4><p>上面两个软件，前者免费但容易出现各类错误，且安装繁琐；后者需要付费但效果尚可。</p>
-<p>最近又出现一个新的 tgs 转换工具 <a href="https://github.com/ed-asriyan">ed-asriyan</a>/**<a href="https://github.com/ed-asriyan/tgs-to-gif">tgs-to-gif</a>**，前面两个工具转换一些 tgs 会出现重影（经过测试不是下面我 gif 速度优化的锅，而是转换出来的帧里面本身就有重影的帧出现），这个工具基本解决了重影的问题，且大部分 gif 也不存在速度过慢的问题。缺点是转换出来的 gif 质量低于前面两个软件，且在 windows 的 irfanview 下播放会出现花屏现象，原因不明。</p>
+<p>最近又出现一个新的 tgs 转换工具 <a href="https://github.com/ed-asriyan">ed-asriyan</a>/<a href="https://github.com/ed-asriyan/tgs-to-gif">tgs-to-gif</a>，前面两个工具转换一些 tgs 会出现重影（经过测试不是下面我 gif 速度优化的锅，而是转换出来的帧里面本身就有重影的帧出现），这个工具基本解决了重影的问题，且大部分 gif 也不存在速度过慢的问题。缺点是转换出来的 gif 质量低于前面两个软件，且在 windows 的 irfanview 下播放会出现花屏现象，原因不明。</p>
 <p>在 pc 和虚拟机上上使用建议借助 nodejs 安装；在国外 vps 上使用建议借助 docker 安装。</p>
 <p>原因嘛，docker 方便但因为网络原因安装速度可能会很慢，docker 内部比较难上代理，docker 加速器在这里无效因为跑 docker 的时候我发现这个东西不仅拉镜像还在跑 apt；但 vps 上用 nodejs 还需要非 root 账号，因为本项目用到了 puppeteer，还不一定成功，我在两台 debian 的机子上都掉坑一台找不到 browser 另一台装不上 gifski，找不到 browser 那一回 nodejs 我用了 15，后面发现 15 不行；装不上 gifski 是因为 cargo 都装不上，掉进新坑用命令 <code>rustup install stable</code> 运行到一般就被 kill 了估计是内存都不够了，也不想划虚拟内存了，懒得爬出来了。</p>
 <p>另外 nodejs 运行时的运行目录必须在项目内（但 tgs 文件不需要放在项目内），docker 不需要但写 tgs 文件夹路径的时候得写绝对路径，各有各的麻烦。</p>
@@ -2021,7 +2379,7 @@
 <p>即可使用</p>
 <figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">docker run --rm -v &lt;文件夹绝对路径&gt;:/source tgs-to-gif</span><br></pre></td></tr></tbody></table></figure>
 
-<p><strong>（12 月 23 日更新）</strong> docker 版和 nodejs 效果居然不一样。。。。docker 版出来的效果需要加速，所以只推荐 nodejs 版。至于为什么效果会不一样。。。我猜测是因为 gifski 版本的原因，docker 里面 gifski 版本还是 0.10.4，我在实机中安装的版本已经是 1.22 了。但话说回来，issue 里面刚好就有个人吐槽长度宽度参数不生效[The –height HEIGHT –width WIDTH don’t work #25](The –height HEIGHT –width WIDTH don’t work #25)，作者给的意见是更换喂 gifski 旧版。。。。另外一点，托之前忘记安装 gifski 的福，我看到了部分运行命令：</p>
+<p><strong>（12 月 23 日更新）</strong> docker 版和 nodejs 效果居然不一样。。。。docker 版出来的效果需要加速，所以只推荐 nodejs 版。至于为什么效果会不一样。。。我猜测是因为 gifski 版本的原因，docker 里面 gifski 版本还是 0.10.4，我在实机中安装的版本已经是 1.22 了。但话说回来，issue 里面刚好就有个人吐槽长度宽度参数不生效 [The –height HEIGHT –width WIDTH don’t work #25](The –height HEIGHT –width WIDTH don’t work #25)，作者给的意见是更换为 gifski 旧版。。。。另外一点，托之前忘记安装 gifski 的福，我看到了部分运行命令：</p>
 <p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20201223071937.png"></p>
 <p>合着这质量还只有百分之 80。。。但我在项目中完全查不到这些个帧数质量啥的在哪调，所以没辙。</p>
 <p>先说一下踩进去的坑，不想看的可以跳过下面这一段：</p>
@@ -2300,7 +2658,7 @@
 <p>由于不是实时跑分，所以准确性也最差。</p>
 <h3 id="coremark"><a href="#coremark" class="headerlink" title="coremark"></a>coremark</h3><p>来自：<a href="https://github.com/eembc">eembc</a>/<strong><a href="https://github.com/eembc/coremark">coremark</a></strong></p>
 <p>不过遗憾的是，我只成功在 ubuntu 下编译了 linux 版，在 windows 下使用 cygwin 和 在 linux 下尝试交叉编译 windows 版本均未成功。</p>
-<p>不过 padavan 和许多 openwrt 固件下附带有本测试工具，也不用我编译了。</p>
+<p>好在 padavan 和 openwrt 下附带有本测试工具，也不用我编译了。</p>
 <h3 id="dhrystone"><a href="#dhrystone" class="headerlink" title="dhrystone"></a>dhrystone</h3><p>来自：<a href="https://www.openwrtdl.com/wordpress/%E6%9D%A5%E6%B5%8B%E6%B5%8B%E8%B7%AF%E7%94%B1%E5%99%A8cpu%E6%80%A7%E8%83%BD%E8%B7%91%E5%88%86">[源码]来测测路由器cpu性能跑分</a></p>
 <p>另一个二进制跑分工具。其中的二进制文件 <code>gcc_dry2-mt7621</code> 在 mt7620A 路由极路由 2 原版系统下可以直接运行。但在 newifi mini padavan 下运行结果报 0。而另一个含有 mt7620 的二进制文件 <code>dhrystone_2.1-1_ramips_1004kc_mt7621.ipk</code> 在两个设备上运行都报错（毕竟原本就应该是在 openwrt 下安装运行的） 。另外 x86 二进制在 linux 下不能运行，另外也没有 ac86u 用的版本（bcm4903）。但不知道其他固件是否附带有相应版本。</p>
 <h2 id="（21-1-30-更新）openssl-跑分"><a href="#（21-1-30-更新）openssl-跑分" class="headerlink" title="（21.1.30 更新）openssl 跑分"></a><strong>（21.1.30 更新）</strong>openssl 跑分</h2><p>在翻油管<a href="https://www.youtube.com/watch?v=7xKGoveWmrs&amp;t=316s">软路由相关视频</a>时偶然发现的。适用于自带 openssl 命令的设备（基本上 linux 都带的）。</p>
@@ -2308,7 +2666,7 @@
 
 <p><code>aes-256-gcm</code> 也可以换成其他加密方式，比如 <code>chacha20-poly1305</code> 啥的。</p>
 <h2 id="刷机（mt7620-gt-openwrt）"><a href="#刷机（mt7620-gt-openwrt）" class="headerlink" title="刷机（mt7620->openwrt）"></a>刷机（mt7620-&gt;openwrt）</h2><p>直接编译上面那几个工具不管用。</p>
-<p>看来只能刷点大众版本然后从库里面找看看。先刷 newifi mini / 极路由 2。这两款路由同样是 mt7620A 方案，128m ram，8m flash。区别只有 newifi mini 的无线方案是 <a href="https://www.mediatek.cn/products/broadbandWifi/mt7612e">MediaTek | MT7612E</a>（参数来源：<a href="https://www.igao7.com/news/201501/2krIHZXzLCFRAVLO.html">迷你也满血，联想新路由newifi mini评测 | 爱搞机</a>），极路由的无线方案是 <a href="https://www.mediatek.com/products/broadbandWifi/mt7610e">MediaTek | MT7610E</a>（参数来源：<a href="https://www.zhihu.com/question/21971379/answer/19977583">如何评价极路由公司 2013 年 11 月发布的「极贰」路由器？ - 张导的回答 - 知乎</a>)。前者是 2x2，后者弱一些 1x1（但 5g wifi 速度同样是 433mhz）。还有！极路由 2 刷机前请用 breed 事先备份好 key，就在固件备份里面有一个单独的选项（我直接掉坑里爬不出来了，但到后面人家直接把这条路都铲了。。。详情可以看月底的后日谈）。</p>
+<p>看来只能刷点定制版本然后从库里面找看看。先刷 newifi mini / 极路由 2。这两款路由同样是 mt7620A 方案，128m ram，8m flash。区别只有 newifi mini 的无线方案是 <a href="https://www.mediatek.cn/products/broadbandWifi/mt7612e">MediaTek | MT7612E</a>（参数来源：<a href="https://www.igao7.com/news/201501/2krIHZXzLCFRAVLO.html">迷你也满血，联想新路由newifi mini评测 | 爱搞机</a>），极路由的无线方案是 <a href="https://www.mediatek.com/products/broadbandWifi/mt7610e">MediaTek | MT7610E</a>（参数来源：<a href="https://www.zhihu.com/question/21971379/answer/19977583">如何评价极路由公司 2013 年 11 月发布的「极贰」路由器？ - 张导的回答 - 知乎</a>)。前者是 2x2，后者弱一些 1x1（但 5g wifi 速度同样是 433mhz）。还有！极路由 2 刷机前请用 breed 事先备份好 key，就在固件备份里面有一个单独的选项（我直接掉坑里爬不出来了，但到后面人家直接把这条路都铲了。。。详情可以看月底的后日谈）。</p>
 <p>注意：刷 breed 和 breed 怎么操作这个东西，本文不涉及，百度吧。</p>
 <p>在 breed 下，这两台机子显示的参数都一模一样：</p>
 <p>newifi mini：</p>
@@ -2345,11 +2703,11 @@
 <li><a href="https://www.right.com.cn/forum/thread-1237348-1-1.html">【2020-01-14 更新】OpenWrt入门编译 make menuconfig配置参考说明与自动生成脚本 - OPENWRT专版 - 恩山无线论坛 - Powered by Discuz!</a></li>
 <li><a href="https://www.right.com.cn/forum/thread-344825-1-1.html">OpenWrt 编译 LuCI-&gt; Applications 添加插件应用说明 - L 大【2020.11.1】 - OPENWRT 专版 - 恩山无线论坛 - Powered by Discuz!</a></li>
 </ul>
-<p>我这里也给一张表格，大致说明一下我在默认配置的基础上改了哪里。我认为是接近最简的配置。</p>
+<p>我这里也给一张表格，大致说明一下我在默认配置的基础上改了哪里。仅供参考。</p>
 <p>注意，许多功能可以不直接集成到固件中而是单单编译为模块。因为使用主流的 <code>squashfs</code> 固件格式的话，集成到固件的功能是删不掉的，而模块（ipx）可以通过 opkg 随意安装和卸载（就是可能遇到依赖问题，装一个功能可能得同时装几个模块）。能这么做的功能，按空格第一次显示为 M，是编译为模块；再按一次显示为 * 则为集成到固件中。至于该选那个大家自己抉择。</p>
 <p>下面表格参数尾部有 - 号标记代表我并未做改动但有些东西需要提醒；编译 x 说明这是原来开着我关掉的内容。</p>
 <p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210102073119.png"></p>
-<p>自定义的时候注意，除了 luci 以外的东西都是在 web gui 外生效的。啥意思？你精简了一个 luci 以外的功能，打开路由器 web 管理界面是看不到什么区别的；反之，你想在 luci 添加什么功能也不用考虑该功能是不是在其他地方有依赖。</p>
+<p>LuCI 要改的好多。。。原因是 LuCI 相关内容在 webui 下生效且不依赖其他配置（即基本不存在某个在 LuCI 中开启的功能需要在 LuCI 菜单外开启后 LuCI 处才生效的事儿）；其他功能（特别是 Utilities 里面的）在 ssh 等位置生效，在 webui 下不可见。众所周知图形界面的功能浪费的空间比较多嘛。。。</p>
 <p>编辑完后用下面的 save 保存为 <code>.config</code>，待会编译的时候就会读取这个文件的配置。</p>
 </li>
 <li><p>开始编译（如果上面这步添加了许多功能，则需要开科学工具）。轻量服务器只有一个核心，所以 <code>-j1</code>，如果用物理机则看自己的配置改了。</p>
@@ -3321,7 +3679,7 @@
     <title>双向加速软件</title>
     <url>/shuang-xiang-jia-su-ruan-jian/</url>
     <content><![CDATA[<div class="hbe hbe-container" id="hexo-blog-encrypt" data-wpm="你不对劲！" data-whm="抱歉, 这个文章不能被校验, 不过您还是能看看解密后的内容.">
-  <script id="hbeData" type="hbeData" data-hmacdigest="fc946d50aed18d1cb019bf7a0174eef693d2345d6ca9d00e209ecec93a3e4f27">719cff5c9e1092cb6f842a7947d9e46fe4b5c8e19f1d15c3909f22243139dad2c842cc21e58672aa71e22f607837016bd8a2b2d655b43a9841167c0287b6e9a0dc82d3050b9d63487a805ff262666b6e9baf78d4fc6b069b2a8c2b8b132cf20759fc8463f63961e4064155018fa6538a140fb2e6e9adcaa2b5f60c73ae70c5accab410272d1a7f25c467f13f644612f1e5113249d6fdc67e11ec77393ba8d75da97e0bc009a30754f0d420a395c19d764277b7577259af4cafdd48b03d6a75cba6abd91e2b569df66201873b55ed73c25ae3f0c35ec6af4b5e1a4d2ce48d68a4d78703bbe201f12812fcc754ca10add258cba5f252f6fb43e87487d3acc7cab62caa72cef3916d34c376f330af37f9f9f4224d53f3502ebb9f6199ebe598fa676b5a9c0188300590c49c1c57b25c6ce4b89d79ad9f6b9d13d7cf8c8ca614f21ecf84082c005960c2a179ddc32acfa9b2143066d5d864281a6c168b9721ca30caa38e8cea932c9d801f9e06bd1f3bc4c12decd24619ac57145eec04896bcfc36a5ed039bbf3b7ea08a87cd05e20f939c7d129c63f244ccf725bf07c63e5b1ef9097c3ca49dcbac3e77ed0bf011e840f7fa128ec601873cd87c63bbabda7d3f6d215d04a9e48197a7e49c182d493cc242b82961674955a3a807822ed67621797b0f66fedd20782ce90a387fa11a6233783565d2795912cec7358fcf8f89a17d45bd0ea19a6be912c7a1ad81be0f4cfbf3c4c0746090520875855f2f1466b46217a23a2380ef305daf138e0ac986f1acce48561c728e39c758706ec070def120894a7abc441f720050dafa6e6f6e3eb59b59ce37e06396dc8271a57ae515d0f94a8e3517a7056bb4d39793340ec2a5fe35a8447b53676fb8fc95df6f0b279a809c4ce703f116498a620f3e8efeecd077e11b16f87a4ba35532c179713ffc1fc0cc1795712a434ca09ca527cd98029467fe4ed03cc34e68cfd0bd6b50914aeb29c72734a4a02a2f41d94a5fe9746ebabe42cb746f0f7e19431e86bee5bd95838176dc06a951e14c8a66d6c5c68b4a25241c3cea7f53055e72bb025b47ab57c466b903682516cb091ded9807ec7e0fe1f4c361f66aceefc6d44a516ac09047ce266f3c5bf3691ee1ccba482388de887715c9e3297cb7e5368b4c28998a60bc1917d58c9052ab4f27afc597ffa3b45279fdc0e320251060d56d59a4e453343ac159a44e1b77a8c88adbb63538addbb602af7d02a4f133e229710cb6dc4e0319159c5fe284585c14421d700ef8363edc681330f907f624516a841d09593fe96f69276b9abf3faf651444580e94e780b6cc37d4a43e155eea290d2d61c2c6a25716d39912e050305a864948146d17b7040b59faac521e01a82a1803b38afa2eff4f343074e11ef609bde0029f220716dda788ddfaa31317c96be8e1afe6886fdd3fb10ea1a8d648beda9f79e9907f778c9252cf0fcc11ab39e715395ea30ccf0743ffd191cadd79a514841ca8214f1533010d49cff08f294275cfa76a9186264f0240ac83504f15adf16debfeb2478671a80af69d90c78518a1dd6096a3713af7fee6347aaf67c7b8bc2d86e889d0a07b6e6bc16b906ebda2440aeb2d71c9e6e0d31dbb1b78995e3e6436d132e36d3f2339c7974efbdf0c1d3722185146563bb7829bda8661ef30bad3576d91474a1f40d7406832a14b482dba030bb0e07dce1a63eff84f8c336d1853d0a45254bb4c76fd1ad5f2f39940eab4b5bb28693f293e6637dd3ff94a27900f76c0b99f00968de2f7b2a3e690e0b188074546e00e37c5d1263d2c589b9f6a6dca22560bee988f736a1839297226ff12f26eae176a53e2bed98ba3837b5ad363382abfc7d0a6cf0efd0ab755333066165d4a746807ff81aec756b54faca1c4e8f0a7ec16402c48694549de218d6b310d47e1f4b4249f7972274579c0354dd588fffe5927f36c9e9700d8843f7dda504856744f9d176ec39f35e0289d975f7f01d53312fb69d537a525ed54eb02bed62cf66a49780b33195d5d71b980a7b29298a04d82055e78fcb79cc60f98e3c196b78015a9598a35af0a0571c389b7c0b4e22ba0c3e4b7e73b55f618beebcaf904f253696fb0fea29cdb73791743c54c098a6f6d3b6b9b6f65cde4f3b06c1cbfb527a1df4e2dd6c18926d8d3102ba69f4d79c0f213d1e82191d05a2c1804e350dd0226ffab23c21cd6c9977eb1997287972c993900c36e3ff38f4a644c7978f171926add7ed5b5ec182c0fd0cd91d36e3c4c0625c1a9ff277bac804cb9d339d31623cbf8f63d65bf80172eb22439ad0711573152c01162ee75ac0e7b788c2ec4fde8a87f782b9c7b8084b19295a9d160b1bcaa27f79818456cffec0e8e5659a7886740a107fab982dbdc1714267eb75267b31406bfb222f54961a8c43b315aeebc81fb72ef84fd796f076988dbf0d6eba5ec850621713e4f45554487c84f6687459d155ceca22795ad472e9371ce3d178f978a4c316e8e85a68c499d31501ee88c83a00e6a8f940b58080fa7e5a8642423f07d66385dc09f0f2a693553b5c6d1f7391fc7446cf3528ea838213f19ed75b23da0ef9fe1064cc37ad346be45802a1bf12a25333c136e9d3296fcc6642057ec919f7bd184b7c8e52a5dd149dd5efc9cb288ad7743406aa8d2aaec34284e22e348b1e0fb31f8bf42a25df01e2a80c504d6a7e1376e0d6a9ad2f88431da930c79222ad5c787e7244cd3fe8efb4ad4c64233f232de9422c1077132e3e98c6a367396e4f47659db462fe21de1532ee15eafac8f6434cbaec14914ae1d0ba2b1b6d560ddc00ca3c334a90642060f03b1c47c2e476c96ff1bb8a97679a9fdfa81f50d8dae6f4ee6d0ab1165c4865491ef7a82e10423d68c6af408472d7ba68d2a9041a98603cfc9174731686cd4acd632ada3a548c8e0d79c60faa350dbbf20c412464b0b20e0826ad8e2bf0796a1a62c5688ee970d66319a7e647af85a70484c39826f51e4ec5da8d90d5bb4b66720fa690716ab25380d826baa1c6d5bf87fb221fe5fbc520b4b4aaed37e96cf3159cb34b3163c781cc333bf303b1ac52a7ff1520902a0c7169a97bb3233e56d12c6f240bd8374a664517d5c55b0f4c4f213b8b05f05173b99929b05aa4fde9cef38909ed223b628c5de66ebd31f21399c305f9fe95684e5b881d1d61e0608808d7e9bdca28d8fdb712143fec41ea63b01fbb58e49e00cce3fa5ae446af8c6e49f2c386d84e4dbb7ab498ebcc4b9e453a8094eff3beffd8ce3be4ed2a5ea9997744ae113d4a3d709befccb468c431f50b3c9d4daf6bc5c525399106c9f8051b15b17fc9275426b988535169581629242996e5ca402969ed503ae8287ae09e2af16bde0fa1411d04462f3b4fec2822fba9c21b4dd885dbacf98b4d0a50e3db5cea5e9c3eb6a805814e489cd856db3ea1494c9214695b7cbb5dd5c3fcf777d60cd6040db81efaa72c00f7e5b1ab8a830789256c271529678d52a6f22d1425238411c630732e90cb17545269638483f4ef0e10d0a7b3098f40b53e247aec39d7eb8e142db6054da853011af90c4f0b6b369f2e30ea74b169942e1589b6b81d832802b832906af1e3df388184b07e41ef1e26b61270a717b72a66ee311b4122d85e878a23798fa1b6a576df88a43265fe46f3c816acb8110acea0d093c12324f73f03afea53194e57143079a175b8983c275607281fc913d1b6f8ae6860af844d355592d6143d1ea594195615cba3f6e1eadc735d068e67f215b1826844072f896c511a8b904d3000b52795a361eac47b7ae6f2b4e8e5d56fe90448860dbb93cafa7b13c04da102085ca7cd3e1b7404ae676a2f87999c4307308108631442028f70a8a1933d4e4af1df7c90f3bc8321a7defdf21532aef4d7cd09e6fb307eec838743e9fa12999187acc74685d9c310e681bd3740e6fd0b73f925080fb5e8a399cce227f334d3c6f17b27364b3a2bce7899f814e533e6c74689e3b9c31339537b7dacbad1d990a571660c9323db01cd77984adb2328b5d167694b5363cb71081dc1691ad15614b4ce7bde4d90df28696d078ea69b5e95ec201117a7c3bd8f0bca958a0c14f335d717c9d66c8ad54d3e29ada0ba11fe2466f8068af6c2daad6113d096f6b87973549943fc40abe80a9cc9d1f8dbe4c749e00749c2055a284f6d978e4b90aa994def31b4764d7f33910d1aabda3002c0d775ae151475e30e25a43c969ab80c9b7ee72d5cdff4b1551d8503b7946844c18c6ad2d5a900a31dc79a249fc63716bf07b5fca380378324c37328662207569fd9b609542c95a92c86fd1af204f482e31e34d92e33c829ab7534aa0c30ddc15b29c532a951cb7fe887f469dbe58da584245a16f85662dc0c5cfecc82e833ebcefc7ece5ac2ca04c3cbc93449e2e477384b1dd6268f6a908910f35466d9142e7f224ba0a97bad05412865f8b0bcdf2bea1926fdcc98693f24c994325257df419316d34aaa3a13bbb50d627f5593db30cf57cd57f01250b265026ee2c211711181036bf9044a4f9e2b6827eac98536d929902b3c03fc117501aedc652708009f81bf60239dc3028c2db0a1e4525ac30ff6de55c84d2cc52a9208a6c7d52cd6958343d7160c521b8e8d99e4da3408e5523348cee89f5c3aa457e696101c4cf3990827b76733c25b917afe702ed2f9d609581d085023d16b5a8bf4a564058a576b347c627aa1ff92cced6c30aaf9ea020e36af2b2b6c8a0203d254ade204c25153bf0770c7c027baf9ce6594f0e17953672045f7af02899aac87387ee4aa5cbd95fa09574b964c609e0c3642ea92fe900d3fee85dbcb3fd7acb5f16573351ba82ae4578e9eb4320287b7f917802385256187c7657bedd3ee4d583ac83d490fcda1827c20b64e125d326385034fdaa79bebdb93a99ea3cae2f7c6217d9a29654ebcab550ac63fdc3bdad9f8118e236293fd2572766de7e7a769ea275b8a638fc132e0146756e7aeb242caa290ebcf7f4801e36d457c5e55ef438462bbd17ffd7f18ebc216c354113a60f76699e0bb2e5bee423c98dcf2778d1e6ac8c367d18d8be6f738543ac1c4a27fbc9c3901b02af51b30bb420c690e7a8bb37c498d2c82d0597114f4436f46207470be649e7b43ab8135be699a4b903221929533ccabb32aa2fad55b88967ac2c05cdcec7656a0e77ff5d633ce660ffe6bdf916751ebb40ff20d2309e18e6af4e4670b94daa7f4a925a663b34f63465135e4c506fff3e9c3728bcb53737bea04e910b61bc486fe5b1c1505e68499ed511a84cdf8539e5e9bd4b680b411732c30408265575799b5af8fe3d03d3820da9c29854e30cfd815d8684e816615c937a14aa63e3b74896c42fb6c459fece94dbcbb1174594b51d570782e17902054bc0e5eacfaf01ecfac050730bf947c59da58a0b2b1ba7a07b72a3a64dcfa5ba6d7a8afa433c33f502bef1f9160167b740354daddee6ca3bfedda0d73e8ba08c766f5fecaa74eb6a7055054e6c67fa4ccd57c42f015e9b1fb144dd367e310bdc94e4528b698c1dbd1b15328bdf231572ec15b90ece2148389f2848f042135a92637bad26a07082d0dae9d1b8bfb6612a1dc522cc20634827d1ed7e32754e7d2238670830d4ca607cf48d87c8f4b59b10bd19c5a84d15f95d85cbe17ac97e9ed031e384665b9218ab7a56515d7ee4d8b3adc2cc87122f104d965b17dc54aa813df4a222ececc55f1516425bf023106cccaf64a787c02429e5a2941b2da10cba3a1309410640a8fca4de69e03f1874a031af570773bbab551a5fdb9fd7765afb4bed8010d2d6f8b8a8d404417e3a4fd3410b2007bcd80e4d9672b74035692a041d05a7904e936db42e81d19e157e0efd019ec61c7ca53228fce52c7c924cc69e91231edf75249ef9b20b6bcf22f2cff781023c967ce659a840f45fde5f4c2206f01ebccb4bd49d5058b9895185ab28012708ea304365a5f3c290499301c86929f12da35caf9decd4c4c416bcebe63987638d64b1c527787d237dc7ef7539b927f4f64ce4debcf1cbcae1fc62a62b313701d1253f8f9f88b7134facc16066a74147c5a5b92cabd68f28cc73a7e25c6c34bf0327f2e8f1ac2514741fdeecb6a3060270862e5334e7fcd3855f65a1c87d6a51172016b7b956df2e88200b424ae1e7eb7c07a49f3de98dc99965c4052de9c0fbb6f66bc55d31953c382f42cfa6379e26d38a743ff7b1d38e3a4d5b0f4caac9708949df27b1ad00a1963bb34da603836ba85d1f38cc861b23a32f05f58f87c82c882e13abdab86ee5dcddea49a9acfaa10002b0e2a3221bb0d12cdeae697fa81cf192989c5ba6d312e6b49b503915cd8b4a9a2d86e20066b90b2c3bcd4b149df27595f07d00c8a028d66e2e5184b3f8c2d602f473d827158d3d31da4a3a3460d2f6cd437c5c8f8d5fe938cdadbd8ee8947385e6ce0d7f892cb5eab94c45fc8e2740db26402e796a5d286712ff9994a41388d5f8db3285ffea6a70a72395c4a7f622358aac4bfc7e3d38f4d857846cd69a4952a66042b9605ab4c82a1bfad67da8685f9188a5f01d2c6f11cedf500dcd2a8aa6f9bc7559e73d608a75ffe826abad32cf0c8e5d0e42dd8cbbc01b57b81e8e3fd22bca1c6b9bb497db7037565dc3a6722925f2e2c55a1e4a42fb9dc07f59fd6f8d47c31b3693ee6e8060f87eeded882fb580fa7585c02e64aaada41c0b6d1ce3f1b65291305cc70935d08d0a2ff8e1cdd8fb36586c5caee7960725f2b00d57f778311880b9aba64d60cb3dad560993882a0815ace1630af585621fbc42ce18bed5aec1efbef36920ddca8099c49754d0cec341a697c8d105d374604bc4c85c86b5943d743b9dd2e29fdd9247eca9f711287c9de1ec6854af9f285a332722a19c8bfc90f3bc01f7566fe2995b73447fd88ac0e591c64089452bdbb2af8c4ff69ca714e14c3ebc2a9175f18eedecb13458dfbfa6f6b41b823c304448fc8dc4230e1b1eb1f412033620a4bb742927cbc0e0cfde8c73c637418c65c1dc4319ca200b0f1224c55edafa927e6abf077459eaaad0b74706d347deb03ba03ed83c59d064714edc7357d77ef1c6bd64cdbd2d62b26b5a0ee2ed3d0ac3f21e200e118dce24df6285113c951ef930e2cc34fe9efde9e4a41a3590bba6a8a2c40b7a56e569c4d84c82e24600c41d24b86056328b642267f4c4be5cf808b7ec6fb1d5eb8ed5c7a799c66926c6604ea4902a4c61cfe3054f0c19b2fe2290163274fb88a27bda17a99e95b67b035b64632aee286c9f42349bf81ca8494699a3390005d4f57ad0349b3d4d06a6cc4d210d95c5ebee7ca1007ebe52cb8d9ee8e12546860e1b05a107bcc134cec14cba173d56c2ee422b258a066d5d32c577fd673356d6f3fed73f5554e3ed30a7818d24f5fb6b7569b8a501bd3e02790f9e3687086c3b04e3450003f389840cffcba59ef2b6b01f1eafd61d6b353d2127c1cd8e942911da55bbaaab64db0455e388823aedd955e1c8a4baad2626adf72d6ce3044bdad03af02f711de5abb07e271e97791d237af395f2ab75bb39482b5937c4edc09705e3e47a32e18e71a17e7926ac6cfcb9522ac168956d17ef6c6090985eaa6693f51c944ebdde621fbfe0b75145fd4f1eda0f6fb4f37735d1ce4cc826f38afe5d7059b9f4c5020a13e08b5900bd95eb2cad965213e2c93bd476a66f0bf78de5e0581aa5cd5acb95dce215493afc73d50974f7e5f34fbf971fdf4ff5948e706bf1050cbb531051e78e481e761ae0a7edbe0acd573da31a3560ba7437bbfdac1acc73fd9672887585fe6bdcc47adf75ab820ad6d8857ba6eaa84423db66c7a95442fec10b9d72b7ec34da05ef6493b007a57b47655e1abe7ad94590f17fe70bbaa7a5568903ff8dc9ac9d6d2ceefe78547cbd3e33f109cb274cd43824faaa0cefb26d6d599ee93c6b3114f061b8045cd264c9b6c7d99007af27595b24c9d0bc0e8039b31eeba4e8ec5de379a015483b6a8d46a2e0cd9b864bfe0369410ee8e3c967eb6bc4a1c0cbbda6e8486412613e0213f5248ef2897a7b4c49e135abbc3da26a1d00f7f007450ba3c3d0f61a2f476dbb1e384e207721af986e635bfa04a45964d392c5e775eaa8fbb6c0f7151d40267b12286d48017021a789fcaf7fd295fdb47b951d0054c7cb2efdcf19ace4916fc6c6d1b451dbc52f1baaaf40348d1c44d9789718ba863cbdddc739b28a047b14e2fb3428af9314bf8e7ebe5bc215c5e6aef85720615854ae124e5cb8bbfbfd0c9e5d64146f21ea68ad32daafe99c31fe313c45c3c4096220a7acd7c8dd1c16bab1f9930099ed8b6c71e08279a908c6458fecdba633b6361c7fd1b40b4439bbb9c7babda013529c98bddfdd78bfdcf7429b974712c2f938a3072d977983e005d21f3e748340053ab7945053be51b99b995c6d1030132f043ffdeed9ede0e5864aabb86b61989b6520af1dc4fd28db28afce0a07967bbd16f6811e58a93bfa35bddbe09bc14c4fd90d7da82f7929cb7bb3f065a021b8cfa4b9f5d8cf2dbeec71c85e3dbe1ea99813b4463895bc8e5bfcde6d439bf9046890ba8720cf4b25c332520332b9e8148441c7d78692668750bb2c332f69db49b74db09bc4840dfc0ebf771f5b5c92904f1704bbcb5ebbde1772cc1db797040fc526e2bf2d2caf3777aa31d66787ce77f7a97b0a19e111fac6d724ad09fcb8e5a29a0f21130303110d4db5bae68ec296ce25ad71f0884e1379bf8546ab77d7d035b44d57f485513e98b3122da63290d3b65d413373d0d4a51bcedfdfcbd1751da2eef3d12d3359fda820b9953332e7b970d44da4d36b5488590942e285be5c3142aedfece6321c7f6dcc3db9024c5162c89939c121dfeb5e6d267e74566ddf709c00b38080d80636372d6a1e8e89e8519d6c66e2b3048b10fce92bfe9984551e4dcc2c16075b4466d6ca4d3fe02747e626a357710be2a8244ec299891eb424072a8a172fb41026d744e57cf0ffa18d1513d98ff5b284885b26a6948898d0901053c9b549e479da9913339f39d162458bf79506230f2436925f34d39ee94678a3bbef4b75e910a361bfdd1f2ec0bc841711f330dbccb22faf085032e4e78cdd1b1a3f4e0c9d7fd1effdbebe36e5fcef0b1fed9c25e723dc7da009321ff88f5100b93f18b245f808f67f04450b79d5429211857b0e160b27a59754001bf85ab778f35ae8a0e94845dc26af35db7da4d987f8aa6fe5568970a359e00aabfa957faa7ab8137cc58daebe00a062d762d8b86b2264b6abb6af828cbff4baf44804305c12dc4eeed9e74193377c0c093bc8e97ac1079adea19d1a9c3ab664518fe1833ab6d78d677db9d1e0d06dd5f000d20146be5ef65fbadf13b94bf7d49651abffe1dbe9c10bca828fd9320e206583540bb6adc038a708c26fd0e52c08f8becd4af763c5b5d54a1a5b8f8f14ddb6d76fe2175217367b2495832b8fe00448aba4cf50966117ac7d1a74d21b7b52979177b314da321b1626412eb95403abdae6bb4fed40606f308a1d08030c641e9834a5153e967e36bb5fb841109150382029bf06e84c7abd302f2062dece1b438fc48ff588c417e437edc3bafac6b17ddfe29d5ac45a46fa97d9b337e31dcc88e37cbdff52d8f1b3642dee557ae8fb6a5eeb50c4275d12819e4b23c3ea2387fbb7d544cfdc8fc3250a5b1ddd2a4bd67a2eba027d4eedacea2cc8fbd7781e1493b337d5bc6df87b5a6c05de088a5dc85070e5e6ec80c29ef02a91eb256350fed2d1c00700bc2e6e153362bc4ba3758a18260968c949c8c7ad2acd5c541ee6ffc977c664de1ef004d7cc8752188661b423fef16d7ca6a2f3ebb7f0f5086a7b5f83d78e5af6f3d61a12ab4b547477562805d1017dee08807143918ca4dafa8f214c832cd69dd39a7449d55e3ca876acf0584c4dec203b59814ba803241388eafbd9bb770499ff0ceb7b977a33b54dde643fc8eba67f9e959ee70c31cc2a8f824a7761cb01b823a6ee0e4af7ab53f11ec62c8514335f2fe849645b914e7b2827b0bf382311230ff5a38c2c288f9709add7fdd135b51ac2dc6831d25f248b141dec93d316cb898e9824e95e53d153f5de278346438d4acad8393391ee373342bb60d92f930d383231656c1db5f2813a55e3942926e6ace622cab4e15eccdbbcd37cdcc9419ef1de09c0245735cfd4acbbe0642c00ce507e32556cec76c95b934e7c13e347ca0c081101230d793475ce3a6ad21d1a8a7d3e68f18df3e925cf6c761b8173957ac38af0099b2e069c4eb16822f3d58da8fa5f03ce41943e10565621be7c8040b465d5b33b2fe1eeefd2294ec4b98a69bdd133553faebd842906c81302f1682bb1d46bb4e2e3da44468b3f641a23fd58abb2be271076190ac4ae1a94cbe330289381cd6d86a2573e53972f8970ba1a50e3236af0acd63393fceee860895e72a653390f8ee7b8309d8a3e68f4c75a9519c357b0b2b76533009ddb775209fb04ce27b6b03b89bd8d043076082af9048f19a178a0c865e63ee874d1b9d570cf76e9813addd07d356659961db300a9ef6356b80e7beb58c4133d1fd890559af9b51163008cb01da90500a665122fd1b0364a60ca8ce5a38c0ac09cc8d2cec9e0457d08d317664c1ddec290160712c5148cc72e09ffedb35c0ddc2ccf4c386aeb7b5ae015df88fa2a49e37f2c48b9b79468274d13458e682083916926052306c1c540249bda4cf98bece65d5e05eee8f8f1dac64caaa4086953ccdb99f1a28a5b156c170a17d8a5be4bbed11b8641b42752cda42b0e0347fd59b221e70f5ba15b53d6d3ebe62cb3c47c0948f102ff5d31c0928dbcb4956718603da7c39c46045f93fd23873a44225983eaf8066fc78a47ad0a064e73feea15745324101c32bbcfa23972f79de1f8e172ea031b6f7ea27cb5048e7e2126e984ceda7d86e1a12e8a28168cee4b0ef2808000bb1d163f7e144c55e04223393399d569b82350168e067348a361f8270aaaa3b3a81cce0e7ea92b9cec816330788e8f5c3c7be53467c5bbedaef79ef643c45cf585b4d6b767a705110eb2926179fb234ad61b8a45b34d246add800056b29a289b7d81de420c4db6186ad61de57e2af5c97d19d0b2a6220e3916918b88a813a2aae7367864da9cd9ef060041dcc1c08f5b6260f8ecf08b456169971f9166d156800e775871b02765524bc77af70180e49e6349f782486dd568d9300e2ab6d19367995f8a97734ca1942786fe4252c5df89a21a89999aebb68ada306e21f9992fc5e6b748fa31427d3b29497bc1882a9b69d9e8c21cba8d8a1f8af4110403acc3767ea74750e1d26157a3a3f20fcf83a59cf56e8b33a02f81d32a79f251aa0dd47fc605ad2e7f95f6471f4712e5e0f483cd8510dc9e85feb589363c152a73fc96263e51ca6683e6310f8aba6a2de954ed9946c143ecec7873074cab931b532c6b306a463059b700bde945470d2d465ec24a84f2d528eec56c6b89fd27ba9390965f626fc70842eb6d14343a2763df6453997845038f6874575838668f660cd00ff889c93a260bdd3c3343a50face52d4db7b594b451d5bbc30a62faf2a4d1c662cc1986e76c55284118ab7485c738af24ae90bfce2df6363b4e3651c9efde90fd4dbe7052767ff26912f4282f28d26a29d50a0a064c6cc245e1869c7300d67a564bfebc537138f341c8000b0ca5e10ee14a889de9fdf4a3c16c94254548215eab5789082d4f2b9e487c6ac7b63dd9c5ed5c09f6a8f37d3f8a9e566b4cc62af266710f479d07f70820c2fda58ef93388b358c13a2b73ae30b5d48fdf8a7c40ff532e83a305b596682fdae6f905be21529b8232252607d28741ecf5b2161b14fdd3443a7d69d58d20e543e844838e99443c2dafd6ece6bc261cba2e853fda35bd35da4c6565899a0cfc7facabbb75f05e37dec6c19580164f23580f0a48c8bc6078d907db3af488d2ec1483887615104366835ba48f333c41d3f4979e087ea67ad9d2b6c59e92ec0dab40d1f8405e747b5aef00819a8dac293717220b9b2d28091aa6dd62408bc9665561ff7bfd7b3fb85b7aa1352da27bf96f9060d37bafdad6a73c81325c15af3a22e00a9b377efd1a229d7b5f6957111c168d2a32a6a48cc2b4b4e3eb8b4e84635e167edbb9c469487731d60257767d580d4dea460356539eb97f52255d756ce09035546a6f360a7ba1f254e0937ec84820c32f3a99d638e8b78a3c20f8b0aebc613f0b8f833ea818361e7fdb5abe57c6d03abcae8abe1032017bbacf64ef159d6ec0b3480ad706431644e6776dfc0e3111b39cac9e483440df88f0255cf2801ecd57c0ec94d4783af2c5e5ad09578b787542f7791930a6d373667340db32597156e25f5935863deafa4dc1da6d76b0bdf7a00631ee501507ece164d27cd60c57181edf8a8f19ae23605bc4f39dedb587f132691b2c9030eaaec39ae37250e78e6d99428a031f80856cd421b2d2d325813c91cce7543e18840e7ee61862879f947bf92dd1b2c95dd3ce62594f04713ce925aced0e372843ac9b52f3dd116ec33b251dcb2b36cd3dfd621dec0e98ea9544620e6e7dad77747f93c65f5eb601b978386dd9d4e69c084219ad8d74ae0d759406bed5271c4358a8de4e3e0757ee06a36d2e154cd558192bfc4d203eba0875e940a0d1681b5dd4686bf4c47c93f0eabf3c2e1263ac5258e50c66c1142c871b609d478e541ffb495595a98bb83c2d432224d357519f1943f194773added88df3871aff2cd2db5769f7fcee12886f32d0a9b2245c6039cd5ec10da9071773d97966937650704e81e34ad11069ad3ab709ff9d3e9eafb89068fc4a9d03aa6f1e5ee31307fe2ec47c2e82305af793e0e022885fb7cb403c1749ca57ab7d33cbe7c42b46b85b59227ee1db0892dc2da50d6aa04d800d7645b5409fbddf663a80855f5d6b69f90327880fb2753cefd1ffee03e93d2cbd921228fb4519038ff8d4759c043a6f581037eae7eb858f73f0139e00db54eeabfc653380b0e31e3bee41a5c0832c2ff97cab6345776d8066a34387348b10d11ef19866db7a72e1635529cb46d8b4dc31e9e4bcd033c868c8ce0c8a6412ba9ba90aca6b4e91fa72c3091585a7be7742986c39cf8b8906bef7e6eb39485d14155b27273b2582645cf33b9757b196aa5c020df72329cd7718326394c47f5481b6dae0c42c7fee4098985c8b35842c9fbc93009199a90a538f0f0a3a53440988b27ed53521b878828f1780d915cd89db5694676ac21a4a5a72f2447f64d351d0321a3a0bf2944b1a9bdd59025df601ec9865dc8ab008d84e1c9d1b27b1f259d9e32a9e2ebd5720486870a178700c1389c9e27b2e13090e03d760b214bbedbac3269d4a023f59de51637058b949b6eb48bf1d079a3a29705be6b8ec44b58e555d85acf3774c988adcfd0673ff1c2b40f64843da863b92014acf836a481631d97be2b0d2e0ebfd3d64c96a97abbc27804b80ba7568195386c9bd4de15b764d47c4f8ffb68b07cd023116616d4bece4e48380d1d7ffb3dd4745002627e2dff678883d50709a1470987cf36dd270c304b3a8f76ef43a93594f34aa0b4dba1a3a5e82427131fb86b75e9b56bb178afdfb1bdf34e41fd054abdf5962adbac9d447d8f9f6adf7f5bd806cf071f3c72cf863f61012471d149bbfefcd87078e6ece7ca03b85ecc34ca1b7dcc69d8b72fa7bb892897eedc41fb151c1abf0b99bd7fef285a87ce37d59400bb754a5b165e0185fae2f8572cbb29dbcf600970d745fea2251618f23a8eb5dcd42bf95ab8310d099e77b3eda2b767ec950997580f41f16396d61ab6e7cc6682f4f5254eccc6204d2fa7b6b72c8719c20bacfa3a554ceb4f45cbb7169c72bf5762ba12adc1834eb02895e28933aa0039b4f393139d3999d721c7d4e1c067742d9df30262e4af2e7e693795a35af2afeab1b7ca90882a2eb5635967b36157533a0cfce85a95222417b86c2f60ce78c8499d0bb02e515bc54ba8a03deae7cc071d7f58419b28f32f389fe7cb0c84d63ac867466a0d38665f2f1d5db0fea0ead37c233badb48ebf46a016a42ce0c08512f3b0cdfdf89b3e50c0da68da56d0e0d2321f31e6ce7150afde900f1b6c009620a3cc3ecc8248942b335f95cfcc0aaffe81fe34631a8ffe203140024a08f485ffd149cbd65d9ce081fe21b62ca509791418965242080fba02d49543e10647d3578181b583527f8a76fa50475242822ba9db084f074810210760a13d15eee3624d64745305cc860c16592421e34ba65bc3809016a7ff0badf10237b60c61d8da25a7825b9f20abf94b0cd43f7d392ffb5d9291f5c5506f4f6e784a9ff1db7816ac99e5f5629e437ece0398584b8168e6b8638e893e8d235a29a5c4e2f39bfe27005204db76c9cfc12633058d1fff08fb6c0acc1fd1047bd6d3f80b1e225ae825b87a3707c7870a2866807581fd06dea6faa6661c7855e53c6d77756ff6ea17922083b0f79f1ba7ad8777f366f029f02de7b2f1b9949e6f4c36ddb9dc25b075dfb6d2f92486e18660e634484bc88bb1fb79e9d8818466123dc4d17e4f625d0fb9cf3177aee518429742637ac67120a6d60f4e42ee11b5d10ff2d660c73c933936c32fcb0fe4a2751499d6a6121fa208968318ca9c817d25092c65149626528d89eae3fbbf05651fdd9f296e19b2ceec80b579dfb175b63044d0a8c050ba55a958d18183cc25971adb7f13b2f12a1c8e60d336e3d12bec2d23dd90f520f01fd0e908764810d81b2727dd91ecfe5d7cd40b4f5a05362a7df2614bb76eb6eb74b88c99ccb4e489dabc2914c36218e44b78c8afce94236d42f66b5e42a2f67ad1e9e4d01fdfeb91384eaf3b8007b0a0c3c52107864c6148b36b5dd73dd25864feb7f9e0988da0f6331e47f956e7315640a272087ef912c589d7deffc0986ea11417df953855b213e73eb14596fae667cc2b52958a7bfd0e3ecacac2e317cd01aad18206d90294ed95de282dd965f38acd878d02538e96edae2358a4463dac1bc8a47ece179f1a6367f23e5f6a25cae15676077bf18006f6e6eecc03a3a31a9583adaef9e6600ca0375950859ef51e08174ec8b1022ad63a22e0fd039190994fe1a35c59dc4844aedb4b583404b72c252ab819fb29bbb81becaadd46d719dc0d401d212c13b4603dab540854055d1de63e07c763c48417805bdca3e0093070684ec2668b077c23e1905b64c19142e280b0ea1a8ee6076e8821df48b7073917670562dbc5b98886b398905cc6d03ba99bdcdbd5d64d26efb5adbc39a8127194809a43a586da8c79a3b7988c1ff449cafd4c8b3b177bffa097623aa10a8c1176d19c505a7eca8af8ff3b34e6f818a064f5b033da0aca08b6437adce6dbd4c3441b1027f93e30af5e39346bf57ea4c262e134e80863c0236adb7e0078aa7b8d59cf4fa9e1786959c8238037372877ad8962d967c3e5fb36099f2020490d243f592916f035386c39a64b668379c7d9040ba6e4ccc168344119726ccb243ca0291ddba15e59be8317e2a2aa23f923733ded4f403c9bebb234b7c75bfdf6361c9d0a55161eab39a9d3ef1653b787ee0549cafa33f80316a8240b26d12603f4566623495c601f50742a5888759420bb9301100a4692a8b6be124eecb57b0055eb25a10031aa94792bc42594876b7216e7e7e1380fec502c45d4b686250fb67d438fcd6a4470dcdc9e2bfc7863a4223387d5c1a49dceba35edd87a6f83c3799b5ab59ca7012f3e710d6c909947274f06b54cd208eb53cdb4bbb6ea468889d70e937f0bf829aeeab142c2968c485cd34af64</script>
+  <script id="hbeData" type="hbeData" data-hmacdigest="7f82245f25a9bae650c8adbccc25fb2e754a516e8e78ba8ce9fe8d0de2242bbe">719cff5c9e1092cb6f842a7947d9e46fe4b5c8e19f1d15c3909f22243139dad2c842cc21e58672aa71e22f607837016bd8a2b2d655b43a9841167c0287b6e9a0dc82d3050b9d63487a805ff262666b6e9baf78d4fc6b069b2a8c2b8b132cf20759fc8463f63961e4064155018fa6538a140fb2e6e9adcaa2b5f60c73ae70c5accab410272d1a7f25c467f13f644612f1e5113249d6fdc67e11ec77393ba8d75da97e0bc009a30754f0d420a395c19d764277b7577259af4cafdd48b03d6a75cba6abd91e2b569df66201873b55ed73c25ae3f0c35ec6af4b5e1a4d2ce48d68a4d78703bbe201f12812fcc754ca10add258cba5f252f6fb43e87487d3acc7cab62caa72cef3916d34c376f330af37f9f9f4224d53f3502ebb9f6199ebe598fa676b5a9c0188300590c49c1c57b25c6ce4b89d79ad9f6b9d13d7cf8c8ca614f21ecf84082c005960c2a179ddc32acfa9b2143066d5d864281a6c168b9721ca30caa38e8cea932c9d801f9e06bd1f3bc4c12decd24619ac57145eec04896bcfc36a5ed039bbf3b7ea08a87cd05e20f939c7d129c63f244ccf725bf07c63e5b1ef9097c3ca49dcbac3e77ed0bf011e840f7fa128ec601873cd87c63bbabda7d3f6d215d04a9e48197a7e49c182d493cc242b82961674955a3a807822ed67621797b0f66fedd20782ce90a387fa11a6233783565d2795912cec7358fcf8f89a17d45bd0ea19a6be912c7a1ad81be0f4cfbf3c4c0746090520875855f2f1466b46217a23a2380ef305daf138e0ac986f1acce48561c728e39c758706ec070def120894a7abc441f720050dafa6e6f6e3eb59b59ce37e06396dc8271a57ae515d0f94a8e3517a7056bb4d39793340ec2a5fe35a8447b53676fb8fc95df6f0b279a809c4ce703f116498a620f3e8efeecd077e11b16f87a4ba35532c179713ffc1fc0cc1795712a434ca09ca527cd98029467fe4ed03cc34e68cfd0bd6b50914aeb29c72734a4a02a2f41d94a5fe9746ebabe42cb746f0f7e19431e86bee5bd95838176dc06a951e14c8a66d6c5c68b4a25241c3cea7f53055e72bb025b47ab57c466b903682516cb091ded9807ec7e0fe1f4c361f66aceefc6d44a516ac09047ce266f3c5bf3691ee1ccba482388de887715c9e3297cb7e5368b4c28998a60bc1917d58c9052ab4f27afc597ffa3b45279fdc0e320251060d56d59a4e453343ac159a44e1b77a8c88adbb63538addbb602af7d02a4f133e229710cb6dc4e0319159c5fe284585c14421d700ef8363edc681330f907f624516a841d09593fe96f69276b9abf3faf651444580e94e780b6cc37d4a43e155eea290d2d61c2c6a25716d39912e050305a864948146d17b7040b59faac521e01a82a1803b38afa2eff4f343074e11ef609bde0029f220716dda788ddfaa31317c96be8e1afe6886fdd3fb10ea1a8d648beda9f79e9907f778c9252cf0fcc11ab39e715395ea30ccf0743ffd191cadd79a514841ca8214f1533010d49cff08f294275cfa76a9186264f0240ac83504f15adf16debfeb2478671a80af69d90c78518a1dd6096a3713af7fee6347aaf67c7b8bc2d86e889d0a07b6e6bc16b906ebda2440aeb2d71c9e6e0d31dbb1b78995e3e6436d132e36d3f2339c7974efbdf0c1d3722185146563bb7829bda8661ef30bad3576d91474a1f40d7406832a14b482dba030bb0e07dce1a63eff84f8c336d1853d0a45254bb4c76fd1ad5f2f39940eab4b5bb28693f293e6637dd3ff94a27900f76c0b99f00968de2f7b2a3e690e0b188074546e00e37c5d1263d2c589b9f6a6dca22560bee988f736a1839297226ff12f26eae176a53e2bed98ba3837b5ad363382abfc7d0a6cf0efd0ab755333066165d4a746807ff81aec756b54faca1c4e8f0a7ec16402c48694549de218d6b310d47e1f4b4249f7972274579c0354dd588fffe5927f36c9e9700d8843f7dda504856744f9d176ec39f35e0289d975f7f01d53312fb69d537a525ed54eb02bed62cf66a49780b33195d5d71b980a7b29298a04d82055e78fcb79cc60f98e3c196b78015a9598a35af0a0571c389b7c0b4e22ba0c3e4b7e73b55f618beebcaf904f253696fb0fea29cdb73791743c54c098a6f6d3b6b9b6f65cde4f3b06c1cbfb527a1df4e2dd6c18926d8d3102ba69f4d79c0f213d1e82191d05a2c1804e350dd0226ffab23c21cd6c9977eb1997287972c993900c36e3ff38f4a644c7978f171926add7ed5b5ec182c0fd0cd91d36e3c4c0625c1a9ff277bac804cb9d339d31623cbf8f63d65bf80172eb22439ad0711573152c01162ee75ac0e7b788c2ec4fde8a87f782b9c7b8084b19295a9d160b1bcaa27f79818456cffec0e8e5659a7886740a107fab982dbdc1714267eb75267b31406bfb222f54961a8c43b315aeebc81fb72ef84fd796f076988dbf0d6eba5ec850621713e4f45554487c84f6687459d155ceca22795ad472e9371ce3d178f978a4c316e8e85a68c499d31501ee88c83a00e6a8f940b58080fa7e5a8642423f07d66385dc09f0f2a693553b5c6d1f7391fc7446cf3528ea838213f19ed75b23da0ef9fe1064cc37ad346be45802a1bf12a25333c136e9d3296fcc6642057ec919f7bd184b7c8e52a5dd149dd5efc9cb288ad7743406aa8d2aaec34284e22e348b1e0fb31f8bf42a25df01e2a80c504d6a7e1376e0d6a9ad2f88431da930c79222ad5c787e7244cd3fe8efb4ad4c64233f232de9422c1077132e3e98c6a367396e4f47659db462fe21de1532ee15eafac8f6434cbaec14914ae1d0ba2b1b6d560ddc00ca3c334a90642060f03b1c47c2e476c96ff1bb8a97679a9fdfa81f50d8dae6f4ee6d0ab1165c4865491ef7a82e10423d68c6af408472d7ba68d2a9041a98603cfc9174731686cd4acd632ada3a548c8e0d79c60faa350dbbf20c412464b0b20e0826ad8e2bf0796a1a62c5688ee970d66319a7e647af85a70484c39826f51e4ec5da8d90d5bb4b66720fa690716ab25380d826baa1c6d5bf87fb221fe5fbc520b4b4aaed37e96cf3159cb34b3163c781cc333bf303b1ac52a7ff1520902a0c7169a97bb3233e56d12c6f240bd8374a664517d5c55b0f4c4f213b8b05f05173b99929b05aa4fde9cef38909ed223b628c5de66ebd31f21399c305f9fe95684e5b881d1d61e0608808d7e9bdca28d8fdb712143fec41ea63b01fbb58e49e00cce3fa5ae446af8c6e49f2c386d84e4dbb7ab498ebcc4b9e453a8094eff3beffd8ce3be4ed2a5ea9997744ae113d4a3d709befccb468c431f50b3c9d4daf6bc5c525399106c9f8051b15b17fc9275426b988535169581629242996e5ca402969ed503ae8287ae09e2af16bde0fa1411d04462f3b4fec2822fba9c21b4dd885dbacf98b4d0a50e3db5cea5e9c3eb6a805814e489cd856db3ea1494c9214695b7cbb5dd5c3fcf777d60cd6040db81efaa72c00f7e5b1ab8a830789256c271529678d52a6f22d1425238411c630732e90cb17545269638483f4ef0e10d0a7b3098f40b53e247aec39d7eb8e142db6054da853011af90c4f0b6b369f2e30ea74b169942e1589b6b81d832802b832906af1e3df388184b07e41ef1e26b61270a717b72a66ee311b4122d85e878a23798fa1b6a576df88a43265fe46f3c816acb8110acea0d093c12324f73f03afea53194e57143079a175b8983c275607281fc913d1b6f8ae6860af844d355592d6143d1ea594195615cba3f6e1eadc735d068e67f215b1826844072f896c511a8b904d3000b52795a361eac47b7ae6f2b4e8e5d56fe90448860dbb93cafa7b13c04da102085ca7cd3e1b7404ae676a2f87999c4307308108631442028f70a8a1933d4e4af1df7c90f3bc8321a7defdf21532aef4d7cd09e6fb307eec838743e9fa12999187acc74685d9c310e681bd3740e6fd0b73f925080fb5e8a399cce227f334d3c6f17b27364b3a2bce7899f814e533e6c74689e3b9c31339537b7dacbad1d990a571660c9323db01cd77984adb2328b5d167694b5363cb71081dc1691ad15614b4ce7bde4d90df28696d078ea69b5e95ec201117a7c3bd8f0bca958a0c14f335d717c9d66c8ad54d3e29ada0ba11fe2466f8068af6c2daad6113d096f6b87973549943fc40abe80a9cc9d1f8dbe4c749e00749c2055a284f6d978e4b90aa994def31b4764d7f33910d1aabda3002c0d775ae151475e30e25a43c969ab80c9b7ee72d5cdff4b1551d8503b7946844c18c6ad2d5a900a31dc79a249fc63716bf07b5fca380378324c37328662207569fd9b609542c95a92c86fd1af204f482e31e34d92e33c829ab7534aa0c30ddc15b29c532a951cb7fe887f469dbe58da584245a16f85662dc0c5cfecc82e833ebcefc7ece5ac2ca04c3cbc93449e2e477384b1dd6268f6a908910f35466d9142e7f224ba0a97bad05412865f8b0bcdf2bea1926fdcc98693f24c994325257df419316d34aaa3a13bbb50d627f5593db30cf57cd57f01250b265026ee2c211711181036bf9044a4f9e2b6827eac98536d929902b3c03fc117501aedc652708009f81bf60239dc3028c2db0a1e4525ac30ff6de55c84d2cc52a9208a6c7d52cd6958343d7160c521b8e8d99e4da3408e5523348cee89f5c3aa457e696101c4cf3990827b76733c25b917afe702ed2f9d609581d085023d16b5a8bf4a564058a576b347c627aa1ff92cced6c30aaf9ea020e36af2b2b6c8a0203d254ade204c25153bf0770c7c027baf9ce6594f0e17953672045f7af02899aac87387ee4aa5cbd95fa09574b964c609e0c3642ea92fe900d3fee85dbcb3fd7acb5f16573351ba82ae4578e9eb4320287b7f917802385256187c7657bedd3ee4d583ac83d490fcda1827c20b64e125d326385034fdaa79bebdb93a99ea3cae2f7c6217d9a29654ebcab550ac63fdc3bdad9f8118e236293fd2572766de7e7a769ea275b8a638fc132e0146756e7aeb242caa290ebcf7f4801e36d457c5e55ef438462bbd17ffd7f18ebc216c354113a60f76699e0bb2e5bee423c98dcf2778d1e6ac8c367d18d8be6f738543ac1c4a27fbc9c3901b02af51b30bb420c690e7a8bb37c498d2c82d0597114f4436f46207470be649e7b43ab8135be699a4b903221929533ccabb32aa2fad55b88967ac2c05cdcec7656a0e77ff5d633ce660ffe6bdf916751ebb40ff20d2309e18e6af4e4670b94daa7f4a925a663b34f63465135e4c506fff3e9c3728bcb53737bea04e910b61bc486fe5b1c1505e68499ed511a84cdf8539e5e9bd4b680b411732c30408265575799b5af8fe3d03d3820da9c29854e30cfd815d8684e816615c937a14aa63e3b74896c42fb6c459fece94dbcbb1174594b51d570782e17902054bc0e5eacfaf01ecfac050730bf947c59da58a0b2b1ba7a07b72a3a64dcfa5ba6d7a8afa433c33f502bef1f9160167b740354daddee6ca3bfedda0d73e8ba08c766f5fecaa74eb6a7055054e6c67fa4ccd57c42f015e9b1fb144dd367e310bdc94e4528b698c1dbd1b15328bdf231572ec15b90ece2148389f2848f042135a92637bad26a07082d0dae9d1b8bfb6612a1dc522cc20634827d1ed7e32754e7d2238670830d4ca607cf48d87c8f4b59b10bd19c5a84d15f95d85cbe17ac97e9ed031e384665b9218ab7a56515d7ee4d8b3adc2cc87122f104d965b17dc54aa813df4a222ececc55f1516425bf023106cccaf64a787c02429e5a2941b2da10cba3a1309410640a8fca4de69e03f1874a031af570773bbab551a5fdb9fd7765afb4bed8010d2d6f8b8a8d404417e3a4fd3410b2007bcd80e4d9672b74035692a041d05a7904e936db42e81d19e157e0efd019ec61c7ca53228fce52c7c924cc69e91231edf75249ef9b20b6bcf22f2cff781023c967ce659a840f45fde5f4c2206f01ebccb4bd49d5058b9895185ab28012708ea304365a5f3c290499301c86929f12da35caf9decd4c4c416bcebe63987638d64b1c527787d237dc7ef7539b927f4f64ce4debcf1cbcae1fc62a62b313701d1253f8f9f88b7134facc16066a74147c5a5b92cabd68f28cc73a7e25c6c34bf0327f2e8f1ac2514741fdeecb6a3060270862e5334e7fcd3855f65a1c87d6a51172016b7b956df2e88200b424ae1e7eb7c07a49f3de98dc99965c4052de9c0fbb6f66bc55d31953c382f42cfa6379e26d38a743ff7b1d38e3a4d5b0f4caac9708949df27b1ad00a1963bb34da603836ba85d1f38cc861b23a32f05f58f87c82c882e13abdab86ee5dcddea49a9acfaa10002b0e2a3221bb0d12cdeae697fa81cf192989c5ba6d312e6b49b503915cd8b4a9a2d86e20066b90b2c3bcd4b149df27595f07d00c8a028d66e2e5184b3f8c2d602f473d827158d3d31da4a3a3460d2f6cd437c5c8f8d5fe938cdadbd8ee8947385e6ce0d7f892cb5eab94c45fc8e2740db26402e796a5d286712ff9994a41388d5f8db3285ffea6a70a72395c4a7f622358aac4bfc7e3d38f4d857846cd69a4952a66042b9605ab4c82a1bfad67da8685f9188a5f01d2c6f11cedf500dcd2a8aa6f9bc7559e73d608a75ffe826abad32cf0c8e5d0e42dd8cbbc01b57b81e8e3fd22bca1c6b9bb497db7037565dc3a6722925f2e2c55a1e4a42fb9dc07f59fd6f8d47c31b3693ee6e8060f87eeded882fb580fa7585c02e64aaada41c0b6d1ce3f1b65291305cc70935d08d0a2ff8e1cdd8fb36586c5caee7960725f2b00d57f778311880b9aba64d60cb3dad560993882a0815ace1630af585621fbc42ce18bed5aec1efbef36920ddca8099c49754d0cec341a697c8d105d374604bc4c85c86b5943d743b9dd2e29fdd9247eca9f711287c9de1ec6854af9f285a332722a19c8bfc90f3bc01f7566fe2995b73447fd88ac0e591c64089452bdbb2af8c4ff69ca714e14c3ebc2a9175f18eedecb13458dfbfa6f6b41b823c304448fc8dc4230e1b1eb1f412033620a4bb742927cbc0e0cfde8c73c637418c65c1dc4319ca200b0f1224c55edafa927e6abf077459eaaad0b74706d347deb03ba03ed83c59d064714edc7357d77ef1c6bd64cdbd2d62b26b5a0ee2ed3d0ac3f21e200e118dce24df6285113c951ef930e2cc34fe9efde9e4a41a3590bba6a8a2c40b7a56e569c4d84c82e24600c41d24b86056328b642267f4c4be5cf808b7ec6fb1d5eb8ed5c7a799c66926c6604ea4902a4c61cfe3054f0c19b2fe2290163274fb88a27bda17a99e95b67b035b64632aee286c9f42349bf81ca8494699a3390005d4f57ad0349b3d4d06a6cc4d210d95c5ebee7ca1007ebe52cb8d9ee8e12546860e1b05a107bcc134cec14cba173d56c2ee422b258a066d5d32c577fd673356d6f3fed73f5554e3ed30a7818d24f5fb6b7569b8a501bd3e02790f9e3687086c3b04e3450003f389840cffcba59ef2b6b01f1eafd61d6b353d2127c1cd8e942911da55bbaaab64db0455e388823aedd955e1c8a4baad2626adf72d6ce3044bdad03af02f711de5abb07e271e97791d237af395f2ab75bb39482b5937c4edc09705e3e47a32e18e71a17e7926ac6cfcb9522ac168956d17ef6c6090985eaa6693f51c944ebdde621fbfe0b75145fd4f1eda0f6fb4f37735d1ce4cc826f38afe5d7059b9f4c5020a13e08b5900bd95eb2cad965213e2c93bd476a66f0bf78de5e0581aa5cd5acb95dce215493afc73d50974f7e5f34fbf971fdf4ff5948e706bf1050cbb531051e78e481e761ae0a7edbe0acd573da31a3560ba7437bbfdac1acc73fd9672887585fe6bdcc47adf75ab820ad6d8857ba6eaa84423db66c7a95442fec10b9d72b7ec34da05ef6493b007a57b47655e1abe7ad94590f17fe70bbaa7a5568903ff8dc9ac9d6d2ceefe78547cbd3e33f109cb274cd43824faaa0cefb26d6d599ee93c6b3114f061b8045cd264c9b6c7d99007af27595b24c9d0bc0e8039b31eeba4e8ec5de379a015483b6a8d46a2e0cd9b864bfe0369410ee8e3c967eb6bc4a1c0cbbda6e8486412613e0213f5248ef2897a7b4c49e135abbc3da26a1d00f7f007450ba3c3d0f61a2f476dbb1e384e207721af986e635bfa04a45964d392c5e775eaa8fbb6c0f7151d40267b12286d48017021a789fcaf7fd295fdb47b951d0054c7cb2efdcf19ace4916fc6c6d1b451dbc52f1baaaf40348d1c44d9789718ba863cbdddc739b28a047b14e2fb3428af9314bf8e7ebe5bc215c5e6aef85720615854ae124e5cb8bbfbfd0c9e5d64146f21ea68ad32daafe99c31fe313c45c3c4096220a7acd7c8dd1c16bab1f9930099ed8b6c71e08279a908c6458fecdba633b6361c7fd1b40b4439bbb9c7babda013529c98bddfdd78bfdcf7429b974712c2f938a3072d977983e005d21f3e748340053ab7945053be51b99b995c6d1030132f043ffdeed9ede0e5864aabb86b61989b6520af1dc4fd28db28afce0a07967bbd16f6811e58a93bfa35bddbe09bc14c4fd90d7da82f7929cb7bb3f065a021b8cfa4b9f5d8cf2dbeec71c85e3dbe1ea99813b4463895bc8e5bfcde6d439bf9046890ba8720cf4b25c332520332b9e8148441c7d78692668750bb2c332f69db49b74db09bc4840dfc0ebf771f5b5c92904f1704bbcb5ebbde1772cc1db797040fc526e2bf2d2caf3777aa31d66787ce77f7a97b0a19e111fac6d724ad09fcb8e5a29a0f21130303110d4db5bae68ec296ce25ad71f0884e1379bf8546ab77d7d035b44d57f485513e98b3122da63290d3b65d413373d0d4a51bcedfdfcbd1751da2eef3d12d3359fda820b9953332e7b970d44da4d36b5488590942e285be5c3142aedfece6321c7f6dcc3db9024c5162c89939c121dfeb5e6d267e74566ddf709c00b38080d80636372d6a1e8e89e8519d6c66e2b3048b10fce92bfe9984551e4dcc2c16075b4466d6ca4d3fe02747e626a357710be2a8244ec299891eb424072a8a172fb41026d744e57cf0ffa18d1513d98ff5b284885b26a6948898d0901053c9b549e479da9913339f39d162458bf79506230f2436925f34d39ee94678a3bbef4b75e910a361bfdd1f2ec0bc841711f330dbccb22faf085032e4e78cdd1b1a3f4e0c9d7fd1effdbebe36e5fcef0b1fed9c25e723dc7da009321ff88f5100b93f18b245f808f67f04450b79d5429211857b0e160b27a59754001bf85ab778f35ae8a0e94845dc26af35db7da4d987f8aa6fe5568970a359e00aabfa957faa7ab8137cc58daebe00a062d762d8b86b2264b6abb6af828cbff4baf44804305c12dc4eeed9e74193377c0c093bc8e97ac1079adea19d1a9c3ab664518fe1833ab6d78d677db9d1e0d06dd5f000d20146be5ef65fbadf13b94bf7d49651abffe1dbe9c10bca828fd9320e206583540bb6adc038a708c26fd0e52c08f8becd4af763c5b5d54a1a5b8f8f14ddb6d76fe2175217367b2495832b8fe00448aba4cf50966117ac7d1a74d21b7b52979177b314da321b1626412eb95403abdae6bb4fed40606f308a1d08030c641e9834a5153e967e36bb5fb841109150382029bf06e84c7abd302f2062dece1b438fc48ff588c417e437edc3bafac6b17ddfe29d5ac45a46fa97d9b337e31dcc88e37cbdff52d8f1b3642dee557ae8fb6a5eeb50c4275d12819e4b23c3ea2387fbb7d544cfdc8fc3250a5b1ddd2a4bd67a2eba027d4eedacea2cc8fbd7781e1493b337d5bc6df87b5a6c05de088a5dc85070e5e6ec80c29ef02a91eb256350fed2d1c00700bc2e6e153362bc4ba3758a18260968c949c8c7ad2acd5c541ee6ffc977c664de1ef004d7cc8752188661b423fef16d7ca6a2f3ebb7f0f5086a7b5f83d78e5af6f3d61a12ab4b547477562805d1017dee08807143918ca4dafa8f214c832cd69dd39a7449d55e3ca876acf0584c4dec203b59814ba803241388eafbd9bb770499ff0ceb7b977a33b54dde643fc8eba67f9e959ee70c31cc2a8f824a7761cb01b823a6ee0e4af7ab53f11ec62c8514335f2fe849645b914e7b2827b0bf382311230ff5a38c2c288f9709add7fdd135b51ac2dc6831d25f248b141dec93d316cb898e9824e95e53d153f5de278346438d4acad8393391ee373342bb60d92f930d383231656c1db5f2813a55e3942926e6ace622cab4e15eccdbbcd37cdcc9419ef1de09c0245735cfd4acbbe0642c00ce507e32556cec76c95b934e7c13e347ca0c081101230d793475ce3a6ad21d1a8a7d3e68f18df3e925cf6c761b8173957ac38af0099b2e069c4eb16822f3d58da8fa5f03ce41943e10565621be7c8040b465d5b33b2fe1eeefd2294ec4b98a69bdd133553faebd842906c81302f1682bb1d46bb4e2e3da44468b3f641a23fd58abb2be271076190ac4ae1a94cbe330289381cd6d86a2573e53972f8970ba1a50e3236af0acd63393fceee860895e72a653390f8ee7b8309d8a3e68f4c75a9519c357b0b2b76533009ddb775209fb04ce27b6b03b89bd8d043076082af9048f19a178a0c865e63ee874d1b9d570cf76e9813addd07d356659961db300a9ef6356b80e7beb58c4133d1fd890559af9b51163008cb01da90500a665122fd1b0364a60ca8ce5a38c0ac09cc8d2cec9e0457d08d317664c1ddec290160712c5148cc72e09ffedb35c0ddc2ccf4c386aeb7b5ae015df88fa2a49e37f2c48b9b79468274d13458e682083916926052306c1c540249bda4cf98bece65d5e05eee8f8f1dac64caaa4086953ccdb99f1a28a5b156c170a17d8a5be4bbed11b8641b42752cda42b0e0347fd59b221e70f5ba15b53d6d3ebe62cb3c47c0948f102ff5d31c0928dbcb4956718603da7c39c46045f93fd23873a44225983eaf8066fc78a47ad0a064e73feea15745324101c32bbcfa23972f79de1f8e172ea031b6f7ea27cb5048e7e2126e984ceda7d86e1a12e8a28168cee4b0ef2808000bb1d163f7e144c55e04223393399d569b82350168e067348a361f8270aaaa3b3a81cce0e7ea92b9cec816330788e8f5c3c7be53467c5bbedaef79ef643c45cf585b4d6b767a705110eb2926179fb234ad61b8a45b34d246add800056b29a289b7d81de420c4db6186ad61de57e2af5c97d19d0b2a6220e3916918b88a813a2aae7367864da9cd9ef060041dcc1c08f5b6260f8ecf08b456169971f9166d156800e775871b02765524bc77af70180e49e6349f782486dd568d9300e2ab6d19367995f8a97734ca1942786fe4252c5df89a21a89999aebb68ada306e21f9992fc5e6b748fa31427d3b29497bc1882a9b69d9e8c21cba8d8a1f8af4110403acc3767ea74750e1d26157a3a3f20fcf83a59cf56e8b33a02f81d32a79f251aa0dd47fc605ad2e7f95f6471f4712e5e0f483cd8510dc9e85feb589363c152a73fc96263e51ca6683e6310f8aba6a2de954ed9946c143ecec7873074cab931b532c6b306a463059b700bde945470d2d465ec24a84f2d528eec56c6b89fd27ba9390965f626fc70842eb6d14343a2763df6453997845038f6874575838668f660cd00ff889c93a260bdd3c3343a50face52d4db7b594b451d5bbc30a62faf2a4d1c662cc1986e76c55284118ab7485c738af24ae90bfce2df6363b4e3651c9efde90fd4dbe7052767ff26912f4282f28d26a29d50a0a064c6cc245e1869c7300d67a564bfebc537138f341c8000b0ca5e10ee14a889de9fdf4a3c16c94254548215eab5789082d4f2b9e487c6ac7b63dd9c5ed5c09f6a8f37d3f8a9e566b4cc62af266710f479d07f70820c2fda58ef93388b358c13a2b73ae30b5d48fdf8a7c40ff532e83a305b596682fdae6f905be21529b8232252607d28741ecf5b2161b14fdd3443a7d69d58d20e543e844838e99443c2dafd6ece6bc261cba2e853fda35bd35da4c6565899a0cfc7facabbb75f05e37dec6c19580164f23580f0a48c8bc6078d907db3af488d2ec1483887615104366835ba48f333c41d3f4979e087ea67ad9d2b6c59e92ec0dab40d1f8405e747b5aef00819a8dac293717220b9b2d28091aa6dd62408bc9665561ff7bfd7b3fb85b7aa1352da27bf96f9060d37bafdad6a73c81325c15af3a22e00a9b377efd1a229d7b5f6957111c168d2a32a6a48cc2b4b4e3eb8b4e84635e167edbb9c469487731d60257767d580d4dea460356539eb97f52255d756ce09035546a6f360a7ba1f254e0937ec84820c32f3a99d638e8b78a3c20f8b0aebc613f0b8f833ea818361e7fdb5abe57c6d03abcae8abe1032017bbacf64ef159d6ec0b3480ad706431644e6776dfc0e3111b39cac9e483440df88f0255cf2801ecd57c0ec94d4783af2c5e5ad09578b787542f7791930a6d373667340db32597156e25f5935863deafa4dc1da6d76b0bdf7a00631ee501507ece164d27cd60c57181edf8a8f19ae23605bc4f39dedb587f132691b2c9030eaaec39ae37250e78e6d99428a031f80856cd421b2d2d325813c91cce7543e18840e7ee61862879f947bf92dd1b2c95dd3ce62594f04713ce925aced0e372843ac9b52f3dd116ec33b251dcb2b36cd3dfd621dec0e98ea9544620e6e7dad77747f93c65f5eb601b978386dd9d4e69c084219ad8d74ae0d759406bed5271c4358a8de4e3e0757ee06a36d2e154cd558192bfc4d203eba0875e940a0d1681b5dd4686bf4c47c93f0eabf3c2e1263ac5258e50c66c1142c871b609d478e541ffb495595a98bb83c2d432224d357519f1943f194773added88df3871aff2cd2db5769f7fcee12886f32d0a9b2245c6039cd5ec10da9071773d97966937650704e81e34ad11069ad3ab709ff9d3e9eafb89068fc4a9d03aa6f1e5ee31307fe2ec47c2e82305af793e0e022885fb7cb403c1749ca57ab7d33cbe7c42b46b85b59227ee1db0892dc2da50d6aa04d800d7645b5409fbddf663a80855f5d6b69f90327880fb2753cefd1ffee03e93d2cbd921228fb4519038ff8d4759c043a6f581037eae7eb858f73f0139e00db54eeabfc653380b0e31e3bee41a5c0832c2ff97cab6345776d8066a34387348b10d11ef19866db7a72e1635529cb46d8b4dc31e9e4bcd033c868c8ce0c8a6412ba9ba90aca6b4e91fa72c3091585a7be7742986c39cf8b8906bef7e6eb39485d14155b27273b2582645cf33b9757b196aa5c020df72329cd7718326394c47f5481b6dae0c42c7fee4098985c8b35842c9fbc93009199a90a538f0f0a3a53440988b27ed53521b878828f1780d915cd89db5694676ac21a4a5a72f2447f64d351d0321a3a0bf2944b1a9bdd59025df601ec9865dc8ab008d84e1c9d1b27b1f259d9e32a9e2ebd5720486870a178700c1389c9e27b2e13090e03d760b214bbedbac3269d4a023f59de51637058b949b6eb48bf1d079a3a29705be6b8ec44b58e555d85acf3774c988adcfd0673ff1c2b40f64843da863b92014acf836a481631d97be2b0d2e0ebfd3d64c96a97abbc27804b80ba7568195386c9bd4de15b764d47c4f8ffb68b07cd023116616d4bece4e48380d1d7ffb3dd4745002627e2dff678883d50709a1470987cf36dd270c304b3a8f76ef43a93594f34aa0b4dba1a3a5e82427131fb86b75e9b56bb178afdfb1bdf34e41fd054abdf5962adbac9d447d8f9f6adf7f5bd806cf071f3c72cf863f61012471d149bbfefcd87078e6ece7ca03b85ecc34ca1b7dcc69d8b72fa7bb892897eedc41fb151c1abf0b99bd7fef285a87ce37d59400bb754a5b165e0185fae2f8572cbb29dbcf600970d745fea2251618f23a8eb5dcd42bf95ab8310d099e77b3eda2b767ec950997580f41f16396d61ab6e7cc6682f4f5254eccc6204d2fa7b6b72c8719c20bacfa3a554ceb4f45cbb7169c72bf5762ba12adc1834eb02895e28933aa0039b4f393139d3999d721c7d4e1c067742d9df30262e4af2e7e693795a35af2afeab1b7ca90882a2eb5635967b36157533a0cfce85a95222417b86c2f60ce78c8499d0bb02e515bc54ba8a03deae7cc071d7f58419b28f32f389fe7cb0c84d63ac867466a0d38665f2f1d5db0fea0ead37c233badb48ebf46a016a42ce0c08512f3b0cdfdf89b3e50c0da68da56d0e0d2321f31e6ce7150afde900f1b6c009620a3cc3ecc8248942b335f95cfcc0aaffe81fe34631a8ffe203140024a08f485ffd149cbd65d9ce081fe21b62ca509791418965242080fba02d49543e10647d3578181b583527f8a76fa50475242822ba9db084f074810210760a13d15eee3624d64745305cc860c16592421e34ba65bc3809016a7ff0badf10237b60c61d8da25a7825b9f20abf94b0cd43f7d392ffb5d9291f5c5506f4f6e784a9ff1db7816ac99e5f5629e437ece0398584b8168e6b8638e893e8d235a29a5c4e2f39bfe27005204db76c9cfc12633058d1fff08fb6c0acc1fd1047bd6d3f80b1e225ae825b87a3707c7870a2866807581fd06dea6faa6661c7855e53c6d77756ff6ea17922083b0f79f1ba7ad8777f366f029f02de7b2f1b9949e6f4c36ddb9dc25b075dfb6d2f92486e18660e634484bc88bb1fb79e9d8818466123dc4d17e4f625d0fb9cf3177aee518429742637ac67120a6d60f4e42ee11b5d10ff2d660c73c933936c32fcb0fe4a2751499d6a6121fa208968318ca9c817d25092c65149626528d89eae3fbbf05651fdd9f296e19b2ceec80b579dfb175b63044d0a8c050ba55a958d18183cc25971adb7f13b2f12a1c8e60d336e3d12bec2d23dd90f520f01fd0e908764810d81b2727dd91ecfe5d7cd40b4f5a05362a7df2614bb76eb6eb74b88c99ccb4e489dabc2914c36218e44b78c8afce94236d42f66b5e42a2f67ad1e9e4d01fdfeb91384eaf3b8007b0a0c3c52107864c6148b36b5dd73dd25864feb7f9e0988da0f6331e47f956e7315640a272087ef912c589d7deffc0986ea11417df953855b213e73eb14596fae667cc2b52958a7bfd0e3ecacac2e317cd01aad18206d90294ed95de282dd965f38acd878d02538e96edae2358a4463dac1bc8a47ece179f1a6367f23e5f6a25cae15676077bf18006f6e6eecc03a3a31a9583adaef9e6600ca0375950859ef51e08174ec8b1022ad63a22e0fd039190994fe1a35c59dc4844aedb4b583404b72c252ab819fb29bbb81becaadd46d719dc0d401d212c13b4603dab540854055d1de63e07c763c48417805bdca3e0093070684ec2668b077c23e1905b64c19142e280b0ea1a8ee6076e8821df48b7073917670562dbc5b98886b398905cc6d03ba99bdcdbd5d64d26efb5adbc39a8127194809a43a586da8c79a3b7988c1ff449cafd4c8b3b177bffa097623aa10a8c1176d19c505a7eca8af8ff3b34e6f818a064f5b033da0aca08b6437adce6dbd4c3441b1027f93e30af5e39346bf57ea4c262e134e80863c0236adb7e0078aa7b8d59cf4fa9e1786959c8238037372877ad8962d967c3e5fb36099f2020490d243f592916f035386c39a64b668379c7d9040ba6e4ccc168344119726ccb243ca0291ddba15e59be8317e2a2aa23f923733ded4f403c9bebb234b7c75bfdf6361c9d0a55161eab39a9d3ef1653b787ee0549cafa33f80316a8240b26d12603f4566623495c601f50742a5888759420bb9301100a4692a8b6be124eecb57b0055eb25a10031aa94792bc42594876b7216e7e7e1380fec502c45d4b686250fb67d438fcd6a4470dcdc9e2bfc7863a4223387d5c1a49dceba35edd87a6f83c3799b5ab59ca7012f3e710d6c909947274f06b54cd208eb53cdb4bbb6ea468889d70e9376b41b3f9a2fbe8970b9508dc1f6d74ef981288e283e400e7f91f995ee1a1da3ab49ab7b3f3bd672c9c58c5cd6d29398563b63ec8790699ad246800d2e4364ba1dd15d7c54396734efd1d913ed5806cd4a1a54af601ad0e3c34dfbf4fee375e45bf9e24844a20529c0890d676fc2d0131cb4f7fd7c1b35940747b8aec923bb0e2c5900bdac2aa1375b8d44e0c837844e065bf23565a2baa96d985181ce93f0556b592e8afe4530d2451c93741f7e7257a48daec3053829c411e21ec78f16477e1531f69cb8974d6fac109fd40cf021c83cc8ac8c17d523d2814dd33cd21ef84e4bdcd264e2add20523ea2331a4f1f7774313b4f90e330bde87687eb5fc15616b4a7da9eefe1e2d36431744c626c361abe9703f348d5b3c6c8a413ea1a380cad49f73fe4a81ab4996cef09dfe311d2b37a90f2b6b96768a5a79e33a787460519d2a25f10c803d69dfd3c441dfb54329de333a1a6a56c279ac965e0fba90bbb434d591dae83997889df80bdc41d1ca2ef01853383c2023043a033ce64bf36ef00f08f1de7c6a4c34dec81118e204033368428da19cf101d8f839cd48169f1d4cbd51ce59f60f0718aead4fabc673a9a576ca3affcd12a566b2ab18c057afc2b0a0acaf0523d1bc1de5d69b96e3e3303314de8c9fb6c9a48917b4dffc169ad360d9ce93bd76ba52a553f5578420bf160cdb431c196457221487d861149a00fdbfe8ae19ed9ff854826e002cb43ca88b3ec6060a86541ac8ee81db7fdbf20fd1e36aae6b4ff3c6f46f65bf4cc07d452051beb9f6554b58cb2cff450b3c0b7022b309376a62d02bcd51dccff6e30c304e20c6bb4e75d90ff903ca297aecf262cce16dc31cdb901255eb710f393fa2d3f533063404533b7ea5b2824fa1c2922aa6d1b7578d7ef18bbdb30eb000b42c6a1c918da1925cce67544314217532274f00ad43e07c41b6c7e17bc5ad52cf2a417b8fc3fdb9cdac9f2262d156979c1c813c6ff142daac2535e33af55efafb7e796fe7be478d93009967527cfba2f622b3974867502864331868ee9e7fa0f0eb6a8d507c2c21acb85e1996143c9a7a7f1529f9bc744afd337737f2156069792d64d54c6f6eb4974cc460cfba458352ede9b0320deadaafd4412616c8a8c012fc1fdac4884b349881cff2339c0ecdc558c1920d7621a742454b69743cd691c6fa21b858fcdd74f9b531817ebbc28b995c041cd3d19f86ad1d81bf5744cb1413b9cbb6cd7bde37d0a43728679e2c400d7ed18a6f0ac9af5ffdd54e1c4a0a7c9534a598f998b5ceb0a749cdf4daafea4f49c94b05c34dc9a1f7114f2dcba6143f60c4899b34f77d14e809f08be781afc038de404200e1ce8b48ec512b405e87186c7572f33567b30e639c939462fba1186846754ac5b18777caad894074fba046f1bc753cb8391027f181e7fb13319842cabc065e8ff9a5d0805dacf7bc510b881731385ffb079213ff95d3f4997698f07e05e3af0e4ba656c2ff7f82d1f7b4fd67cfecb12e52e2626484f572b2b785eb35868d49bcc8d6d90406d0569ad576933e68b3739973b3b44353db81ec8485e19b5bba518124bfe103a68a937484fcaed80d1069693d26a9fbf0baa489542a914d5451abe99bf8f1e75d733074e3660a8c7376c901852235bf761037434b23dde91d25b18f3f24536ea2471724aad9f2358ebab5ec5dcd478fa9123c5a28af7b8198a90447f79a74b8628f3a27882db64e904ed2951abbf5cc8d0466b9bdf65d6d86119ecf9b8bfe7811f023efe660f48c4001564991e9690497c79d372aeda9052e8dea95946fa704dac44e79be96860fef7eb5daa53d32f041f00323b261b66d54c4d6494002c005a82d89bc68b4a046eefc0ce2295142dcc34efd062d2f271829ae166d50ec78af882d5d9bbbe5b2ddb763e66fa81cfbad1161fe3d5bd69cd5d85cf64a0551049a0d09298a309cdc9a8f012e7382311bc2f9767747c805084f25019939a254abd933655e6acb7e22e0de9becd8a1947809046b1603a9fe689bb515532f9aec6165cce25227e86a11992dfbdb19f16c57e1be3039e88d2ef517c176b4f622a98e5e254c26815dc9ba080d3d480c340a1c9e011bb69b2ba53f8582174aa585f5927b35e1b10c2997f52ca473d8365c7a4f4ed198651787e66bfbbd8ebe86cb6dfc4673cb16cac4ec284330807969da4bc3c35974a751aeb077e3f2315b739ef84df078c2666823cd3762cce451efa8b7a0a7cbad721f0796967edb8438e2248f1b7a08de0aeacccc01f625b79db0c94501c0cd5a741dd048ed06f49f3d9eaf0fd8ebaca3f712ddfefa578977e2848186931b30d6254afe3a640f911e59855429b5369bb774fa84779060bb25e1fc7ec47faeff38d7089c0f41b93b433e8f604c31558c525de5d0d62c33719202bc9c8019d5aa31d1de2463345f4e129e3a353ee5dad9a6792ab0a358bf0463e08d62bf8171d09e4520a2b0c9f9db0cab910ee0249aa52fc6b743919a8634081555292aee6bae905132e6d1b173c54489744766017884eba18db527e424b33f05e975746eb24ecd8f5cb504b0165c1c9c19f9d4687b27af0c028ddd388b43ed0dc09782183643061e8772443d77bfcbd3b9357cc2bfd34441b6275e8022ae4217bcd3e32fe34a862614bc0b68796b973c047e3e305ad8a64824ee9e2b9bbda99bc7927d4ed9ca82557a96316b4be05306e29b864d4f59469942bb3c8ea286122d772654e181f69c7b918ed97359ab5088d3e64e6de04024923b1d3858981d6da77239fe896423259b19d3d6a35935391645719ce2e2ede559c556e70a73014d841f004f3c258e54c0e58773a77f9f33494ba318a82db6b8eea78d7bdf38f8e0ef8921bf85e38cd58c024678c2fe7ff3078607e69f02dde3eac0eb955a6cdfed6b9956b09ad3c37f184015cc815cc595d013542b95740f526fa93ffe4dee23fcf19ee1abf9446c7e31be6c2c7834d47510d39886e742bb7241e539498aa2c67a27258245e50b98bfaee562789c674bbdabe41209344bb173481d12debe630bc3ee83f4f4c74368f4bd0db3e8432a7b1268352fec5a8bcf7e0fc4095aebe7c7505490a61e56ac31e89a16e8c907467847db209868653d4c113a977c65ddeca73786a199f196336c28691551e98d498aeac5002948a5dc642a4edeff7b5d9a7f0ff7174d760bf0472e6ca3f05dcf5f71095d95ef4ac7a4a4f90c89c5d5ecb2408c6c985b4d1c8e943abc41a8ab71591b3b2ed201b3d6b190e138e721149fed9a1ab7914c860bf98a8f519388a230bda76d865f220cbec5dec849b320a98817905f878b6486a3fcdcf027a9391bc4ccd94685dcf06566dc3c888ca87e87bc03232ec4823469d0d7d75b8d66871daaaed95c3e713a12ebe979b15ed093f05e9db2e6c58294b5bdb5770811184e60c5a2dc43787178d729bd10a89129da83a4fc6b41b362b0df730ac2fcc236cfb41654a2a57fef0f162aab3a6cdf2fb8ef89d87479d7fe39ec61673d4cbccee84b9612cb92ad0c9dcaf896cd49f6e60c5024d8f86a65546a60f176860c7754ddfcd63629bc26c013e8f0ddb721062cd19aec5c8938a83f9419d86cacf9cb0c5d192d05f09e48e59d5f961f59e0d7f38c3aa987853acdf05f8640e4c047fc6eead66a229474d7a783fda5e89b700bf2597e4678e6117e768fa96501748d26d7e12eb37cc2f9036c3522e0e845b9e3435780ac70ec00e8c135291a0496e19626b8e4f12d643699cd5c2c5fc0fc03308027ae9ebb7c6a6dced9faea06c8a8b81f30f827698d5cb0ade991db07bb14824acb772f1b70433afde767c88d0427c3e93a93fce1d56936b255e1eb5dd507ae15b180d214be67d809d95d431af1196822b8cd6fd469a8c58daf1f779ae3204c63709148891b1a54eb206ecfc86e688d75fa46f3c12735af32e575dea6d4899d0ec1922908f2dba45e42f9b458eeeeb5dadbdd05a35adf8e5e131e996df1ac1dded5c9ed5277ba3104546ed502e120b3ac0e5645aafa027b331f0096c0202a1fcb9817c71421ae9e7e528cfaf9cc7073802376d5df618bc96b505b8199f4f92dd3f2a3ff4c4597d5722efebdaf2acae0df4338ef2d8d65984fb366fa29c3c35049ce627f2b8bd3a9ad4aa6bdb5de4647f331550eb5c633f5efe0fcde4f6842fe03987f949489f81076921d7543d05dd0658b0eca9f4eb9bdc6a34328cdcd4515a5395678a06b552a03242d7a7c072595511c722405b372fb8637b040480fc9e86f108891d76065babfe95c5f7e009c55b7958242ca94c30a66efa1a4f9ef3e048684da252e53c07c92f4def0f7108e130d4384552dd74bc91a21ddba1d4cbba80a4abfeab4f65bdeb7a</script>
   <div class="hbe hbe-content">
     <div class="hbe hbe-input hbe-input-default">
       <input class="hbe hbe-input-field hbe-input-field-default" type="password" id="hbePass">
@@ -3659,7 +4017,7 @@
 </ul>
 <h2 id="安装包管理器-chocolatey"><a href="#安装包管理器-chocolatey" class="headerlink" title="安装包管理器 chocolatey"></a>安装包管理器 chocolatey</h2><p>嘛。。。虽然市面上有两个包管理器，另一个叫做 scoop 理论上更合适程序员使用，但是 chocolatey 更合适懒人使用。。。于是我选择后者。</p>
 <p>安装方法，一行流：</p>
-<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">Set-ExecutionPolicy Bypass -Scope Process -Force; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))</span><br></pre></td></tr></tbody></table></figure>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))</span><br></pre></td></tr></tbody></table></figure>
 
 <p>几个常用的命令：</p>
 <ol>
@@ -4366,12 +4724,19 @@
 <figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">docker run -d -u 1000 -v /home/zbttl:/srv -v /home/filebrowser/filebrowser.db:/database.db -v /home/filebrowser/.filebrowser.json:/.filebrowser.json -p 7777:7777 filebrowser/filebrowser --baseurl /filemanager/</span><br></pre></td></tr></tbody></table></figure>
 <p>主要用于你想用手上现有的域名 + 虚拟主机而不是另开新的三级域名来搭建 filemanager 时使用（后面讲 nginx 时我会再提到）</p>
 <h4 id="aria2-docker"><a href="#aria2-docker" class="headerlink" title="aria2 docker"></a>aria2 docker</h4><p>有条件先去看离线下载类的 aria2，配置文件和破解线程限制的指南在那里。</p>
+<p><strong>(21.3.8 更新)</strong> 线程破解啥的，P3TERX 大佬喂到嘴里了。。。详情见：<a href="https://github.com/P3TERX/Aria2-Pro-Core">P3TERX/Aria2-Pro-Core: Aria2 static binaries for GNU/Linux with some powerful feature patches. | 破解无限线程 防掉线程优化 静态编译 二进制文件 增强版</a>。</p>
+<p>现在作者推荐使用新版 dockerr 配合直接使用网桥模式，将 docker 端口直接透出来；bt 端口默认重新配置过，不再需要另外指定以防和 transmission 产生冲突；我思索了一下，和 transmission 相比，aria2 没法管理已经下载好的文件，所以和 vps 内 filebrowser 配合使用的 transmission 才需要正确设置权限，aria2 现在只用于直接下载然后和 rclone 配合上传文件到 onedrive，不接触 vps 内文件，就懒得老老实实配置用户给它了。</p>
+<p>所以我现在的使用方法是，不做修改直接使用作者给的带有 rclone 功能的命令。将之前配置好的 rclone 文件（配置方法参考<a href="#rclone">网盘类 rclone</a>，配置完后在 <code>/root/.config/rclone/rclone.conf</code>）和证书（使用 acme.sh，参考<a href="#%E5%85%B3%E4%BA%8E%E8%AF%81%E4%B9%A6%E7%9A%84%E9%85%8D%E7%BD%AE">关于证书的配置</a>，使用 <code>acme.sh install</code> 安装到相应目录）放 / 安装到 <code>/root/aria-config</code> 中；修改 <code>aria2.conf</code> 的证书配置；修改 <code>script.conf</code> 的 rclone 网盘名和上传目的地文件夹名（和 rclone 原命令不同，目的地文件夹中有中文也不要加单引号）；配置好 <a href="#%E9%85%8D%E7%BD%AE%E5%89%8D%E7%AB%AF">aria2NG 前端</a>（因为我想配合 cf 使用，且我现在使用的 caddy 能自动帮我加证书，但 aria2NG 这边用 caddy 反代开启 https 后要求 aria2 本身也开启 ssl，开启 aria2NG ssl 后 aria2NG 协议下拉菜单 http 选项是禁用不能选的，所以上文我给 aria2 也上了 ssl），运行官方命令：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">docker run -d \</span><br><span class="line">--name aria2-pro \</span><br><span class="line">--restart unless-stopped \</span><br><span class="line">--log-opt max-size=1m \</span><br><span class="line">--network host \</span><br><span class="line">-e PUID=$UID \</span><br><span class="line">-e PGID=$GID \</span><br><span class="line">-e RPC_SECRET=[登录密码] \</span><br><span class="line">-e RPC_PORT=6800 \</span><br><span class="line">-e LISTEN_PORT=6888 \</span><br><span class="line">-v $PWD/aria2-config:/config \</span><br><span class="line">-v $PWD/aria2-downloads:/downloads \</span><br><span class="line">-e SPECIAL_MODE=rclone \</span><br><span class="line">p3terx/aria2-pro</span><br></pre></td></tr></tbody></table></figure>
+
+<p>即可。</p>
 <p>参考文章：<a href="https://p3terx.com/archives/docker-aria2-pro.html">Aria2 Pro - 更好用的 Aria2 Docker 容器镜像</a></p>
+<hr>
 <p>官方命令：</p>
 <figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">docker run -d \</span><br><span class="line">    --name aria2-pro \</span><br><span class="line">    --restart unless-stopped \</span><br><span class="line">    --log-opt max-size=1m \</span><br><span class="line">    -e PUID=$UID \</span><br><span class="line">    -e PGID=$GID \</span><br><span class="line">    -e RPC_SECRET=&lt;TOKEN&gt; \</span><br><span class="line">    -p 6800:6800 \</span><br><span class="line">    -p 6888:6888 \</span><br><span class="line">    -p 6888:6888/udp \</span><br><span class="line">    -v ~/aria2-config:/config \</span><br><span class="line">    -v ~/downloads:/downloads \</span><br><span class="line">    p3terx/aria2-pro</span><br></pre></td></tr></tbody></table></figure>
 
 <p>和 aria2 一键脚本相比，添加了 PUID 和 PGID 两个参数，方便以指定的身份下载文件，不过实现的方法和通用方法 -u 参数（参见 filemanager docker）不同，用了 -e 参数（实测，-e 和 -u 不可混用，需要配合具体容器使用）。两个 -v 对应的目录一个是配置目录一个是下载，这里还可以开一个 -v，链接破解过线程的 aria2 二进制文件，注意该文件需要提前加够 755 权限。另外，这里的 TOKEN 是密码，也需要进行定义。</p>
-<p>根据非 docker aria2 的默认设置，下载文件放置于 <code>/home/zbttl/download/aria2</code>，程序放置于 <code>/usr/local/bin</code>，docker 内 aria2 同样放置于 <code>/usr/local/bin/</code>，配置文件由于和原来有一些出入（不过大概只有目标目录那里需要验证，默认的 <code>/root/Downloads</code> 不知道能不能改），所以不建议修改映射，但可以部署完后进行修改保存，下次继续用。</p>
+<p>根据非 docker aria2 的默认设置，下载文件放置于 <code>/home/zbttl/download/aria2</code>，程序放置于 <code>/usr/local/bin</code>，docker 内 aria2 同样放置于 <code>/usr/local/bin/</code>，配置文件 <code>aria2.conf</code> 由于和原来有一些出入（不过大概只有目标目录那里需要验证，默认的 <code>/root/Downloads</code> 不知道能不能改），所以首次使用不建议修改映射，但可以部署完后进行修改保存，下次放入 <code>/root/aria2-config/</code> 继续用。</p>
 <figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">docker run -d \</span><br><span class="line">    --name aria2-pro \</span><br><span class="line">    --restart unless-stopped \</span><br><span class="line">    --log-opt max-size=1m \</span><br><span class="line">    -e PUID=1000 \</span><br><span class="line">    -e PGID=$GID \</span><br><span class="line">    -e RPC_SECRET=[登录密码] \</span><br><span class="line">    -p 6800:6800 \</span><br><span class="line">    -p 6888:6888 \</span><br><span class="line">    -p 6888:6888/udp \</span><br><span class="line">    -v ~/aria2-config:/config \</span><br><span class="line">    -v /home/zbttl/download/aria2:/downloads \</span><br><span class="line">    -v /usr/local/bin/aria2c:/usr/local/bin/aria2c \</span><br><span class="line">    p3terx/aria2-pro</span><br></pre></td></tr></tbody></table></figure>
 
 <p>另外，这里有一个不算啥问题的问题。。。如果和 aria2 一键脚本混用且 aria2 一键脚本已安装并启动，同时打开该容器（在端口经过修改没有冲突程序打开成功的情况下），此时停止 aria2 脚本安装的 aria2 程序，然后再次运行启动脚本，会提示该脚本启动的 aria2 仍在开启。不过也不会有人无聊到混用的吧。</p>
@@ -4439,7 +4804,7 @@
 
 </li>
 </ol>
-<h5 id="文件修改"><a href="#文件修改" class="headerlink" title="文件修改"></a>文件修改</h5><ol>
+<h5 id="编译源文件修改"><a href="#编译源文件修改" class="headerlink" title="编译源文件修改"></a>编译源文件修改</h5><ol>
 <li><p>需要修改的是那些以 cc 为后缀的编译源文件，具体是哪几个文件可以去看参考资料 2 里面的 .patch 文件。但因为我们最主要的是修改服务器最大连接数和服务器最小分割尺寸，所以只需要修改其中的 OptionHandlerFactory.cc。</p>
 </li>
 <li><p>寻找 OptionHandlerFactory.cc 文件，一般在 aria2 的 src 目录里面，可以通过 find 命令来寻找</p>
@@ -4562,6 +4927,8 @@
 </li>
 </ul>
 </li>
+</ol>
+<h5 id="下载配置建立"><a href="#下载配置建立" class="headerlink" title="下载配置建立"></a>下载配置建立</h5><ol>
 <li><p>接下来需要创建两个相关文件，分别是 aria2.conf（配置文件），aria2.session（下载任务暂存）</p>
 <ol>
 <li><p><code>aria2.conf</code></p>
@@ -4601,18 +4968,15 @@
 
 <p> 保存后启动服务</p>
  <figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">systemctl enable aria2c.service</span><br><span class="line">systemctl restart aria2c.service</span><br></pre></td></tr></tbody></table></figure>
-</li>
-<li><p>配置前端</p>
-<p>从这里下载 AriaNG 最新版</p>
-<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">https://github.com/mayswind/AriaNg/releases</span><br></pre></td></tr></tbody></table></figure>
 
+</li>
+</ol>
+<h5 id="配置前端"><a href="#配置前端" class="headerlink" title="配置前端"></a>配置前端</h5><p>从<a href="https://github.com/mayswind/AriaNg/releases">这里</a>下载 AriaNG 最新版。</p>
 <p>然后放到上传到一个文件夹里面，我选择<code>/home/ariaNG/</code></p>
 <p>然后再 nginx 配置文件中的某一个站点写入</p>
 <figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">location /aria2 {</span><br><span class="line">   #用alias表示最终url不包含中/aria2/目录</span><br><span class="line">      alias /home/ariaNG/;</span><br><span class="line">      index index.html;</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
 
 <p>即可通过<code>网址/aria2</code>打开前端，输入密码即可使用。</p>
-</li>
-</ol>
 <h4 id="transmission（选用）"><a href="#transmission（选用）" class="headerlink" title="transmission（选用）"></a>transmission（选用）</h4><p>一般而言，http 下载我偏爱 aria2，而挂 pt 我就喜欢用 transmission 了。</p>
 <p>参考文章：</p>
 <ul>
@@ -4981,6 +5345,8 @@
 </li>
 <li><p>另外，想加速的话，还能通过<a href="https://p3terx.com/archives/rclone-connect-onedrive-with-selfbuilt-api.html">Rclone 使用自建 API 连接 OneDrive（Office 365 E5 自动续订）</a>自建 api 加速（虽然我实验了感觉效果不太好，也有可能是我之前用的是共用接口，后来改用私有接口的时候配置没更新好，总之我不太想再折腾了），以及加缓存（<code>--onedrive-chunk-size</code>，大部分加 100m 也就是 102400，但吃内存太大容易被杀）和加线程（<code>--transfers</code>，建议为 4 不稳定）。</p>
 </li>
+<li><p>copy 到 onedrive 的中文文件夹，需要给文件夹打单引号，比如 `zbttl:’下载文件集合’。</p>
+</li>
 </ol>
 ]]></content>
       <categories>
@@ -5037,11 +5403,13 @@
 <p>linux 原来的字体，字重和字库也不优秀，看以下两张图：<br><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/GJEgaG0.png"><br><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/XVQ8pEl.png"><br>第一张图明显缺字（左边一列都是框框）</p>
 <p>第二张图只有 2 字重。</p>
 <h4 id="windows"><a href="#windows" class="headerlink" title="windows"></a>windows</h4><p>号称对 pc 字体优化最多（我看很多 linux 和 mac 信徒都这么说）实际上确实戏最多的平台。。。</p>
-<p>本身渲染就分为两种，GDI 和 modern，也就是传统应用和 uwp 应用，分别对应 cleartype 渲染和 directwrite 渲染。其次因为照顾低分屏，所以效果字体本身 hint 过。上面两个因素造成：</p>
+<p>本身渲染就分为两种，GDI 和 modern，也就是传统应用和 uwp / 浏览器，分别对应 cleartype 渲染和 directwrite 渲染。其次因为照顾低分屏，所以效果字体本身 hint 过。上面两个因素造成：</p>
 <ul>
 <li>直接替换没有处理过的其他 freetype 字体，效果其实会变得很难看。关掉 cleartype 的话效果好一点，但是字体间隔就会变得很奇怪</li>
-<li>原来字体本身的锯齿和边缘失真很严重<br>其实 windows 本身字重和字库也还算凑合，特别是最新更新后又增加了三种字重。</li>
+<li>原来字体本身的锯齿和边缘失真很严重</li>
+<li>缩放算法问题？最常见的 1080p 下 125% 缩放会引发一系列问题。</li>
 </ul>
+<p>其实 windows 本身字重和字库也还算凑合，特别是最新更新后又增加了三种字重。</p>
 <h4 id="ios"><a href="#ios" class="headerlink" title="ios"></a>ios</h4><p>ios 默认的字库，渲染，字重都相当优秀，唯一不方便的也许就是如果想自己替换自己想要的字体字型会相当麻烦吧。。。（需要越狱什么的）</p>
 <p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/b2b0nuo.png"></p>
 <p>五字重，一点不虚。</p>
@@ -5058,7 +5426,7 @@
 </ol>
 <p>上述问题部分是有解决方法的，2 和 3 综合起来，可以先刷入思源黑体的包，再用 substramtum 启用 googlesan 字体，因为是英文字体，所以思源黑体过窄的问题解决了，googlesan 没有中文字形的问题也解决了。之前我使用的方案是 notoCJK + substramtum ，但 notoCJK 的字形问题仍未解决。而相对完美的字体，目前有筑紫系列字体等。</p>
 <h3 id="linux-1"><a href="#linux-1" class="headerlink" title="linux"></a>linux</h3><p>换字体。常常会更换为微软雅黑，思源黑体或者文泉逸黑体。 </p>
-<h3 id="windows-1"><a href="#windows-1" class="headerlink" title="windows"></a>windows</h3><p>最麻烦的一个。。。在 windows 下，不止要考虑字体的替换问题，还要考虑渲染问题。</p>
+<h3 id="windows-1"><a href="#windows-1" class="headerlink" title="windows"></a>windows</h3><p>最麻烦的一个。。。在 windows 下，不止要考虑字体的替换问题，还要考虑渲染问题。下面这些乱七八糟的内容，适配于 1080p 125% 缩放 24 寸屏，对于其他情况可能会有一些出入（比如高分屏下里面很多内容就变成了 p 话）。</p>
 <h4 id="两种字体替换方法"><a href="#两种字体替换方法" class="headerlink" title="两种字体替换方法"></a>两种字体替换方法</h4><p>热替换：无需覆盖原有字体，只需要安装所需字体然后通过相应工具把原有字体替换显示为所需字体。无需重新启动，安全性高。常用的工具是 noMeiryoUI 和 mactype。</p>
 <p>硬替换：将系统原有的字体直接替换掉。需要在系统不运行的情况下进行操作，可以在 pe 、recovery mode 中实施替换，或者使用相应工具：<a href="http://www.fishlee.net/soft/SysFontReplacer/#C-52">系统字体替换工具</a>。</p>
 <h4 id="关于-noMeiryoUI-和-mactype-的区别"><a href="#关于-noMeiryoUI-和-mactype-的区别" class="headerlink" title="关于 noMeiryoUI 和 mactype 的区别"></a>关于 noMeiryoUI 和 mactype 的区别</h4><p>mactype 拥有热替换和渲染两个功能。而 noMeiryoUI  只拥有热替换功能，而且只能替换 windows 默认系统字体（即微软雅黑）。</p>
@@ -5220,7 +5588,7 @@
 <li><p>mactype  包中的宋体。效果见下文。</p>
 </li>
 </ol>
-<h5 id="关于-GaspHack-补丁使用方法和效果"><a href="#关于-GaspHack-补丁使用方法和效果" class="headerlink" title="关于 GaspHack 补丁使用方法和效果"></a>关于 GaspHack 补丁使用方法和效果</h5><p>解压后，运行 <code>GaspHack_v2_MOD.bat</code>。根据提示按下回车后，待程序运行完，在其运行目录下 <code>workingDir/output</code> 文件夹下放着处理过的字体；<code>workingDir/output</code> 放着处理过的字体处理前的备份。然后，有三种替换方法：</p>
+<h5 id="关于-GaspHack-补丁使用方法和效果"><a href="#关于-GaspHack-补丁使用方法和效果" class="headerlink" title="关于 GaspHack 补丁使用方法和效果"></a>关于 GaspHack 补丁使用方法和效果</h5><p>解压后，运行 <code>GaspHack_v2_MOD.bat</code>。根据提示按下回车后，待程序运行完，在其运行目录下 <code>workingDir/output</code> 文件夹下放着处理过的字体；<code>workingDir/output</code> 放着处理过的字体处理前的备份。因为 GaspHack 对大部分非系统原生字体无效（<del>非系统原生字体本来就没有针对 windows 系统 hinted，自然不会生效</del>），所以，有三种替换方法：</p>
 <ol>
 <li>只替换微软雅黑。</li>
 <li>替换需要替换的字体。</li>
@@ -5270,6 +5638,14 @@
 <p>不过看起来问题还是不少。图省事仍然建议对系统默认的所有字体打上补丁并替换。</p>
 <p><strong>如果是替换所有字体的，建议在刚刚重装的系统上就运行 GsapHack 给所有字体打好补丁备用，或者用虚拟机在全新安装的系统上打补丁后把打好补丁的字体提取出来。</strong>因为我现在并不知道 GsapHack 如何判断哪些字体需要打补丁，看代码只知道他忽略了那几个表情字体（如 weddings.ttf）。在安装了两款新字体，分别是 opposans 和 Cascadia 的电脑上运行本程序发现 Cascadia 并没有被提取出来，但 opposans 被提取出来并进行了处理（实际上这两个字体都不需要取消 hint）。目前看来只有原生系统中自带的除了宋体以外的字体需要 hack。</p>
 <p>不过，有个问题避免不了，修复系统的 <code>sfc /scnanow</code> 命令会将替换的字体识别成系统错误，运行后需要重新替换字体。</p>
+<h5 id="（21-2-4-更新）更纱黑体-nohinted-版"><a href="#（21-2-4-更新）更纱黑体-nohinted-版" class="headerlink" title="（21.2.4 更新）更纱黑体 nohinted 版"></a><strong>（21.2.4 更新）</strong>更纱黑体 nohinted 版</h5><p>之前我对更纱黑体用 GaspHack 发现没效果，于是得出了大部分第三方字体都不带 hinted 的推断。</p>
+<p>结果这两天更纱更新了 nohinted 版，我试了一下，效果不错，看来只是 GaspHack 原理上的问题？</p>
+<p>更纱原版：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/%E6%9B%B4%E7%BA%B1%E9%BB%91%E4%BD%93%E6%99%AE%E9%80%9A%E7%89%88.png"></p>
+<p>更纱 nohinted 版：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/%E6%9B%B4%E7%BA%B1%E9%BB%91%E4%BD%93nohint.png"></p>
+<p>文泉驿微米黑：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/%E6%96%B9%E6%AD%A3.png"></p>
 <h5 id="关于浏览器字体更换"><a href="#关于浏览器字体更换" class="headerlink" title="关于浏览器字体更换"></a>关于浏览器字体更换</h5><p>先说结论：推荐 chrome（设置好字体） + 黑名单大佬方案 + stylebot，对付实在不行的顽固页面上白名单推荐。</p>
 <h6 id="默认设置：chrome"><a href="#默认设置：chrome" class="headerlink" title="默认设置：chrome"></a>默认设置：chrome</h6><p><strong>测试正常：168 部分正常：2</strong></p>
 <p>chrome 默认一共可以调整 4 个字形，默认 + Serif + Sans-serif + mono，一般我们习惯日用无衬线的黑体，所以默认和 san-serif 一般使用同样的微软雅黑。而 serif 就有很多种选择了，比如 hack 的宋体等等。而 mono 则选择编程字体，比如 consola。虽然本身默认写着自定义无法猜测本身是什么字体，估计默认和 san-serif 原本就是微软雅黑，而 mono 则是宋体，serif 就不知道了，可以考虑用方正的屏显雅宋简体<del>（我都不知道哪些网页会用衬线字体的）</del>（某些新闻网站，比如<a href="cn.reuters.com">路透中文网</a>，需要科学上网）。</p>
@@ -5387,9 +5763,10 @@
 <li>filebrowser 和 oneindex，带图标的页面。</li>
 <li><a href="https://www.v2ex.com/t/623737#reply9">注意其中的 paypal</a>。查看网址中的大写 i 和小写 L 能不能被准确辨认。</li>
 <li><a href="https://linux.cn/article-11614-1.html">linux 中国文章</a>。其中的等宽代码。</li>
+<li></li>
 </ol>
-<h6 id="字体点评（windows-chrome-下结论）"><a href="#字体点评（windows-chrome-下结论）" class="headerlink" title="字体点评（windows chrome 下结论）"></a>字体点评（windows chrome 下结论）</h6><ul>
-<li>更纱黑体：自带英文，大写 i 和小写 l 自带区分，使用范围最广。但是字形一般般，小分辨率下字体锯齿感比较强，在 cmd 下使用感觉很扁。</li>
+<h6 id="个人字体点评（windows-chrome-下结论）"><a href="#个人字体点评（windows-chrome-下结论）" class="headerlink" title="个人字体点评（windows chrome 下结论）"></a>个人字体点评（windows chrome 下结论）</h6><ul>
+<li>更纱黑体：自带英文，大写 i 和小写 l 自带区分，使用范围最广。但是字形一般般，小分辨率下<del>字体锯齿感比较强</del>（请使用 nohinted 版），在 cmd 下使用感觉很扁。</li>
 <li>微软雅黑：通用字形，其实效果不错，当然功能没有更纱黑体那么多。</li>
 <li>思源柔黑：不错。像圆体和黑体的结合。 </li>
 <li>阿里巴巴普惠体：在 windows 上使用有字重问题（粗），有点像正圆体。</li>
@@ -5398,9 +5775,20 @@
 <li>Verdana：漂亮的 sans-serif</li>
 <li>georgia：漂亮的 serif</li>
 </ul>
-<h4 id="目前我的方案（20-年）"><a href="#目前我的方案（20-年）" class="headerlink" title="目前我的方案（20 年）"></a>目前我的方案（20 年）</h4><p>硬替换 GaspHack 过的全部系统默认字体 + 浏览器设置好字体 + stylus 黑名单 + stylus 白名单。</p>
+<h5 id="（21-3-9）一些未解之谜"><a href="#（21-3-9）一些未解之谜" class="headerlink" title="（21.3.9）一些未解之谜"></a><strong>（21.3.9）</strong>一些未解之谜</h5><p>125% 缩放下，让浏览器不跟随系统进行缩放（缩放以后感觉太大了）。大部分网页上面这些方法都能处理得七七八八了，除了<a href="https://mp.weixin.qq.com/s/AP2P1MTGJpvlq8q8SeMT2w">某些微信网页</a>：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210309031345.png"></p>
+<p>瞎眼！</p>
+<p>如果设置为跟随系统进行缩放 or 增大到 150%，表现趋于正常：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210309031557.png"></p>
+<h4 id="目前我的方案"><a href="#目前我的方案" class="headerlink" title="目前我的方案"></a>目前我的方案</h4><h5 id="2020"><a href="#2020" class="headerlink" title="2020"></a>2020</h5><p>硬替换 GaspHack 过的全部系统默认字体 + 浏览器设置好字体 + stylus 黑名单 + stylus 白名单。</p>
 <p>因为 mactype 出问题太频繁，渲染出错时字体间隔有问题接受不了。还得频繁更新排除名单。</p>
-<p>但仅使用硬替换，上面的浏览器字体修改方案还有很多不成熟的地方，导致不用白名单有些字体替换不来，用白名单好多图标会错位。只能开着白名单的情况下给白名单设置排除网站了。</p>
+<p>但仅使用硬替换，上面的浏览器字体修改方案还有很多不成熟的地方，导致不用白名单有些字体替换不来，<del>用白名单好多图标会错位。只能开着白名单的情况下给白名单设置排除网站了。</del></p>
+<h5 id="2021"><a href="#2021" class="headerlink" title="2021"></a>2021</h5><p>改为给白名单方案设置生效域。目前有这些：</p>
+<ul>
+<li>baidu.com</li>
+<li>weixin.qq.com</li>
+<li>zh.wikipedia.org</li>
+</ul>
 <h2 id="关于国旗-emoji"><a href="#关于国旗-emoji" class="headerlink" title="关于国旗 emoji"></a>关于国旗 emoji</h2><p>windows 下国旗 emoji 不会被正常显示出来，原因详见：<a href="https://www.zhihu.com/topic/19552612">为何 Windows 10 迟迟不更新国旗绘文字（Emoji）？</a></p>
 <p>无法完美解决，通过 <a href="https://github.com/eosrei/emojione-color-font">eosrei/emojione-color-font Archived</a> 或者 <a href="https://github.com/eosrei/twemoji-color-font">eosrei/twemoji-color-font</a> 两个项目（前者已废弃，后者是前者的后继，但下面的第两种方案，在 windows 下只有前者有效），都使用下面两种方案：</p>
 <ol>

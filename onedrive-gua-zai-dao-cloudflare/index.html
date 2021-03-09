@@ -39,7 +39,7 @@
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210220072759.png">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210220073041.png">
 <meta property="article:published_time" content="2021-02-16T16:00:00.000Z">
-<meta property="article:modified_time" content="2021-02-19T23:49:10.104Z">
+<meta property="article:modified_time" content="2021-03-08T16:59:44.910Z">
 <meta property="article:author" content="zbttl">
 <meta property="article:tag" content="羊毛">
 <meta property="article:tag" content="托管">
@@ -214,7 +214,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">33</span>
+          <span class="site-state-item-count">36</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -227,7 +227,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">73</span>
+        <span class="site-state-item-count">80</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -309,7 +309,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2021-02-20 07:49:10" itemprop="dateModified" datetime="2021-02-20T07:49:10+08:00">2021-02-20</time>
+        <time title="修改时间：2021-03-09 00:59:44" itemprop="dateModified" datetime="2021-03-09T00:59:44+08:00">2021-03-09</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -428,24 +428,16 @@
 <p>在 postman 中新建页面，请求类型设为 post，地址为 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://login.microsoftonline.com/common/oauth2/v2.0/token%EF%BC%9B%E5%88%87%E6%8D%A2%E5%88%B0">https://login.microsoftonline.com/common/oauth2/v2.0/token；切换到</a> boy 这个 tab，底下一栏选中 application/x-www-form-urlencoded；然后新建五个 key：</p>
 <ul>
 <li><code>grant_type</code> 填 authorization_code</li>
+<li><code>code </code>填刚刚获取的 <code>authorization code</code></li>
+<li><code>redirect_uri</code> 填刚刚那一步用的回调 url</li>
+<li><code>client_id</code>：你们懂得。</li>
+<li><code>client_secret</code>：同上。</li>
 </ul>
-</li>
-</ol>
-<ul>
-<li><p><code>code </code>填刚刚获取的 <code>authorization code</code></p>
-<ul>
-<li><p><code>redirect_uri</code> 填刚刚那一步用的回调 url</p>
-</li>
-<li><p><code>client_id</code>：你们懂得。</p>
-</li>
-<li><p><code>client_secret</code>：同上。</p>
 <p>点击 send，不出意外的话结果里就会有 <code>access_token</code> 和 <code>refresh_token</code>。记录下 <code>refresh_token</code>。</p>
 <p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210220035446.png"></p>
 <p>不过如果获取失败（比如显示 <code>error: "invalid_request"</code>），那么就说明参数有误。注意，此时需要重新从第一小步开始获取 <code>authorization code</code>，因为 <code>authorization code</code> 只能用一次。另外 authorization code 多次获取的话也只有最后一次获取的 code 能用来获取 <code>refresh_token</code>。</p>
 </li>
-</ul>
-</li>
-</ul>
+</ol>
 </li>
 </ol>
 <h3 id="cloudflare-面板操作"><a href="#cloudflare-面板操作" class="headerlink" title="cloudflare 面板操作"></a>cloudflare 面板操作</h3><ol>
@@ -594,6 +586,9 @@
                 </a>
             </div>
             <div class="post-nav-item">
+                <a href="/ikago-he-pcap2socks-shi-yong-ti-yan/" rel="next" title="ikago 和 pcap2socks 使用体验">
+                  ikago 和 pcap2socks 使用体验 <i class="fa fa-chevron-right"></i>
+                </a>
             </div>
           </div>
     </footer>
@@ -649,14 +644,14 @@
       <i class="fa fa-chart-line"></i>
     </span>
       <span>站点总字数：</span>
-    <span title="站点总字数">227k</span>
+    <span title="站点总字数">244k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">6:53</span>
+    <span title="站点阅读时长">7:24</span>
   </span>
 </div>
 <div class="busuanzi-count">

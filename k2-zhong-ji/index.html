@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/bao32x32.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/bao16x16.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.1/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"zbttl-github-io.vercel.app","root":"/","images":"/images","scheme":"Muse","version":"8.1.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}};
+  </script>
+<meta name="description" content="曾经在路由器跑分 &amp;&amp; 刷机 后日谈 及 几个加速器使用情况收集中提到过  刷个 padavan 在家当非单独子网的无线中继好了，加速器识别到家中的华硕主路由器，让华硕来加速，这个就仅仅弥补 xbox 无线拉跨的问题。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="k2 中继">
+<meta property="og:url" content="https://zbttl-github-io.vercel.app/k2-zhong-ji/index.html">
+<meta property="og:site_name" content="Bao&#39;s 备忘录">
+<meta property="og:description" content="曾经在路由器跑分 &amp;&amp; 刷机 后日谈 及 几个加速器使用情况收集中提到过  刷个 padavan 在家当非单独子网的无线中继好了，加速器识别到家中的华硕主路由器，让华硕来加速，这个就仅仅弥补 xbox 无线拉跨的问题。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202021-01-27%20072941.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202021-01-27%20073051.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202021-01-27%20182740.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210128035916.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210128040228.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/Screenshot_20210128-045757.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210128011605.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202021-01-28%20033440.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202021-01-28%20034658.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202021-01-27%20035053.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202021-01-27%20035508.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210302001719.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210302022533.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210302082144.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210302082255.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210302082616.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210302082916.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210307075634.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210307075734.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210305071401.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210307133213.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210307132240.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210307180031.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210307180258.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/chrome_IrYpRrhfUV.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202021-03-08%20204346.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210308234442.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210308234608.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202021-03-08%20234741.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210309000533.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210309001359.png">
+<meta property="article:published_time" content="2021-01-26T16:00:00.000Z">
+<meta property="article:modified_time" content="2021-03-08T16:21:25.359Z">
+<meta property="article:author" content="zbttl">
+<meta property="article:tag" content="xbox">
+<meta property="article:tag" content="padavan">
+<meta property="article:tag" content="中继">
+<meta property="article:tag" content="openwrt">
+<meta property="article:tag" content="asusfirmware">
+<meta property="article:tag" content="集客ap">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202021-01-27%20072941.jpg">
+
+
+<link rel="canonical" href="https://zbttl-github-io.vercel.app/k2-zhong-ji/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+<title>k2 中继 | Bao's 备忘录</title>
+  
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link rel="alternate" href="/atom.xml" title="Bao's 备忘录" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Bao's 备忘录</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80" placeholder="搜索..." spellcheck="false" type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <section class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#padavan"><span class="nav-number">1.</span> <span class="nav-text">padavan</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%89%93%E5%BC%80%E4%B8%AD%E7%BB%A7"><span class="nav-number">1.1.</span> <span class="nav-text">打开中继</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BD%91%E6%A1%A5%E4%B8%AD%E7%BB%A7%E5%85%B3%E9%97%AD-dhcp-%E5%8F%8A%E8%B0%83%E6%95%B4%E7%BD%91%E6%AE%B5"><span class="nav-number">1.2.</span> <span class="nav-text">网桥中继关闭 dhcp 及调整网段</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%89%93%E5%BC%80%E4%B8%AD%E7%BB%A7%E5%90%8E%E8%BF%9B%E5%85%A5%E4%B8%AD%E7%BB%A7%E8%B7%AF%E7%94%B1%E7%AE%A1%E7%90%86%E7%95%8C%E9%9D%A2"><span class="nav-number">1.3.</span> <span class="nav-text">打开中继后进入中继路由管理界面</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%87%AA%E5%8A%A8%E5%88%87%E6%8D%A2%E8%A2%AB%E4%B8%AD%E7%BB%A7%E8%B7%AF%E7%94%B1"><span class="nav-number">1.4.</span> <span class="nav-text">自动切换被中继路由</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#openwrt%EF%BC%8821-2-6-%E6%9B%B4%E6%96%B0%EF%BC%89"><span class="nav-number">2.</span> <span class="nav-text">openwrt（21.2.6 更新）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%85%E6%8F%92%E4%BB%B6"><span class="nav-number">2.1.</span> <span class="nav-text">安装插件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE-travelmate"><span class="nav-number">2.2.</span> <span class="nav-text">配置 travelmate</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E4%B8%AD%E7%BB%A7%E6%A1%A5"><span class="nav-number">2.3.</span> <span class="nav-text">配置中继桥</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#bug"><span class="nav-number">2.4.</span> <span class="nav-text">bug</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#asus-%E4%B8%AD%E7%BB%A7%EF%BC%8821-2-7-%E6%9B%B4%E6%96%B0%EF%BC%89"><span class="nav-number">3.</span> <span class="nav-text">asus 中继（21.2.7 更新）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9B%86%E5%AE%A2-ap-%E4%B8%AD%E7%BB%A7%EF%BC%8821-3-1-%E6%9B%B4%E6%96%B0%EF%BC%89"><span class="nav-number">4.</span> <span class="nav-text">集客 ap 中继（21.3.1 更新）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%9B%E5%85%A5%E7%AE%A1%E7%90%86%E7%95%8C%E9%9D%A2"><span class="nav-number">4.1.</span> <span class="nav-text">进入管理界面</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE"><span class="nav-number">4.2.</span> <span class="nav-text">配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%97%A0%E7%BA%BF-mesh-%E5%9B%9E%E7%A8%8B"><span class="nav-number">4.3.</span> <span class="nav-text">无线 mesh 回程</span></a></li></ol></li></ol></div>
+        </section>
+        <!--/noindex-->
+
+        <section class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="zbttl" src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">zbttl</p>
+  <div class="site-description" itemprop="description">玩点好玩的</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">36</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">80</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/zbttl" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;zbttl" rel="external nofollow noopener noreferrer" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:zbttls@gmail.com" title="E-Mail → mailto:zbttls@gmail.com" rel="external nofollow noopener noreferrer" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fa fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+
+
+
+        </section>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://zbttl-github-io.vercel.app/k2-zhong-ji/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="zbttl">
+      <meta itemprop="description" content="玩点好玩的">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Bao's 备忘录">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          k2 中继
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-01-27 00:00:00" itemprop="dateCreated datePublished" datetime="2021-01-27T00:00:00+08:00">2021-01-27</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-03-09 00:21:25" itemprop="dateModified" datetime="2021-03-09T00:21:25+08:00">2021-03-09</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%B7%AF%E7%94%B1%E5%99%A8/" itemprop="url" rel="index"><span itemprop="name">路由器</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>9.1k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>17 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>曾经在<a target="_blank" rel="external nofollow noopener noreferrer" href="https://zbttl.github.io/lu-you-qi-pao-fen-shua-ji-hou-ri-tan-ji-ji-ge-jia-su-qi-shi-yong-qing-kuang-shou-ji/#%E5%B0%8F%E7%B1%B3%E5%9B%BA%E4%BB%B6%E5%8A%A0%E9%80%9F%E7%9A%84%E5%8A%A3%E5%8A%BF%EF%BC%8C%E5%92%8C%E5%90%8E%E7%BB%AD%E5%8A%A0%E9%80%9F%E6%96%B9%E6%A1%88%E7%9A%84%E5%AF%BB%E6%89%BE">路由器跑分 &amp;&amp; 刷机 后日谈 及 几个加速器使用情况收集</a>中提到过</p>
+<blockquote>
+<p>刷个 padavan 在家当非单独子网的无线中继好了，加速器识别到家中的华硕主路由器，让华硕来加速，这个就仅仅弥补 xbox 无线拉跨的问题。</p>
+</blockquote>
+<p>今天就谈谈中继的问题。</p>
+<h2 id="padavan"><a href="#padavan" class="headerlink" title="padavan"></a>padavan</h2><p>参考文章：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.bilibili.com/read/cv5828717/">老毛子Padavan固件（华硕固件）无线中继设置以及自动切换脚本中继 - 哔哩哔哩</a></p>
+<h3 id="打开中继"><a href="#打开中继" class="headerlink" title="打开中继"></a>打开中继</h3><p>padavan 界面经过几次调整，现在的中继菜单项在高级设置（记点进去而不是在它本身的下拉菜单项） -&gt; 无线 2.4 GHz/无线 5 Ghz -&gt; 无线桥接中。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202021-01-27%20072941.jpg"></p>
+<p>需要做说明的就是其中的无线 AP 工作模式和无线 AP-Client 角色。</p>
+<ul>
+<li><p>AP 工作模式。分为 AP（禁用桥接）、WDS桥接（禁用AP）、WDS中继（桥接+AP）、APCliet（禁用AP）、APClient（APClient+AP) 五种。 </p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202021-01-27%20073051.jpg"></p>
+<p>AP（禁用桥接）为默认不使用桥接时的模式，而 WDS中继（桥接+AP）、APClient（APClient+AP) 是在剩下两种上开启 AP（无线信号）的模式，所以我们在这两种中间选一种就行了。</p>
+<p>WDS （注意不要和那个有漏洞的 WPS 功能混淆了）需要在被中继的路由上开启相关功能，ap 则不需要，本文我们选择后者。另外 WDS 中继还有升级版 —— 被称作 mesh（听起来熟悉多了吧，这两年各大厂都在吹这玩意）。</p>
+</li>
+<li><p>无线 AP-Client 角色。分为 LAN bridge 和 WAN（Wireless ISP）两种。简单来说，前者是网桥，后者是路由。之前用极路由 2 做 xbox 中继加速的时候，加速器在极路由上安装，所以是路由模式（极路由的中继也只有路由模式可选）；此处我们用 K2 做加速，但加速器在主路由（ac86u）上安装，那么就得用网桥模式。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202021-01-27%20182740.jpg"></p>
+</li>
+</ul>
+<p>之后只要点开上级 SSID 搜索并选主路由的 SSID，输好密码，其他保持默认就行。</p>
+<h3 id="网桥中继关闭-dhcp-及调整网段"><a href="#网桥中继关闭-dhcp-及调整网段" class="headerlink" title="网桥中继关闭 dhcp 及调整网段"></a>网桥中继关闭 dhcp 及调整网段</h3><p>但如果选择网桥中继，还需要做一些其他的设置：</p>
+<ul>
+<li>内部网络（LAN） -&gt; DHCP 服务器，关闭「启用 DHCP 服务器」的开关，因为主路由的 DHCP 会和中继路由的 DHCP 冲突。</li>
+<li>内部网络（LAN）-&gt; 内网设置 -&gt; ip 地址，填入一个 ip 地址，格式为 192.168.x.y。x 和 y 的地址原则上随意，但 x 最好在自己常中继的设备的网段中，y 要避免和自己常中继设备网段设备中的设备 ip 冲突。打个比方，自己主路由的网关是 192.168.111.1，且通过查询主路由管理界面发现自己没有 ip 为 192.168.111.2 的设备，那么就可以把这个地址设置为 192.168.111.2。</li>
+</ul>
+<h3 id="打开中继后进入中继路由管理界面"><a href="#打开中继后进入中继路由管理界面" class="headerlink" title="打开中继后进入中继路由管理界面"></a>打开中继后进入中继路由管理界面</h3><p>成功中继后，路由器有可能就不能直接用原来的 ip 地址进入管理界面了。有两种情况：</p>
+<ol>
+<li><p>按上面所说的中继路由内部网络 ip 在主路由网段内。那么此时先尝试访问之前我们填的 ip 地址。如果访问不到，说明中继路由被主路由重新分配了 ip 地址。我们需要一些方法「探测」到中继路由在网段内的 ip 地址：</p>
+<ul>
+<li><p>通过主路由 web 管理中的设备管理界面（比如下面这张图最顶上那个就是 K2，但其实这个地址完全不对）</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210128035916.png"></p>
+</li>
+<li><p>windows 的 <code>arp -a</code> 命令（这个命令只能显示内网有多少设备但不显示具体设备名）或其他一些嗅探工具</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210128040228.png"></p>
+</li>
+<li><p>android 的 pingtools （推荐）或其他的一些嗅探工具</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/Screenshot_20210128-045757.png"></p>
+</li>
+</ul>
+</li>
+<li><p>按上面所说的中继路由内部网络 ip 在不在主路由网段内。比如之前我说的，带 xbox 出门去同学家，同学的路由器刚好也是能加速的，那我也可以带 k2 去中继，但此时开机后你会发现因为没开 dhcp 连上的设备无法获得相应网段的 ip 地址自然访问不到中继路由的 web 界面了。两种解决方法。</p>
+<ul>
+<li><p>通过有线方式，路由器 wan 口连接其他有线路由器的 lan 口，自己的手机 / pc 连上接着中继路由的路由器然后使用「中继路由内部网络 ip 在主路由网段内」的几种方法就能找到中继路由的新 ip；</p>
+</li>
+<li><p>手动设置 ip。以 windows 为例，连上中继路由器后，右击任务栏的右侧的网络图标，选择“打开网络和 Internet 设置”，点击更改适配器选项，找到自己当前网卡的适配器，双击打开，进入属性，双击 Internet 协议版本 4，设置为使用下面的 ip 地址。ip 地址具体设置，还是以上面中继路由 ip 设置为的 192.168.111.2 为例，此处 ip 可填 192.168.111.x，子网掩码 255.255.255.0，网关 192.168.111.x，这里两个 x 填啥都可以，无所谓，目的只是为了最后让机子和路由器在同一网段中。设置好后确定，等一阵子打开 192.168.111.2 就是中继路由的管理界面了。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210128011605.png"></p>
+<p>如果是安卓也是相同的改法，甚至更简单，这里就不再复述了（不过安卓需要在连接前就手动指定 ip 和网关，否则就会一直卡在获取 ip 地址这一步连不上 wifi，另外连接前可能要先关掉流量，有的机子判断 wifi 无法上网时还会继续跑流量，导致中继这边 web 打不开）。</p>
+<p>修改完中继参数后记得再把系统这个 ip 设置改回自动获得。另外一点，设置好中继后有可能在主路由中看到中继路由，但因为网段不一样，所以是没法直接访问的，除非去改中继路由的内网 ip 地址。可拿回家又要再改，没必要。</p>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="自动切换被中继路由"><a href="#自动切换被中继路由" class="headerlink" title="自动切换被中继路由"></a>自动切换被中继路由</h3><p>因为中继路由我只在自己家和我同学家使用，每次换地方设置中继都要折腾一边，有没有自动切换的方法？当然有。</p>
+<p>就在中继页面的底部，可以编辑 ap_script，按照说明，在自动切换中继信号处写两条规则就行了。写完后点应用然后重启路由。注意！不要直接拔电源重启，而是按页面顶部的重启键重启，因为后者重启时会检测配置是否保存了，而前者有可能重启后你发现刚写的配置没了。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202021-01-28%20033440.jpg"></p>
+<p>最后一点。在系统管理 -&gt; 操作模式处，也可以设置路由模式为无线接入点。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202021-01-28%20034658.jpg"></p>
+<p>随后进行无线中继的话就会固定使用 LAN bridge无线 AP-Client 角色。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202021-01-27%20035053.jpg"></p>
+<p>但使用这个模式会导致 ap_script 脚本失效（日志中显示连接了然后又断开再显示无法连接），和无线路由器模式相比没有优势（唯一算优势的地方，就是路由器模式下 LAN bridge 就算连上网了指示灯也是红的，而无线接入点模式下连上网灯是黄的，也就是正常的）。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202021-01-27%20035508.jpg"></p>
+<hr>
+<p><strong>（21.2.6 更新）</strong> 灯的问题属于 hiboy padavan 独有问题。自编译 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/hanwckf/rt-n56u">hanwckf/rt-n56u: Padavan</a> 中继模式灯颜色正常，但自编译又没有自切换中继信号的功能了。</p>
+<p>另外 padavan 这么中继问题不小。。。过了几天拿到我朋友家，发现中继没有正常工作，不仅如此，用任何方法 web 管理界面都进不去了（包括访问我们修改过的内部网络 ip，通过有线接到别人的路由下等方法），甚至 pingtools 都探测不到中继路由的 ip，只得重置，感觉 padavan 不靠谱。</p>
+<p><strong>(21.2.10 更新)</strong> 之前中继的时候用的是 newifi Y1S 附赠的 12V 1.5a 电源。后续买了一个 ppd 的 n1，送了一个 12v 1.5a 的电源，意外发现有时用 Y1S 电源时中继失败但换用 n1 电源就可以中继成功，看来电源稳定性对中继是有影响的（联想的几个硬件相对斐讯那算是「偷工减料」了），这个现象在后面的 asus 固件中继中又出现了一次。</p>
+<h2 id="openwrt（21-2-6-更新）"><a href="#openwrt（21-2-6-更新）" class="headerlink" title="openwrt（21.2.6 更新）"></a>openwrt<strong>（21.2.6 更新）</strong></h2><p>padavan 不太行，那就换用 openwrt 吧。</p>
+<h3 id="安装插件"><a href="#安装插件" class="headerlink" title="安装插件"></a>安装插件</h3><p>openwrt 的中继和自动切换热点需要加入两个 luci 插件：<code>luci-proto-relay</code> 和 <code>luci-app-travelmate</code>，可以自己用 ssh 的 opkg 命令安装，我的选择是在编译过程中添加，避免自己用 opkg 安装时出现依赖问题，<code>luci-proto-relay</code> 在  LuCI -&gt; Protocols 下；<code>luci-app-travelmate</code> 在 LuCI -&gt; Applications 下，不懂的编译的同学可以参考<a target="_blank" rel="external nofollow noopener noreferrer" href="https://zbttl.github.io/lu-you-qi-pao-fen-shua-ji/?highlight=openwrt">这篇文章</a>。吐槽一句，k2 要编译成功还得多精简几个东西（比如 ipv6 啊，usb 驱动啊），8m 的 rom 太拮据了。。。</p>
+<p>另外 travelmate 有两个前身。</p>
+<p>一个叫 auto-ap，参考</p>
+<ul>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.right.com.cn/forum/thread-171010-1-1.html">【2016-05-12】 更新 - autoap 自动切换中继信号插件-支持LUCI界面配置 - OPENWRT专版 - 恩山无线论坛 - Powered by Discuz!</a> </li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.right.com.cn/forum/thread-347014-1-1.html">openwrt插件autoap（自动切换中继信号）系统配置配合调整 - OPENWRT专版 - 恩山无线论坛 - Powered by Discuz!</a>）</li>
+</ul>
+<p>另一个叫 luci-app-autorepeater，参考 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/peter-tank/luci-app-autorepeater">peter-tank/luci-app-autorepeater: Helps you turn your router as automatic repeater, by join scanned wireless station from ssid or bssid.</a></p>
+<p>在最新的 openwrt R21.2.1 版本中，这两个插件已均不生效（但后来我尝试刷入旧版 openwrt 这俩东西也没成功生效过。。。）</p>
+<h3 id="配置-travelmate"><a href="#配置-travelmate" class="headerlink" title="配置 travelmate"></a>配置 travelmate</h3><p>先配置自动切换中继路由的功能。在服务 -&gt; travelmate 处，默认的未配置情况下这里是 Interface Wizard 页面，需要在 <code>Create Uplink interface</code> 处把默认的 <code>trm_wwan</code> 改为自己的无线 wifi 中继接口。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210302001719.png"></p>
+<p>默认为 <code>wwan</code>，改好后确定保存，即可进入真正的配置界面。</p>
+<p>转到 Wireless Stations 处。此处的扫描 radio0 是扫描 5g 信号，radio1 则是扫描 2.4g 信号。通过扫描，把需要中继的信号都加进去，调整好顺序。</p>
+<p>如果说目前受限于地理位置，无法通过扫描添加未来要自动切换的被中继信号呢？可以通过 Advanced -&gt; Edit Wireless Configuration，在下面的代码编辑器最后一行下面添加</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">config wifi-iface</span><br><span class="line">	option network 'wwan'</span><br><span class="line">	option device 'radio0'</span><br><span class="line">	option mode 'sta'</span><br><span class="line">	option ssid '[被中继信号ssid]'</span><br><span class="line">	option encryption 'psk2'</span><br><span class="line">	option key '[被中继信号密码]'</span><br><span class="line">	option disabled '1'</span><br></pre></td></tr></tbody></table></figure>
+
+<p>最后回到总览。启用 <code>Enable travelmate</code>，建议关闭 <code>Captive Portal Detection</code>（出门在外，可能会中继外面的 wifi 或自己的手机热点，信号没那么稳定，再开这个选项切来切去体验就会变差），最后保存并应用。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210302022533.png"></p>
+<h3 id="配置中继桥"><a href="#配置中继桥" class="headerlink" title="配置中继桥"></a>配置中继桥</h3><p>参考文章：</p>
+<ul>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://openwrt.org/zh/docs/guide-user/network/wifi/relay_configuration">[OpenWrt Wiki] Wifi扩展器、中继器及桥接配置</a></li>
+</ul>
+<p>说到这里，使用 openwrt 有个好处：可以配置完所有功能再应用。padavan 配置网桥的话，如果顺序没有安排好，先配置关闭 dhcp 后还得手动调整自己机子的 ip 地址才能返回 web 管理界面；openwrt 则可以一次配置完后再去获取当前网段下中继路由的 ip。</p>
+<ol>
+<li><p>调整 wwan 的防火墙类型。在网络 -&gt; 接口中找到 wwan，选择修改，在配置 -&gt; 防火墙区域中把区域从 wan 调到 lan，并保存。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210302082144.png"></p>
+</li>
+<li><p>新建中继桥。新增一个接口，新接口协议选择「中继桥」（须安装 <code>luci-proto-relay</code> 才会有这个）。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210302082255.png"></p>
+<p>提交后修改「网络间中继」，勾选 lan 和 wwan。然后同样将这个中继桥的防火墙区域指向 lan，保存。（这样设置其实还不行，但我卖一个关子，待会在 bug 那里说）</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210302082616.png"></p>
+</li>
+<li><p>修改 lan 接口。和 padavan 不同，这里设置的 lan ip 必须不在被中继路由子网内，比如被中继路由网关 ip 是 <code>192.168.100.1</code>，这里就不能填 <code>192.168.100.2</code> 之类的，可以填 <code>192.168.101.1</code>。勾选 dhcp 中的「忽略此接口」。此时可以保存并应用，必要时重启路由。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210302082916.png"></p>
+</li>
+</ol>
+<h3 id="bug"><a href="#bug" class="headerlink" title="bug"></a>bug</h3><p>这么一通配置完了，发现几个问题：</p>
+<ol>
+<li><p>上不去网，因为 ip 没下发，看来是 dhcp 的包没从被中继路由那边传过来。</p>
+</li>
+<li><p>手动配置网关和 ip 后， windows 10 的网络连接显示从无连接变成了已连接。但几乎所有程序都还连不上网，除了浏览器，原因是浏览器我挂上了 cfw，我的 cfw 开起了 dns 服务。用 nslookup 检测的话，会报错 dns。也就是 dns 的包也没传过来。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210307075634.png"></p>
+</li>
+<li><p>时不时网络卡顿。</p>
+</li>
+</ol>
+<p>第二点，可通过修改中继桥的本地 ipv4 地址解决。需要修改成中继路由在主路由中的 ip，可从总览 -&gt; 网络处获取。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210307075734.png"></p>
+<p>但一和三就麻烦了，参考文章中也列出了该种 bug：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210305071401.png"></p>
+<p>上面这段说明里面的 kmod-trelay，可以参考 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://forum.openwrt.org/t/howto-kmod-trelay/49610/2">Howto kmod-trelay - Installing and Using OpenWrt / Network and Wireless Configuration - OpenWrt Forum</a>。但我实验了几天，没成功，而且为了 dhcp 预计会导致两个更大的问题：</p>
+<ol>
+<li>只能用于无线中继转有线。起码无线连不上。参考文章中要给 wwan 改 mac，改成连接到中继路由设备的 mac，我用笔记本无线连接后改成笔记本无线网卡的 mac，一重启路由，发现笔记本找不到中继路由发的 5g 信号，估计是 wwan 拿的笔记本 mac 走的 5g 中继，笔记本也通过路由发送的 5g 连接路由器，两个 mac 冲突了。</li>
+<li>因为第一点，导致只能中继一个设备，因为路由只有一个网卡，只能改一个 mac。</li>
+</ol>
+<hr>
+<p>要配置网桥，移动地点后不能直接中继还得进 web 管理界面改网桥地址，这就太麻烦了。</p>
+<p>还有诸如以下的麻烦：</p>
+<ol>
+<li>不能直接从 web 看在线了多少设备（曾经在线过的设备也会显示在在线列表中，而且不显示是否离线）。可以通过 ssh 命令 <code>ip neigh | grep REACHABLE</code>。</li>
+<li>可能会有某个有线网口失效。</li>
+<li>使用开源驱动导致 k2 的 pa+lna 信号放大芯片不生效，信号差一点。</li>
+</ol>
+<p>不过我也发现两个优势：</p>
+<ol>
+<li>手动修改 ip 连上中继并能正常上网后，仍然可以通过 lan ip 进入 web 管理界面。其他系统做不到这点，因为 lan ip 和中继路由不在一个网段，其他系统想进去 web 界面得手动修改到 lan ip 的网段；padavan 可以设置 lan ip 到中继路由的网段，但移动地点以后多半又不在同一个网段了，还是不如 openwrt 方便；</li>
+<li>可以同时使用网桥中继和 WISP 中继。比如以下的方案——新开一个 wwan2.4 接口和 lan2 接口，lan2 和 wwan2.4 接口接起来，lan2 开启 dhcp，wwan2.4 和 2.4g 无线接起来，就可以达成连接 2.4g 进入相对稳定而方便的 WISP 中继，连接 5g 并手动设置 ip 进入网桥中继。有线一般走 lan，也就是网桥中继，这大家也可以自己设置，就不详细阐述了。另外从 2.4g 无法进入 ssh，因为在系统 -&gt; 管理权处 dropbear 只给了 lan 接口，可以多开一个给 lan2 接口，或者设置为未指定。</li>
+</ol>
+<p>看来 openwrt 也不太行。。。</p>
+<p>转了一圈，试过了高铬，发现除了有个检测在线 qq 的功能，并没有其他优势，中继里也没有中继桥功能可用。</p>
+<p>然后发现了带有 pa+lna 驱动的华硕固件，刷进去发现还不错。</p>
+<h2 id="asus-中继（21-2-7-更新）"><a href="#asus-中继（21-2-7-更新）" class="headerlink" title="asus 中继（21.2.7 更新）"></a>asus 中继<strong>（21.2.7 更新）</strong></h2><p><a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.right.com.cn/forum/thread-4052903-1-1.html">K2 ASUS_AC1200HP自动编译版 - 斐讯无线路由器以及其它斐迅网络设备 - 恩山无线论坛 - Powered by Discuz!</a></p>
+<p>第一次连接，就可以选择中继模式。这里的中继模式就直接是网桥（中继桥）模式了。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210307133213.png"></p>
+<p>华硕的固件比较傲娇，成功中继后在被中继路由的管理界面看不到中继路由 ip，使用其他方法（比如 pingtools）也找不到。得使用华硕自己的软件 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.asus.com/uk/support/FAQ/1037094/">ASUS Device Discovery</a>。这个软件在苹果端 app store 和安卓端 google play 也有对应平台的移动端。虽说得多装个软件吧，但使用起来比用 arp 探测的几个方法要方便可靠多了：打开软件就能找到设备，点击配置就直接跳到 web 管理界面。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210307132240.png"></p>
+<p>asus 固件没有自动切换中继功能，但手动切换中继比 padavan 方便多了。找不到中继信号的 asus k2 应该会把自己的 ip 自动设回 192.168.1.1，直接访问就行，不成功再用上面介绍的 app 找到管理 ip 并进入。点击主页的重新搜寻即可重新进入中继设置界面。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210307180031.png"></p>
+<p>此时不点击自动设置无线就可以使用之前设置的无线密码连接中继路由。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210307180258.png"></p>
+<p>当然进不去中继路由管理界面还有一种可能就是用了不可靠的电源。之前我换到同学家使用不仅打不开中继界面，连无线信号和联网状态也断断续续，把 Y1S 的电源换成 n1 原装电源解决。另一次供电不足甚至造成了无线 loopback，在主路由 web 中一瞬显示中继路由下挂了 30 多个设备。。。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/chrome_IrYpRrhfUV.png"></p>
+<p>我感觉网桥中继模式应该比较吃供电来着。</p>
+<hr>
+<p>相比 padavan 另一个好评的地方是，灯颜色对了（</p>
+<p>网桥中继除了有供电上的毛病，有时候设备第一次链接中继路由会发现第一时间上不去网，其实是通过中继路由一时半会拿不到主路由 dhcp 分配的 ip 地址。（主路由你快点！给主路由倒一杯卡布奇诺）</p>
+<p>如果有多余的路由器，下面这个方案才是最合适的，集速度稳定网桥中继于一身，甚至就算供电不太稳使用起来依旧没什么问题。</p>
+<h2 id="集客-ap-中继（21-3-1-更新）"><a href="#集客-ap-中继（21-3-1-更新）" class="headerlink" title="集客 ap 中继（21.3.1 更新）"></a>集客 ap 中继<strong>（21.3.1 更新）</strong></h2><p>参考文章：</p>
+<ul>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.right.com.cn/forum/thread-1501038-1-1.html">集客AC AP 知识大全 FAQ 小白扫盲贴 - 斐讯无线路由器以及其它斐迅网络设备 - 恩山无线论坛 - Powered by Discuz!</a></li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.right.com.cn/forum/thread-4046510-1-1.html">星际宝盒 CM520 刷集客AP MESH组网 - 斐讯无线路由器以及其它斐迅网络设备 - 恩山无线论坛 - Powered by Discuz!</a></li>
+</ul>
+<p>集客 ap 和普通网桥中继原理略有不同。集客 ap 需要通过有线方式挂一个路由器在主路由下，这个挂在主路由下的路由叫做 ac 面板。而真正的中继路由被称为 ap，ap 能通过各种方式和 ac 完成配对，完成配对后的 ac 和 ap，迁移环境后无需再次配对——也就是说，只要我在家里配置好 ac 和 ap，带到同学家，只要把 ac 挂到他的路由器上，ap 无论放在那里，只要一插电，过一会就能用了。因为 ac 面板有处理能力，dhcp 的速度和中继的稳定性也优于直接中继。另外 ap 除了可以通过无线配对，也能通过有线配对，被称为有线/无线回程。</p>
+<p>记得我在 padavan 那边提到的 WDS 么？集客 ap 此处实现的功能便是 mesh 的一部分，WDS 这里也可以使用额外的两台路由完成中继，mesh 和 WDS 的区别在于，mesh 的管理功能和稳定性都要更强；不过 WDS 有一定泛用性，有的时候支持某两种不同品牌 / 系统的路由。但类似于 asus，使用 wds 需要进入两边的路由 web 界面把各自的 mac 添加进去；openwrt 还需要像上面网桥中继教程那样在中继路由上手动设置被中继路由的网关与 ip，跟 mesh 即插即用相比差了不是一点点。</p>
+<p>集客 ap 下载地址：<a target="_blank" rel="external nofollow noopener noreferrer" href="http://file.cnrouter.com/index.php/Index/apbeta.html">文件管理</a></p>
+<p>页面中集客 AP_MTK_MIPS 是 ap，集客微路由_MTK 是 ac 面板。但 ap 中实际上带有微 ac，可以带最多 16 台 ap，所以我们下两个 ap 就好了，这样两个路由都可以胜任 ac / 中继 ap。我多出来的路由是极路由 2 和 newifi Y1S，这两个都没带 pa+lna，所以虽然处理器相同但要下的固件和 k2 的固件是不一样的，k2 下 AP230EP，另外两个路由应该下 AP230IP，我尝试给极路由 2 用 AP230EP，结果无线 mesh 回程失效，只剩有线回程可用。</p>
+<h3 id="进入管理界面"><a href="#进入管理界面" class="headerlink" title="进入管理界面"></a>进入管理界面</h3><ol>
+<li><p>第一次配对需要先把两个路由都通过网线接入同一个局域网。可以把 ac /  中继 ap 路由都接入主路由中；也可以把 ac / 中继 ap 的其中一个插到主路由上，另一个插到中继 ap / ac 上。但必须有一个路由接到主路由上，否则微 ap 中 -&gt; ap 列表中不会显示任何内容。</p>
+</li>
+<li><p>接着可以通过三种方法进入管理界面：</p>
+<ul>
+<li>在中继 ap / ac <strong>已连接</strong>到被中继路由（主路由）的情况下，连接到主路由，通过 arp 或者主路由 web 界面（详情见<a href="#%E6%89%93%E5%BC%80%E4%B8%AD%E7%BB%A7%E5%90%8E%E8%BF%9B%E5%85%A5%E4%B8%AD%E7%BB%A7%E8%B7%AF%E7%94%B1%E7%AE%A1%E7%90%86%E7%95%8C%E9%9D%A2">上文</a>）找到挂在主路由下的 ip 并进入；</li>
+<li>手动修改连接设备的 ip，ip 地址修改为 6.6.6.1，子网掩码 255.0.0.0。然后连接到 ac / 中继 ap 发出的节点，节点名为 GECOOSAP-XXXX，浏览器输入 6.6.6.6 进入；</li>
+<li>在中继 ap / ac <strong>未连接</strong>到被中继路由（主路由）的情况下，<del>按下路由的 reset 键，</del>过一会会出现一个 SOS_XXXX<del>（值得一提的是，同一个设备这里的 XXXX 和第二个方法中 GECOOSAP-XXXX 这一串里的 XXXX 是一样的字符串，刚开始开起了多个设备但不知道设备对应的节点名称是什么，可以用这个方法来确定）</del> 的节点，默认 wifi 密码为 88888888，由于没有连上主路由，所以中继 ap / ac 会打开自己的 dhcp，因此不需要和上面那个方法一样手动修改连接设备的 ip，直接输入 6.6.6.6 进入即可。</li>
+</ul>
+<p>第三点划去的部分是因为新版固件在检测到连接不上网络时就会自动释放 sos 节点，并且原来ac / 中继 ap 发出的节点末尾会增加一个感叹号。</p>
+<p>进入成功后使用默认密码 admin 登录。</p>
+</li>
+</ol>
+<h3 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h3><p>参考：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.bilibili.com/video/BV1yJ411P748">200块的无缝组网体验堪比1699mesh套装？斐讯K2T无线路由KVR组网实战_哔哩哔哩 (゜-゜)つロ 干杯~-bilibili</a></p>
+<ol>
+<li><p>在 ac 和中继 ap 系统管理 -&gt; 基本设置中设置好格子的设备名称，将自动重启设为 0 天，修改密码。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202021-03-08%20204346.png"></p>
+</li>
+<li><p>进入 ac 的无线管理 -&gt; ssid 设置中，设置好相应的 2.4g / 5g 无线配置。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210308234442.png"></p>
+</li>
+<li><p>进入 ac 的微 ap -&gt; ap 列表，这里应该会显示 ac 和所有中继 ap 的设备名单，在这里我勾选上网络里的唯一一台中继 ap，选择克隆 -&gt; 克隆无线配置。当然此处也可以根据当前的网络环境自己调成各个节点的信道，不过因为我可能要带出门，各个地点的网络环境都不同所以就保持自动好了。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210308234608.png"></p>
+</li>
+</ol>
+<h3 id="无线-mesh-回程"><a href="#无线-mesh-回程" class="headerlink" title="无线 mesh 回程"></a>无线 mesh 回程</h3><ol>
+<li><p>此时在 ap 列表中，直接点击 ap 一栏的超链接就能进入相应设备的 web 管理界面了。</p>
+</li>
+<li><p>在 ac 端 -&gt; mesh 设置，开启 mesh，角色选择主 mesh，配对标识自己设置，待会在子 mesh 处要填一样的。射频选 5g。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202021-03-08%20234741.png"></p>
+</li>
+<li><p>从 ap 列表中进入 ap 中继端，在上面所述同样的地方开启 mesh，设置基本一致，除了角色需要选择为子 mesh。</p>
+</li>
+<li><p>拔掉子 mesh 端的网线，过一会子 mesh 就会通过无线连接上主 mesh 了。在子 mesh 上能看到无线回程变为在线状态：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210309000533.png"></p>
+<p>主 mesh 这边：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210309001359.png"></p>
+</li>
+</ol>
+<hr>
+<p>集客 ap 几个中继路由可以选择不同的信道这点是其他中继做不到的。</p>
+<p>风传集客 ap 中继能不受有线网口速度影响，我试了一下，是假的，中继后 speedtest 网速最高高不过百兆（几个中继路由都只有百兆口）。</p>
+<p>除了需要用两台设备，缺点还有这么几个：</p>
+<ol>
+<li><p>k2 灯颜色不对，全程红灯；</p>
+</li>
+<li><p>设备间使用的加密没得选。参考文章中有提到：</p>
+<blockquote>
+<ol start="9">
+<li>问：相比用过的其他固件,我想设置加密方式为 WPA2,不用WPA,2.4G协议能不能只802n, 802b/g兼容关掉,类似这种选项能否开放出来?<br> 答：集客AP定们是工程级，在功能满足的情况下更多是要考虑降低安装和维护成本，尽量做到即插即用，加密方式目前只使用的最安全的。</li>
+</ol>
+</blockquote>
+</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>zbttl
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="https://zbttl-github-io.vercel.app/k2-zhong-ji/" title="k2 中继">https://zbttl-github-io.vercel.app/k2-zhong-ji/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="external nofollow noopener noreferrer" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="followme">
+  <span>欢迎关注我的其它发布渠道</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="/atom.xml">
+          <span class="icon">
+            <i class="fa fa-rss"></i>
+          </span>
+
+          <span class="label">RSS</span>
+        </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/xbox/" rel="tag"># xbox</a>
+              <a href="/tags/padavan/" rel="tag"># padavan</a>
+              <a href="/tags/%E4%B8%AD%E7%BB%A7/" rel="tag"># 中继</a>
+              <a href="/tags/openwrt/" rel="tag"># openwrt</a>
+              <a href="/tags/asusfirmware/" rel="tag"># asusfirmware</a>
+              <a href="/tags/%E9%9B%86%E5%AE%A2ap/" rel="tag"># 集客ap</a>
+          </div>
+
+        
+  <div class="post-widgets">
+    <div class="wp_rating">
+      <div id="wpac-rating"></div>
+    </div>
+  </div>
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/github-xue-sheng-bao-he-azure-yang-mao/" rel="prev" title="github 学生包和 azure 羊毛">
+                  <i class="fa fa-chevron-left"></i> github 学生包和 azure 羊毛
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/azure-yang-mao-er/" rel="next" title="azure 羊毛（二）">
+                  azure 羊毛（二） <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zbttl</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+      <span>站点总字数：</span>
+    <span title="站点总字数">244k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span>站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">7:24</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">本博客使用 <a href="https://hexo.io/" class="theme-link" rel="external nofollow noopener noreferrer" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" class="theme-link" rel="external nofollow noopener noreferrer" target="_blank">NexT.Muse</a> 
+  </div><script color="120,120,120" opacity="0.5" zindex="-1" count="150" src="https://cdn.jsdelivr.net/npm/canvas-nest.js@1/dist/canvas-nest.js"></script>
+<!--《添加网站运行时间 -->
+<!--<br/>-->
+<span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+<script>
+    var now = new Date();
+
+    function createtime() {
+        var grt = new Date("12/18/2020 12:00:00"); //此处修改你的建站时间或者网站上线时间 
+        now.setTime(now.getTime() + 250);
+        days = (now - grt) / 1000 / 60 / 60 / 24;
+        dnum = Math.floor(days);
+        hours = (now - grt) / 1000 / 60 / 60 - (24 * dnum);
+        hnum = Math.floor(hours);
+        if (String(hnum).length == 1) {
+            hnum = "0" + hnum;
+        }
+        minutes = (now - grt) / 1000 / 60 - (24 * 60 * dnum) - (60 * hnum);
+        mnum = Math.floor(minutes);
+        if (String(mnum).length == 1) {
+            mnum = "0" + mnum;
+        }
+        seconds = (now - grt) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+        snum = Math.round(seconds);
+        if (String(snum).length == 1) {
+            snum = "0" + snum;
+        }
+        document.getElementById("timeDate").innerHTML = " 本站已安全运行 " + dnum + " 天 ";
+        document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒";
+    }
+    setInterval("createtime()", 250);
+</script>
+<!-- 添加网站运行时间》 -->
+
+    </div>
+  </footer>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+  <script>
+  if (CONFIG.page.isPost) {
+    wpac_init = window.wpac_init || [];
+    wpac_init.push({
+      widget: 'Rating',
+      id    : 28813,
+      el    : 'wpac-rating',
+      color : '#fc6423'
+    });
+    (function() {
+      if ('WIDGETPACK_LOADED' in window) return;
+      WIDGETPACK_LOADED = true;
+      var mc = document.createElement('script');
+      mc.type = 'text/javascript';
+      mc.async = true;
+      mc.src = '//embed.widgetpack.com/widget.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(mc, s.nextSibling);
+    })();
+  }
+  </script>
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1.7.0/dist/gitalk.css">
+
+<script>
+NexT.utils.loadComments('#gitalk-container', () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1.7.0/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : 'd99d750bdfdb31ecf37e',
+      clientSecret: '1d37215aff71dc84b66e03cb412c7e68b968d76f',
+      repo        : 'zbttl-comment',
+      owner       : 'zbpicture',
+      admin       : ['zbpicture'],
+      id          : '3e0023fa19257a398f706d04cbc23e7d',
+        language: '',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+<script type="text/javascript" src=" https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+
+  <script async src="/js/cursor/text.js"></script>
+
+
+
+
+</body>
+</html>

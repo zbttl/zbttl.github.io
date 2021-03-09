@@ -44,7 +44,7 @@
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210130060354.png">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210130060150.png">
 <meta property="article:published_time" content="2020-12-01T16:00:00.000Z">
-<meta property="article:modified_time" content="2021-01-31T18:46:24.498Z">
+<meta property="article:modified_time" content="2021-03-08T17:02:00.225Z">
 <meta property="article:author" content="zbttl">
 <meta property="article:tag" content="padavan">
 <meta property="article:tag" content="openwrt">
@@ -218,7 +218,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">33</span>
+          <span class="site-state-item-count">36</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -231,7 +231,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">73</span>
+        <span class="site-state-item-count">80</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -313,7 +313,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2021-02-01 02:46:24" itemprop="dateModified" datetime="2021-02-01T02:46:24+08:00">2021-02-01</time>
+        <time title="修改时间：2021-03-09 01:02:00" itemprop="dateModified" datetime="2021-03-09T01:02:00+08:00">2021-03-09</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -369,7 +369,7 @@
 <p>由于不是实时跑分，所以准确性也最差。</p>
 <h3 id="coremark"><a href="#coremark" class="headerlink" title="coremark"></a>coremark</h3><p>来自：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/eembc">eembc</a>/<strong><a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/eembc/coremark">coremark</a></strong></p>
 <p>不过遗憾的是，我只成功在 ubuntu 下编译了 linux 版，在 windows 下使用 cygwin 和 在 linux 下尝试交叉编译 windows 版本均未成功。</p>
-<p>不过 padavan 和许多 openwrt 固件下附带有本测试工具，也不用我编译了。</p>
+<p>好在 padavan 和 openwrt 下附带有本测试工具，也不用我编译了。</p>
 <h3 id="dhrystone"><a href="#dhrystone" class="headerlink" title="dhrystone"></a>dhrystone</h3><p>来自：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.openwrtdl.com/wordpress/%E6%9D%A5%E6%B5%8B%E6%B5%8B%E8%B7%AF%E7%94%B1%E5%99%A8cpu%E6%80%A7%E8%83%BD%E8%B7%91%E5%88%86">[源码]来测测路由器cpu性能跑分</a></p>
 <p>另一个二进制跑分工具。其中的二进制文件 <code>gcc_dry2-mt7621</code> 在 mt7620A 路由极路由 2 原版系统下可以直接运行。但在 newifi mini padavan 下运行结果报 0。而另一个含有 mt7620 的二进制文件 <code>dhrystone_2.1-1_ramips_1004kc_mt7621.ipk</code> 在两个设备上运行都报错（毕竟原本就应该是在 openwrt 下安装运行的） 。另外 x86 二进制在 linux 下不能运行，另外也没有 ac86u 用的版本（bcm4903）。但不知道其他固件是否附带有相应版本。</p>
 <h2 id="（21-1-30-更新）openssl-跑分"><a href="#（21-1-30-更新）openssl-跑分" class="headerlink" title="（21.1.30 更新）openssl 跑分"></a><strong>（21.1.30 更新）</strong>openssl 跑分</h2><p>在翻油管<a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.youtube.com/watch?v=7xKGoveWmrs&amp;t=316s">软路由相关视频</a>时偶然发现的。适用于自带 openssl 命令的设备（基本上 linux 都带的）。</p>
@@ -377,7 +377,7 @@
 
 <p><code>aes-256-gcm</code> 也可以换成其他加密方式，比如 <code>chacha20-poly1305</code> 啥的。</p>
 <h2 id="刷机（mt7620-gt-openwrt）"><a href="#刷机（mt7620-gt-openwrt）" class="headerlink" title="刷机（mt7620->openwrt）"></a>刷机（mt7620-&gt;openwrt）</h2><p>直接编译上面那几个工具不管用。</p>
-<p>看来只能刷点大众版本然后从库里面找看看。先刷 newifi mini / 极路由 2。这两款路由同样是 mt7620A 方案，128m ram，8m flash。区别只有 newifi mini 的无线方案是 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.mediatek.cn/products/broadbandWifi/mt7612e">MediaTek | MT7612E</a>（参数来源：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.igao7.com/news/201501/2krIHZXzLCFRAVLO.html">迷你也满血，联想新路由newifi mini评测 | 爱搞机</a>），极路由的无线方案是 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.mediatek.com/products/broadbandWifi/mt7610e">MediaTek | MT7610E</a>（参数来源：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.zhihu.com/question/21971379/answer/19977583">如何评价极路由公司 2013 年 11 月发布的「极贰」路由器？ - 张导的回答 - 知乎</a>)。前者是 2x2，后者弱一些 1x1（但 5g wifi 速度同样是 433mhz）。还有！极路由 2 刷机前请用 breed 事先备份好 key，就在固件备份里面有一个单独的选项（我直接掉坑里爬不出来了，但到后面人家直接把这条路都铲了。。。详情可以看月底的后日谈）。</p>
+<p>看来只能刷点定制版本然后从库里面找看看。先刷 newifi mini / 极路由 2。这两款路由同样是 mt7620A 方案，128m ram，8m flash。区别只有 newifi mini 的无线方案是 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.mediatek.cn/products/broadbandWifi/mt7612e">MediaTek | MT7612E</a>（参数来源：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.igao7.com/news/201501/2krIHZXzLCFRAVLO.html">迷你也满血，联想新路由newifi mini评测 | 爱搞机</a>），极路由的无线方案是 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.mediatek.com/products/broadbandWifi/mt7610e">MediaTek | MT7610E</a>（参数来源：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.zhihu.com/question/21971379/answer/19977583">如何评价极路由公司 2013 年 11 月发布的「极贰」路由器？ - 张导的回答 - 知乎</a>)。前者是 2x2，后者弱一些 1x1（但 5g wifi 速度同样是 433mhz）。还有！极路由 2 刷机前请用 breed 事先备份好 key，就在固件备份里面有一个单独的选项（我直接掉坑里爬不出来了，但到后面人家直接把这条路都铲了。。。详情可以看月底的后日谈）。</p>
 <p>注意：刷 breed 和 breed 怎么操作这个东西，本文不涉及，百度吧。</p>
 <p>在 breed 下，这两台机子显示的参数都一模一样：</p>
 <p>newifi mini：</p>
@@ -414,11 +414,11 @@
 <li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.right.com.cn/forum/thread-1237348-1-1.html">【2020-01-14 更新】OpenWrt入门编译 make menuconfig配置参考说明与自动生成脚本 - OPENWRT专版 - 恩山无线论坛 - Powered by Discuz!</a></li>
 <li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.right.com.cn/forum/thread-344825-1-1.html">OpenWrt 编译 LuCI-&gt; Applications 添加插件应用说明 - L 大【2020.11.1】 - OPENWRT 专版 - 恩山无线论坛 - Powered by Discuz!</a></li>
 </ul>
-<p>我这里也给一张表格，大致说明一下我在默认配置的基础上改了哪里。我认为是接近最简的配置。</p>
+<p>我这里也给一张表格，大致说明一下我在默认配置的基础上改了哪里。仅供参考。</p>
 <p>注意，许多功能可以不直接集成到固件中而是单单编译为模块。因为使用主流的 <code>squashfs</code> 固件格式的话，集成到固件的功能是删不掉的，而模块（ipx）可以通过 opkg 随意安装和卸载（就是可能遇到依赖问题，装一个功能可能得同时装几个模块）。能这么做的功能，按空格第一次显示为 M，是编译为模块；再按一次显示为 * 则为集成到固件中。至于该选那个大家自己抉择。</p>
 <p>下面表格参数尾部有 - 号标记代表我并未做改动但有些东西需要提醒；编译 x 说明这是原来开着我关掉的内容。</p>
 <p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210102073119.png"></p>
-<p>自定义的时候注意，除了 luci 以外的东西都是在 web gui 外生效的。啥意思？你精简了一个 luci 以外的功能，打开路由器 web 管理界面是看不到什么区别的；反之，你想在 luci 添加什么功能也不用考虑该功能是不是在其他地方有依赖。</p>
+<p>LuCI 要改的好多。。。原因是 LuCI 相关内容在 webui 下生效且不依赖其他配置（即基本不存在某个在 LuCI 中开启的功能需要在 LuCI 菜单外开启后 LuCI 处才生效的事儿）；其他功能（特别是 Utilities 里面的）在 ssh 等位置生效，在 webui 下不可见。众所周知图形界面的功能浪费的空间比较多嘛。。。</p>
 <p>编辑完后用下面的 save 保存为 <code>.config</code>，待会编译的时候就会读取这个文件的配置。</p>
 </li>
 <li><p>开始编译（如果上面这步添加了许多功能，则需要开科学工具）。轻量服务器只有一个核心，所以 <code>-j1</code>，如果用物理机则看自己的配置改了。</p>
@@ -646,14 +646,14 @@
       <i class="fa fa-chart-line"></i>
     </span>
       <span>站点总字数：</span>
-    <span title="站点总字数">227k</span>
+    <span title="站点总字数">244k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">6:53</span>
+    <span title="站点阅读时长">7:24</span>
   </span>
 </div>
 <div class="busuanzi-count">
