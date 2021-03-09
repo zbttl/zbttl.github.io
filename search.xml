@@ -1,22 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>斐讯 n1 折腾记录</title>
-    <url>/fei-xun-n1-zhe-teng-ji-lu/</url>
-    <content><![CDATA[<p>本来想等自己有钱的时候再买一个性能强悍啥都能干的 x86 软路由的。。。</p>
-<p>但最近折腾加速器，实在受不了这帮硬路由的憨憨性能了：明明 ac86u 性能还凑合但内存只有 512m 结果刷了梅林各种问题各种崩，其他 mt7621 就更不用说了</p>
-]]></content>
-      <categories>
-        <category>路由器</category>
-      </categories>
-      <tags>
-        <tag>羊毛</tag>
-        <tag>openwrt</tag>
-        <tag>yyf</tag>
-        <tag>n1</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>netch 使用体验（代理规则获取）</title>
     <url>/netch-shi-yong-ti-yan-dai-li-gui-ze-huo-qu/</url>
     <content><![CDATA[<p><a href="https://github.com/NetchX/Netch">Netch</a> 这么一个功能强大且逻辑合理的 gui，才出不久但各种文档已经足够详细，还要详细谈谈的必要嘛。。。</p>

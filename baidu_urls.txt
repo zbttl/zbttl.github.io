@@ -1,4 +1,3 @@
-https://zbttl-github-io.vercel.app/fei-xun-n1-zhe-teng-ji-lu/
 https://zbttl-github-io.vercel.app/netch-shi-yong-ti-yan-dai-li-gui-ze-huo-qu/
 https://zbttl-github-io.vercel.app/ikago-he-pcap2socks-shi-yong-ti-yan/
 https://zbttl-github-io.vercel.app/onedrive-gua-zai-dao-cloudflare/
@@ -18,3 +17,4 @@ https://zbttl-github-io.vercel.app/wan-yi-xia-ffmpeg/
 https://zbttl-github-io.vercel.app/hexo-jin-jie/
 https://zbttl-github-io.vercel.app/hexo-ru-men/
 https://zbttl-github-io.vercel.app/jie-jue-windows-jie-ma-qi-dao-zhi-de-dlna-wu-fa-tou-ping-wen-ti/
+https://zbttl-github-io.vercel.app/wan-yi-xia-imagemagick/
