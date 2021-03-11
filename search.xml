@@ -1,6 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title></title>
+    <url>//</url>
+    <content><![CDATA[<h1 id="debian-10-单独安装-mysql"><a href="#debian-10-单独安装-mysql" class="headerlink" title="debian 10 单独安装 mysql"></a>debian 10 单独安装 mysql</h1><p>之前在<a href="https://zbttl.github.io/yi-bu-dao-wei-de-vps-cong-ru-men-dao-fang-qi/?highlight=mysql">一步到位的 vps 从入门到放弃 | Bao’s 备忘录</a>谈过可以用 lnmp / 宝塔去装 mysql。 不过很多时候我并不需要 php，我自己的 vps 主用 caddy 而不是 nginx，只有 mysql 是刚需，加上我个人秉承着 「apt + dpkg 走天下」的暴论，就想着有没有官方的使用 apt 的单独安装 mysql 的方法（</p>
+<p>只谈安装，剩下的配置流程，以前谈过了，参考本文开头那篇文章。</p>
+<h2 id="使用-mysql-apt-config-安装"><a href="#使用-mysql-apt-config-安装" class="headerlink" title="使用 mysql-apt-config 安装"></a>使用 mysql-apt-config 安装</h2><p>和 ubuntu 那边的 ppa 是类似的东西（</p>
+<p>参考文章：<a href="https://www.digitalocean.com/community/tutorials/how-to-install-the-latest-mysql-on-debian-10">How To Install the Latest MySQL on Debian 10 | DigitalOcean</a></p>
+<ol>
+<li><p>到 <a href="https://dev.mysql.com/downloads/repo/apt/">MySQL :: Download MySQL APT Repository</a> 获取最新的 mysql-apt-config 安装包。拿到地址后直接到系统里面 wget，现在的版本是 0.8.16-1，so：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">wget https://repo.mysql.com//mysql-apt-config_0.8.16-1_all.deb </span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>安装</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">sudo dpkg -i mysql-apt-config*</span><br></pre></td></tr></tbody></table></figure>
+
+<p>更新一下 apt 库</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">apt update</span><br></pre></td></tr></tbody></table></figure>
+
+<p>安装</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">apt install mysql-server</span><br></pre></td></tr></tbody></table></figure>
+
+<p>安装过程中，会弹出两个窗口，一个是选择 mysql 需要安装的组件，一个是选择 mysql 的版本，目前可选 5.7 和 8.0；一个是输入 root 密码提权。</p>
+</li>
+</ol>
+<h2 id="使用官网离线安装包"><a href="#使用官网离线安装包" class="headerlink" title="使用官网离线安装包"></a>使用官网离线安装包</h2><p>用上面的方法只能装两个版本，还要装更旧的就得去官网找包了。</p>
+<h3 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h3><p>到<a href="https://downloads.mysql.com/archives/community/">MySQL :: Download MySQL Community Server (Archived Versions)</a>页面，选择相应版本和平台。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210310205740.png"></p>
+<p>可以下载第一个 deb bundle，用于完全离线安装；也可以下载 mysql-community-server（上图第二个包）</p>
+<h3 id="下载-mysql-community-server-并修复安装（二选一）"><a href="#下载-mysql-community-server-并修复安装（二选一）" class="headerlink" title="下载 mysql-community-server 并修复安装（二选一）"></a>下载 mysql-community-server 并修复安装（二选一）</h3><p>若是下载 mysql-community-server 的话，同样是获取到下载连接然后用 wget 下载再用 dpkg 安装，不在赘述；安装中一定会报错：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210310210236.png"></p>
+<p>不过可以用命令来修复：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">apt --fix-broken install</span><br></pre></td></tr></tbody></table></figure>
+
+<p>不报错，并提示输入 root 密码的话，基本就安装成功了。</p>
+<h3 id="下载-deb-bundle-，完全离线安装（二选一）"><a href="#下载-deb-bundle-，完全离线安装（二选一）" class="headerlink" title="下载 deb bundle ，完全离线安装（二选一）"></a>下载 deb bundle ，完全离线安装（二选一）</h3><p>参考：<a href="https://dev.mysql.com/doc/mysql-installation-excerpt/5.7/en/linux-installation-debian.html">MySQL :: MySQL Installation Guide :: 7.6 Installing MySQL on Linux Using Debian Packages from Oracle</a></p>
+<p>下载 deb bundle 包后解压</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">mkdir mysql</span><br><span class="line">tar -xvf mysql-server_*.tar -C ./mysql</span><br><span class="line">cd mysql</span><br></pre></td></tr></tbody></table></figure>
+
+<p>安装 libaio</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">apt install libaio1 -y</span><br></pre></td></tr></tbody></table></figure>
+
+<p>配置，提权</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">dpkg-preconfigure mysql-community-server_*.deb</span><br></pre></td></tr></tbody></table></figure>
+
+<p>安装</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">dpkg -i mysql-{common,community-client,client,community-server,server}_*.deb</span><br></pre></td></tr></tbody></table></figure>
+
+<p>不过说是完全离线，大概率还是要修复依赖。。。</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">apt -f install -y</span><br></pre></td></tr></tbody></table></figure>
+
+<h2 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h2><h3 id="卸载"><a href="#卸载" class="headerlink" title="卸载"></a>卸载</h3><p>没法用 <code>apt remove</code> 命令直接下载，错误的卸载方法还可能导致未来无法正常安装。</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">apt-get remove --purge mysql-server mysql-client mysql-common -y</span><br><span class="line">apt-get autoremove -y</span><br><span class="line">apt-get autoclean</span><br><span class="line">rm -rf /etc/mysql</span><br></pre></td></tr></tbody></table></figure>
+
+<p>中间弹出 <code>Remove data directories ?</code>，选 yes。</p>
+<h3 id="提示-install-invalid-user-‘mysql’"><a href="#提示-install-invalid-user-‘mysql’" class="headerlink" title="提示 install: invalid user ‘mysql’"></a>提示 <code>install: invalid user ‘mysql’</code></h3><p>多半就是错误的卸载导致的。</p>
+<p>运行</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">adduser mysql</span><br></pre></td></tr></tbody></table></figure>
+
+<p>设置一个密码即可。</p>
+<h3 id="版本选择"><a href="#版本选择" class="headerlink" title="版本选择"></a>版本选择</h3><p>我闲的无聊折腾 mysql 安装就是因为我先装了 8.0 版本在 1g 的 azure 机子上，发现一重启探针就报警吃了 88% 内存，一排查发现是 mysql 的问题。</p>
+<p>实测 8.0 版本吃的内存比 5.7 多一倍。。。换为 5.7，内存占用降为 63%。</p>
+]]></content>
+  </entry>
+  <entry>
     <title>netch 使用体验（代理规则获取）</title>
     <url>/netch-shi-yong-ti-yan-dai-li-gui-ze-huo-qu/</url>
     <content><![CDATA[<p><a href="https://github.com/NetchX/Netch">Netch</a> 这么一个功能强大且逻辑合理的 gui，才出不久但各种文档已经足够详细，还要详细谈谈的必要嘛。。。</p>
@@ -9,10 +71,9 @@
 <p>官方引用了 SSTAP-rule 处的文档<a href="https://github.com/FQrabbit/SSTap-Rule/wiki">Home · FQrabbit/SSTap-Rule Wiki</a>，给出了几种提取规则的方法：</p>
 <blockquote>
 <p><a href="https://github.com/oooldtoy/SSTAP_ip_crawl_tool#sstap_ip_crawl_tool">一个自动获取游戏远程ip，并自动写成SSTAP规则文件的脚本。 </a>(建议优先考虑此工具)</p>
+<p><a href="https://github.com/NormanBB/N/blob/master/intro.md">使用 openQPA 进行基于游戏进程的ip地址获取</a></p>
+<p><a href="https://github.com/FQrabbit/SSTap-Rule/blob/master/doc/UU-extract.md">提取加速器规则（超详细）</a></p>
 </blockquote>
-<pre><code>[使用 openQPA 进行基于游戏进程的ip地址获取](https://github.com/NormanBB/N/blob/master/intro.md)
-
-[提取加速器规则（超详细）](https://github.com/FQrabbit/SSTap-Rule/blob/master/doc/UU-extract.md)</code></pre>
 <p>经过实验，方法三加速效果最好也最简单。但也有两个问题：</p>
 <ol>
 <li>你得有 uu 加速器（tx 不行）会员，或者你有认识的人帮你提取（有会员为啥还要自建？）。</li>
@@ -23,10 +84,8 @@
 <ol>
 <li><p>安装 python2，如果之前安装有并主用 python3 的，不需要把 python2 加入 path 中。</p>
 </li>
-<li><p>安装 PyQt4。可以从<a href="https://sourceforge.net/projects/pyqt/files/PyQt4/PyQt-4.11.4/PyQt4-4.11.4-gpl-Py2.7-Qt4.8.7-x64.exe/download">这个地址</a>，也可以用 chocolatey 安装</p>
+<li><p>安装 PyQt4。可以从<a href="https://sourceforge.net/projects/pyqt/files/PyQt4/PyQt-4.11.4/PyQt4-4.11.4-gpl-Py2.7-Qt4.8.7-x64.exe/download">这个地址</a>安装下载，也可以用 chocolatey 安装</p>
 <figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">choco install pyqt4 -y</span><br></pre></td></tr></tbody></table></figure>
-</li>
-<li><p>[)下载</p>
 </li>
 <li><p>安装模块。参见 <a href="https://python.freelycode.com/contribution/detail/139">[官解]Windows上Python2和3如何兼容？</a></p>
 <figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">py -2 -m pip install xmltodict==0.11.0</span><br><span class="line">py -2 -m pip install httplib2</span><br><span class="line">py -2 -m pip install bs4</span><br><span class="line">py -2 -m pip install dpkt</span><br></pre></td></tr></tbody></table></figure>
@@ -4571,7 +4630,7 @@
 
 <p>检测配置文件。</p>
 <p>另外也可以在 <code>/var/log/nginx</code> 中检视日志文件。（不过 nginx 的日志做转发的时候很不直观）</p>
-<h3 id="mysql"><a href="#mysql" class="headerlink" title="mysql"></a>mysql</h3><p>因为在宝塔面板上添加删除 mysql 用户很方便，我就不讲了，只讲 lnmp 一键包的。不过宝塔也可以使用以下步骤。而宝塔编辑表也可以用自带的 phpadmin 而不需要在自己的电脑上安装 navicat，或者在相应数据库内设置访问权限为所有人也就可以用 navicat 登录了。</p>
+<h3 id="mysql"><a href="#mysql" class="headerlink" title="mysql"></a>mysql</h3><p>在宝塔面板上添加删除 mysql 用户很方便，gui 一把梭，不再赘述。只谈谈 lnmp 一键包的（当然宝塔也适用使用以下步骤）。另外宝塔编辑表也可以用自带的 phpadmin 而不需要在自己的电脑上安装 navicat，或者，在相应数据库内设置访问权限为所有人，才能用 navicat  登陆。</p>
 <h4 id="登录-mysql"><a href="#登录-mysql" class="headerlink" title="登录 mysql"></a>登录 mysql</h4><p>输入<code>mysql -p</code>，再输入你 lnmp 安装时创建的密码即可登录。</p>
 <p>不过推荐使用 mysql 自动补全工具来登录</p>
 <p>先安装</p>
