@@ -1,5 +1,5 @@
 https://zbttl-github-io.vercel.app/fu-wu-qi-tan-zhen-yu-liu-liang-chong-zhi/
-https://zbttl-github-io.vercel.app/
+https://zbttl-github-io.vercel.app/debian-10-dan-du-an-zhuang-mysql/
 https://zbttl-github-io.vercel.app/netch-shi-yong-ti-yan-dai-li-gui-ze-huo-qu/
 https://zbttl-github-io.vercel.app/ikago-he-pcap2socks-shi-yong-ti-yan/
 https://zbttl-github-io.vercel.app/onedrive-gua-zai-dao-cloudflare/
