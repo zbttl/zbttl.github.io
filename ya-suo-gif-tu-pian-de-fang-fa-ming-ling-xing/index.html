@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/bao32x32.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/bao16x16.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.1/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"zbttl-github-io.vercel.app","root":"/","images":"/images","scheme":"Muse","version":"8.1.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}};
+  </script>
+<meta name="description" content="（20.12.2 更新） 有条件的话看一下上面几篇参考文章：  Animation Basics  Animation Optimization  Animation Modifications  Video Handling">
+<meta property="og:type" content="article">
+<meta property="og:title" content="压缩 gif 图片的方法（命令行）">
+<meta property="og:url" content="https://zbttl-github-io.vercel.app/ya-suo-gif-tu-pian-de-fang-fa-ming-ling-xing/index.html">
+<meta property="og:site_name" content="Bao&#39;s 备忘录">
+<meta property="og:description" content="（20.12.2 更新） 有条件的话看一下上面几篇参考文章：  Animation Basics  Animation Optimization  Animation Modifications  Video Handling">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.imgur.com/fxYtqoU.png">
+<meta property="og:image" content="https://i.imgur.com/y6epGBl.png">
+<meta property="og:image" content="https://i.imgur.com/z5XFHOK.png">
+<meta property="og:image" content="https://i.imgur.com/BFDBYxt.png">
+<meta property="og:image" content="https://i.imgur.com/9NitUNm.png">
+<meta property="og:image" content="https://i.imgur.com/uAU4u5h.png">
+<meta property="article:published_time" content="2020-12-22T16:00:00.000Z">
+<meta property="article:modified_time" content="2021-03-12T10:01:44.187Z">
+<meta property="article:author" content="zbttl">
+<meta property="article:tag" content="ffmpeg">
+<meta property="article:tag" content="imagemagick">
+<meta property="article:tag" content="gifsicle">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/fxYtqoU.png">
+
+
+<link rel="canonical" href="https://zbttl-github-io.vercel.app/ya-suo-gif-tu-pian-de-fang-fa-ming-ling-xing/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+<title>压缩 gif 图片的方法（命令行） | Bao's 备忘录</title>
+  
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link rel="alternate" href="/atom.xml" title="Bao's 备忘录" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Bao's 备忘录</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80" placeholder="搜索..." spellcheck="false" type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <section class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%9A%E8%BF%87-ffmpeg-%E5%87%8F%E5%B0%91%E5%B8%A7%E6%95%B0%E5%92%8C%E5%88%86%E8%BE%A8%E7%8E%87"><span class="nav-number">1.</span> <span class="nav-text">通过 ffmpeg 减少帧数和分辨率</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Problems-with-Resizing-Animations"><span class="nav-number">1.1.</span> <span class="nav-text">Problems with Resizing Animations</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%9A%E8%BF%87-magick-%E5%8E%8B%E7%BC%A9"><span class="nav-number">2.</span> <span class="nav-text">通过 magick 压缩</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%A9%E7%94%A8-gifsicle%EF%BC%88%E4%B9%9F%E7%A7%B0%E4%B8%BA-giflossy%EF%BC%89"><span class="nav-number">3.</span> <span class="nav-text">利用 gifsicle（也称为 giflossy）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%EF%BC%8820-12-14-%E6%9B%B4%E6%96%B0%EF%BC%89-%E9%AB%98%E7%BA%A7-magick-%E5%8E%8B%E7%BC%A9"><span class="nav-number">4.</span> <span class="nav-text">（20.12.14 更新） 高级 magick 压缩</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E6%9E%9C%E7%95%99%E7%9D%80%E8%BD%AC%E6%8D%A2%E4%B8%BA-gif-%E7%9A%84%E8%A7%86%E9%A2%91%E5%8E%9F%E4%BB%B6"><span class="nav-number">4.1.</span> <span class="nav-text">如果留着转换为 gif 的视频原件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%AA%E7%95%99%E6%9C%89%E5%8E%9F%E4%BB%B6"><span class="nav-number">4.2.</span> <span class="nav-text">未留有原件</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A1%86%E6%9E%B6%E4%BC%98%E5%8C%96"><span class="nav-number">4.2.1.</span> <span class="nav-text">框架优化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%A2%9C%E8%89%B2%E4%BC%98%E5%8C%96"><span class="nav-number">4.2.2.</span> <span class="nav-text">颜色优化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%80%8F%E6%98%8E%E5%BA%A6%E4%BC%98%E5%8C%96"><span class="nav-number">4.2.3.</span> <span class="nav-text">透明度优化</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%AE%E6%94%B9-gif-%E5%88%86%E8%BE%A8%E7%8E%87%EF%BC%88%E4%B8%8D%E6%8E%A8%E8%8D%90%EF%BC%89"><span class="nav-number">4.3.</span> <span class="nav-text">修改 gif 分辨率（不推荐）</span></a></li></ol></li></ol></div>
+        </section>
+        <!--/noindex-->
+
+        <section class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="zbttl" src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">zbttl</p>
+  <div class="site-description" itemprop="description">玩点好玩的</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">38</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">82</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/zbttl" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;zbttl" rel="external nofollow noopener noreferrer" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:zbttls@gmail.com" title="E-Mail → mailto:zbttls@gmail.com" rel="external nofollow noopener noreferrer" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fa fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+
+
+
+        </section>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://zbttl-github-io.vercel.app/ya-suo-gif-tu-pian-de-fang-fa-ming-ling-xing/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="zbttl">
+      <meta itemprop="description" content="玩点好玩的">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Bao's 备忘录">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          压缩 gif 图片的方法（命令行）
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-12-23 00:00:00" itemprop="dateCreated datePublished" datetime="2020-12-23T00:00:00+08:00">2020-12-23</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-03-12 18:01:44" itemprop="dateModified" datetime="2021-03-12T18:01:44+08:00">2021-03-12</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%BD%B1%E9%9F%B3/" itemprop="url" rel="index"><span itemprop="name">影音</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>6.1k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>11 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p><strong>（20.12.2 更新）</strong> 有条件的话看一下上面几篇参考文章：</p>
+<ul>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://legacy.imagemagick.org/Usage/anim_basics/">Animation Basics</a></li>
+<li> <a target="_blank" rel="external nofollow noopener noreferrer" href="https://legacy.imagemagick.org/Usage/anim_opt/">Animation Optimization</a></li>
+<li> <a target="_blank" rel="external nofollow noopener noreferrer" href="https://legacy.imagemagick.org/Usage/anim_mods/">Animation Modifications</a></li>
+<li> <a target="_blank" rel="external nofollow noopener noreferrer" href="https://legacy.imagemagick.org/Usage/video/">Video Handling</a></li>
+</ul>
+<p>很长且都是英文，但讲清楚了 gif 的生效和渲染及优化机制。</p>
+<p>如果原图还是 mp4 格式的话，可以通过 ffmepg 压缩。但如果已经是 gif 成品了，就相对麻烦一点。但严格意义上，不推荐修改 gif 的尺寸。参见<a target="_blank" rel="external nofollow noopener noreferrer" href="https://legacy.imagemagick.org/Usage/anim_mods/#resize">参考文章 2 的 resize 一节</a>。</p>
+<h2 id="通过-ffmpeg-减少帧数和分辨率"><a href="#通过-ffmpeg-减少帧数和分辨率" class="headerlink" title="通过 ffmpeg 减少帧数和分辨率"></a>通过 ffmpeg 减少帧数和分辨率</h2><p>先使用 ffprobe 查看 gif 帧数和分辨率</p>
+<p><img src="https://i.imgur.com/fxYtqoU.png"></p>
+<p>我们可以看到，这个 gif 分辨率为 360*360，帧数为 10fps</p>
+<p>可以通过 scale 和 -r 进行压缩</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -i 0.gif -r 10 -vf scale=350:-1 0_change.gif</span><br></pre></td></tr></tbody></table></figure>
+
+<p>然后。。。尴尬的事情发生了，压缩完以后体积反而膨胀了？试着更改分辨率，发现一旦更改分辨率体积都会膨胀（并且已经开了 transdiff 透明参数，没开的话甚至会膨胀到 18m），于是只能另求它法。</p>
+<p><strong>（20.12.3 更新）</strong> 大概是因为：</p>
+<blockquote>
+<h3 id="Problems-with-Resizing-Animations"><a href="#Problems-with-Resizing-Animations" class="headerlink" title="Problems with Resizing Animations"></a>Problems with Resizing Animations</h3><p>The biggest problem with resizing GIF animations is that the “<code>-resize</code>“ operator is designed specifically to make the resulting images as close to ideal (after the resize) as possible. It does this by merging and generating lots of additional colors in the image to make it look better.</p>
+<p>The resulting images are far from ideal for saving to the limited GIF file format. With GIF’s limited color table, this results in heavy <a target="_blank" rel="external nofollow noopener noreferrer" href="https://legacy.imagemagick.org/Usage/quantize/#intro">Color Reductions</a> in the resized images. For a single GIF image that is not so bad, but for a GIF animations, the default <a target="_blank" rel="external nofollow noopener noreferrer" href="https://legacy.imagemagick.org/Usage/quantize/#dither_error">Error Correction Dithering</a> of the reduced color set produces problems, in ‘dither noise’ between frames, and in turn a bad frame optimization for final file size.</p>
+<p>It is even worse when transparent colors are also being used, which is a common practice for typical GIF animations used for web pages. Transparency is also commonly used for <a target="_blank" rel="external nofollow noopener noreferrer" href="https://legacy.imagemagick.org/Usage/anim_opt/#compress_opt">Compression Optimization</a> techniques, for animations that would otherwise not need it.</p>
+<p>What happens is that “<code>-resize</code>“ produces semi-transparent pixels in the overlay images. Then when the images are saved back to a GIF file format, these pixels are then converted to either fully-transparent or fully-opaque, both producing major color distortions in the resulting animation.</p>
+<p>If any form of optimization is used… frame, transparency or LZW… then the transparency effects will basically result in a <strong>disastrously resized GIF animation</strong>. That is the facts, Jack! So you will need to live with it.</p>
+<p>Even if you avoid using “<code>-resize</code>“, by using “<code>-sample</code>“, you will still have major problems unless you “<code>-coalesce</code>“ the animation first.</p>
+<p>调整动画大小的问题<br>调整GIF动画大小的最大问题是，”-resize “操作符是专门设计用来使产生的图像尽可能地接近理想（调整大小后）。它通过在图像中合并和生成大量额外的颜色来使其看起来更好。<br>所产生的图像远不是理想的保存到有限的GIF文件格式。由于GIF的颜色表有限，这就导致在调整后的图像中出现了严重的颜色还原。对于单个GIF图像来说，这还不算太坏，但对于一个GIF动画来说，默认的错误校正抖动的还原颜色集会产生问题，在帧之间的 “抖动噪声”，反过来对最终文件大小的帧优化也不好。<br>当同时使用透明色时，情况就更糟糕了，这也是用于网页的典型GIF动画的常见做法。透明色也常用于压缩优化技术，用于本来不需要的动画。<br>发生的情况是，”-resize “会在覆盖图像中产生半透明的像素。然后当图像被保存回GIF文件格式时，这些像素就会被转换为全透明或全不透明，都会在生成的动画中产生重大的色彩失真。<br>如果使用任何形式的优化……帧，透明度或LZW……那么透明度效果基本上会导致灾难性的调整GIF动画大小。这就是事实，杰克！所以你需要忍受它。所以你需要接受它。<br>即使你避免使用”-resize”，通过使用”-sample”，你仍然会有很大的问题，除非你先”-coalesce “动画。</p>
+</blockquote>
+<p><del>所以也许是因为 ffmpeg 转换后 gif 的各类优化手段失效了。</del><strong>（20.12.15 更新）</strong> 已确定是码率原因。用新版 ffprobe 探测一下视频就知道了。</p>
+<p>另外 ffmpeg 因为算法原因<strong>转换后的视频宽和高必须是偶数</strong>，如果要缩小分辨率的话要用一些奇特的手段：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -i 0.gif  -b:v 5000k -vf "scale=trunc(iw*0.6*0.5)*2:-2" 0_change.gif</span><br></pre></td></tr></tbody></table></figure>
+
+<p>此处的 trunc 意为取整。<code>-2</code> 在此处指指定了另一项参数后使本项参数自动缩放相同比例且能被 2 整除。0.6 就是让这个视频等比缩放百分之 60 啦。</p>
+<p>但这样是不行的。。。ffmpeg 没有办法很好的处理 gif 到 gif 之间的码率。更好的办法是先转为 mov：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -i 0.gif  -movflags faststart -vcodec qtrle -b:v 5000k -vf "scale=trunc(iw*0.6*0.5)*2:-2" 0.mov</span><br></pre></td></tr></tbody></table></figure>
+
+<p>再转为 gif，顺便还能优化一下（这里这个命令是下面的[高级 magisk 压缩](#如果留着转换为 gif 的视频原件)中命令的精简版）</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">convert -layers optimize -quiet  0.mov -ordered-dither o8x8,8,8,6 +map 0_change.gif</span><br></pre></td></tr></tbody></table></figure>
+
+<p>如果原来留有视频原件，也可以参考上面的格式缩小分辨率和帧数，再通过 magick 转换。</p>
+<h2 id="通过-magick-压缩"><a href="#通过-magick-压缩" class="headerlink" title="通过 magick 压缩"></a>通过 magick 压缩</h2><p>参考文章：</p>
+<ul>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="http://www.blogdaren.com/post-2408.html">【原创】Centos中利用convert命令进行JPG和PNG图片的互转</a></li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://segmentfault.com/a/1190000000436384">压缩gif的正确姿势</a></li>
+</ul>
+<p>需要先安装 ImageMagick 才能使用 convert 命令</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt install ImageMagick</span><br></pre></td></tr></tbody></table></figure>
+
+<p>然后运行命令</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">convert xxx.gif -fuzz 15% -layers Optimize xxx2.gif</span><br></pre></td></tr></tbody></table></figure>
+
+<p>压缩是压缩了，人物都糊掉了。。。</p>
+<p>试图减少 fuzz 数值，发现 fuzz 数字是有一个生效阶梯的，具体来说，如果在百分之 9 以内，制作出来的动图和原来大小一样；调到百分之 9 的时候，大小从 6.3m 降低到了 4.1m；后面的就懒得具体测试了，不过原来的参数 15 就更小了。百分之 9 左右，画质还能接受，但。。。这可调参数也太少了。</p>
+<p>另外提一点，convert 和 ffmpeg 联合使用是可以调整 gif 速度的（副作用是 gif 的透明度信息会丧失。如果 gif 本身是背景透明的图像则不适用于本方法。根据观察 <code>-f image2pipe</code> 会先把色彩格式转换为 yuv 而不是继承原来的 brgb 色彩格式，使用 pipe 的话此问题暂时无解，通过拆分成两个命令可解，详见 imagemagick 日志）：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -i xxx -vf scale=-1:-1 -r 10 -f image2pipe -vcodec ppm - | convert -delay 5 -loop 0 -layers Optimize - xxx2.gif</span><br></pre></td></tr></tbody></table></figure>
+
+<h2 id="利用-gifsicle（也称为-giflossy）"><a href="#利用-gifsicle（也称为-giflossy）" class="headerlink" title="利用 gifsicle（也称为 giflossy）"></a>利用 gifsicle（也称为 giflossy）</h2><p>参考文章：</p>
+<ul>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.lcdf.org/gifsicle/man.html">英文文档</a></li>
+</ul>
+<p>先安装 gifsicle </p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt install gifsicle</span><br></pre></td></tr></tbody></table></figure>
+
+<p>先用自动参数进行压缩（<code>-O3</code> 有损，<code>-O2</code> 无损）</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gifsicle -O3 xxx.gif -o xxx2.gif</span><br></pre></td></tr></tbody></table></figure>
+
+<p>发现动图从 6.3m 下降到了 6m，效果还不错</p>
+<p>不过当我想做其他操作的时候。。。问题来了</p>
+<p>使用 scale 参数等比缩放</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gifsicle xxx.gif --scale 0.9 -o xxx2.gif</span><br></pre></td></tr></tbody></table></figure>
+
+<p>压缩到 5.2m，但是像素细节排列没有原来好了，而且到黑色背景下就炸掉了（irfanview 各种显示错位，除非指定 –resize-method 为 lanczos 类的才可以解决，但是那样 gif 体积又变大了）。。。</p>
+<p><img src="https://i.imgur.com/y6epGBl.png"></p>
+<p>用 ps 缩放 0.9 的 gif 做对比（也是 5.2m）</p>
+<p><img src="https://i.imgur.com/z5XFHOK.png"></p>
+<p>更要命的是，如果不用等比缩放裁剪：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gifsicle xxx.gif --resize 350x-350 -o xxx2.gif</span><br></pre></td></tr></tbody></table></figure>
+
+<p>效果更差，各种残影。。。</p>
+<p><img src="https://i.imgur.com/BFDBYxt.png"></p>
+<p>另外发现，gifsicle 有一个测试命令，类似于 ffmpeg 的 ffprobe</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gifsicle -I xxx.gif</span><br></pre></td></tr></tbody></table></figure>
+
+<p>原图的 gifsicle 参数是这样的：</p>
+<p><img src="https://i.imgur.com/9NitUNm.png"></p>
+<p>经过 ps 降低分辨率，效果还不错的 gif，参数是这样的</p>
+<p><img src="https://i.imgur.com/uAU4u5h.png"></p>
+<p>另外，从这里我们可以看到，gif 每帧的延迟是 0.1s（10ms），由此我们也可以用 gifsicle 来调节 gif 播放速度。</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gifsicle -d 5 xxx.gif -o xxx2.gif</span><br></pre></td></tr></tbody></table></figure>
+
+<p>这里的「5」单位是 ms。这个数字要求是整数，而且其实最小是 2，因为 1 出来的效果和原图一样（虽然用 gifsicle -I 出来的参数 delay 上确实写的是 0.01s）</p>
+<p><strong>（20.12.14 更新）</strong> 还可以使用 lossy 参数</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gifsicle -O3 --lossy=80 --colors 256 0.gif -o 0.gif</span><br></pre></td></tr></tbody></table></figure>
+
+<h2 id="（20-12-14-更新）-高级-magick-压缩"><a href="#（20-12-14-更新）-高级-magick-压缩" class="headerlink" title="（20.12.14 更新） 高级 magick 压缩"></a><strong>（20.12.14 更新）</strong> 高级 magick 压缩</h2><h3 id="如果留着转换为-gif-的视频原件"><a href="#如果留着转换为-gif-的视频原件" class="headerlink" title="如果留着转换为 gif 的视频原件"></a>如果留着转换为 gif 的视频原件</h3><p>当然把成品 gif 转回 mov 也不是不可以，但不推荐。建议用原件通过 ffmpeg 转换为减少帧数和分辨率的视频后再进行这一步。</p>
+<ol>
+<li><p>看一眼视频怎么调整色彩才能不超过 256 色（gif 一帧最多支持 256 色，可以通过抖色和使用帧独立色板增加颜色，但后者会显著增加 gif 大小）</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">convert -quiet 0.mp4 -ordered-dither o8x8,4 -append -format %k info:</span><br></pre></td></tr></tbody></table></figure>
+
+<p>如果显示的结果小于 256，那就继续调大 <code>-ordered-dither</code> 参数的最后一位。反之亦然。比如上述命令结果是 60，那么：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">convert -quiet 0.mp4 -ordered-dither o8x8,5 -append -format %k info:</span><br></pre></td></tr></tbody></table></figure>
+
+<p>重复上述步骤。直到得出的数字 +1  后运行命令就大于 256 为止。</p>
+</li>
+<li><p>假设使用上述步骤得出了 7 这个数字，那么：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">convert -layers optimize -quiet -delay 1 0.mp4 -ordered-dither o8x8,7 +map 0.gif </span><br></pre></td></tr></tbody></table></figure>
+
+<p>此时优化了帧框架和颜色，剩下透明度还可以通过更新的 gifsicle 再次缩小体积（见上文）。</p>
+</li>
+</ol>
+<h3 id="未留有原件"><a href="#未留有原件" class="headerlink" title="未留有原件"></a>未留有原件</h3><h4 id="框架优化"><a href="#框架优化" class="headerlink" title="框架优化"></a>框架优化</h4><p>大部分时候使用 <code>-layers optimize</code> 即可。其他的框架优化方式参见参考文章 2。</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">convert 0.gif -layers optimize  0_change.gif </span><br></pre></td></tr></tbody></table></figure>
+
+<h4 id="颜色优化"><a href="#颜色优化" class="headerlink" title="颜色优化"></a>颜色优化</h4><p>查看源动图总颜色数：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">convert 0.gif +append  -format "Total Number of Colors: %k"  info:</span><br></pre></td></tr></tbody></table></figure>
+
+<p>查看源动图每帧颜色数：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">identify -format "Colors in Frame %p: %k\n"  speed.gif</span><br></pre></td></tr></tbody></table></figure>
+
+<p>查看源动图独立色板数（需安装 giftrans，deb 系统下可使用 apt 安装）：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">giftrans -L speed.gif 2&gt;&amp;1 | grep -c "Local Color Table:"</span><br></pre></td></tr></tbody></table></figure>
+
+<p>优化：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">convert 0.gif ( -clone 0--1 -background none +append -quantize transparent  -colors 63  -unique-colors -write mpr:cmap    +delete \) -map mpr:cmap      0.gif</span><br></pre></td></tr></tbody></table></figure>
+
+<p>上面的命令是将图像色彩缩水至 64 色。转换时间略久。</p>
+<p>转换视频时使用的 <code>-ordered-dither</code> 参数和 <code>-map</code> 参数不能用于 gif 直接对转，就算和上面的那个强制色彩缩水命令搭配使用也不行，只要用其中任意一个参数就会导致独立色板出现。解决方法是使用 miff 格式进行中转（尽量不要直接使用 gif 中转，可能会导致色彩信息在中转时部分丢失）：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">convert -delay 1 0.gif  -ordered-dither o8x8,7  0.miff</span><br><span class="line">convert 1.miff  +map 10.gif </span><br></pre></td></tr></tbody></table></figure>
+
+<h4 id="透明度优化"><a href="#透明度优化" class="headerlink" title="透明度优化"></a>透明度优化</h4><p>可以用 <code>-layers OptimizeTransparency</code> 参数：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">convert 0.gif -layers OptimizeTransparency +map   0.gif</span><br></pre></td></tr></tbody></table></figure>
+
+<p>不过似乎 <code>OptimizeTransparency</code> 已经被包含在 <code>optimize</code> 中了。</p>
+<p>更建议使用上文之前写的利用 magick 压缩和利用 gifsicle 压缩，这两个同样是透明度优化的方法。</p>
+<p>以上三种优化可以合并使用，也可以排成队列使用，不过：</p>
+<ol>
+<li>再次提醒在颜色优化这步需要用 miff 格式中转。</li>
+<li>建议 <code>-layers optimize</code> 在最后一步做。</li>
+</ol>
+<h3 id="修改-gif-分辨率（不推荐）"><a href="#修改-gif-分辨率（不推荐）" class="headerlink" title="修改 gif 分辨率（不推荐）"></a>修改 gif 分辨率（不推荐）</h3><p>有两种方法，<code>-resize</code> </p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">convert 0.gif -resize 60% 0_change.gif</span><br></pre></td></tr></tbody></table></figure>
+
+<p>或是 <code>-sample</code></p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">convert 0.gif -sample 60% 0_change.gif</span><br></pre></td></tr></tbody></table></figure>
+
+<p>但算法并不好，容易导致花屏和拖影。另外使用这两个参数的时候尽量用百分比缩放，用分辨率缩放可能导致部分画面错位（如下面这个命令）。由于上面的 gifsicle 也部分使用了 magick 的算法，我猜测 gifsicle 等比缩放后的错位也来源于 magick。缩放分辨率推荐使用 ffmpeg。</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">convert 0.gif -sample x480 0_cuowei.gif</span><br></pre></td></tr></tbody></table></figure>
+
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>zbttl
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="https://zbttl-github-io.vercel.app/ya-suo-gif-tu-pian-de-fang-fa-ming-ling-xing/" title="压缩 gif 图片的方法（命令行）">https://zbttl-github-io.vercel.app/ya-suo-gif-tu-pian-de-fang-fa-ming-ling-xing/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="external nofollow noopener noreferrer" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="followme">
+  <span>欢迎关注我的其它发布渠道</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="/atom.xml">
+          <span class="icon">
+            <i class="fa fa-rss"></i>
+          </span>
+
+          <span class="label">RSS</span>
+        </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/ffmpeg/" rel="tag"># ffmpeg</a>
+              <a href="/tags/imagemagick/" rel="tag"># imagemagick</a>
+              <a href="/tags/gifsicle/" rel="tag"># gifsicle</a>
+          </div>
+
+        
+  <div class="post-widgets">
+    <div class="wp_rating">
+      <div id="wpac-rating"></div>
+    </div>
+  </div>
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/hexo-jin-jie/" rel="prev" title="hexo 进阶">
+                  <i class="fa fa-chevron-left"></i> hexo 进阶
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/wan-yi-xia-ffmpeg/" rel="next" title="玩一下 FFmpeg">
+                  玩一下 FFmpeg <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zbttl</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+      <span>站点总字数：</span>
+    <span title="站点总字数">256k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span>站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">7:46</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">本博客使用 <a href="https://hexo.io/" class="theme-link" rel="external nofollow noopener noreferrer" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" class="theme-link" rel="external nofollow noopener noreferrer" target="_blank">NexT.Muse</a> 
+  </div><script color="120,120,120" opacity="0.5" zindex="-1" count="150" src="https://cdn.jsdelivr.net/npm/canvas-nest.js@1/dist/canvas-nest.js"></script>
+<!--《添加网站运行时间 -->
+<!--<br/>-->
+<span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+<script>
+    var now = new Date();
+
+    function createtime() {
+        var grt = new Date("12/18/2020 12:00:00"); //此处修改你的建站时间或者网站上线时间 
+        now.setTime(now.getTime() + 250);
+        days = (now - grt) / 1000 / 60 / 60 / 24;
+        dnum = Math.floor(days);
+        hours = (now - grt) / 1000 / 60 / 60 - (24 * dnum);
+        hnum = Math.floor(hours);
+        if (String(hnum).length == 1) {
+            hnum = "0" + hnum;
+        }
+        minutes = (now - grt) / 1000 / 60 - (24 * 60 * dnum) - (60 * hnum);
+        mnum = Math.floor(minutes);
+        if (String(mnum).length == 1) {
+            mnum = "0" + mnum;
+        }
+        seconds = (now - grt) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+        snum = Math.round(seconds);
+        if (String(snum).length == 1) {
+            snum = "0" + snum;
+        }
+        document.getElementById("timeDate").innerHTML = " 本站已安全运行 " + dnum + " 天 ";
+        document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒";
+    }
+    setInterval("createtime()", 250);
+</script>
+<!-- 添加网站运行时间》 -->
+
+    </div>
+  </footer>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+  <script>
+  if (CONFIG.page.isPost) {
+    wpac_init = window.wpac_init || [];
+    wpac_init.push({
+      widget: 'Rating',
+      id    : 28813,
+      el    : 'wpac-rating',
+      color : '#fc6423'
+    });
+    (function() {
+      if ('WIDGETPACK_LOADED' in window) return;
+      WIDGETPACK_LOADED = true;
+      var mc = document.createElement('script');
+      mc.type = 'text/javascript';
+      mc.async = true;
+      mc.src = '//embed.widgetpack.com/widget.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(mc, s.nextSibling);
+    })();
+  }
+  </script>
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1.7.0/dist/gitalk.css">
+
+<script>
+NexT.utils.loadComments('#gitalk-container', () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1.7.0/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : 'd99d750bdfdb31ecf37e',
+      clientSecret: '1d37215aff71dc84b66e03cb412c7e68b968d76f',
+      repo        : 'zbttl-comment',
+      owner       : 'zbpicture',
+      admin       : ['zbpicture'],
+      id          : '2b1a13efa43a9a7deaa2606b7392c80a',
+        language: '',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+<script type="text/javascript" src=" https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+
+  <script async src="/js/cursor/text.js"></script>
+
+
+
+
+</body>
+</html>
