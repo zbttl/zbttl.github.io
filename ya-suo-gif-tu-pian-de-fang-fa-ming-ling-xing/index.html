@@ -37,7 +37,7 @@
 <meta property="og:image" content="https://i.imgur.com/9NitUNm.png">
 <meta property="og:image" content="https://i.imgur.com/uAU4u5h.png">
 <meta property="article:published_time" content="2020-12-22T16:00:00.000Z">
-<meta property="article:modified_time" content="2021-03-12T10:01:44.187Z">
+<meta property="article:modified_time" content="2021-03-12T19:15:10.362Z">
 <meta property="article:author" content="zbttl">
 <meta property="article:tag" content="ffmpeg">
 <meta property="article:tag" content="imagemagick">
@@ -196,7 +196,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <section class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%9A%E8%BF%87-ffmpeg-%E5%87%8F%E5%B0%91%E5%B8%A7%E6%95%B0%E5%92%8C%E5%88%86%E8%BE%A8%E7%8E%87"><span class="nav-number">1.</span> <span class="nav-text">通过 ffmpeg 减少帧数和分辨率</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Problems-with-Resizing-Animations"><span class="nav-number">1.1.</span> <span class="nav-text">Problems with Resizing Animations</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%9A%E8%BF%87-magick-%E5%8E%8B%E7%BC%A9"><span class="nav-number">2.</span> <span class="nav-text">通过 magick 压缩</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%A9%E7%94%A8-gifsicle%EF%BC%88%E4%B9%9F%E7%A7%B0%E4%B8%BA-giflossy%EF%BC%89"><span class="nav-number">3.</span> <span class="nav-text">利用 gifsicle（也称为 giflossy）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%EF%BC%8820-12-14-%E6%9B%B4%E6%96%B0%EF%BC%89-%E9%AB%98%E7%BA%A7-magick-%E5%8E%8B%E7%BC%A9"><span class="nav-number">4.</span> <span class="nav-text">（20.12.14 更新） 高级 magick 压缩</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E6%9E%9C%E7%95%99%E7%9D%80%E8%BD%AC%E6%8D%A2%E4%B8%BA-gif-%E7%9A%84%E8%A7%86%E9%A2%91%E5%8E%9F%E4%BB%B6"><span class="nav-number">4.1.</span> <span class="nav-text">如果留着转换为 gif 的视频原件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%AA%E7%95%99%E6%9C%89%E5%8E%9F%E4%BB%B6"><span class="nav-number">4.2.</span> <span class="nav-text">未留有原件</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A1%86%E6%9E%B6%E4%BC%98%E5%8C%96"><span class="nav-number">4.2.1.</span> <span class="nav-text">框架优化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%A2%9C%E8%89%B2%E4%BC%98%E5%8C%96"><span class="nav-number">4.2.2.</span> <span class="nav-text">颜色优化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%80%8F%E6%98%8E%E5%BA%A6%E4%BC%98%E5%8C%96"><span class="nav-number">4.2.3.</span> <span class="nav-text">透明度优化</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%AE%E6%94%B9-gif-%E5%88%86%E8%BE%A8%E7%8E%87%EF%BC%88%E4%B8%8D%E6%8E%A8%E8%8D%90%EF%BC%89"><span class="nav-number">4.3.</span> <span class="nav-text">修改 gif 分辨率（不推荐）</span></a></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%9A%E8%BF%87-ffmpeg-%E5%87%8F%E5%B0%91%E5%B8%A7%E6%95%B0%E5%92%8C%E5%88%86%E8%BE%A8%E7%8E%87"><span class="nav-number">1.</span> <span class="nav-text">通过 ffmpeg 减少帧数和分辨率</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%9A%E8%BF%87-magick-%E5%8E%8B%E7%BC%A9"><span class="nav-number">2.</span> <span class="nav-text">通过 magick 压缩</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%A9%E7%94%A8-gifsicle%EF%BC%88%E4%B9%9F%E7%A7%B0%E4%B8%BA-giflossy%EF%BC%89"><span class="nav-number">3.</span> <span class="nav-text">利用 gifsicle（也称为 giflossy）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%EF%BC%8820-12-14-%E6%9B%B4%E6%96%B0%EF%BC%89-%E9%AB%98%E7%BA%A7-magick-%E5%8E%8B%E7%BC%A9"><span class="nav-number">4.</span> <span class="nav-text">（20.12.14 更新） 高级 magick 压缩</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E6%9E%9C%E7%95%99%E7%9D%80%E8%BD%AC%E6%8D%A2%E4%B8%BA-gif-%E7%9A%84%E8%A7%86%E9%A2%91%E5%8E%9F%E4%BB%B6"><span class="nav-number">4.1.</span> <span class="nav-text">如果留着转换为 gif 的视频原件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%AA%E7%95%99%E6%9C%89%E5%8E%9F%E4%BB%B6"><span class="nav-number">4.2.</span> <span class="nav-text">未留有原件</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A1%86%E6%9E%B6%E4%BC%98%E5%8C%96"><span class="nav-number">4.2.1.</span> <span class="nav-text">框架优化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%A2%9C%E8%89%B2%E4%BC%98%E5%8C%96"><span class="nav-number">4.2.2.</span> <span class="nav-text">颜色优化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%80%8F%E6%98%8E%E5%BA%A6%E4%BC%98%E5%8C%96"><span class="nav-number">4.2.3.</span> <span class="nav-text">透明度优化</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%AE%E6%94%B9-gif-%E5%88%86%E8%BE%A8%E7%8E%87%EF%BC%88%E4%B8%8D%E6%8E%A8%E8%8D%90%EF%BC%89"><span class="nav-number">4.3.</span> <span class="nav-text">修改 gif 分辨率（不推荐）</span></a></li></ol></li></ol></div>
         </section>
         <!--/noindex-->
 
@@ -306,7 +306,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2021-03-12 18:01:44" itemprop="dateModified" datetime="2021-03-12T18:01:44+08:00">2021-03-12</time>
+        <time title="修改时间：2021-03-13 03:15:10" itemprop="dateModified" datetime="2021-03-13T03:15:10+08:00">2021-03-13</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -333,14 +333,14 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>6.1k</span>
+      <span>6.4k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>11 分钟</span>
+      <span>12 分钟</span>
     </span>
 </div>
 
@@ -369,7 +369,8 @@
 <p>然后。。。尴尬的事情发生了，压缩完以后体积反而膨胀了？试着更改分辨率，发现一旦更改分辨率体积都会膨胀（并且已经开了 transdiff 透明参数，没开的话甚至会膨胀到 18m），于是只能另求它法。</p>
 <p><strong>（20.12.3 更新）</strong> 大概是因为：</p>
 <blockquote>
-<h3 id="Problems-with-Resizing-Animations"><a href="#Problems-with-Resizing-Animations" class="headerlink" title="Problems with Resizing Animations"></a>Problems with Resizing Animations</h3><p>The biggest problem with resizing GIF animations is that the “<code>-resize</code>“ operator is designed specifically to make the resulting images as close to ideal (after the resize) as possible. It does this by merging and generating lots of additional colors in the image to make it look better.</p>
+<p>Problems with Resizing Animations</p>
+<p>The biggest problem with resizing GIF animations is that the “<code>-resize</code>“ operator is designed specifically to make the resulting images as close to ideal (after the resize) as possible. It does this by merging and generating lots of additional colors in the image to make it look better.</p>
 <p>The resulting images are far from ideal for saving to the limited GIF file format. With GIF’s limited color table, this results in heavy <a target="_blank" rel="external nofollow noopener noreferrer" href="https://legacy.imagemagick.org/Usage/quantize/#intro">Color Reductions</a> in the resized images. For a single GIF image that is not so bad, but for a GIF animations, the default <a target="_blank" rel="external nofollow noopener noreferrer" href="https://legacy.imagemagick.org/Usage/quantize/#dither_error">Error Correction Dithering</a> of the reduced color set produces problems, in ‘dither noise’ between frames, and in turn a bad frame optimization for final file size.</p>
 <p>It is even worse when transparent colors are also being used, which is a common practice for typical GIF animations used for web pages. Transparency is also commonly used for <a target="_blank" rel="external nofollow noopener noreferrer" href="https://legacy.imagemagick.org/Usage/anim_opt/#compress_opt">Compression Optimization</a> techniques, for animations that would otherwise not need it.</p>
 <p>What happens is that “<code>-resize</code>“ produces semi-transparent pixels in the overlay images. Then when the images are saved back to a GIF file format, these pixels are then converted to either fully-transparent or fully-opaque, both producing major color distortions in the resulting animation.</p>
@@ -377,18 +378,25 @@
 <p>Even if you avoid using “<code>-resize</code>“, by using “<code>-sample</code>“, you will still have major problems unless you “<code>-coalesce</code>“ the animation first.</p>
 <p>调整动画大小的问题<br>调整GIF动画大小的最大问题是，”-resize “操作符是专门设计用来使产生的图像尽可能地接近理想（调整大小后）。它通过在图像中合并和生成大量额外的颜色来使其看起来更好。<br>所产生的图像远不是理想的保存到有限的GIF文件格式。由于GIF的颜色表有限，这就导致在调整后的图像中出现了严重的颜色还原。对于单个GIF图像来说，这还不算太坏，但对于一个GIF动画来说，默认的错误校正抖动的还原颜色集会产生问题，在帧之间的 “抖动噪声”，反过来对最终文件大小的帧优化也不好。<br>当同时使用透明色时，情况就更糟糕了，这也是用于网页的典型GIF动画的常见做法。透明色也常用于压缩优化技术，用于本来不需要的动画。<br>发生的情况是，”-resize “会在覆盖图像中产生半透明的像素。然后当图像被保存回GIF文件格式时，这些像素就会被转换为全透明或全不透明，都会在生成的动画中产生重大的色彩失真。<br>如果使用任何形式的优化……帧，透明度或LZW……那么透明度效果基本上会导致灾难性的调整GIF动画大小。这就是事实，杰克！所以你需要忍受它。所以你需要接受它。<br>即使你避免使用”-resize”，通过使用”-sample”，你仍然会有很大的问题，除非你先”-coalesce “动画。</p>
 </blockquote>
-<p><del>所以也许是因为 ffmpeg 转换后 gif 的各类优化手段失效了。</del><strong>（20.12.15 更新）</strong> 已确定是码率原因。用新版 ffprobe 探测一下视频就知道了。</p>
+<p><del>所以也许是因为 ffmpeg 转换后 gif 的各类优化手段失效了。</del></p>
+<p><strong>（20.12.15 更新）</strong> 也许是码率原因。用新版 ffprobe 探测一下视频就知道了。</p>
 <p>另外 ffmpeg 因为算法原因<strong>转换后的视频宽和高必须是偶数</strong>，如果要缩小分辨率的话要用一些奇特的手段：</p>
 <figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -i 0.gif  -b:v 5000k -vf "scale=trunc(iw*0.6*0.5)*2:-2" 0_change.gif</span><br></pre></td></tr></tbody></table></figure>
 
 <p>此处的 trunc 意为取整。<code>-2</code> 在此处指指定了另一项参数后使本项参数自动缩放相同比例且能被 2 整除。0.6 就是让这个视频等比缩放百分之 60 啦。</p>
-<p>但这样是不行的。。。ffmpeg 没有办法很好的处理 gif 到 gif 之间的码率。更好的办法是先转为 mov：</p>
-<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -i 0.gif  -movflags faststart -vcodec qtrle -b:v 5000k -vf "scale=trunc(iw*0.6*0.5)*2:-2" 0.mov</span><br></pre></td></tr></tbody></table></figure>
+<p>但这样大概率是不行的。。。ffmpeg 没有办法很好的处理 gif 到 gif 之间的码率，可能会导致写在参数里的码率和实际码率有很大的偏差。更好的办法是先转为 mp4：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -i 0.gif  -b:v 1000k -vf "scale=trunc(iw*0.6*0.5)*2:-2" 0.mp4</span><br></pre></td></tr></tbody></table></figure>
 
-<p>再转为 gif，顺便还能优化一下（这里这个命令是下面的[高级 magisk 压缩](#如果留着转换为 gif 的视频原件)中命令的精简版）</p>
-<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">convert -layers optimize -quiet  0.mov -ordered-dither o8x8,8,8,6 +map 0_change.gif</span><br></pre></td></tr></tbody></table></figure>
+<p>如果 gif 带有透明度，就得转成 mov，但这样就没法调码率了（不生效）。不过实测就算是不调码率最后生成的 gif 还是小很多。</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -i 0.gif  -movflags faststart -vcodec qtrle -vf "scale=trunc(iw*0.6*0.5)*2:-2" 0.mov</span><br></pre></td></tr></tbody></table></figure>
 
-<p>如果原来留有视频原件，也可以参考上面的格式缩小分辨率和帧数，再通过 magick 转换。</p>
+<p>再转为 gif，顺便还能优化一下（这里这个命令是下面的 <a href="#%E5%A6%82%E6%9E%9C%E7%95%99%E7%9D%80%E8%BD%AC%E6%8D%A2%E4%B8%BA-gif-%E7%9A%84%E8%A7%86%E9%A2%91%E5%8E%9F%E4%BB%B6">高级 magisk 压缩</a> 中命令的精简版）</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">convert -layers optimize -quiet  0.mp4 -ordered-dither o8x8,8,8,6 +map 0_change.gif</span><br></pre></td></tr></tbody></table></figure>
+
+<p>进一步缩小，可以考虑降帧，需要配合<code>-r</code>和<code>-delay</code>参数：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -i 0.gif  -r 10  -delay 10 -b:v 1000k -vf "scale=trunc(iw*0.6*0.5)*2:-2" 0.mp4</span><br><span class="line">convert -layers optimize -quiet  0.mp4 -ordered-dither o8x8,8,8,6 +map 0_change.gif</span><br></pre></td></tr></tbody></table></figure>
+
+<p>如果原来留有视频原件，也可以参考上面的格式缩小分辨率和帧数直接转换（视频转 gif 码率显示问题不大）。</p>
 <h2 id="通过-magick-压缩"><a href="#通过-magick-压缩" class="headerlink" title="通过 magick 压缩"></a>通过 magick 压缩</h2><p>参考文章：</p>
 <ul>
 <li><a target="_blank" rel="external nofollow noopener noreferrer" href="http://www.blogdaren.com/post-2408.html">【原创】Centos中利用convert命令进行JPG和PNG图片的互转</a></li>
@@ -617,14 +625,14 @@
       <i class="fa fa-chart-line"></i>
     </span>
       <span>站点总字数：</span>
-    <span title="站点总字数">256k</span>
+    <span title="站点总字数">257k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">7:46</span>
+    <span title="站点阅读时长">7:47</span>
   </span>
 </div>
 <div class="busuanzi-count">
