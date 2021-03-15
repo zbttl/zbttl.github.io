@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/bao32x32.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/bao16x16.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.1/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"zbttl-github-io.vercel.app","root":"/","images":"/images","scheme":"Muse","version":"8.1.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}};
+  </script>
+<meta name="description" content="之前咱玩过 frp，主要用于远程操作家里的电脑。这东西方便是方便，但用了一段时间看了看日志，好家伙被扫了几百遍。。。。毕竟对外就一个端口一个密码，实话说，不太安全（前几个月还看见 v2ex 因为 frp 导致公司电脑被勒索，后面不知道咋样了）。 类似的工具，纯粹的 ddns 类工具效果和 frp 一样；wireguard 之类的工具，倒是需要先通过工具连进对等网络才能去链接 rdp 等服务，安全了">
+<meta property="og:type" content="article">
+<meta property="og:title" content="玩一下 zerotier">
+<meta property="og:url" content="https://zbttl-github-io.vercel.app/wan-yi-xia-zerotier/index.html">
+<meta property="og:site_name" content="Bao&#39;s 备忘录">
+<meta property="og:description" content="之前咱玩过 frp，主要用于远程操作家里的电脑。这东西方便是方便，但用了一段时间看了看日志，好家伙被扫了几百遍。。。。毕竟对外就一个端口一个密码，实话说，不太安全（前几个月还看见 v2ex 因为 frp 导致公司电脑被勒索，后面不知道咋样了）。 类似的工具，纯粹的 ddns 类工具效果和 frp 一样；wireguard 之类的工具，倒是需要先通过工具连进对等网络才能去链接 rdp 等服务，安全了">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210315233647.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210316011848.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210316023446.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/Screenshot_20210315-194925.png">
+<meta property="article:published_time" content="2021-03-14T16:00:00.000Z">
+<meta property="article:modified_time" content="2021-03-15T20:29:56.437Z">
+<meta property="article:author" content="zbttl">
+<meta property="article:tag" content="rdp">
+<meta property="article:tag" content="zerotier">
+<meta property="article:tag" content="teamviewer">
+<meta property="article:tag" content="端口透穿">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210315233647.png">
+
+
+<link rel="canonical" href="https://zbttl-github-io.vercel.app/wan-yi-xia-zerotier/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+<title>玩一下 zerotier | Bao's 备忘录</title>
+  
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link rel="alternate" href="/atom.xml" title="Bao's 备忘录" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Bao's 备忘录</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80" placeholder="搜索..." spellcheck="false" type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <section class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%A5%E9%97%A8"><span class="nav-number">1.</span> <span class="nav-text">入门</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%8B%E8%BD%BD"><span class="nav-number">1.1.</span> <span class="nav-text">下载</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE"><span class="nav-number">1.2.</span> <span class="nav-text">配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8A%A0%E5%85%A5"><span class="nav-number">1.3.</span> <span class="nav-text">加入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8"><span class="nav-number">1.4.</span> <span class="nav-text">使用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%9A%E8%BF%87%E8%B7%AF%E7%94%B1%EF%BC%88ac86u%EF%BC%89%E8%BD%AC%E5%8F%91"><span class="nav-number">2.</span> <span class="nav-text">通过路由（ac86u）转发</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%85-zerotier"><span class="nav-number">2.1.</span> <span class="nav-text">安装 zerotier</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%89%E8%A3%85-opkg"><span class="nav-number">2.1.1.</span> <span class="nav-text">安装 opkg</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8A%A0%E5%85%A5-1"><span class="nav-number">2.2.</span> <span class="nav-text">加入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E9%98%B2%E7%81%AB%E5%A2%99"><span class="nav-number">2.3.</span> <span class="nav-text">配置防火墙</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E8%87%AA%E5%90%AF"><span class="nav-number">2.4.</span> <span class="nav-text">配置自启</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A3%80%E6%9F%A5"><span class="nav-number">2.5.</span> <span class="nav-text">检查</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE-moon-%E8%8A%82%E7%82%B9"><span class="nav-number">3.</span> <span class="nav-text">配置 moon 节点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%85-zerotier-%E5%B9%B6%E5%8A%A0%E5%85%A5%E8%8A%82%E7%82%B9"><span class="nav-number">3.1.</span> <span class="nav-text">安装 zerotier 并加入节点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE-moon-%E8%8A%82%E7%82%B9-1"><span class="nav-number">3.2.</span> <span class="nav-text">配置 moon 节点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%9E%E7%BB%93-moon-%E8%8A%82%E7%82%B9"><span class="nav-number">3.3.</span> <span class="nav-text">连结 moon 节点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B6%E4%BB%96%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="nav-number">3.4.</span> <span class="nav-text">其他注意事项</span></a></li></ol></li></ol></div>
+        </section>
+        <!--/noindex-->
+
+        <section class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="zbttl" src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">zbttl</p>
+  <div class="site-description" itemprop="description">玩点好玩的</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">39</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">85</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/zbttl" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;zbttl" rel="external nofollow noopener noreferrer" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:zbttls@gmail.com" title="E-Mail → mailto:zbttls@gmail.com" rel="external nofollow noopener noreferrer" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fa fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+
+
+
+        </section>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://zbttl-github-io.vercel.app/wan-yi-xia-zerotier/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="zbttl">
+      <meta itemprop="description" content="玩点好玩的">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Bao's 备忘录">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          玩一下 zerotier
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-03-15 00:00:00" itemprop="dateCreated datePublished" datetime="2021-03-15T00:00:00+08:00">2021-03-15</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-03-16 04:29:56" itemprop="dateModified" datetime="2021-03-16T04:29:56+08:00">2021-03-16</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Network/" itemprop="url" rel="index"><span itemprop="name">Network</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>6.7k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>12 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>之前咱玩过 frp，主要用于远程操作家里的电脑。这东西方便是方便，但用了一段时间看了看日志，好家伙被扫了几百遍。。。。毕竟对外就一个端口一个密码，实话说，不太安全（前几个月还看见 v2ex 因为 frp 导致公司电脑被勒索，后面不知道咋样了）。</p>
+<p>类似的工具，纯粹的 ddns 类工具效果和 frp 一样；wireguard 之类的工具，倒是需要先通过工具连进对等网络才能去链接 rdp 等服务，安全了不少，但缺点是要配置分流；最后我看中了 zerotier，也是需要先通过工具连进对等网络，不过不用配置分流，也有网页端 ui 方便配置，还可以软件本身提供的中心节点，速度慢可以靠自建的 moon 中继节点加速，不太好的地方就是开源不完全，以及另外俩待会我会提到的缺点。都还可以接受，暂时用着呗。</p>
+<p>步骤就偷懒记简略点。</p>
+<h2 id="入门"><a href="#入门" class="headerlink" title="入门"></a>入门</h2><p>参考文章：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.cnblogs.com/Yogile/p/12502311.html">ZeroTier 内网穿透 - Yogile - 博客园</a></p>
+<p>大部分应用场景都是我用手机（安卓）/ 轻薄本连回家中的游戏本，所以先尝试把他们连起来。</p>
+<h3 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h3><p>安卓端直接通过 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://play.google.com/store/apps/details?id=com.zerotier.one">google play</a> 下载同名应用。</p>
+<p>windows 可以通过<a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.zerotier.com/download/">官网下载</a>安装，不过这玩意 chocolatey 里面也有，直接省事一个命令下去：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">choco install zerotier-one -y</span><br></pre></td></tr></tbody></table></figure>
+
+<h3 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h3><p>在 zerotier 首页注册登录，创建网络（Create a Network）。</p>
+<p>在 Managed Routes 中，按自己的喜好设置一个网段（CIDR 格式，也就是 x.x.x.x/24 这样），待会自己设备可以分配到位于这个网段内的地址。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210315233647.png"></p>
+<p>剩下的就可以不管了，好奇的话可以看参考文章。</p>
+<h3 id="加入"><a href="#加入" class="headerlink" title="加入"></a>加入</h3><p>有两种方法。</p>
+<ol>
+<li>将客户端中的 nodeid 填入 web 端的 Manually Add Member 中；</li>
+<li>使用客户端的 Join Network 功能，将 web 端的 Network ID 填入。</li>
+</ol>
+<p>把手机和游戏本都 join 进来以后，在 web 端里面就能看到它们了。把最左边的勾打上，修改一下 ip 方便记忆。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210316011848.png"></p>
+<h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><p>此时 pc 和安卓同时启用客户端，web 这边的 last seen 就会显示 online（像上图一样）。打开安卓的 rdp 客户端，通过刚刚我们修改的 pc 端的 ip（以上图为例，假设下面那一个是 pc 的客户端，没修改 ip 的话，pc 在 zerotier 内网中 ip 就为 <code>10.10.10.181</code>，把这个 ip 输入到 rdp 的地址栏中）。</p>
+<p>如果我没猜错的话。。。应该连不上~</p>
+<p>这就是 zerotier 的<strong>缺点</strong>之一，连上 vpn 后，要过一会才能成功建立链接，这个时间或长或短，应该得要几分钟。几分钟后，再次链接，应该就能上了。如果还不能上，关闭 windows 的防火墙，尝试用 termux ping 一下 <code>10.10.10.181</code>，排查一下是 zerotier 的问题还是自己配置的问题。</p>
+<h2 id="通过路由（ac86u）转发"><a href="#通过路由（ac86u）转发" class="headerlink" title="通过路由（ac86u）转发"></a>通过路由（ac86u）转发</h2><p>相比于让 pc 把所有端口全都交出去，我更希望通过路由器只把我想要放到外网的端口透出去。本节只适用于 merlin 和 merlin 改，官改未知，原厂肯定 8 行。</p>
+<p>参考文章：</p>
+<ul>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.right.com.cn/forum/forum.php?mod=viewthread&amp;tid=310110">梅林安装zerotier实现内网穿透 - 梅林固件 - 恩山无线论坛 - Powered by Discuz!</a></li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.snbforums.com/threads/a-guide-about-installing-zerotier-on-asus-ac68u-router.42648/">A Guide About Installing ZeroTier on ASUS AC68U Router | SmallNetBuilder Forums</a></li>
+</ul>
+<h3 id="安装-zerotier"><a href="#安装-zerotier" class="headerlink" title="安装 zerotier"></a>安装 zerotier</h3><h4 id="安装-opkg"><a href="#安装-opkg" class="headerlink" title="安装 opkg"></a>安装 opkg</h4><p>拿个 u 盘 / tf 卡插路由器上，进入 ssh，输入</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">entware-setup.sh</span><br></pre></td></tr></tbody></table></figure>
+
+<p>根据提示，安装  opkg。</p>
+<p>然后安装 zerotier</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">opkg update</span><br><span class="line">opkg install zerotier</span><br></pre></td></tr></tbody></table></figure>
+
+<h3 id="加入-1"><a href="#加入-1" class="headerlink" title="加入"></a>加入</h3><p>启用 tun</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">modprobe tun</span><br></pre></td></tr></tbody></table></figure>
+
+<p>启动 zerotier</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">zerotier-one -d</span><br></pre></td></tr></tbody></table></figure>
+
+<p>仍旧是两种加入方法，一种是获取 nodeid，填到 web 中</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">zerotier-cli info</span><br></pre></td></tr></tbody></table></figure>
+
+<p>另一种是直接在客户端通过 Network ID 加入</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">zerotier-cli join &lt;your network id&gt;</span><br></pre></td></tr></tbody></table></figure>
+
+<h3 id="配置防火墙"><a href="#配置防火墙" class="headerlink" title="配置防火墙"></a>配置防火墙</h3><p>看一眼自己路由器 INPUT 里有几条规则</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -v -L INPUT -n --line-numbers</span><br></pre></td></tr></tbody></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210316023446.png"></p>
+<p>16 条，很好。于是我们下面命令 INPUT 后面这个数字就设为 17。</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -I INPUT 17 -i zt+ -j ACCEPT</span><br></pre></td></tr></tbody></table></figure>
+
+<p>配置完记得用前一条命令确认一下。</p>
+<p>新建 <code>S90zerotier-one.sh</code></p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nano /opt/etc/init.d/S90zerotier-one.sh</span><br></pre></td></tr></tbody></table></figure>
+
+<p>内容为</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">#! /bin/sh</span><br><span class="line"></span><br><span class="line">case "$1" in</span><br><span class="line">start)</span><br><span class="line">if lsmod | grep -q tun ;</span><br><span class="line">then echo "mod tun ready" ;</span><br><span class="line">else</span><br><span class="line">modprobe tun;</span><br><span class="line">logger -t "zerotier" -c "modprobe tun started, zerotier-one should start in one minute" -p user.notice ;</span><br><span class="line">exit 0;</span><br><span class="line">fi</span><br><span class="line">if ( pidof zerotier-one )</span><br><span class="line">then echo "ZeroTier-One is already running."</span><br><span class="line">else</span><br><span class="line">echo "Starting ZeroTier-One" ;</span><br><span class="line">/opt/bin/zerotier-one -d ;</span><br><span class="line">echo "$(date) ZeroTier-One Started" | logger -t "zerotier" -c "Started" -p user.notice ; #&gt;&gt; /opt/var/log/zerotier-one.log ;</span><br><span class="line">fi</span><br><span class="line">;;</span><br><span class="line">stop)</span><br><span class="line">if ( pidof zerotier-one )</span><br><span class="line">then</span><br><span class="line">echo "Stopping ZeroTier-One";</span><br><span class="line">killall zerotier-one</span><br><span class="line">echo "$(date) ZeroTier-One Stopped" | logger -t "zerotier" -c "Stopped" -p user.notice ; #&gt;&gt; /opt/var/log/zerotier-one.log</span><br><span class="line">else</span><br><span class="line">echo "ZeroTier-One was not running" ;</span><br><span class="line">fi</span><br><span class="line">;;</span><br><span class="line">status)</span><br><span class="line">if ( pidof zerotier-one )</span><br><span class="line">then echo "ZeroTier-One is running."</span><br><span class="line">else echo "ZeroTier-One is NOT running"</span><br><span class="line">fi</span><br><span class="line">;;</span><br><span class="line">*)</span><br><span class="line">echo "Usage: /etc/init.d/zerotier-one {start|stop|status}"</span><br><span class="line">exit 1</span><br><span class="line">;;</span><br><span class="line">esac</span><br><span class="line">exit 0</span><br></pre></td></tr></tbody></table></figure>
+
+<p>给上权限</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod +x /opt/etc/init.d/S90zerotier-one.sh</span><br></pre></td></tr></tbody></table></figure>
+
+<p>然后用这个刚写的脚本重启 zerotier</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">/opt/etc/init.d/S90zerotier-one.sh stop</span><br><span class="line">zerotier-one -d</span><br></pre></td></tr></tbody></table></figure>
+
+<p>配置端口透穿</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -t nat -A PREROUTING -d [路由器在zerotierweb中的ip] -p tcp --dport [透穿的端口] -j DNAT --to-destination [透穿服务所在设备的内网ip]:[透穿的服务的内网端口]</span><br></pre></td></tr></tbody></table></figure>
+
+<p>打个比方：在 web 端中我们设置路由的 zerotier 局域网 ip 为 <code>10.10.10.150</code>；pc 通过 <code>ipconfig</code> 命令获取到自己的内网 ip 为 <code>192.168.1.2</code>，要透穿出去的服务是 rdp，所以内网端口为 3389；为了安全，透到外网的端口不用 3389 而是 4389，则：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -t nat -A PREROUTING -d 10.10.10.150 -p tcp --dport 4389 -j DNAT --to-destination 192.168.1.2:3389</span><br></pre></td></tr></tbody></table></figure>
+
+<p>如果要透穿出去的内网端口无需和外网端口不一致，那么可以同时透穿多个端口。举个例子，如果你用 teamviewer 提供的默认隧道来远程操纵，这玩意平日里就会整天弹仅用于非商业用途的提示，有时候还会提醒你只能用 x 分钟就强制下线。改为仅在内网提供远程服务器的 lan 模式，隧道通过 zerotier 进行转发连接，就一切正常。teamviewer 只支持使用 5938 端口，不像 rdp 地址栏里面跟个新端口号就算改端口了；同时 teamviewer 在某些情况下还会走 443 和 80 端口，所以这两个端口最好也开放出来。</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -t nat -A PREROUTING -d 10.10.10.150 -p tcp --m multiport --dport 5938,443,80 -j DNAT --to-destination 192.168.1.2</span><br></pre></td></tr></tbody></table></figure>
+
+<hr>
+<p>什么你说有了 rdp 为什么还要用 teamviewer？那我就偏个题：</p>
+<ul>
+<li>teamviewer 除非安装它提供的驱动或者你关闭物理显示器，否则远控的时候屏幕是亮着的；rdp 需要通过微软账户访问，除非你电脑里还有其他账号（而且你远控过来多半还是要操作你原来账号的内容），否则电脑屏幕是黑着的。</li>
+<li>因此，远控的时候如果放个视频什么的，被远控的 teamviewer 设备也会发出声音，rdp 设备就不会。</li>
+<li>rdp 远控不支持使用独显，teamviewer 支持。</li>
+</ul>
+<p>另外，如果先使用 rdp 远控，后续没有回到实机解锁就用 teamviewer 远控，那么 teamviewer 远控时会看到密码输入界面，输入密码后会黑屏。此时按一下 WIN+L 就会恢复正常，不想单独开篇文章记了，就放在这里吧。</p>
+<hr>
+<p>配置完确认一下</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -n -t nat -L PREROUTING --line-numbers</span><br></pre></td></tr></tbody></table></figure>
+
+<p>此时用手机 rdp 通过 <code>10.10.10.150:4389</code> 应该就能访问过来了。（同样开开 zerotier 后要等几分钟）</p>
+<h3 id="配置自启"><a href="#配置自启" class="headerlink" title="配置自启"></a>配置自启</h3><p>编辑文件 <code>/jffs/scripts/nat-start</code></p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nano /jffs/scripts/nat-start</span><br></pre></td></tr></tbody></table></figure>
+
+<p>加入</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">modprobe tun</span><br></pre></td></tr></tbody></table></figure>
+
+<p>编辑文件 <code>/jffs/scripts/wan-start</code></p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nano /jffs/scripts/wan-start</span><br></pre></td></tr></tbody></table></figure>
+
+<p>加入</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cru a ZeroTierDaemon "* * * * * /opt/etc/init.d/S90zerotier-one.sh start"</span><br></pre></td></tr></tbody></table></figure>
+
+<p>新建文件 <code>/jffs/scripts/firewall-start</code></p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nano /jffs/scripts/firewall-start</span><br></pre></td></tr></tbody></table></figure>
+
+<p>内容为：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/sh</span><br><span class="line">logger -t "custom iptables" "Enter" -p user.notice</span><br><span class="line">iptables -C INPUT -i zt+ -j ACCEPT</span><br><span class="line">if [ $? != 0 ]; then</span><br><span class="line">iptables -I INPUT -i zt+ -j ACCEPT</span><br><span class="line">#需修改</span><br><span class="line">iptables -t nat -A PREROUTING -d 10.10.10.150 -p tcp --dport 4389 -j DNAT --to-destination 192.168.1.2:3389</span><br><span class="line">iptables -t nat -A PREROUTING -d 10.10.10.150 -p tcp --m multiport --dport 5938,443,80 -j DNAT --to-destination 192.168.1.2</span><br><span class="line">#修改到此</span><br><span class="line">logger -t "custom iptables" "rules added" -p user.notice</span><br><span class="line">else</span><br><span class="line">logger -t "custom iptables" "rules existed skip" -p user.notice</span><br><span class="line">fi</span><br></pre></td></tr></tbody></table></figure>
+
+<p>标注为需修改到修改到此的中间两句，按使用者个人需求进行替换，在上面配置防火墙 -&gt; 配置端口透穿中，写了多少句，就加多少句进来。</p>
+<h3 id="检查"><a href="#检查" class="headerlink" title="检查"></a>检查</h3><p>配置完直接重启检查。通过</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">iptables -v -L INPUT -n --line-numbers</span><br><span class="line">iptables -n -t nat -L PREROUTING --line-numbers</span><br></pre></td></tr></tbody></table></figure>
+
+<p>若是出现了 zt+ 接口和端口透穿相关语句，且</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">zerotier-cli info</span><br></pre></td></tr></tbody></table></figure>
+
+<p>显示正常启用，则配置成功。</p>
+<h2 id="配置-moon-节点"><a href="#配置-moon-节点" class="headerlink" title="配置 moon 节点"></a>配置 moon 节点</h2><p>参考文章：</p>
+<ul>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.cnblogs.com/Yogile/p/12642423.html">ZeroTier 搭建 moon 服务器 - Yogile - 博客园</a></li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://blog.csdn.net/coldboy258/article/details/93133860">ZeroTier-One配置moon心得_coldboy258的专栏-CSDN博客</a></li>
+</ul>
+<h3 id="安装-zerotier-并加入节点"><a href="#安装-zerotier-并加入节点" class="headerlink" title="安装 zerotier 并加入节点"></a>安装 zerotier 并加入节点</h3><p>我这边装 moon 节点的 vps 系统是 debian，apt 仓库里没有 zerotier。得用 zerotier 官网的官方脚本：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -s https://install.zerotier.com | sudo bash</span><br></pre></td></tr></tbody></table></figure>
+
+<p>默认安装后即启动 zerotier，下面这句命令会报错。不过为了防止万一 zerotier 没启动，还是运行一遍为好</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">zerotier-one -d</span><br></pre></td></tr></tbody></table></figure>
+
+<p>加入方法不再赘述。</p>
+<h3 id="配置-moon-节点-1"><a href="#配置-moon-节点-1" class="headerlink" title="配置 moon 节点"></a>配置 moon 节点</h3><p>进入 zerotier 配置文件目录。</p>
+<figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd /var/lib/zerotier-one</span><br></pre></td></tr></tbody></table></figure>
+
+<p>生成 moon.json 签名文件。</p>
+<figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">zerotier-idtool initmoon identity.public &gt;&gt;moon.json</span><br></pre></td></tr></tbody></table></figure>
+
+<p>编辑</p>
+<figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nano moon.json</span><br></pre></td></tr></tbody></table></figure>
+
+<p> 修改 <code>stableEndpoints</code>，在里面填上一个 CIDR 地址，比如（如果有 ipv6 需求可看参考文章进行修改）</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">"stableEndpoints": ["1.2.3.4/9993"]</span><br></pre></td></tr></tbody></table></figure>
+
+<p>另外，记下此处 id 的值。</p>
+<p>生成 moon 签名文件</p>
+<figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">zerotier-idtool genmoon moon.json</span><br></pre></td></tr></tbody></table></figure>
+
+<p>如无意外会显示：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wrote xxx.moon (signed world with timestamp xxx)</span><br></pre></td></tr></tbody></table></figure>
+
+<p>将文件考入 moon 节点文件夹中</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mkdir /var/lib/zerotier-one/moons.d</span><br><span class="line">cp *.moon moons.d/</span><br><span class="line">rm *.moon</span><br></pre></td></tr></tbody></table></figure>
+
+<p>重启服务</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service zerotier-one restart </span><br></pre></td></tr></tbody></table></figure>
+
+<p>即可。</p>
+<h3 id="连结-moon-节点"><a href="#连结-moon-节点" class="headerlink" title="连结 moon 节点"></a>连结 moon 节点</h3><p>在其他节点（非 moon 节点）使用命令</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">zerotier-cli orbit [moonID] [moonID]</span><br></pre></td></tr></tbody></table></figure>
+
+<p>moonID 是上面让记过的那个。另外，这里的确是输入两遍 moonID，你没有看错。。。</p>
+<p>再输入</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">zerotier-cli listpeers</span><br></pre></td></tr></tbody></table></figure>
+
+<p>发现多了一个行末为 moon 结尾的行即成功。</p>
+<p>另一个方法是把刚刚获得的 moon 文件考下来放入指定目录，且据说这个方法相对输入命令的方法有一个好处，若是 planet 节点崩掉（虽然可能性很小），通过 moon 节点仍能维持正常工作，输入命令那个方法就不行。但 ac86u 里没有放这个文件的地方，所以我没做尝试。</p>
+<h3 id="其他注意事项"><a href="#其他注意事项" class="headerlink" title="其他注意事项"></a>其他注意事项</h3><ol>
+<li><p>如果 moon 节点更换了 zerotier ip，在通过 <code>zerotier-cli listpeers</code> 会发现 moon 节点 ip 缺失。有可能要重新生成 moon 文件，或者停止 zerotier 服务后过若干分钟再启动即可解决。</p>
+</li>
+<li><p>另一个，也是 zerotier 目前<strong>最大的缺点</strong>：安卓不支持使用 moon 节点。apk 没有这个功能，也没有目录放置 moon 节点文件的地方。改用二进制文件呢？发现 termux 没有渠道来安装 zerotier（各个库中没有，官网的安装脚本不支持），手工编译报错：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/Screenshot_20210315-194925.png"></p>
+<p>且 issue 中有同样的问题：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/zerotier/ZeroTierOne/issues/1218">ZeroTierOne/node at master · zerotier/ZeroTierOne</a></p>
+<p>维护者表示我们不支持除了 apk 以外的安卓使用方法。</p>
+<p>没辙，差评.jpg</p>
+</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>zbttl
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="https://zbttl-github-io.vercel.app/wan-yi-xia-zerotier/" title="玩一下 zerotier">https://zbttl-github-io.vercel.app/wan-yi-xia-zerotier/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="external nofollow noopener noreferrer" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="followme">
+  <span>欢迎关注我的其它发布渠道</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="/atom.xml">
+          <span class="icon">
+            <i class="fa fa-rss"></i>
+          </span>
+
+          <span class="label">RSS</span>
+        </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/rdp/" rel="tag"># rdp</a>
+              <a href="/tags/zerotier/" rel="tag"># zerotier</a>
+              <a href="/tags/teamviewer/" rel="tag"># teamviewer</a>
+              <a href="/tags/%E7%AB%AF%E5%8F%A3%E9%80%8F%E7%A9%BF/" rel="tag"># 端口透穿</a>
+          </div>
+
+        
+  <div class="post-widgets">
+    <div class="wp_rating">
+      <div id="wpac-rating"></div>
+    </div>
+  </div>
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/fu-wu-qi-tan-zhen-yu-liu-liang-chong-zhi/" rel="prev" title="服务器探针与流量重置">
+                  <i class="fa fa-chevron-left"></i> 服务器探针与流量重置
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zbttl</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+      <span>站点总字数：</span>
+    <span title="站点总字数">263k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span>站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">7:59</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">本博客使用 <a href="https://hexo.io/" class="theme-link" rel="external nofollow noopener noreferrer" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" class="theme-link" rel="external nofollow noopener noreferrer" target="_blank">NexT.Muse</a> 
+  </div><script color="120,120,120" opacity="0.5" zindex="-1" count="150" src="https://cdn.jsdelivr.net/npm/canvas-nest.js@1/dist/canvas-nest.js"></script>
+<!--《添加网站运行时间 -->
+<!--<br/>-->
+<span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+<script>
+    var now = new Date();
+
+    function createtime() {
+        var grt = new Date("12/18/2020 12:00:00"); //此处修改你的建站时间或者网站上线时间 
+        now.setTime(now.getTime() + 250);
+        days = (now - grt) / 1000 / 60 / 60 / 24;
+        dnum = Math.floor(days);
+        hours = (now - grt) / 1000 / 60 / 60 - (24 * dnum);
+        hnum = Math.floor(hours);
+        if (String(hnum).length == 1) {
+            hnum = "0" + hnum;
+        }
+        minutes = (now - grt) / 1000 / 60 - (24 * 60 * dnum) - (60 * hnum);
+        mnum = Math.floor(minutes);
+        if (String(mnum).length == 1) {
+            mnum = "0" + mnum;
+        }
+        seconds = (now - grt) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+        snum = Math.round(seconds);
+        if (String(snum).length == 1) {
+            snum = "0" + snum;
+        }
+        document.getElementById("timeDate").innerHTML = " 本站已安全运行 " + dnum + " 天 ";
+        document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒";
+    }
+    setInterval("createtime()", 250);
+</script>
+<!-- 添加网站运行时间》 -->
+
+    </div>
+  </footer>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+  <script>
+  if (CONFIG.page.isPost) {
+    wpac_init = window.wpac_init || [];
+    wpac_init.push({
+      widget: 'Rating',
+      id    : 28813,
+      el    : 'wpac-rating',
+      color : '#fc6423'
+    });
+    (function() {
+      if ('WIDGETPACK_LOADED' in window) return;
+      WIDGETPACK_LOADED = true;
+      var mc = document.createElement('script');
+      mc.type = 'text/javascript';
+      mc.async = true;
+      mc.src = '//embed.widgetpack.com/widget.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(mc, s.nextSibling);
+    })();
+  }
+  </script>
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1.7.0/dist/gitalk.css">
+
+<script>
+NexT.utils.loadComments('#gitalk-container', () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1.7.0/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : 'd99d750bdfdb31ecf37e',
+      clientSecret: '1d37215aff71dc84b66e03cb412c7e68b968d76f',
+      repo        : 'zbttl-comment',
+      owner       : 'zbpicture',
+      admin       : ['zbpicture'],
+      id          : 'd4ba83f1a03a92aabaaf2badb5417cf4',
+        language: '',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+<script type="text/javascript" src=" https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+
+  <script async src="/js/cursor/text.js"></script>
+
+
+
+
+</body>
+</html>
