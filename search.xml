@@ -1,6 +1,128 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>通过 telegram bot 监控设备的远程登录情况</title>
+    <url>/tong-guo-telegram-bot-jian-kong-she-bei-de-yuan-cheng-deng-lu-qing-kuang/</url>
+    <content><![CDATA[<p>之前我先后白嫖了 azure 的 windows server，以及做了 zerotier 用于远控，但前者我提过 3389 端口老是被撞，后者要通过密码和 zerotier 网域两重保险，应该够安全了，但毕竟是把我的主用设备暴露出去，还得更安全一点才行。<br>我听说有些脚本可以登录时从 telegram bot 通知所有者，找了一下，ssh 的和 rdp 的都有，那就一起上了。</p>
+<p>工具：</p>
+<ul>
+<li><a href="https://gist.github.com/LM1LC3N7/b6f98611a1cd425cd5e328f90ed697f6">SSH PAM module - Telegram Alert on connect and disconnect, with IP exceptions.</a></li>
+<li><a href="https://github.com/ihatemodels/rdp-telegram-messenger">ihatemodels/rdp-telegram-messenger: Get instant telegram message when a new rdp connection is established</a></li>
+</ul>
+<h2 id="前期准备"><a href="#前期准备" class="headerlink" title="前期准备"></a>前期准备</h2><p>参考：<a href="https://p3terx.com/archives/aria2-telegram-bot-automatically-uploads-to-google-drive-onedrive.html">Telegram Bot 控制 Aria2 下载并自动上传到 Google Drive、OneDrive - P3TERX ZONE</a></p>
+<h3 id="创建-bot，获取-bot-token"><a href="#创建-bot，获取-bot-token" class="headerlink" title="创建 bot，获取 bot token"></a>创建 bot，获取 bot token</h3><p>访问 telegram bot 管理 bot <a href="https://telegram.me/botfather">@botfather</a>，通过三个步骤就能获得一个 bot：</p>
+<ol>
+<li>输入 <code>/newbot</code>，会询问你 bot 起什么昵称（即 tg 窗口左上角的名字），按自己喜好起就行。</li>
+<li>回车后，会询问你 bot 想起一个什么用户名。以后可以通过用户名来直接找到这个 bot。需要以 Bot 或者 _bot 结尾，同时不可以和已有的 bot 名字冲突，所以这里要起复杂一点。</li>
+<li>然后就能从机器人的回答中获得一串字体颜色为黄色的长长一串 token 了。 顺便回答里面 <code>You will find it at</code> 后面的蓝色链接可以直接通向创建的机器人，先过去 <code>/start</code> 一下，以免待会还要回来找。监测几个 ssh/rdp 就要建立几个 bot，可以建一个，做完建立提醒步骤后再建，也可以先一次建一堆（因为我看 botfather 这边有批量建立的功能，不过我没用过）。</li>
+</ol>
+<h3 id="获取-userid"><a href="#获取-userid" class="headerlink" title="获取 userid"></a>获取 userid</h3><p>进入刚刚获取的其中一个 bot，随便输点东西。</p>
+<p>然后在浏览器中访问 <code>https://api.telegram.org/bot&lt;bot_token&gt;/getUpdates</code>，不同的 bot，bot token 不一样，别填错了。</p>
+<p>不出意料的话，result 中 id 后面跟的数字就是账号的 userid。userid 每个 telegram 账号唯一，获取过一次就不用再获取了。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210317195053.png"></p>
+<p>如果 result 为空，证明离上次和 bot 互动时间相隔太久，重新去 bot 里再输点东西就好。</p>
+<h3 id="获取-chatid"><a href="#获取-chatid" class="headerlink" title="获取 chatid"></a>获取 chatid</h3><p>参考：<a href="https://stackoverflow.com/questions/32423837/telegram-bot-how-to-get-a-group-chat-id">Telegram Bot - how to get a group chat id? - Stack Overflow</a></p>
+<p>仅 rdp 登录提醒需要（因为我找到的 rdp 提醒脚本只能在群内提醒，没法在 bot 里面直接提醒）。</p>
+<ol>
+<li><p>把相应 bot 拉入群中。</p>
+</li>
+<li><p>在群中发一句</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">/my_id @my_bot</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>访问 <code>https://api.telegram.org/bot&lt;bot_token&gt;/getUpdates</code>，在 chat 这个代码块的 id，就是 chatid（带个负号的很显眼）</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210317214415.png"></p>
+</li>
+</ol>
+<p>chatid 每个群唯一，所以也获取一次，然后把所有 rdp 监测 bot 拉到同一个群中就好了。就是建群还需要好友配合这点比较烦（实在不行办个小号呗）。</p>
+<h2 id="linux-ssh-登录提醒"><a href="#linux-ssh-登录提醒" class="headerlink" title="linux ssh 登录提醒"></a>linux ssh 登录提醒</h2><ol>
+<li><p>从参考文章 1 中下载或者复制粘贴源码得到 <a href="https://gist.githubusercontent.com/LM1LC3N7/b6f98611a1cd425cd5e328f90ed697f6/raw/d8149521d0287dd854c9917458899229284e567c/telegram-alert.sh"><code>telegram-alert.sh</code></a></p>
+</li>
+<li><p>修改其中的</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line"># Your USERID or Channel ID to display alert and key, create a new bot with @BotFather on Telegram</span><br><span class="line"># Ask to @IDBot for your id (/getid)</span><br><span class="line">USERID="********"</span><br><span class="line"># Create a new bot with @BotFather and start a new discussion with it</span><br><span class="line">KEY="*********:***********************************"</span><br><span class="line">URL="https://api.telegram.org/bot${KEY}/sendMessage"</span><br></pre></td></tr></tbody></table></figure>
+
+<p>key 就是 bot token，把我们前期准备获取的两个值填进去。</p>
+</li>
+<li><p>把 <code>telegram-alert.sh</code> 放到被检测机 <code>usr/local/bin</code> 里，加权限</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">chmod +x /usr/local/bin/telegram-alert.sh</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>在 <code>/etc/pam.d/sshd</code> 新增 <code>session optional pam_exec.so type=open_session seteuid /usr/local/bin/telegram-alert.sh</code></p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">echo "session optional pam_exec.so type=open_session seteuid /usr/local/bin/telegram-alert.sh" &gt;&gt; /etc/pam.d/sshd</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>（可选）重启 sshd</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">service sshd restart</span><br></pre></td></tr></tbody></table></figure>
+
+</li>
+</ol>
+<p>如果是开启 SELinux 的系统（如 centos），参考文章后面还有两部，我用的是 debian 就不写上来了。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210318004255.png"></p>
+<h2 id="rdp-登录提醒"><a href="#rdp-登录提醒" class="headerlink" title="rdp 登录提醒"></a>rdp 登录提醒</h2><ol>
+<li><p>从参考文章 1 中下载或者复制粘贴源码得到 <a href="https://raw.githubusercontent.com/ihatemodels/rdp-telegram-messenger/master/rdp-telegram.ps1"><code>rdp-telegram.ps1</code></a></p>
+</li>
+<li><p>修改其中的</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">$botToken = 'ADD UR TOKEN HERE'</span><br><span class="line">$chatID = 'ADD UR CHAT ID HERE'</span><br></pre></td></tr></tbody></table></figure>
+
+<p>把我们前期准备获取的两个值填进去。</p>
+</li>
+<li><p>把 <code>rdp-telegram.ps1</code> 放到被检测机里一个好找的地方，我就直接放到我的 user 目录下了 <code>C:\Users\zbttl</code>。</p>
+</li>
+<li><p>按下 win 键，敲入「事件查看器」并打开</p>
+</li>
+<li><p>找到应用程序和服务日志 -&gt; Microsoft -&gt; Windows -&gt; TerminalServices-RemoteConnectionManager。</p>
+</li>
+<li><p>新一点的系统，比如 win10，登录过 rdp 的话在 Admin 这项里面会有 20521 这项代表已登录成功的日志</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210318002631.png"></p>
+<p>旧一些的，比如 windows server 2012 可能就没有。不过旧系统在 operational 这里会有类似 1149 的记录，同样是代表登录成功。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210318002752.png"></p>
+<p>哪个都可以，参考文章中提到的是前一个，然后我发现前一个如果用微软商店的第三方 rdp（名字就叫远程桌面，系统自带的远程桌面遇到屏幕分辨率不一样的情况会拉跨），日志中没提示，所以自行选择。</p>
+<p>右键其中一个包含上面提到的这两种其中一种的记录选择「将任务附加到此事件」。在打开的窗口中，创建基本任务的名字随便取，然后一路下一步来到「启动程序」这一项。程序或脚本，填入 POWERSHELL；添加参数（可选）填入 <code>rdp-telegram.ps1</code> 所在路径（记得打引号），对我来说那就是 <code>"C:\Users\zbttl\rdp-telegram.ps1"</code></p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210318003547.png"></p>
+</li>
+<li><p>完成后，再次按下 win 键，搜索任务计划程序，打开，在任务计划程序库 -&gt; 事件查看器任务处，就能看到我们刚刚创建的任务。选择那个任务，点右侧的属性，在弹出的窗口中看到常规 -&gt; 安全选项，勾选「使用最高权限运行」。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210318004126.png"></p>
+<p>不进行这一步的话，待会在 telegram 群虽然会弹通知，但通知中各项属性的值都是空：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210318004423.png"></p>
+<p>如果显示操作参数错误的话，把上面「只在用户登录时运行」改为「不管用户是否登录都要运行」，然后输入本机账号密码即可。</p>
+<p>另外还建议在设置 -&gt; 如果此任务已运行，改为「停止现有实例」或者「并行运行新实例」，以免网络原因导致前面的任务运行不成功一直卡着。</p>
+</li>
+<li><p>因为被监控机在国内，要给 telegram 发东西的话，你懂得，记得还得是全局代理才行。</p>
+</li>
+</ol>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210318011921.png"></p>
+<h3 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h3><p>两个问题：</p>
+<ol>
+<li>开 rdp 的时候能看见一个 cmd 框框弹出。万一攻击者看到这个框框眼疾手快关掉了，程序没跑完那通知不就过不来了。</li>
+<li>我不赞成时时刻刻开着全局代理。</li>
+</ol>
+<p>解决方法：</p>
+<p>参考</p>
+<ul>
+<li><a href="http://cn.voidcc.com/question/p-vhmweifz-ve.html">如何在静默/隐藏模式下使用任务计划程序运行powershell脚本？ - VoidCC</a></li>
+<li><a href="https://bohemiangrove.co.uk/run-powershell-through-a-proxy/">Run PowerShell through a Proxy | Tech Blog</a></li>
+</ul>
+<p>在 <code>rdp-telegram.ps1</code> 同目录下新建一个 <code>rdp.js</code> 文件。文件内容类似于：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">var wshShell = new ActiveXObject("WScript.Shell"); </span><br><span class="line">wshShell.Run('%SystemRoot%\\system32\\WindowsPowerShell\\v1.0\\powershell.exe -ExecutionPolicy Bypass -File "C:\\\Users\\zbttl\\rdp-telegram.ps1"', 0, false); </span><br></pre></td></tr></tbody></table></figure>
+
+<p>用火绒的，把这个文件加到火绒的信任区里（这都能被当成病毒文件可还行）。</p>
+<p>修改计划任务。回到上面第七步，找到操作，双击启动程序项，程序与脚本修改为 <code>wscript</code>，添加参数修改为 <code>rdp.js</code> 地址，如 <code>"C:\Users\zbttl\rdp.js"</code>。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210318012544.png"></p>
+<p>修改 <code>rdp-telegram.ps1</code>，加入两行</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">[system.net.webrequest]::defaultwebproxy = new-object system.net.webproxy('[代理地址]')</span><br><span class="line">[system.net.webrequest]::defaultwebproxy.BypassProxyOnLocal = $true</span><br></pre></td></tr></tbody></table></figure>
+
+<p>代理地址这里，格式为 <code>http://127.0.0.1:7890</code> 这样。</p>
+<p>即可。</p>
+<p>（这样设置和全局代理也不冲突，不用担心 loopback）</p>
+]]></content>
+      <categories>
+        <category>Network</category>
+      </categories>
+      <tags>
+        <tag>windows server</tag>
+        <tag>telegram bot</tag>
+        <tag>计划任务</tag>
+        <tag>ssh</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>玩一下 zerotier</title>
     <url>/wan-yi-xia-zerotier/</url>
     <content><![CDATA[<p>之前咱玩过 frp，主要用于远程操作家里的电脑。这东西方便是方便，但用了一段时间看了看日志，好家伙被扫了几百遍。。。。毕竟对外就一个端口一个密码，实话说，不太安全（前几个月还看见 v2ex 因为 frp 导致公司电脑被勒索，后面不知道咋样了）。</p>
@@ -763,6 +885,65 @@
 <p>什么你说其他内容？不就剩下一个工具吗。</p>
 <p>工具选择 v2，因为 v2 客户端服务端二进制是二合一的，只取决于配置文件如何配置，不需要再去考虑自己二进制版本是 sever 版还是 client 版。还有记得开放防火墙。</p>
 <p>还不会就手放键盘脑补吧，前有嘴含内存条脑补游戏画面，今有申请了证书后手放键盘脑补 p 站首页（雾</p>
+<h3 id="更换-rdp-端口（21-3-16-更新）"><a href="#更换-rdp-端口（21-3-16-更新）" class="headerlink" title="更换 rdp 端口（21.3.16 更新）"></a>更换 rdp 端口（21.3.16 更新）</h3><p>鼓捣了一下 rdp 登录 bot 的事情，结果查日志的时候发现好家伙一堆上来撞密码的，虽然没被撞开（应该），但搞得系统卡卡的。关掉 公网 3389 用 vpn 连上来有点大题小作，换个端口应该就行（虽然也许还有没事找事全端口扫的家伙，不过比起专扫 3389 的应该少不少）。</p>
+<h4 id="修改注册表"><a href="#修改注册表" class="headerlink" title="修改注册表"></a>修改注册表</h4><p>直接新建一个 <code>change_rdp_port.reg</code> 文件，假设我们吧端口换到 3380，用一个 10 转 16 进制计算机算一下，3380 的 16 进制是 d34。那么文件内容为：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">Windows Registry Editor Version 5.00</span><br><span class="line"></span><br><span class="line">[HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Terminal Server\Wds\rdpwd\Tds\Tcp]</span><br><span class="line">"PortNumber"=dword:00000d34</span><br><span class="line"></span><br><span class="line">[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp]</span><br><span class="line">"PortNumber"=dword:00000d34</span><br></pre></td></tr></tbody></table></figure>
+
+<p>保存，双击运行即可。</p>
+<h4 id="修改防火墙"><a href="#修改防火墙" class="headerlink" title="修改防火墙"></a>修改防火墙</h4><p>重启 windows server 就能生效。。。按下重启键你就凉了，还要对 windows server 默认开启的防火墙动手脚。</p>
+<p>在 <code>控制面板\系统和安全\Windows Defender 防火墙</code> 中，找到高级设置 -&gt; 入站规则。新建规则 -&gt; 规则类型：端口 -&gt; 应用于 tcp，特定本地端口填入 3380 -&gt; 允许连接 -&gt; 一路下一步，给 tcp 规则起个名字。搞掂后打开规则属性，在程序与服务 -&gt; 程序 -&gt; 此程序中填入：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">%SystemRoot%\system32\svchost.exe</span><br></pre></td></tr></tbody></table></figure>
+
+<p>保存。</p>
+<p>复制一遍该规则，粘贴后进入规则属性，改一下名字，在协议和端口中将 tcp 改为 udp。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210317004152.png"></p>
+<p>点一下顶上名称栏的本地端口，给本地端口排个序，把原来的 3389 tcp 和 udp 端口禁用。ok，重启，通过 <code>ip:3380</code> 连入 rdp。</p>
+<h3 id="开启-ssh（21-3-17-更新）"><a href="#开启-ssh（21-3-17-更新）" class="headerlink" title="开启 ssh（21.3.17 更新）"></a>开启 ssh（21.3.17 更新）</h3><p>防止 rdp 突然爆掉，有个后路（</p>
+<p>参考文章：</p>
+<ul>
+<li><a href="https://docs.microsoft.com/en-us/windows-server/administration/openssh/openssh_install_firstuse">Installation of OpenSSH For Windows Server | Microsoft Docs</a></li>
+<li><a href="https://stackoverflow.com/questions/16212816/setting-up-openssh-for-windows-using-public-key-authentication/50502015#50502015">ssh - Setting up OpenSSH for Windows using public key authentication - Stack Overflow</a></li>
+</ul>
+<p>安装</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">Add-WindowsCapability -Online -Name OpenSSH.Server</span><br></pre></td></tr></tbody></table></figure>
+
+<p>配置自启</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">Set-Service -Name sshd -StartupType 'Automatic'</span><br></pre></td></tr></tbody></table></figure>
+
+<p>配置防火墙（其实我一开始是像 rdp 这边用图形界面配置的，结果软软的教程居然给了命令，学到了，主要是写教程方便不用截图 - -）</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">New-NetFirewallRule -Name sshd -DisplayName 'OpenSSH Server (sshd)' -Enabled True -Direction Inbound -Protocol TCP -Action Allow -LocalPort 999</span><br></pre></td></tr></tbody></table></figure>
+
+<p>如果用的是默认 22 端口不改其实可以略过这步。咱不习惯用默认端口就是。</p>
+<p>更改默认命令行程序为 powershell</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">New-ItemProperty -Path "HKLM:\SOFTWARE\OpenSSH" -Name DefaultShell -Value "C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe" -PropertyType String -Force</span><br></pre></td></tr></tbody></table></figure>
+
+<p>修改 sshd_config，位于 <code>C:\ProgramData\ssh\sshd_config</code></p>
+<p>修改端口</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">#Port 22</span><br><span class="line">Port 999</span><br></pre></td></tr></tbody></table></figure>
+
+<p>注释掉旧版密钥路径</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">#Match Group administrators</span><br><span class="line">#       AuthorizedKeysFile __PROGRAMDATA__/ssh/administrators_authorized_keys</span><br></pre></td></tr></tbody></table></figure>
+
+<p>关闭密码登录</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">PasswordAuthentication no</span><br></pre></td></tr></tbody></table></figure>
+
+<p>将公钥放到 <code>C:\Users\zbttl\.ssh</code>里面，改名为<code>authorized_keys</code>。别说你看到这里都还没公钥。。。</p>
+<p>可能还要修复公钥的权限。微软官方文章使用的是 opensshutils 这个软件，但这个软件去年就被标记为 deprecated，实在要装只能手动安装，可以参考<a href="https://stackoverflow.com/questions/62873521/powershell-opensshutils">openssh - PowerShell OpenSSHUtils - Stack Overflow</a>，而且参考文章 2 中写明不建议装。</p>
+<p>另外两种方法：</p>
+<ol>
+<li><p>直接用 gui 修改权限。右键<code>authorized_keys</code> -&gt; 属性 -&gt; 安全 -&gt; 高级 -&gt; 禁用继承，在弹出的对话框选择「将已继承权限转换」。然后删掉多余权限，留下 system 和自己目前所用账号的权限就行。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210318041441.png"></p>
+</li>
+<li><p>使用命令</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">get-acl C:\Users\zbttl\.ssh\authorized_keys | fl</span><br></pre></td></tr></tbody></table></figure>
+
+</li>
+</ol>
+<p>我也不知道哪个好用，因为我几年前从 linux 那边生成的公钥文件貌似没有权限问题。。。</p>
+<p>启动服务</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">Start-Service sshd</span><br></pre></td></tr></tbody></table></figure>
+
+<p>记得登录的是用户名不是 root 而是当前微软账号或者微软本地用户名。</p>
 <h2 id="OneIndex-app-service-version"><a href="#OneIndex-app-service-version" class="headerlink" title="OneIndex app service version"></a>OneIndex app service version</h2><p>我刚好有 office 365 家庭版，也试过挂在 vps 上，但 app service 这类 PaaS 我没那么熟，这次就折腾看看。</p>
 <p>参考文章：</p>
 <ul>
@@ -4803,7 +4984,7 @@
 <p>将不需要显示的注释掉就好了，默认情况下注释掉了下面三个（如果不创建这个文件的话，其实是全部显示的）。</p>
 </li>
 </ol>
-<h3 id="（20-6-26-更新）proxychains-powershell-版"><a href="#（20-6-26-更新）proxychains-powershell-版" class="headerlink" title="（20.6.26 更新）proxychains powershell 版"></a>（20.6.26 更新）proxychains powershell 版</h3><p>linux 那边（19.11.12）的 proxychains4 在 powershell 这边也有相应的版本，就叫 proxychains。</p>
+<h3 id="proxychains-powershell-版（20-6-26-更新）"><a href="#proxychains-powershell-版（20-6-26-更新）" class="headerlink" title="proxychains powershell 版（20.6.26 更新）"></a>proxychains powershell 版（20.6.26 更新）</h3><p>linux 那边（19.11.12）的 proxychains4 在 powershell 这边也有相应的版本，就叫 proxychains。</p>
 <p>在这里下载：<a href="https://github.com/shunf4/proxychains-windows/releases">shunf4/proxychains-windows</a></p>
 <p>解压后将其中的 exe 和 dll 全部转移到一个好找的文件夹里面，比如 <code>D:\proxychains</code>。</p>
 <p>然后将该文件夹添加到系统变量 PATH 中。</p>
@@ -4816,7 +4997,7 @@
 <p>测试（注意用的是命令是 curl.exe 而不是 curl，原因见这里：<a href="https://www.cnblogs.com/sx00xs/p/11478936.html">powershell中调用 curl 的正确方法</a>）</p>
 <figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">fan curl.exe cip.cc </span><br></pre></td></tr></tbody></table></figure>
 
-<h3 id="（20-6-26-更新）curl-中文问题（不完美解决）"><a href="#（20-6-26-更新）curl-中文问题（不完美解决）" class="headerlink" title="（20.6.26 更新）curl 中文问题（不完美解决）"></a>（20.6.26 更新）curl 中文问题（不完美解决）</h3><p>首先</p>
+<h3 id="curl-中文问题（不完美解决）（20-6-26-更新）"><a href="#curl-中文问题（不完美解决）（20-6-26-更新）" class="headerlink" title="curl 中文问题（不完美解决）（20.6.26 更新）"></a>curl 中文问题（不完美解决）（20.6.26 更新）</h3><p>首先</p>
 <p>相信上一步运行时，之前没通过 <code>chcp 54936</code> 改编码（其实改了也乱码，要改成 <code>chcp 65001</code> 才有用）的诸位发现问题了。</p>
 <p>curl 出来的都是乱码。</p>
 <p>除了修改编码，还有一种方法能够解决。但必须进入 cmd，在 powershell 下除非临时改编码否则暂时无解。</p>
