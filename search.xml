@@ -3978,8 +3978,8 @@
       </tags>
   </entry>
   <entry>
-    <title>azure 羊毛（二）</title>
-    <url>/azure-yang-mao-er/</url>
+    <title>一个臭打游戏的对 fullcone 的高谈阔论</title>
+    <url>/yi-ge-chou-da-you-xi-de-dui-fullcone-de-gao-tan-kuo-lun/</url>
     <content><![CDATA[<h2 id="fullcone-是啥？"><a href="#fullcone-是啥？" class="headerlink" title="fullcone 是啥？"></a>fullcone 是啥？</h2><p>也称 nat1 或者是 nat 开放。简单来说，通讯中对方能获取你未修改的源 ip 和源端口基本就能识别成 fullcone nat。nat 一共有四种，就不细展开了。</p>
 <p>fullcone nat 的好处在许多网络游戏（尤其是 cod），只有 fullcone nat 才能匹配到最多的人，nat1 可以匹配 nat 全类型的人，相比之下 nat3 只能匹配到 nat1 和 nat3 的人，nat4 就只能匹配到 nat4 的人，也就是基本鬼服。另外在电驴和 ed2k 网络中，fullcone 能连到最多的节点，ed2k 想要获取 high id 也需要在 fullcone 下。</p>
 <p><strong>（21.2.6 更新）</strong> 推荐阅读 xray 作者 rprx 的最新力作：<a href="https://github.com/XTLS/Xray-core/discussions/237">进阶必读：代理协议 UDP 全方位透彻解析 · Discussion #237 · XTLS/Xray-core</a></p>
@@ -4230,17 +4230,17 @@
 </ol>
 <h3 id="使用类-vpn-工具"><a href="#使用类-vpn-工具" class="headerlink" title="使用类 vpn 工具"></a>使用类 vpn 工具</h3><p>类 vpn 工具同样代理全部流量，区别在于它们的 udp 流量经过特殊处理，能够保证 nat 类型为 fullcone。目前有以下这么几种：</p>
 <ul>
-<li><a href="https://github.com/zhxie/ikago">zhxie/ikago: IkaGo is a proxy which helps bypassing UDP blocking, UDP QoS and NAT firewall written in Go.</a>（不太推荐）<br> 使用体验：</li>
+<li><a href="https://github.com/zhxie/ikago">zhxie/ikago: IkaGo is a proxy which helps bypassing UDP blocking, UDP QoS and NAT firewall written in Go.</a>（不太推荐）<br> 使用体验：<a href="https://zbttl.github.io/ikago-he-pcap2socks-shi-yong-ti-yan/#ikago">ikago 和 pcap2socks 使用体验 | Bao’s 备忘录</a></li>
 <li><a href="https://github.com/wangyu-/tinyfecVPN">wangyu- / tinyfecVPN：专为有损链接而设计的VPN，具有内置的前向纠错（FEC）支持。 在高延迟有损链路上提高网络质量。</a></li>
 </ul>
 <p>ikago 不推荐的原因是 bug 较为影响使用。</p>
 <h3 id="使用-socks-代理转-vpn-工具"><a href="#使用-socks-代理转-vpn-工具" class="headerlink" title="使用 socks 代理转 vpn 工具"></a>使用 socks 代理转 vpn 工具</h3><ul>
 <li><a href="https://www.proxifier.com/">Proxifier - The Most Advanced Proxy Client</a></li>
 <li><a href="https://github.com/FQrabbit/SSTap-Rule/releases/tag/SSTap%E5%B8%B8%E7%94%A8%E7%89%88%E6%9C%AC%E5%8F%8A%E5%8E%BB%E5%B9%BF%E5%91%8A">SSTAP</a></li>
-<li><a href="https://github.com/mellow-io/mellow">mellow</a>（不太推荐）<br> 使用体验：</li>
-<li><a href="https://github.com/zhxie/pcap2socks">zhxie/pcap2socks: Redirect traffic to SOCKS proxy with pcap.</a>（不太推荐）<br> 使用体验：</li>
-<li><a href="https://github.com/zhxie/pcap2socks-gui">zhxie/pcap2socks-gui: A front-end interface for pcap2socks.</a><br> 使用体验：</li>
-<li><a href="https://github.com/NetchX/Netch">NetchX/Netch: Game network accelerator. Support Socks5, Shadowsocks, ShadowsocksR, Trojan, VMess, VLess proxies. UDP NAT FullCone</a><br> 使用体验：</li>
+<li><a href="https://github.com/mellow-io/mellow">mellow</a>（不太推荐）<br> 使用体验：<a href="https://zbttl.github.io/mellow-shi-yong-ti-yan/?highlight=mellow">mellow 使用体验 | Bao’s 备忘录</a></li>
+<li><a href="https://github.com/zhxie/pcap2socks">zhxie/pcap2socks: Redirect traffic to SOCKS proxy with pcap.</a>（不太推荐）</li>
+<li><a href="https://github.com/zhxie/pcap2socks-gui">zhxie/pcap2socks-gui: A front-end interface for pcap2socks.</a><br> 使用体验：<a href="https://zbttl.github.io/ikago-he-pcap2socks-shi-yong-ti-yan/#pcap2socks-%E5%92%8C-pcap2socks-gui">ikago 和 pcap2socks 使用体验 | Bao’s 备忘录</a></li>
+<li><a href="https://github.com/NetchX/Netch">NetchX/Netch: Game network accelerator. Support Socks5, Shadowsocks, ShadowsocksR, Trojan, VMess, VLess proxies. UDP NAT FullCone</a><br> 使用体验：<a href="https://zbttl.github.io/netch-shi-yong-ti-yan-dai-li-gui-ze-huo-qu/">netch 使用体验（代理规则获取） | Bao’s 备忘录</a></li>
 </ul>
 <p>mellow 和 pcap2socks 不推荐的原因同样是 bug 不少，另外 mellow 的配置门槛还挺高的。不过 mellow 的最大贡献是应该本身 go 的 tun/tap 实现。pcap2socks 就比较神秘，cli 界面用着用着就会报错，但 gui 并不会报错。</p>
 <p>剩下的几个，Proxifier 专注于进程代理，能给多个进程配置不同的代理和 dns，我觉得更适合作为那些个长期挂在后台，需要代理却不支持 http 代理也没有 socks 配置设置的应用使用。</p>

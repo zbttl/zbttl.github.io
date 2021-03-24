@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/bao32x32.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/bao16x16.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.1/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"zbttl-github-io.vercel.app","root":"/","images":"/images","scheme":"Muse","version":"8.1.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}};
+  </script>
+<meta name="description" content="fullcone 是啥？也称 nat1 或者是 nat 开放。简单来说，通讯中对方能获取你未修改的源 ip 和源端口基本就能识别成 fullcone nat。nat 一共有四种，就不细展开了。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="一个臭打游戏的对 fullcone 的高谈阔论">
+<meta property="og:url" content="https://zbttl-github-io.vercel.app/yi-ge-chou-da-you-xi-de-dui-fullcone-de-gao-tan-kuo-lun/index.html">
+<meta property="og:site_name" content="Bao&#39;s 备忘录">
+<meta property="og:description" content="fullcone 是啥？也称 nat1 或者是 nat 开放。简单来说，通讯中对方能获取你未修改的源 ip 和源端口基本就能识别成 fullcone nat。nat 一共有四种，就不细展开了。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@master/img/20210118082936.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/pcfullcone.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/androidfullcone.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210116050102.png">
+<meta property="article:published_time" content="2020-04-01T16:00:00.000Z">
+<meta property="article:modified_time" content="2021-03-24T14:23:18.304Z">
+<meta property="article:author" content="zbttl">
+<meta property="article:tag" content="游戏加速">
+<meta property="article:tag" content="socks">
+<meta property="article:tag" content="nat">
+<meta property="article:tag" content="fullcone">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@master/img/20210118082936.png">
+
+
+<link rel="canonical" href="https://zbttl-github-io.vercel.app/yi-ge-chou-da-you-xi-de-dui-fullcone-de-gao-tan-kuo-lun/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+<title>一个臭打游戏的对 fullcone 的高谈阔论 | Bao's 备忘录</title>
+  
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link rel="alternate" href="/atom.xml" title="Bao's 备忘录" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Bao's 备忘录</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80" placeholder="搜索..." spellcheck="false" type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <section class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#fullcone-%E6%98%AF%E5%95%A5%EF%BC%9F"><span class="nav-number">1.</span> <span class="nav-text">fullcone 是啥？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BA%E5%95%A5%E6%8B%BF%E4%B8%8D%E5%88%B0-nat1%EF%BC%9F"><span class="nav-number">2.</span> <span class="nav-text">为啥拿不到 nat1？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#nat-%E6%B5%8B%E8%AF%95"><span class="nav-number">3.</span> <span class="nav-text">nat 测试</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95-nat-%E7%9A%84%E5%B7%A5%E5%85%B7"><span class="nav-number">3.1.</span> <span class="nav-text">测试 nat 的工具</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#windows"><span class="nav-number">3.1.1.</span> <span class="nav-text">windows</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#android"><span class="nav-number">3.1.2.</span> <span class="nav-text">android</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B5%8B-udp-%E6%98%AF%E5%90%A6%E8%81%94%E9%80%9A%E7%9A%84%E6%89%8B%E6%AE%B5%EF%BC%88%E6%90%AD%E7%9D%80%E6%A2%AF%E5%AD%90%E4%BA%A6%E5%8F%AF%E6%B5%8B%EF%BC%89"><span class="nav-number">3.2.</span> <span class="nav-text">测 udp 是否联通的手段（搭着梯子亦可测）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#vpn-%E4%BB%A3%E7%90%86%E8%BD%AF%E4%BB%B6-nat-%E6%B5%8B%E8%AF%95%E7%BB%93%E6%9E%9C%EF%BC%8821-1-18-%E8%AF%81%E6%98%8E%E5%B7%B2%E4%BD%9C%E5%BA%9F%EF%BC%89"><span class="nav-number">3.3.</span> <span class="nav-text">vpn 代理软件 nat 测试结果（21.1.18 证明已作废）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#socks-%E4%BB%A3%E7%90%86%E8%BD%AF%E4%BB%B6-fullcone-%E6%B5%8B%E8%AF%95%E7%BB%93%E6%9E%9C"><span class="nav-number">3.4.</span> <span class="nav-text">socks 代理软件 fullcone 测试结果</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E8%A7%A3%E5%86%B3%E4%B8%8D%E6%98%AF-nat1-%E7%9A%84%E9%97%AE%E9%A2%98%EF%BC%9F"><span class="nav-number">4.</span> <span class="nav-text">如何解决不是 nat1 的问题？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%AE%E6%94%B9%E8%B7%AF%E7%94%B1%E5%99%A8%EF%BC%8C%E4%BD%BF%E7%94%A8%E6%A1%A5%E6%8E%A5%E6%A8%A1%E5%BC%8F%E6%88%96%E6%8D%A2%E7%94%A8%E6%94%AF%E6%8C%81-nat1-%E7%9A%84%E5%9B%BA%E4%BB%B6"><span class="nav-number">4.1.</span> <span class="nav-text">修改路由器，使用桥接模式或换用支持 nat1 的固件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E7%AC%AC%E4%B8%89%E6%96%B9%E5%8A%A0%E9%80%9F%E5%99%A8-vps"><span class="nav-number">4.2.</span> <span class="nav-text">使用第三方加速器 &#x2F; vps</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%AE%E6%94%B9%E5%86%85%E6%A0%B8%EF%BC%8C%E5%AE%9E%E7%8E%B0-fullcone"><span class="nav-number">4.3.</span> <span class="nav-text">修改内核，实现 fullcone</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#centos7-%E5%86%85%E6%A0%B8%E6%94%B9%E8%A3%85"><span class="nav-number">4.3.1.</span> <span class="nav-text">centos7 内核改装</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#debian-%E5%86%85%E6%A0%B8%E6%94%B9%E8%A3%85"><span class="nav-number">4.3.2.</span> <span class="nav-text">debian 内核改装</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#iptables-fullcone-%E8%AE%BE%E7%BD%AE"><span class="nav-number">4.3.3.</span> <span class="nav-text">iptables fullcone 设置</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E7%B1%BB-vpn-%E5%B7%A5%E5%85%B7"><span class="nav-number">4.4.</span> <span class="nav-text">使用类 vpn 工具</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-socks-%E4%BB%A3%E7%90%86%E8%BD%AC-vpn-%E5%B7%A5%E5%85%B7"><span class="nav-number">4.5.</span> <span class="nav-text">使用 socks 代理转 vpn 工具</span></a></li></ol></li></ol></div>
+        </section>
+        <!--/noindex-->
+
+        <section class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="zbttl" src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">zbttl</p>
+  <div class="site-description" itemprop="description">玩点好玩的</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">40</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">88</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/zbttl" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;zbttl" rel="external nofollow noopener noreferrer" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:zbttls@gmail.com" title="E-Mail → mailto:zbttls@gmail.com" rel="external nofollow noopener noreferrer" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fa fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+
+
+
+        </section>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://zbttl-github-io.vercel.app/yi-ge-chou-da-you-xi-de-dui-fullcone-de-gao-tan-kuo-lun/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="zbttl">
+      <meta itemprop="description" content="玩点好玩的">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Bao's 备忘录">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          一个臭打游戏的对 fullcone 的高谈阔论
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-04-02 00:00:00" itemprop="dateCreated datePublished" datetime="2020-04-02T00:00:00+08:00">2020-04-02</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-03-24 22:23:18" itemprop="dateModified" datetime="2021-03-24T22:23:18+08:00">2021-03-24</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Network/" itemprop="url" rel="index"><span itemprop="name">Network</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>13k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>24 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h2 id="fullcone-是啥？"><a href="#fullcone-是啥？" class="headerlink" title="fullcone 是啥？"></a>fullcone 是啥？</h2><p>也称 nat1 或者是 nat 开放。简单来说，通讯中对方能获取你未修改的源 ip 和源端口基本就能识别成 fullcone nat。nat 一共有四种，就不细展开了。</p>
+<p>fullcone nat 的好处在许多网络游戏（尤其是 cod），只有 fullcone nat 才能匹配到最多的人，nat1 可以匹配 nat 全类型的人，相比之下 nat3 只能匹配到 nat1 和 nat3 的人，nat4 就只能匹配到 nat4 的人，也就是基本鬼服。另外在电驴和 ed2k 网络中，fullcone 能连到最多的节点，ed2k 想要获取 high id 也需要在 fullcone 下。</p>
+<p><strong>（21.2.6 更新）</strong> 推荐阅读 xray 作者 rprx 的最新力作：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/XTLS/Xray-core/discussions/237">进阶必读：代理协议 UDP 全方位透彻解析 · Discussion #237 · XTLS/Xray-core</a></p>
+<h2 id="为啥拿不到-nat1？"><a href="#为啥拿不到-nat1？" class="headerlink" title="为啥拿不到 nat1？"></a>为啥拿不到 nat1？</h2><p>从原理上来说，因为全球的 ip 地址不足以及安全上的原因，一般我们拿到的公网 ip 会被 nat 再次处理为内网 ip，如果对方收到的是设备的内网 ip 或者是被 nat 设备转发过的端口号，无法将数据准确返回，则会标为其他类型 nat。</p>
+<p>因此我一开始以为是内网 ip 的锅，毕竟公网 ip 比较难获取。后来发现并不是，虽然电信分配的并不是个固定 ip，但也是一个唯一的 ip，并没有其他人跟我共用这一个分配的 ip。</p>
+<p>真正的原因是，常见的路由器和光猫所使用的系统基于 linux 内核，linux 默认 nat 转发类型就是 Symmetric NAT，只要通过其进行转发，就会变成其他类型的 nat。</p>
+<p>另外，windows 防火墙的错误设置，以及对 udp 的限制（nat 的测试是在 udp 基础上进行的），都会造成 nat 测试结果变为其他类型。</p>
+<h2 id="nat-测试"><a href="#nat-测试" class="headerlink" title="nat 测试"></a>nat 测试</h2><h3 id="测试-nat-的工具"><a href="#测试-nat-的工具" class="headerlink" title="测试 nat 的工具"></a>测试 nat 的工具</h3><p>各类 nat 测试工具原理上有一些差异，导致测试出的结果经常会让人感到迷惑：例如 linux 本身的 nat 实际上是 nat4，但部分测试工具测出来的结果却是 nat2。不过从另一个角度说，nat 类型影响到的应用场景很有限，大部分情况也就是下载和游戏这两个场景受到的影响较大，所以直接通过下载软件、游戏测试当然最好。如果没有呢？测试用到了虚拟机，总不能让人装个 200g 的 cod 进虚拟机。。。</p>
+<h4 id="windows"><a href="#windows" class="headerlink" title="windows"></a>windows</h4><ol>
+<li>NatTypeTester。注意，该软件默认情况下可能不会触发 windows 防火墙的放行通知，导致测试出来的结果出错，得手动放行。</li>
+<li>pynat。可使用 pip 安装。<del>推荐，但极少数时候服务器出错会导致结果为 block。</del></li>
+<li><strong>（21.1.18 更新）</strong> <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/HMBSbige/NatTypeTester">HMBSbige/NatTypeTester: 测试当前网络的 NAT 类型（STUN）</a>。多个 stun 地址，支持 socks 代理。</li>
+<li><strong>（21.1.18 更新）</strong><a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/NetchX/Netch">NetchX/Netch: Game network accelerator. Support Socks5, Shadowsocks, ShadowsocksR, Trojan, VMess, VLess proxies. UDP NAT FullCone</a>。是测试工具，同时也是加速工具。</li>
+</ol>
+<h4 id="android"><a href="#android" class="headerlink" title="android"></a>android</h4><ol>
+<li>STUNner。谷歌商店能下到，不过在 vpn 环境下（比如 wireguard）似乎不是很准。</li>
+<li>pynat。通过终端模拟器（推荐 termux） ，用 pip 安装运行。</li>
+</ol>
+<h3 id="测-udp-是否联通的手段（搭着梯子亦可测）"><a href="#测-udp-是否联通的手段（搭着梯子亦可测）" class="headerlink" title="测 udp 是否联通的手段（搭着梯子亦可测）"></a>测 udp 是否联通的手段（搭着梯子亦可测）</h3><p>udp 阻塞也是 nat 类型不为开放的原因之一。下文 nat 测试结果提到的某些工具，比如 kcptun-sip003 的 tcp 通过 udp 转发后 udp 直接被拦阻了；<del>以及几乎所有的手机端代理公族，都不转发 udp</del>（虽然手机端游戏很少有 nat 的说法，但阻塞的 udp 一定程度上会导致游戏加速效果不佳）。而测试 udp 是否连通，方法有以下几种。</p>
+<ol>
+<li><p>iperf（参考 17.2.10 日记）</p>
+</li>
+<li><p>dig udp dns</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dig '@208.67.222.222' -p 443 www.twitter.com</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>udpping</p>
+</li>
+</ol>
+<h3 id="vpn-代理软件-nat-测试结果（21-1-18-证明已作废）"><a href="#vpn-代理软件-nat-测试结果（21-1-18-证明已作废）" class="headerlink" title="vpn 代理软件 nat 测试结果（21.1.18 证明已作废）"></a><del>vpn 代理软件 nat 测试结果（21.1.18 证明已作废）</del></h3><p>socks 系代理配合 mellow。</p>
+<p>开放：</p>
+<ul>
+<li>ss 原版</li>
+<li>v2 原版</li>
+<li>v2 + tls</li>
+<li>v2 + kcptun</li>
+<li>ss + kcptun + udpspeeder</li>
+<li><del>ss + cloak 2.0</del>（原 ss 的 udp 未做处理，但 tcp 被拦阻，所以实际上是 ss 原版）</li>
+<li>trojan</li>
+</ul>
+<p>无 udp：</p>
+<ul>
+<li>ss + kcptun-sip003 </li>
+<li>ss + cloak 1.0</li>
+<li>v2ray mkcp</li>
+</ul>
+<p>对称：</p>
+<ul>
+<li>wireguard</li>
+<li>openvpn</li>
+</ul>
+<h3 id="socks-代理软件-fullcone-测试结果"><a href="#socks-代理软件-fullcone-测试结果" class="headerlink" title="socks 代理软件 fullcone 测试结果"></a>socks 代理软件 fullcone 测试结果</h3><p>促使我再做一次测试的导火索，是 xray 1.21 的更新日志：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@master/img/20210118082936.png"></p>
+<p>可我上次测试出的结论是 vmess 支持 fullcone 啊？后来我发现自己忽略了一个重要的问题：代理工具只转发 tcp 流量时，udp 可能 blocked 也可能直连，直连的情况下 fullcone 测试结果将套用的是本地路由的 nat 类型。。。而测试时我路由器安装的系统是 padavan，已经被我设置为光猫桥接 + nat1 模式了，最终造成报道上出了偏差（</p>
+<p>第二次测试不带那些正经的 vpn 玩了（正经的 vpn 都是全流量转发，不存在漏网之鱼的），只带上主流的 socks 代理工具，ss、trojan 和 v2ray（xray） 这三个。同时测试本次 xray 更新究竟能带来什么效果。这次我专门套了一个 nat3 的 openwrt 极路由用来测试。</p>
+<p>测试结果如下面两张图所示。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/pcfullcone.png"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/androidfullcone.png"></p>
+<p>第一张结果来自 windows，第二张结果来自 android。本来只计划测试 pc 端效果。后来发现 各 nat 测试工具连直连测试测出来的结果都不一致，索性把手机拉进来一起测，找找规律。</p>
+<p>测试结果不算太严谨，有少数几个测试的结果前面的测试做完就水落石出了，我觉得没必要再去测了，比如手机端的 xray 1.21-&gt; server 端 xray 1.22，更新日志里面都写了两边都要大于 1.21 的版本就会获得 fullcone，电脑这边也测过了，手机这边就不测了 。</p>
+<ul>
+<li><p>测试到一半我基本就理解 xray 的更新日志中这个 fullcone 指的是什么了，即<strong>旧版本 xray/v2ray/v2fly 的 ss 和 trojan udp 机制有问题导致 nat 类型错误</strong>，原版 ss 和 trojan/trojan-go 并不存在这个问题；vmess/vless 也有这个问题但对于它们来说这不是 bug 而是 feature。。。所以，更新前，server 和 client 有一端使用了 v2ray（xray) 本身的 trojan/ss 功能的话会出问题，更新后无论是 xray 内部的 trojan/ss 还是原版 ss/trojan 两两互联 nat 都不会有问题。值得一提的是，xray trojan 即使是使用 xray 的新特性由 vless+tcp 同端口 fallback 而来的，nat 也能保持在 1。</p>
+</li>
+<li><p>nat 测试工具中，我原本最为信任的 pynat 反而效果最为拉跨，只要用了代理就弹 fullcone；本身应该弹 fullcone 的反而弹 nat3（使用 mellow 时，不过不排除是 mellow 本身的问题）。新版 NatTypeTester 尚可，没出现什么原则性错误，就是有时用不同的 stun 测试机结果可能会不一样，个人感觉 <code>stun.qq.com</code> 比较准，而默认的 syncthing stun 在 Symmetric 下经常会报 UnsupportServer。netch 虽然准却有「既当运动员又当裁判」的嫌疑；手机端 stunner 除了需要多次测试出结果外，准确率也尚可。</p>
+</li>
+<li><p>某些场景下出现了「假打洞」的现象：多次测试后本身结果应为 nat3 的会慢慢变成 nat2 甚至是 nat1。常出现于在虚拟机 vmware 中使用 pynat 和在 android 中使用 pynat 的情况，偶尔也出现在 NatTypeTester 测试中（无论是虚拟机还是实机）。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210116050102.png"></p>
+</li>
+<li><p>所以原则上我不用虚拟机进行 nat 测试，但。。。mellow 现在的表现实在拉跨，我在实机上开几次才能成功连上一次，bug 不少。用较为干净的虚拟机，清理了注册表后，勉强能进行测试，不过嘛。。。看这测试效果，也许是我配置错了什么地方？</p>
+</li>
+<li><p>标黄色部分的 pynat 测试结果，nat 测出 3 是因为刚开始我不太会配置 netch 的进程模式。之后用 mellow 的时，通过内置的流量路径监控日志才观察到 pynat 的流量路径是这样的：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">windowsTerminal.exe-&gt;powershell.exe-&gt;pynat.exe-&gt;python.exe</span><br></pre></td></tr></tbody></table></figure>
+
+<p>把这些全加到代理的进程列表中就行了。不过看后续的测试效果，也能估计出那些标黄的应该都是 nat1，没有改变 pynat 拉跨的结论（该标 3 的全部给标 1 了）。</p>
+</li>
+<li><p>netch 通过 socks 配合其他代理使用只能在进程模式下生效。在 tap 模式没办法排除进程会导致无限 loopback；<del>用除了 socks 以外的代理，启动时都会开一个 socks5 一个 http 代理端口，但用 socks5 的话 netch 就只会开一个 http 端口，好死不死 NatTypeTester 不支持 http 代理</del>（废话，http 代理不支持 udp 还测个啥）。。。所以除了 tun/tap 的测试中我没引入加了二级代理才有的功能。</p>
+</li>
+</ul>
+<p><strong>(21.2.14 更新)</strong> xray 的最新更新通过巧妙的方法解决了 fullcone 的问题，鼓掌！而且通过测试 mkcp 也能正常的获取 fullcone 了。另外当时我的 netTester 版本为 3.4，目前最新的版本据悉已经解决了 vmess 显示为 unsupported 的诡异问题（待测试）。</p>
+<h2 id="如何解决不是-nat1-的问题？"><a href="#如何解决不是-nat1-的问题？" class="headerlink" title="如何解决不是 nat1 的问题？"></a>如何解决不是 nat1 的问题？</h2><h3 id="修改路由器，使用桥接模式或换用支持-nat1-的固件"><a href="#修改路由器，使用桥接模式或换用支持-nat1-的固件" class="headerlink" title="修改路由器，使用桥接模式或换用支持 nat1 的固件"></a>修改路由器，使用桥接模式或换用支持 nat1 的固件</h3><p>之前说过 linux 内核设备只要经过流量转发 nat 就不是 fullcone 了。换言之，通过 ssh 连进路由器，在路由器上运行 nat 检测那还会是 fullcone nat，但在连入路由器的设备上检测那就都是 nat4了。</p>
+<p>更别说许多家庭用户使用光猫 + 路由器的组合，而光猫也处在路由模式下，就会造成双重 nat。</p>
+<p>解决方法有几种，包括：</p>
+<ol>
+<li>使用 dmz 和 upnp。通过搜索引擎能查到最常见的方法，实际使用中就会发现一个是在多重 nat 环境中配置复杂，<del>而且实际上我没配置好 upnp 后就没生效成功过，</del> dmz 一次只对一个设备有效，设置了 dmz 也只能保证内网里其中一台设备的 nat 为 1。</li>
+<li>在需要 nat1 的设备上进行拨号，将 linux 设备设置为桥接。对于光猫后面挂着路由器的用户来说，完全没有必要用光猫进行路由，或者家中只有一台网络设备（比如电脑），或者能够进行多拨的地区，就算是直接链接光猫也可以这么设置，因为完全没必要路由。但如果家中有多台设备且不能多拨，那如此设置的话就只有其中进行拨号的那台设备能上网了。另外，想要把光猫设置为桥接模式可能需要超级管理员帐号。</li>
+<li>使<del>需要进行拨号并</del>开启路由的设备支持 fullcone 转发，比如使用 windows 系统的软路由；或是是刷入支持 fullcone 模式的固件，新版本的 padavan 和 openwrt 应该都可以。意料之外的是某些光猫也支持设置为 fullcone 模式，比如臭名昭著的 tewa-e500。。。不过同样需要超管帐号。</li>
+</ol>
+<p>总结一下，对于大部分光猫 + 路由的用户，将光猫设置为桥接，路由开启 fullcone 转发即可。而单光猫或者无光猫单路由则需要在光猫上开启 fullcone，或者直接用需要 nat1 的设备拨号（比如 windows 电脑，比如 xbox/ps4）。</p>
+<hr>
+<p>不过，如果是配合代理使用，上述措施均不需要。请看下文。</p>
+<h3 id="使用第三方加速器-vps"><a href="#使用第三方加速器-vps" class="headerlink" title="使用第三方加速器 / vps"></a>使用第三方加速器 / vps</h3><p>最省心的方法。只要你购买的服务器/加速器上 nat 转发配置正确，经过代理后你的 nat 就会处于开放类型。你只需要付钱即可。</p>
+<p>当然，比较低端便宜的加速器技术人员这方面可能弄得不太行（最典型的，雷神加速器就是这样）。</p>
+<p>对于 bt 下载也是如此，你可以将直接使用 vps 上搭建的相关工具下载，下载完后再拖回本地，vps 的 ip 一般处在公网且位于国外，能获取到质量最好的 tracker。小心蜜罐种子就是。</p>
+<hr>
+<p>然而使用本地的 pc bt 工具（比如 qbitorrent）通过代理下载 bt 时，就要考虑代理性能问题了（虽然一般的游戏用的 vpn / 加速器禁止 bt）。udp 不通的代理查看流量走向的话，会发现软件流量走代理， bt 不走代理（不过我怀疑 tcp 方面的流量代理上了有部分加速效果）。而 udp 通畅但 nat 类型不对的话可能代理后效果比代理前还差（存疑）。</p>
+<h3 id="修改内核，实现-fullcone"><a href="#修改内核，实现-fullcone" class="headerlink" title="修改内核，实现 fullcone"></a>修改内核，实现 fullcone</h3><p><del>对于本身会修改规则和转发的代理工具来说，直接代理（socks 代理）就会实现 nat1，比如 ss，v2ray，不过他们本身用于科学用途，流量经过多重加密，性能反而一般，用在游戏上拖慢速度和丢包。</del> 其实综合来算 socks 代理效率要高于 vpn（vpn 要保证安全性，使用的加密算法强度普遍较高），不过部分 socks 代理的 udp 代理实现有问题，而正经一点的 vpn（wireguard，openvpn 等），不存在这方面的问题。（虽然有另一种说法 wireguard + udpspeeder 是代理加速游戏最好的方案，但我目前用本地电信实验效果并不理想，况且我家电信还没有受到 udp qos 影响）。</p>
+<p>然而全流量代理的会直接套用被代理设备系统 netfilter 的 nat，造成测出的 nat 变为 4。</p>
+<p>解决方案是，让系统支持 fullcone nat 并修改其 iptables 使中转流量全部按 fullcone nat 处理。</p>
+<p>参考文章：</p>
+<ol>
+<li>指南类</li>
+</ol>
+<ul>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://kotori.net/2020/01/08/%e7%ae%80%e5%8d%95%e6%93%8d%e4%bd%9c%e4%bd%bf-centos-%e6%94%af%e6%8c%81-fullcone-nat/">简单操作使 CentOS 支持 Fullcone NAT</a></li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.jianshu.com/p/88e7cd6a0c95">Centos 7当网关启用Fullcone nat</a></li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://888777.xyz/vpstalk/45203.html">有玩实况足球在线对战的朋友么，需要买哪里的服务器？（详情见评论区）</a></li>
+</ul>
+<ol start="2">
+<li>细节类</li>
+</ol>
+<ul>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.centos.bz/2017/08/upgrade-centos-7-6-kernel-to-4-12-4/">升级Centos 7/6内核版本到4.12.4的方法</a></li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.jianshu.com/p/fdf6bb6c5b9c">CentOS 7. × 系统及内核升级指南</a></li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://blog.csdn.net/xu_Melon/article/details/79043320">解决service iptables save出错please try to use systemctl.</a></li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://linux.vbird.org/linux_server/centos6/0250simple_firewall.php#netfilter_syntax_policy">第九章、防火牆與 NAT 伺服器</a></li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://dev.to/isabelcmdcosta/installing-nftables-from-sources-ondebian--4ic">Installing nftables from sources on Debian</a></li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://blog.csdn.net/w504430863/article/details/42964133">设置未识别的网络默认为专用网络</a></li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://askubuntu.com/questions/1052919/iptables-reload-restart-on-ubuntu-18-04">Iptables reload/restart on Ubuntu 18.04</a></li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://blog.csdn.net/hunanchenxingyu/article/details/38867931">ubuntu/debian 模块加载方式</a></li>
+</ul>
+<p>尽管我常用 debian，不过好像没有找到 debian 类系统的教学（主要不同点在于内核更换，模块的加载，还有 iptables 的自启上），centos 的倒是蛮多。但 centos 坑也不少，所以先试试 centos7 的。</p>
+<h4 id="centos7-内核改装"><a href="#centos7-内核改装" class="headerlink" title="centos7 内核改装"></a>centos7 内核改装</h4><ol>
+<li><p>更换内核。先吐槽一句，centos 更换内核比 debian 麻烦多了，后者下好内核和 header 就能用，centos 还得多下 devel 之类的几样东西，而且还得在官方源里面下，自己下载上传的不好装。。。</p>
+<p>fullcone-nat 模块对内核版本还是有一定要求，太新不行太旧也不行，好消息是支持 bbr 那几个内核基本都成，连 bbr-plus 那个自制内核都成。但锐速那个旧内核，和 centos7 默认定制的这个 3.10 就不要想了。。。</p>
+<p>先添加源</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">rpm -import https://www.elrepo.org/RPM-GPG-KEY-elrepo.org</span><br><span class="line">rpm -Uvh http://www.elrepo.org/elrepo-release-7.0-2.el7.elrepo.noarch.rpm</span><br></pre></td></tr></tbody></table></figure>
+
+<p>查看有哪些内核能用：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum --disablerepo="*" --enablerepo="elrepo-kernel" list available</span><br></pre></td></tr></tbody></table></figure>
+
+<p>现阶段能看到，mainline 的内核有点新，都是 5.x 系的；而长期支持版内核符合要求，装 lt 就好了。</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y --enablerepo=elrepo-kernel install kernel-lt.x86_64</span><br></pre></td></tr></tbody></table></figure>
+
+<p>装完重启。</p>
+<p>重启以后查看默认内核顺序</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">awk -F\' '$1=="menuentry " {print $2}' /etc/grub2.cfg</span><br></pre></td></tr></tbody></table></figure>
+
+<p>改 lt 内核顺序到开机顺序第一位</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/default/grub</span><br></pre></td></tr></tbody></table></figure>
+
+<p>改这句的数字到刚刚查看开机顺序看到 lt 内核所在的未知，注意位置是从 0 开始算。</p>
+<p>打个比方查看到的内核顺序，lt 内核在第二位</p>
+<p>那么，改 grub 文件的这一行为</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GRUB_DEFAULT=1</span><br></pre></td></tr></tbody></table></figure>
+
+<p>更新 grub</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">grub2-mkconfig -o /boot/grub2/grub.cfg</span><br></pre></td></tr></tbody></table></figure>
+
+<p>重启后查看当前内核对不对</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">uname -r</span><br></pre></td></tr></tbody></table></figure>
+
+<p>然后查看当前内核与相关的编译模块有哪些</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpm -qa | grep kernel</span><br></pre></td></tr></tbody></table></figure>
+
+<p>原来 3.10 相关的 devel 和 header 等等等，全部删掉，否则待会会干扰 lt 内核其他模块的安装（下面这个命令只是打个比方，肯定不止这一个模块）</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum remove -y kernel-tools-3.10.0-514.26.2.el7.x86_64</span><br></pre></td></tr></tbody></table></figure>
+
+<p>然后安装剩下的 lt 模块，如果不知道还剩哪些的话，可以用「查看有哪些内核能用」那里的命令再确认一下。下面的命令也是仅供参考：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y --enablerepo=elrepo-kernel install kernel-lt-devel.x86_64 kernel-lt-headers.x86_64 kernel-lt-tools.x86_64 </span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>安装依赖。注意，安装依赖一定在更新内核之后，因为依赖和内核版本挂钩。然后待会的编译一定在安装依赖之后，原因相同。如果发现装的内核不对的话，更新完内核还要再装一边依赖，然后再去编译，否则大概率出现奇奇怪怪的问题。</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install gcc gcc-c++ autoconf autogen libmnl libmnl-devel libtool-devel libtool git -y</span><br></pre></td></tr></tbody></table></figure>
+
+<p>另外，装一个原版的 iptables，先把 firewalld 干了（不过我感觉大部分 centos7 默认都不装这玩意）</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">systemctl stop firewalld</span><br><span class="line">systemctl mask firewalld</span><br></pre></td></tr></tbody></table></figure>
+
+<p>然后安装，设置开机启动</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">yum install iptables-services</span><br><span class="line">systemctl enable iptables</span><br></pre></td></tr></tbody></table></figure>
+
+<p>看看版本，应该是 v1.42</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -V</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>下载所要编译的三个模块源码，一个是 fullcone-nat 模块的依赖，一个是模块本身，另一个是 iptables 模块</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git clone git://git.netfilter.org/libnftnl.git</span><br><span class="line">git clone git://git.netfilter.org/iptables.git</span><br><span class="line">git clone https://github.com/Chion82/netfilter-full-cone-nat.git</span><br></pre></td></tr></tbody></table></figure>
+
+<p>然后就是编译安装</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">#编译 libnftnl</span><br><span class="line">cd libnftnl</span><br><span class="line">sh autogen.sh</span><br><span class="line">./configure</span><br><span class="line">make</span><br><span class="line">make install</span><br><span class="line"></span><br><span class="line">cd ..</span><br><span class="line"></span><br><span class="line">#编译fullcone-nat</span><br><span class="line">cd ~/netfilter-full-cone-nat</span><br><span class="line">make</span><br><span class="line">modprobe nf_nat</span><br><span class="line">insmod xt_FULLCONENAT.ko</span><br><span class="line"></span><br><span class="line">cd ..</span><br><span class="line"></span><br><span class="line">#编译 iptables</span><br><span class="line">cp ~/netfilter-full-cone-nat/libipt_FULLCONENAT.c ~/iptables/extensions/</span><br><span class="line">ln -sfv /usr/sbin/xtables-multi /usr/bin/iptables-xml</span><br><span class="line">./autogen.sh</span><br><span class="line">PKG_CONFIG_PATH=/usr/local/lib/pkgconfig</span><br><span class="line">export PKG_CONFIG_PATH</span><br><span class="line">./configure</span><br><span class="line">make</span><br><span class="line">make install</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>关闭原来 iptables 的 service，换入现在 iptables 的 service，因为刚刚安装的位置和真正 iptables services 指向的位置不一样，没有执行替换的话，待会写入带 FULLCONENAT 的 nat 规则后用 <code>service iptables save</code> 保存就会报错。</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">#先关闭iptables</span><br><span class="line">systemctl  stop iptables</span><br><span class="line">#删除原来的iptables</span><br><span class="line">rm -rf /sbin/iptables</span><br><span class="line">rm -rf /sbin/iptables-restore</span><br><span class="line">rm -rf /sbin/iptables-save</span><br><span class="line">#复制你自己编译的iptables</span><br><span class="line">cd /usr/local/sbin</span><br><span class="line">cp /usr/local/sbin/iptables /sbin/     </span><br><span class="line">cp /usr/local/sbin/iptables-restore /sbin/</span><br><span class="line">cp /usr/local/sbin/iptables-save /sbin/</span><br><span class="line">#检验iptables版本，应该是 1.8.4</span><br><span class="line">iptables -V</span><br></pre></td></tr></tbody></table></figure>
+
+<p>注意那三句 cp 一句句执行，因为每句都要按一次 y，全部一起执行的话只会出一次 y，只替换第一个 iptables 文件。</p>
+</li>
+<li><p>设置开机自动加载 Fullcone 模块</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">kernel=`uname -r`</span><br><span class="line">cp ~/netfilter-full-cone-nat/xt_FULLCONENAT.ko  /lib/modules/$kernel/</span><br><span class="line">depmod</span><br><span class="line">echo "modprobe xt_FULLCONENAT" &gt; /etc/sysconfig/modules/xt_FULLCONENAT.modules</span><br><span class="line">chmod 755 /etc/sysconfig/modules/xt_FULLCONENAT.modules</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>重启，检查</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lsmod | grep xt_FULLCONENAT</span><br></pre></td></tr></tbody></table></figure>
+
+<p>有输出即可。</p>
+</li>
+<li><p>未来保存规则，可通过</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">service iptables save</span><br><span class="line">service iptables restart</span><br></pre></td></tr></tbody></table></figure>
+
+<p>生效。</p>
+</li>
+</ol>
+<h4 id="debian-内核改装"><a href="#debian-内核改装" class="headerlink" title="debian 内核改装"></a>debian 内核改装</h4><ol>
+<li><p>安装内核。跳过。一键脚本那么多，教程也写的这么多了。</p>
+</li>
+<li><p>安装依赖。</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt install build-essential libtool libnfnetlink0 libnfnetlink-dev libpcap0.8-dev libtool autoconf autogen git -y</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>下载四个模块的源码。原因是 apt 库中没有 libnftnl 模块的依赖 libmnl 下。</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git clone git://git.netfilter.org/libmnl</span><br><span class="line">git clone git://git.netfilter.org/libnftnl.git</span><br><span class="line">git clone git://git.netfilter.org/iptables.git</span><br><span class="line">git clone https://github.com/Chion82/netfilter-full-cone-nat.git</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>编译安装。又一个和 centos 不一样的地方，debian 没有 iptables-xml，也没有 pkg_config_path</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">#编译libmnl</span><br><span class="line">cd libnftnl</span><br><span class="line">sh autogen.sh</span><br><span class="line">./configure --disable-dependency-tracking</span><br><span class="line">#直接configure好像报错</span><br><span class="line">#./configure</span><br><span class="line">make</span><br><span class="line">make install</span><br><span class="line"></span><br><span class="line">#编译 libnftnl</span><br><span class="line">cd libnftnl</span><br><span class="line">sh autogen.sh</span><br><span class="line">./configure</span><br><span class="line">make</span><br><span class="line">make install</span><br><span class="line"></span><br><span class="line">cd ..</span><br><span class="line"></span><br><span class="line">#编译fullcone-nat</span><br><span class="line">cd ~/netfilter-full-cone-nat</span><br><span class="line">make</span><br><span class="line">modprobe nf_nat</span><br><span class="line">insmod xt_FULLCONENAT.ko</span><br><span class="line"></span><br><span class="line">cd ..</span><br><span class="line"></span><br><span class="line">#编译 iptables</span><br><span class="line">cp ~/netfilter-full-cone-nat/libipt_FULLCONENAT.c ~/iptables/extensions/</span><br><span class="line">./autogen.sh</span><br><span class="line">./configure</span><br><span class="line">make</span><br><span class="line">make install</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>设置开机加载模块</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">kernel=`uname -r`</span><br><span class="line">cp ~/netfilter-full-cone-nat/xt_FULLCONENAT.ko  /lib/modules/$kernel/</span><br><span class="line">depmod</span><br><span class="line">echo "xt_FULLCONENAT"&gt;&gt;/etc/modules</span><br></pre></td></tr></tbody></table></figure>
+
+<p>重启，检测</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lsmod | grep xt_FULLCONENAT</span><br></pre></td></tr></tbody></table></figure>
+
+<p>另外这里不需要检测 iptables 版本号，因为 debian 默认情况下就安装了最新版的 iptables，所以无论是安装修改版 iptables 之前还是之后，查看版本号都是 1.8.4。</p>
+</li>
+<li><p>安装 iptables 自动加载服务。</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt install iptables-persistent -y</span><br></pre></td></tr></tbody></table></figure>
+
+<p>未来保存规则时，需要用以下命令</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables-save &gt; /etc/iptables/rules.v4</span><br></pre></td></tr></tbody></table></figure>
+
+</li>
+</ol>
+<h4 id="iptables-fullcone-设置"><a href="#iptables-fullcone-设置" class="headerlink" title="iptables fullcone 设置"></a>iptables fullcone 设置</h4><ol>
+<li><p>先看目前的 iptables 表，尽管其实一共三张表，但有一张默认不怎么管，一开始也是空的，所以只看 nat 表和 filter 表就够了</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">iptables -L -v</span><br><span class="line">iptables -L -t nat -v</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>默认情况下，貌似有 drop 规则会干扰使用，需要删掉</p>
+<p>或者直接清空路由表：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">iptables -F</span><br><span class="line">iptables -Z</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>理论上，只用添加下面这两句就能生效了</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">iptables -t nat -A POSTROUTING -o eth0 -j FULLCONENAT</span><br><span class="line">iptables -t nat -A PREROUTING -i eth0 -j FULLCONENAT</span><br></pre></td></tr></tbody></table></figure>
+
+<p>还有两个可选规则（准备给 wireguard 的），我测试过没啥用</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">iptables -t nat -A PREROUTING -i wg0 -j FULLCONENAT</span><br><span class="line">iptables -t nat -A POSTROUTING -s 10.0.0.0/24 -o wg0 -j MASQUERADE</span><br></pre></td></tr></tbody></table></figure>
+
+<p>另外也可以把命令中的 -A 换成 -I 强制添加规则到第一行（不过大部分时候 chain 里面都只有这一条规则）</p>
+<p>而有的 wireguard 教程里面的 postup 和 postdown 也可以加，非 fullcone 下必加，但 fullcone nat 模块开启后就可以不加了</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">PostUp = iptables -I FORWARD -i wg0 -j ACCEPT; iptables -I FORWARD -o wg0 -j ACCEPT</span><br><span class="line">PostDown = iptables -D FORWARD -i wg0 -j ACCEPT; iptables -D FORWARD -o wg0 -j ACCEPT</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>初步判断 iptables 规则是否有用，可以跑一段时间流量后通过第一步的两个查询命令查看是否有流量通过。注意，有流量通过的规则并不一定是关键有效的，比如 postup 和 postdown 这两句执行后会发现也有流量经过，但去掉了也不影响连通性。</p>
+<p>修改了以后重新观察是否连通正确可以先执行 <code>iptables -Z</code> 清空流量统计。</p>
+</li>
+<li><p>修改后记得保存，然后重启后通过第一步或者 <code>iptables-save</code> 查看是否重启时自动加载了路由表。</p>
+</li>
+</ol>
+<h3 id="使用类-vpn-工具"><a href="#使用类-vpn-工具" class="headerlink" title="使用类 vpn 工具"></a>使用类 vpn 工具</h3><p>类 vpn 工具同样代理全部流量，区别在于它们的 udp 流量经过特殊处理，能够保证 nat 类型为 fullcone。目前有以下这么几种：</p>
+<ul>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/zhxie/ikago">zhxie/ikago: IkaGo is a proxy which helps bypassing UDP blocking, UDP QoS and NAT firewall written in Go.</a>（不太推荐）<br> 使用体验：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://zbttl.github.io/ikago-he-pcap2socks-shi-yong-ti-yan/#ikago">ikago 和 pcap2socks 使用体验 | Bao’s 备忘录</a></li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/wangyu-/tinyfecVPN">wangyu- / tinyfecVPN：专为有损链接而设计的VPN，具有内置的前向纠错（FEC）支持。 在高延迟有损链路上提高网络质量。</a></li>
+</ul>
+<p>ikago 不推荐的原因是 bug 较为影响使用。</p>
+<h3 id="使用-socks-代理转-vpn-工具"><a href="#使用-socks-代理转-vpn-工具" class="headerlink" title="使用 socks 代理转 vpn 工具"></a>使用 socks 代理转 vpn 工具</h3><ul>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.proxifier.com/">Proxifier - The Most Advanced Proxy Client</a></li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/FQrabbit/SSTap-Rule/releases/tag/SSTap%E5%B8%B8%E7%94%A8%E7%89%88%E6%9C%AC%E5%8F%8A%E5%8E%BB%E5%B9%BF%E5%91%8A">SSTAP</a></li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/mellow-io/mellow">mellow</a>（不太推荐）<br> 使用体验：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://zbttl.github.io/mellow-shi-yong-ti-yan/?highlight=mellow">mellow 使用体验 | Bao’s 备忘录</a></li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/zhxie/pcap2socks">zhxie/pcap2socks: Redirect traffic to SOCKS proxy with pcap.</a>（不太推荐）</li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/zhxie/pcap2socks-gui">zhxie/pcap2socks-gui: A front-end interface for pcap2socks.</a><br> 使用体验：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://zbttl.github.io/ikago-he-pcap2socks-shi-yong-ti-yan/#pcap2socks-%E5%92%8C-pcap2socks-gui">ikago 和 pcap2socks 使用体验 | Bao’s 备忘录</a></li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/NetchX/Netch">NetchX/Netch: Game network accelerator. Support Socks5, Shadowsocks, ShadowsocksR, Trojan, VMess, VLess proxies. UDP NAT FullCone</a><br> 使用体验：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://zbttl.github.io/netch-shi-yong-ti-yan-dai-li-gui-ze-huo-qu/">netch 使用体验（代理规则获取） | Bao’s 备忘录</a></li>
+</ul>
+<p>mellow 和 pcap2socks 不推荐的原因同样是 bug 不少，另外 mellow 的配置门槛还挺高的。不过 mellow 的最大贡献是应该本身 go 的 tun/tap 实现。pcap2socks 就比较神秘，cli 界面用着用着就会报错，但 gui 并不会报错。</p>
+<p>剩下的几个，Proxifier 专注于进程代理，能给多个进程配置不同的代理和 dns，我觉得更适合作为那些个长期挂在后台，需要代理却不支持 http 代理也没有 socks 配置设置的应用使用。</p>
+<p>netch 是这几个中我最为推荐的，直接支持多种协议不需要再用二级代理进行转发（除非是使用 mkcp+seed，目前 netch 中还不支持相关配置）。不过之前也提到，tun/tap 全局代理尚未可用（容易 loopback）。且 netch 的 tun/tap，确实也有几次上不去网的状况发生，不算非常稳定。</p>
+<p>SSTAP 可用全局代理，通过设置路由能够避免 loopback 的产生。不过人家在项目主页上也说了，使用 sstap 不仅不能解决 nat 问题，nat 还会永远被固定在 Symmetric 的状态。</p>
+<p>上面这些工具，除了 pcap2socks 外工作方式无非进程代理和 tun/tap 转发两种。tun/tap 转发在建立了正确 ip 表的前提下效果完美，但可靠性欠佳（极少情况下反复开关几回以后网卡都工作不正常了，表现为啥网页都开不开，重启后才正常）。而进程代理方式有可能会遗漏一些游戏进程外的相关进程，就会造成类似 cod16 中游戏流量显然已经被加速过（丢包减少，能进游戏），然而丢包显示错误（始终为 0）的情况，或者是类似微软系第一方游戏上未加速 xbox live 服务导致云同步工作不正常的情况。</p>
+<p>pcap2socks 工作方式又和上面这些不太一样，大概应该属于旁路由，好处是可以给主机加速，坏处是加速设备不能和游戏设备是同一台，各类第三方加速器的主机加速模式也是这个原理。类 vpn 工具中的 ikago 同样也是旁路由原理，不过是 ikago 还拥有转发流量到 vps 的功能，而 pcap2socks 则把这个功能交给了 socks 代理来实现。</p>
+<p>话说回来，几种 socks 代理工具中，ss 和 ssr 属于 UOU（udp over udp），能够配合 udpspeeder/udp2raw/kcptun 使用；trojan 和 vless 属于 UOT（udp over tcp），只能配合 kcptun 使用。还有一个问题，就是在部分游戏的丢包显示中（比如 cod16），使用 UOT 代理做隧道的话，丢包显示不准确，始终为 0。未来 xray 如果能实现 smux 功能的话，就能部分替代 udpspeeder/kcptun 的加速效果。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>zbttl
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="https://zbttl-github-io.vercel.app/yi-ge-chou-da-you-xi-de-dui-fullcone-de-gao-tan-kuo-lun/" title="一个臭打游戏的对 fullcone 的高谈阔论">https://zbttl-github-io.vercel.app/yi-ge-chou-da-you-xi-de-dui-fullcone-de-gao-tan-kuo-lun/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="external nofollow noopener noreferrer" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="followme">
+  <span>欢迎关注我的其它发布渠道</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="/atom.xml">
+          <span class="icon">
+            <i class="fa fa-rss"></i>
+          </span>
+
+          <span class="label">RSS</span>
+        </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/%E6%B8%B8%E6%88%8F%E5%8A%A0%E9%80%9F/" rel="tag"># 游戏加速</a>
+              <a href="/tags/socks/" rel="tag"># socks</a>
+              <a href="/tags/nat/" rel="tag"># nat</a>
+              <a href="/tags/fullcone/" rel="tag"># fullcone</a>
+          </div>
+
+        
+  <div class="post-widgets">
+    <div class="wp_rating">
+      <div id="wpac-rating"></div>
+    </div>
+  </div>
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/bao-li-zheng-he-windows-terminal-dao-xi-tong-ge-chu-kuai-jie-cai-dan-zhong/" rel="prev" title="暴力整合 windows terminal 到系统各处快捷菜单中">
+                  <i class="fa fa-chevron-left"></i> 暴力整合 windows terminal 到系统各处快捷菜单中
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/ma-que-sui-xiao-wu-zang-ju-quan-android-duan-terminal-termux-shang-shou-diao-xiao-zhi-nan/" rel="next" title="「麻雀虽小，五脏俱全」：Android 端 terminal termux 上手调校指南">
+                  「麻雀虽小，五脏俱全」：Android 端 terminal termux 上手调校指南 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zbttl</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+      <span>站点总字数：</span>
+    <span title="站点总字数">270k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span>站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">8:11</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">本博客使用 <a href="https://hexo.io/" class="theme-link" rel="external nofollow noopener noreferrer" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" class="theme-link" rel="external nofollow noopener noreferrer" target="_blank">NexT.Muse</a> 
+  </div><script color="120,120,120" opacity="0.5" zindex="-1" count="150" src="https://cdn.jsdelivr.net/npm/canvas-nest.js@1/dist/canvas-nest.js"></script>
+<!--《添加网站运行时间 -->
+<!--<br/>-->
+<span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+<script>
+    var now = new Date();
+
+    function createtime() {
+        var grt = new Date("12/18/2020 12:00:00"); //此处修改你的建站时间或者网站上线时间 
+        now.setTime(now.getTime() + 250);
+        days = (now - grt) / 1000 / 60 / 60 / 24;
+        dnum = Math.floor(days);
+        hours = (now - grt) / 1000 / 60 / 60 - (24 * dnum);
+        hnum = Math.floor(hours);
+        if (String(hnum).length == 1) {
+            hnum = "0" + hnum;
+        }
+        minutes = (now - grt) / 1000 / 60 - (24 * 60 * dnum) - (60 * hnum);
+        mnum = Math.floor(minutes);
+        if (String(mnum).length == 1) {
+            mnum = "0" + mnum;
+        }
+        seconds = (now - grt) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+        snum = Math.round(seconds);
+        if (String(snum).length == 1) {
+            snum = "0" + snum;
+        }
+        document.getElementById("timeDate").innerHTML = " 本站已安全运行 " + dnum + " 天 ";
+        document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒";
+    }
+    setInterval("createtime()", 250);
+</script>
+<!-- 添加网站运行时间》 -->
+
+    </div>
+  </footer>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+  <script>
+  if (CONFIG.page.isPost) {
+    wpac_init = window.wpac_init || [];
+    wpac_init.push({
+      widget: 'Rating',
+      id    : 28813,
+      el    : 'wpac-rating',
+      color : '#fc6423'
+    });
+    (function() {
+      if ('WIDGETPACK_LOADED' in window) return;
+      WIDGETPACK_LOADED = true;
+      var mc = document.createElement('script');
+      mc.type = 'text/javascript';
+      mc.async = true;
+      mc.src = '//embed.widgetpack.com/widget.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(mc, s.nextSibling);
+    })();
+  }
+  </script>
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1.7.0/dist/gitalk.css">
+
+<script>
+NexT.utils.loadComments('#gitalk-container', () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1.7.0/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : 'd99d750bdfdb31ecf37e',
+      clientSecret: '1d37215aff71dc84b66e03cb412c7e68b968d76f',
+      repo        : 'zbttl-comment',
+      owner       : 'zbpicture',
+      admin       : ['zbpicture'],
+      id          : '5a4650e9c5d5745a38e4ee318d9f0480',
+        language: '',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+<script type="text/javascript" src=" https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+
+  <script async src="/js/cursor/text.js"></script>
+
+
+
+
+</body>
+</html>
