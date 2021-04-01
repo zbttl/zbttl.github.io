@@ -123,6 +123,65 @@
       </tags>
   </entry>
   <entry>
+    <title>windows 开启 openssh-server</title>
+    <url>/windows-kai-qi-openssh-server/</url>
+    <content><![CDATA[<p>这篇文章是从<a href="https://zbttl.github.io/azure-yang-mao-er/">azure 羊毛（二） | Bao’s 备忘录</a>这里分离出来的。因为我发现给 windows server 2012 开 openssh 的坑远不及于此，这篇按官方教程来的小实践只能算个引子，于是干脆独立出来。</p>
+<p>在 windows 10 专业版上部署通过。</p>
+<p>参考文章：</p>
+<ul>
+<li><a href="https://docs.microsoft.com/en-us/windows-server/administration/openssh/openssh_install_firstuse">Installation of OpenSSH For Windows Server | Microsoft Docs</a></li>
+<li><a href="https://stackoverflow.com/questions/16212816/setting-up-openssh-for-windows-using-public-key-authentication/50502015#50502015">ssh - Setting up OpenSSH for Windows using public key authentication - Stack Overflow</a></li>
+</ul>
+<h2 id="安装，配置服务"><a href="#安装，配置服务" class="headerlink" title="安装，配置服务"></a>安装，配置服务</h2><p>安装</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">Add-WindowsCapability -Online -Name OpenSSH.Server</span><br></pre></td></tr></tbody></table></figure>
+
+<p>配置自启</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">Set-Service -Name sshd -StartupType 'Automatic'</span><br></pre></td></tr></tbody></table></figure>
+
+<p>配置防火墙（其实我一开始是像 rdp 这边用图形界面配置的，结果软软的教程居然给了命令，学到了，主要是写教程方便不用截图 - -）</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">New-NetFirewallRule -Name sshd -DisplayName 'OpenSSH Server (sshd)' -Enabled True -Direction Inbound -Protocol TCP -Action Allow -LocalPort 999</span><br></pre></td></tr></tbody></table></figure>
+
+<p>如果用的是默认 22 端口不改其实可以略过这步。咱不习惯用默认端口就是。</p>
+<p>更改默认命令行程序为 powershell</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">New-ItemProperty -Path "HKLM:\SOFTWARE\OpenSSH" -Name DefaultShell -Value "C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe" -PropertyType String -Force</span><br></pre></td></tr></tbody></table></figure>
+
+<h2 id="修改-sshd-config"><a href="#修改-sshd-config" class="headerlink" title="修改 sshd_config"></a>修改 sshd_config</h2><p>sshd_config 位于 <code>C:\ProgramData\ssh\sshd_config</code></p>
+<p>修改端口</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">#Port 22</span><br><span class="line">Port 999</span><br></pre></td></tr></tbody></table></figure>
+
+<p>注释掉旧版密钥路径</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">#Match Group administrators</span><br><span class="line">#       AuthorizedKeysFile __PROGRAMDATA__/ssh/administrators_authorized_keys</span><br></pre></td></tr></tbody></table></figure>
+
+<p>关闭密码登录</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">PasswordAuthentication no</span><br></pre></td></tr></tbody></table></figure>
+
+<h2 id="放入密钥"><a href="#放入密钥" class="headerlink" title="放入密钥"></a>放入密钥</h2><p>将公钥放到 <code>C:\Users\zbttl\.ssh</code>里面，改名为<code>authorized_keys</code>。别说你看到这里都还没公钥。。。</p>
+<p>可能还要修复公钥的权限。微软官方文章使用的是 opensshutils 这个软件，但这个软件去年就被标记为 deprecated，实在要装只能手动安装，可以参考<a href="https://stackoverflow.com/questions/62873521/powershell-opensshutils">openssh - PowerShell OpenSSHUtils - Stack Overflow</a>，而且参考文章 2 中写明不建议装。</p>
+<p>另外两种方法：</p>
+<ol>
+<li><p>直接用 gui 修改权限。右键<code>authorized_keys</code> -&gt; 属性 -&gt; 安全 -&gt; 高级 -&gt; 禁用继承，在弹出的对话框选择「将已继承权限转换」。然后删掉多余权限，留下 system 和自己目前所用账号的权限就行。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210318041441.png"></p>
+</li>
+<li><p>使用命令</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">get-acl C:\Users\zbttl\.ssh\authorized_keys | fl</span><br></pre></td></tr></tbody></table></figure>
+
+</li>
+</ol>
+<p>我也不知道哪个好用，因为我几年前从 linux 那边生成的公钥文件貌似没有权限问题。。。</p>
+<h2 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h2><p>启动服务</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">Start-Service sshd</span><br></pre></td></tr></tbody></table></figure>
+
+<p>记得登录的是用户名不是 root 而是当前微软账号或者微软本地用户名。</p>
+]]></content>
+      <categories>
+        <category>Network</category>
+      </categories>
+      <tags>
+        <tag>windows</tag>
+        <tag>openssh</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>玩一下 zerotier</title>
     <url>/wan-yi-xia-zerotier/</url>
     <content><![CDATA[<p>之前咱玩过 frp，主要用于远程操作家里的电脑。这东西方便是方便，但用了一段时间看了看日志，好家伙被扫了几百遍。。。。毕竟对外就一个端口一个密码，实话说，不太安全（前几个月还看见 v2ex 因为 frp 导致公司电脑被勒索，后面不知道咋样了）。</p>
@@ -354,7 +413,7 @@
 <figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">service vnstat restart</span><br><span class="line">#上面这个命令或者下面这个命令，二选一，假设网卡名为 eth0</span><br><span class="line">#vnstat --create -i eth0</span><br></pre></td></tr></tbody></table></figure>
 
 <p>输入</p>
-<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">netstat -q</span><br></pre></td></tr></tbody></table></figure>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">vnstat -q</span><br></pre></td></tr></tbody></table></figure>
 
 <p>出现类似</p>
 <p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210311143837.png"></p>
@@ -369,6 +428,9 @@
 <figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">def liuliang():</span><br><span class="line">	NET_IN = 0</span><br><span class="line">	NET_OUT = 0</span><br><span class="line">	vnstat=os.popen('vnstat --dumpdb').readlines()</span><br><span class="line">	for line in vnstat:</span><br><span class="line">		if line[0:4] == "m;0;":</span><br><span class="line">			mdata=line.split(";")</span><br><span class="line">			NET_IN=int(mdata[3])*1024*1024</span><br><span class="line">			NET_OUT=int(mdata[4])*1024*1024</span><br><span class="line">			break</span><br><span class="line">	return NET_IN, NET_OUT</span><br></pre></td></tr></tbody></table></figure>
 
 <p>重载 supervisor 即可生效。</p>
+<p><strong>（21.3.31 更新）</strong> 在某些系统（比如 ubuntu 中），安装的 vnstat 版本不是 v1.x 而是新的 v2.x，剔除了 <code>vnstat --dumpdb</code> 这个命令导致上面这行代码无法工作。需要更换为：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">def liuliang():</span><br><span class="line">    NET_IN = 0</span><br><span class="line">    NET_OUT = 0</span><br><span class="line">    vnstat=os.popen('vnstat --oneline').readlines()</span><br><span class="line">    for line in vnstat:</span><br><span class="line">        mdata=line.split(";")</span><br><span class="line">        NET_IN=str(mdata[8])</span><br><span class="line">        NET_IN=re.findall('\d+\.\d*', NET_IN)</span><br><span class="line">        NET_IN=int(float(NET_IN[0])*1024*1024)</span><br><span class="line">        NET_OUT=str(mdata[9])</span><br><span class="line">        NET_OUT=re.findall('\d+\.\d*', NET_OUT)</span><br><span class="line">        NET_OUT=int(float(NET_OUT[0])*1024*1024)</span><br><span class="line">    return NET_IN, NET_OUT</span><br></pre></td></tr></tbody></table></figure>
+
 <h3 id="配置定时重置和刷新时间"><a href="#配置定时重置和刷新时间" class="headerlink" title="配置定时重置和刷新时间"></a>配置定时重置和刷新时间</h3><p>vnstat 的配置放在 <code>/etc/vnstat.conf</code> 中。默认情况下每月流量重置时间为 1 号。如果需要修改，可以修改 MonthRotate 参数。</p>
 <figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line"># on which day should months change</span><br><span class="line">MonthRotate 1</span><br></pre></td></tr></tbody></table></figure>
 
@@ -859,7 +921,7 @@
 <figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))</span><br><span class="line">choco install git -y</span><br></pre></td></tr></tbody></table></figure>
 </li>
 <li><p>用 choco 安装 acme.sh。</p>
-<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">choco install acme.sh -y</span><br></pre></td></tr></tbody></table></figure>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">choco install acme-sh -y</span><br></pre></td></tr></tbody></table></figure>
 
 <p>导航到 acme.sh 的安装目录，目前最新的版本是 2.88，用 chocolatey 安装的话大概就会在 <code>C:\ProgramData\chocolatey\lib\acme-sh\tools\acme.sh-2.8.8</code> 这里。</p>
 <p>右键空白处，点击 <code>git bash here</code>。</p>
@@ -898,28 +960,23 @@
 <p>复制一遍该规则，粘贴后进入规则属性，改一下名字，在协议和端口中将 tcp 改为 udp。</p>
 <p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210317004152.png"></p>
 <p>点一下顶上名称栏的本地端口，给本地端口排个序，把原来的 3389 tcp 和 udp 端口禁用。ok，重启，通过 <code>ip:3380</code> 连入 rdp。</p>
-<h3 id="开启-ssh（21-3-17-更新）"><a href="#开启-ssh（21-3-17-更新）" class="headerlink" title="开启 ssh（21.3.17 更新）"></a>开启 ssh（21.3.17 更新）</h3><p>防止 rdp 突然爆掉，有个后路（</p>
-<p>参考文章：</p>
-<ul>
-<li><a href="https://docs.microsoft.com/en-us/windows-server/administration/openssh/openssh_install_firstuse">Installation of OpenSSH For Windows Server | Microsoft Docs</a></li>
-<li><a href="https://stackoverflow.com/questions/16212816/setting-up-openssh-for-windows-using-public-key-authentication/50502015#50502015">ssh - Setting up OpenSSH for Windows using public key authentication - Stack Overflow</a></li>
-</ul>
-<p>安装</p>
-<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">Add-WindowsCapability -Online -Name OpenSSH.Server</span><br></pre></td></tr></tbody></table></figure>
+<p><strong>（21.3.17 更新）</strong> 或者，新建一个 ps1 文件，内容为：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">New-NetFirewallRule -Name tcp-rdp -DisplayName 'rdptcp' -Enabled True -Direction Inbound -Protocol TCP -Action Allow -LocalPort 3380</span><br><span class="line">New-NetFirewallRule -Name udp-rdp -DisplayName 'rdpudp' -Enabled True -Direction Inbound -Protocol TCP -Action Allow -LocalPort 3380</span><br></pre></td></tr></tbody></table></figure>
 
-<p>配置自启</p>
-<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">Set-Service -Name sshd -StartupType 'Automatic'</span><br></pre></td></tr></tbody></table></figure>
+<h3 id="开启-ssh（21-4-1-更新）"><a href="#开启-ssh（21-4-1-更新）" class="headerlink" title="开启 ssh（21.4.1 更新）"></a>开启 ssh（21.4.1 更新）</h3><p>防止 rdp 突然爆掉，有个后路（</p>
+<p>前引：</p>
+<h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><p>windows server 2012 r2 small disk 不支持 <code>Add-WindowsCapability</code> 这一类的命令。代替的方案有：</p>
+<ol>
+<li><p>手动解压安装。从 <a href="https://github.com/PowerShell/Win32-OpenSSH/releases">Releases · PowerShell/Win32-OpenSSH</a> 下载 <a href="https://github.com/PowerShell/Win32-OpenSSH/releases/download/v8.1.0.0p1-Beta/OpenSSH-Win64.zip">OpenSSH-Win64.zip</a>，解压到任意位置并添加到系统变量中，运行其中的 <code>install-sshd.ps1</code>。</p>
+</li>
+<li><p>直接用 chocolatey 安装。参考：<a href="https://gitlab.com/DarwinJS/ChocoPackages/tree/master/openssh">openssh · master · DarwinJS / ChocoPackages · GitLab</a></p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">choco install openssh -params '"/SSHServerFeature"' </span><br></pre></td></tr></tbody></table></figure>
 
-<p>配置防火墙（其实我一开始是像 rdp 这边用图形界面配置的，结果软软的教程居然给了命令，学到了，主要是写教程方便不用截图 - -）</p>
-<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">New-NetFirewallRule -Name sshd -DisplayName 'OpenSSH Server (sshd)' -Enabled True -Direction Inbound -Protocol TCP -Action Allow -LocalPort 999</span><br></pre></td></tr></tbody></table></figure>
-
-<p>如果用的是默认 22 端口不改其实可以略过这步。咱不习惯用默认端口就是。</p>
-<p>更改默认命令行程序为 powershell</p>
-<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">New-ItemProperty -Path "HKLM:\SOFTWARE\OpenSSH" -Name DefaultShell -Value "C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe" -PropertyType String -Force</span><br></pre></td></tr></tbody></table></figure>
-
-<p>修改 sshd_config，位于 <code>C:\ProgramData\ssh\sshd_config</code></p>
-<p>修改端口</p>
-<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">#Port 22</span><br><span class="line">Port 999</span><br></pre></td></tr></tbody></table></figure>
+</li>
+</ol>
+<h3 id="修改-sshd-config"><a href="#修改-sshd-config" class="headerlink" title="修改 sshd_config"></a>修改 sshd_config</h3><p>参考前引文章的修改方法。</p>
+<p>打开管理员登录权限</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">PermitRootLogin yes</span><br></pre></td></tr></tbody></table></figure>
 
 <p>注释掉旧版密钥路径</p>
 <figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">#Match Group administrators</span><br><span class="line">#       AuthorizedKeysFile __PROGRAMDATA__/ssh/administrators_authorized_keys</span><br></pre></td></tr></tbody></table></figure>
@@ -927,23 +984,25 @@
 <p>关闭密码登录</p>
 <figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">PasswordAuthentication no</span><br></pre></td></tr></tbody></table></figure>
 
-<p>将公钥放到 <code>C:\Users\zbttl\.ssh</code>里面，改名为<code>authorized_keys</code>。别说你看到这里都还没公钥。。。</p>
-<p>可能还要修复公钥的权限。微软官方文章使用的是 opensshutils 这个软件，但这个软件去年就被标记为 deprecated，实在要装只能手动安装，可以参考<a href="https://stackoverflow.com/questions/62873521/powershell-opensshutils">openssh - PowerShell OpenSSHUtils - Stack Overflow</a>，而且参考文章 2 中写明不建议装。</p>
-<p>另外两种方法：</p>
-<ol>
-<li><p>直接用 gui 修改权限。右键<code>authorized_keys</code> -&gt; 属性 -&gt; 安全 -&gt; 高级 -&gt; 禁用继承，在弹出的对话框选择「将已继承权限转换」。然后删掉多余权限，留下 system 和自己目前所用账号的权限就行。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210318041441.png"></p>
-</li>
-<li><p>使用命令</p>
-<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">get-acl C:\Users\zbttl\.ssh\authorized_keys | fl</span><br></pre></td></tr></tbody></table></figure>
+<p>将公钥放到 <code>C:\Users\zbttl\.ssh</code>里面，改名为<code>authorized_keys</code>。</p>
+<h3 id="修改端口，或者使用计划任务进行运行"><a href="#修改端口，或者使用计划任务进行运行" class="headerlink" title="修改端口，或者使用计划任务进行运行"></a>修改端口，或者使用计划任务进行运行</h3><p>在管理员账户下，通过刚才方法安装的 openssh 会自动启动服务，但这时候通过 22 端口还是没法登录。必须修改到 1000+ 的高位端口，继续修改 sshd_config：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">#Port 22</span><br><span class="line">Port 10022</span><br></pre></td></tr></tbody></table></figure>
 
-</li>
-</ol>
-<p>我也不知道哪个好用，因为我几年前从 linux 那边生成的公钥文件貌似没有权限问题。。。</p>
-<p>启动服务</p>
-<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">Start-Service sshd</span><br></pre></td></tr></tbody></table></figure>
+<p>然后重启服务。</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">net stop sshd</span><br><span class="line">net start sshd</span><br></pre></td></tr></tbody></table></figure>
 
-<p>记得登录的是用户名不是 root 而是当前微软账号或者微软本地用户名。</p>
+<p>如果一定要用 22 端口，只能用 psexec 启动。（直接 <code>sshd -d</code> 会出和通过服务启动时一样的错误）</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">choco install psexec -y</span><br><span class="line">psexec -s sshd.exe -d</span><br></pre></td></tr></tbody></table></figure>
+
+<p>不过要注意，用这种方法启动的终端，只能连一次。。。连完以后就会断掉，还要再手动开起来。解决方法是用 winsw 把这行命令做成服务，winsw 在 <a href="https://zbttl.github.io/yi-bu-dao-wei-de-vps-cong-ru-men-dao-fang-qi/">一步到位的 vps 从入门到放弃 | Bao’s 备忘录</a> frp 相关配置中我我曾经提过，有需求的读者自己实现吧。</p>
+<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><p>打开防火墙（继续用 22 的话可以忽略这一步，chocolatey 自己开开了）</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">New-NetFirewallRule -Name sshd -DisplayName 'OpenSSH Server (sshd)' -Enabled True -Direction Inbound -Protocol TCP -Action Allow -LocalPort 10999</span><br></pre></td></tr></tbody></table></figure>
+
+<p>更改默认命令行程序为 powershell</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">New-ItemProperty -Path "HKLM:\SOFTWARE\OpenSSH" -Name DefaultShell -Value "C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe" -PropertyType String -Force</span><br></pre></td></tr></tbody></table></figure>
+
+<p>修改密钥权限参见前引，太长不写。</p>
+<p>还有记得打开 azure web 那边的入站端口 10999 哦。 </p>
 <h2 id="OneIndex-app-service-version"><a href="#OneIndex-app-service-version" class="headerlink" title="OneIndex app service version"></a>OneIndex app service version</h2><p>我刚好有 office 365 家庭版，也试过挂在 vps 上，但 app service 这类 PaaS 我没那么熟，这次就折腾看看。</p>
 <p>参考文章：</p>
 <ul>
@@ -5940,9 +5999,9 @@
 <figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">apt install firefox-esr</span><br></pre></td></tr></tbody></table></figure>
 
 <p>安装完后，vnc 内的浏览器图标才能够正常打开。</p>
-<h4 id="tiny-remote-desktops-（20-12-23-更新）"><a href="#tiny-remote-desktops-（20-12-23-更新）" class="headerlink" title="tiny-remote-desktops （20.12.23 更新）"></a>tiny-remote-desktops <strong>（20.12.23 更新）</strong></h4></li>
+</li>
 </ol>
-<p>来自：<a href="https://renzhn.github.io/posts/vps-remote-de/">Linux VPS一键搭建远程桌面（包含Chrome和Firefox）教程</a></p>
+<h4 id="tiny-remote-desktops-（20-12-23-更新）"><a href="#tiny-remote-desktops-（20-12-23-更新）" class="headerlink" title="tiny-remote-desktops （20.12.23 更新）"></a>tiny-remote-desktops <strong>（20.12.23 更新）</strong></h4><p>来自：<a href="https://renzhn.github.io/posts/vps-remote-de/">Linux VPS一键搭建远程桌面（包含Chrome和Firefox）教程</a></p>
 <p>一个 rdp + vnc + noVNC 的 docker。</p>
 <figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">sudo docker run -d --name rdpvnc -v /home/zbttl/rdp_download:/root -p 3389:3389 -p 5901:5901 -p 6901:6901   soff/tiny-remote-desktop</span><br></pre></td></tr></tbody></table></figure>
 
@@ -5951,6 +6010,91 @@
 <figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">sudo docker run -d --name rdpvnc -v /home/zbttl/rdp_download:/root -p 5901:5901 -p 6901:6901 -e VNC_PASSWORD="vncpassword"  soff/tiny-remote-desktop</span><br></pre></td></tr></tbody></table></figure>
 
 <p>但这样就不能开 rdp 了。</p>
+<h3 id="内网穿透"><a href="#内网穿透" class="headerlink" title="内网穿透"></a>内网穿透</h3><h4 id="frp"><a href="#frp" class="headerlink" title="frp"></a>frp</h4><p>参考文章：</p>
+<ul>
+<li><a href="https://www.zhihu.in/archives/261">内网穿透工具frp服务器端frps一键安装教程</a></li>
+<li><a href="https://www.zhihu.in/archives/2119">内网穿透工具frp Windows客户端frpc安装及使用教程</a></li>
+<li><a href="https://blog.51cto.com/sonlich/2126175">利用vps+frp实现访问公司内网windows远程桌面</a></li>
+<li><a href="https://www.hi-linux.com/posts/25686.html">推荐一款很好用的内网穿透工具 FRP</a></li>
+<li><a href="https://diannaobos.com/post/405.html">创建windows计划任务使FRP开机启动</a></li>
+</ul>
+<p>最重要的用途是拿来穿透到主机上做远程控制，部分代替 teamviewer。</p>
+<p>在服务器端使用一键脚本安装</p>
+<h5 id="服务端"><a href="#服务端" class="headerlink" title="服务端"></a>服务端</h5><figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">wget --no-check-certificate https://raw.githubusercontent.com/clangcn/onekey-install-shell/master/frps/install-frps.sh -O ./install-frps.sh</span><br><span class="line">chmod 700 ./install-frps.sh</span><br><span class="line">./install-frps.sh install</span><br></pre></td></tr></tbody></table></figure>
+
+<p>   回车后，需要设置参数，有几个参数要注意：</p>
+<p>第一第二个的 frp 通信端口和 dashboard 端口如果不是端口冲突的话建议默认，dashboard 密码自己设，要记牢；</p>
+<p>后面三个需要修改，</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">Please input frps vhost_http_port [1-65535](Default vhost_http_port: 80):</span><br><span class="line">#输入frp进行http穿透的http服务端口，按Enter键表示默认80，否则手动输入新端口，一般不建议默认80，防止和caddy/nginx冲突</span><br><span class="line"></span><br><span class="line">Please input frps vhost_https_port [1-65535](Default vhost_https_port: 443):</span><br><span class="line">#输入frp进行https穿透的https服务端口，按Enter键表示默认443，否则手动输入新端口,建议不用默认，防止和caddy/nginx冲突</span><br><span class="line"></span><br><span class="line">Please input privilege_token (Default: WEWLRgwRjIJVPx2kuqzkGnvuftPLQniq):</span><br><span class="line">#输入frp服务器和客户端通信的密码，默认是随机生成的，按Enter键表示按默认来，否则手动输入。frpc客户端需要这个接头暗号</span><br></pre></td></tr></tbody></table></figure>
+
+<p>后面的基本全部设置为默认就行了，除了特殊情况：mux 打开后如果觉得卡顿断流需要关掉；kcp 如果恰逢家中宽带被运营商 qos 的话也建议关掉。</p>
+<p>如果设置错误的话，可以使用 <code>frps config</code> 命令修改。</p>
+<p>配置好后使用 <code>frps status</code>确认是否正确运行。</p>
+<h5 id="客户端（windows）"><a href="#客户端（windows）" class="headerlink" title="客户端（windows）"></a>客户端（windows）</h5><p><a href="https://github.com/fatedier/frp/releases">下载</a> windows 命令行客户端，解压到任意目录，并在解压目录下地址栏输入 cmd 进入命令行界面。</p>
+<p>修改 frpc.ini（这里只配置了远程控制）</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">[common]</span><br><span class="line">server_addr = 167.179.x.x</span><br><span class="line">server_port = 5443        </span><br><span class="line">token=123456</span><br><span class="line">type = kcp</span><br><span class="line">[rdp]</span><br><span class="line">local_ip = 127.0.0.1           </span><br><span class="line">local_port = 3389                 </span><br><span class="line">remote_port = 5200              </span><br></pre></td></tr></tbody></table></figure>
+
+<p>其中，server_addr 是服务器地址，sever_port 是 frp 通信端口，token 则是通信密码；rdp 中前三项不用改，第四项决定着你接下来要用的远程地址后跟端口号是多少。注意 ini 配置文件不能放注释。</p>
+<p>然后在 cmd 下面敲入</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">frpc -c frpc.ini</span><br></pre></td></tr></tbody></table></figure>
+
+<p>如果出现下面界面证明启动成功</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/OJzLDBS.png"></p>
+<p>此时使用 rdp 客户端访问 <code>ip:5200</code>即可远程访问该电脑。因为我们域名指向了该 ip，也可以用<code>域名:5200</code>访问该电脑。当然也可以通过 nginx/caddy 反向代理，无需域名，这里不再赘述。</p>
+<p>此时使用<code>域名:6443</code>（dashboard 默认端口）就应该能够进入到 frp 的管理页面，可以看到 tcp 项里面远程桌面端口在线。</p>
+<p>另外，如果发现某些时候重启后 frp.exe 并没有启动，可以到服务界面中将其自启模式改为「自动（延迟）」。</p>
+<h5 id="快速运行"><a href="#快速运行" class="headerlink" title="快速运行"></a>快速运行</h5><p>新建一个 bat，假设 frp 文件夹放在 <code>E:\network tools\frp</code> 下</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">@echo off  </span><br><span class="line">start  "C:\Windows\System32\cmd.exe"   </span><br><span class="line">"E:\network tools\frp\frpc" -c "E:\network tools\frp\frpc.ini"</span><br><span class="line">exit</span><br></pre></td></tr></tbody></table></figure>
+
+<p>双击打开，运行正常。</p>
+<h5 id="配置自启"><a href="#配置自启" class="headerlink" title="配置自启"></a>配置自启</h5><p>建议配合 <a href="https://github.com/kohsuke/winsw/releases">winsw</a> 实现自启。根据系统环境下载 net2 或 net4 版本的可执行文件，下载后放入 frp 文件夹中，改名为 winsw.exe。并在相同目录创建一个 winsw.xml，输入以下文字</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">&lt;service&gt;</span><br><span class="line"></span><br><span class="line">    &lt;id&gt;frp&lt;/id&gt;</span><br><span class="line"></span><br><span class="line">    &lt;name&gt;frp&lt;/name&gt;</span><br><span class="line"></span><br><span class="line">    &lt;description&gt;用frp发布本地电脑网站到外网&lt;/description&gt;</span><br><span class="line"></span><br><span class="line">    &lt;executable&gt;frpc&lt;/executable&gt;</span><br><span class="line"></span><br><span class="line">    &lt;arguments&gt;-c frpc.ini&lt;/arguments&gt;</span><br><span class="line"></span><br><span class="line">    &lt;logmode&gt;reset&lt;/logmode&gt;</span><br><span class="line"></span><br><span class="line">&lt;/service&gt;</span><br></pre></td></tr></tbody></table></figure>
+
+<p>然后 frp 文件夹地址栏敲入 cmd，输入<code>winsw install</code>，没有错误的话证明配置成功，输入<code>winsw start</code>立即启动。</p>
+<p>另外，有可能还要到 services.msc 处将服务自启类型调为<code>自动(延迟)</code>，避免因为刚开机网络服务没有启动导致连接失败并无法自动重新启动。</p>
+<h5 id="stcp-和-xtcp"><a href="#stcp-和-xtcp" class="headerlink" title="stcp 和 xtcp"></a>stcp 和 xtcp</h5><p>参考文章：<a href="https://github.com/fatedier/frp/blob/master/README_zh.md">frp中文文档</a></p>
+<p>虽然一个单词只差。。。但这俩区别很大，前者是将 tcp 进行加密，而后者是 nat 打孔，之后流量不经过 vps 而是服务端和客户端直连。</p>
+<p>配置方法倒是差不多。</p>
+<p>服务端需要加一个 udp 端口</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">bind_udp_port = 7001</span><br></pre></td></tr></tbody></table></figure>
+
+<p>然后客户端，删去 common 内的 <code>protocol = kcp</code></p>
+<p>加入一个节点</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">[rdp-stcp]</span><br><span class="line">type = stcp</span><br><span class="line"># 只有 sk 一致的用户才能访问到此服务</span><br><span class="line">sk = abcdefg</span><br><span class="line">local_ip = 127.0.0.1</span><br><span class="line">local_port = 3389</span><br></pre></td></tr></tbody></table></figure>
+
+<p>另外，在另一段，连接过去的机子上也要做一个客户端，因为两边都有客户端了，就不需要 remote_port 了。</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line"># frpc.ini</span><br><span class="line">[common]</span><br><span class="line">server_addr = x.x.x.x</span><br><span class="line">server_port = 5443</span><br><span class="line"></span><br><span class="line">[rdp-stcp-rdp-stcp]</span><br><span class="line">type = stcp</span><br><span class="line"># xtcp 的访问者</span><br><span class="line">role = visitor</span><br><span class="line"># 要访问的 xtcp 代理的名字</span><br><span class="line">server_name = p2p_ssh</span><br><span class="line">sk = abcdefg</span><br><span class="line"># 绑定本地端口用于访问 ssh 服务</span><br><span class="line">bind_addr = 127.0.0.1</span><br><span class="line">bind_port = 5200</span><br></pre></td></tr></tbody></table></figure>
+
+<p>此时同样通过 ip:5200 连接。</p>
+<p>使用 xtcp 的话，只要把上面的 stcp 改成 xtcp 就行。</p>
+<p>不过，sftp 经过我实验没问题，xtcp 尽管我家已经调整为 fullcone nat 但还是连不上，挺见鬼。</p>
+<h4 id="nps"><a href="#nps" class="headerlink" title="nps"></a>nps</h4><p>参考文章：<a href="https://ehang-io.github.io/nps/#/server_config">nps 配置</a></p>
+<p>frp 有个大问题，就是安全性。开了 frp 结果发现电脑日志中一大堆扫描的痕迹，毕竟有了 ip 和端口就可以无限扫描这个开在公网的电脑。。。</p>
+<p>虽然有 xftp 这玩意，但 xftp 在手机上其实不太好使用（要用 termux 之类的终端模拟器运行 frpc）。其他的方案，就是使用 nps。</p>
+<h5 id="服务端-1"><a href="#服务端-1" class="headerlink" title="服务端"></a>服务端</h5><p><a href="https://github.com/ehang-io/nps/releases">下载地址</a>，下载后解压修改 <code>conf</code> 文件夹下的 <code>nps.conf</code>。参考配置</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">appname = nps</span><br><span class="line">#Boot mode(dev|pro)</span><br><span class="line">runmode = dev</span><br><span class="line"></span><br><span class="line">#HTTP(S) proxy port, no startup if empty</span><br><span class="line">http_proxy_ip=0.0.0.0</span><br><span class="line">http_proxy_port=10002</span><br><span class="line">https_proxy_port=10003</span><br><span class="line">https_just_proxy=true</span><br><span class="line">#default https certificate setting</span><br><span class="line">https_default_cert_file=conf/server.pem</span><br><span class="line">https_default_key_file=conf/server.key</span><br><span class="line"></span><br><span class="line">##bridge</span><br><span class="line">bridge_type=tcp</span><br><span class="line">bridge_port=8024</span><br><span class="line">bridge_ip=0.0.0.0</span><br><span class="line"></span><br><span class="line"># Public password, which clients can use to connect to the server</span><br><span class="line"># After the connection, the server will be able to open relevant ports and parse related domain names according to its own configuration file.</span><br><span class="line">public_vkey=123</span><br><span class="line"></span><br><span class="line">#Traffic data persistence interval(minute)</span><br><span class="line">#Ignorance means no persistence</span><br><span class="line">#flow_store_interval=1</span><br><span class="line"></span><br><span class="line"># log level LevelEmergency-&gt;0  LevelAlert-&gt;1 LevelCritical-&gt;2 LevelError-&gt;3 LevelWarning-&gt;4 LevelNotice-&gt;5 LevelInformational-&gt;6 LevelDebug-&gt;7</span><br><span class="line">log_level=7</span><br><span class="line">#log_path=nps.log</span><br><span class="line"></span><br><span class="line">#Whether to restrict IP access, true or false or ignore</span><br><span class="line">#ip_limit=true</span><br><span class="line"></span><br><span class="line">#p2p</span><br><span class="line">#p2p_ip=127.0.0.1</span><br><span class="line">#p2p_port=6000</span><br><span class="line"></span><br><span class="line">#web</span><br><span class="line">web_host=a.o.com</span><br><span class="line">web_username=[账号]</span><br><span class="line">web_password=[密码]</span><br><span class="line">web_port = [端口]</span><br><span class="line">web_ip=0.0.0.0</span><br><span class="line">web_base_url=</span><br><span class="line">web_open_ssl=false</span><br><span class="line">web_cert_file=conf/server.pem</span><br><span class="line">web_key_file=conf/server.key</span><br><span class="line"># if web under proxy use sub path. like http://host/nps need this.</span><br><span class="line">#web_base_url=/nps</span><br><span class="line"></span><br><span class="line">#Web API unauthenticated IP address(the len of auth_crypt_key must be 16)</span><br><span class="line">#Remove comments if needed</span><br><span class="line">#auth_key=test</span><br><span class="line">auth_crypt_key =1234567812345678</span><br><span class="line"></span><br><span class="line">#allow_ports=9001-9009,10001,11000-12000</span><br><span class="line"></span><br><span class="line">#Web management multi-user login</span><br><span class="line">allow_user_login=false</span><br><span class="line">allow_user_register=false</span><br><span class="line">allow_user_change_username=false</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#extension</span><br><span class="line">allow_flow_limit=false</span><br><span class="line">allow_rate_limit=false</span><br><span class="line">allow_tunnel_num_limit=false</span><br><span class="line">allow_local_proxy=false</span><br><span class="line">allow_connection_num_limit=false</span><br><span class="line">allow_multi_ip=false</span><br><span class="line">system_info_display=false</span><br><span class="line"></span><br><span class="line">#cache</span><br><span class="line">http_cache=false</span><br><span class="line">http_cache_length=100</span><br><span class="line"></span><br><span class="line">#get origin ip</span><br><span class="line">http_add_origin_header=false</span><br><span class="line"></span><br><span class="line">#pprof debug options</span><br><span class="line">#pprof_ip=0.0.0.0</span><br><span class="line">#pprof_port=9999</span><br><span class="line"></span><br><span class="line">#client disconnect timeout</span><br><span class="line">disconnect_timeout=60</span><br></pre></td></tr></tbody></table></figure>
+
+<p>主要修改 <code>web_username</code>、<code>web_password</code> 和 <code>web_port</code>，以及 <code>http_proxy_port</code> 和 <code>https_proxy_port</code> 端口不可以重复。然后直接运行</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">./nps</span><br></pre></td></tr></tbody></table></figure>
+
+<p>或者安装后运行</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">./nps install</span><br><span class="line">nps start</span><br></pre></td></tr></tbody></table></figure>
+
+<p>前者在前台运行，有日志。后者安装时会把刚刚修改好的 <code>nps.conf</code> 考到 <code>/etc/nps.conf</code> 中，到时有要改的修改那个就好。</p>
+<p>然后在浏览器中打开 <code>[vps ip]:web_port</code>，输入上面我说要主要修改的账户和密码。</p>
+<p>到客户端处点击加号新增配置</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/7l7REb9.png"></p>
+<p>basic 那两项可以不填，但为了安全最好填上，这两项是 socks 的账户和密码（一般 socks 代理我们都是用在本地 v2ray/ss 和浏览器之间的链接，一般都不设密码。现在是和远程服务器链接，所以需要密码保护安全）</p>
+<p>验证密钥记清楚。待会客户端要用到。</p>
+<p>保存后列表中会显示刚刚我们新增配置的 id，也记住。</p>
+<p>切换到 socks 代理，新增一个配置，填入上一句我说要记住的的配置 id，端口任填一个，也记住，待会也是客户端用到。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/mYBY1qN.png"></p>
+<h5 id="客户端"><a href="#客户端" class="headerlink" title="客户端"></a>客户端</h5><p>在上面的<a href="https://github.com/ehang-io/nps/releases">下载地址</a>中下载客户端。解压后修改 <code>conf/npc.conf</code>，将大部分配置删除（不要注释，注释没用，照样报错），留下下面这些</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">[common]</span><br><span class="line">server_addr=[vps ip]:8024</span><br><span class="line">conn_type=tcp</span><br><span class="line">vkey=[验证密钥]</span><br><span class="line">auto_reconnection=true</span><br><span class="line">max_conn=1000</span><br><span class="line">flow_limit=1000</span><br><span class="line">rate_limit=1000</span><br><span class="line">basic_username=[也许可以不填，填的话填上面那个basic的账户]</span><br><span class="line">basic_password=[也许可以不填，填的话填上面那个basic的密码]</span><br><span class="line">crypt=true</span><br><span class="line">compress=true</span><br><span class="line">#pprof_addr=0.0.0.0:9999</span><br><span class="line">disconnect_timeout=60</span><br></pre></td></tr></tbody></table></figure>
+
+<p>运行 <code>./npc</code> 启动。如果成功的话会显示如下：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/WzbpA9R.png"></p>
+<p>手机这边，用有 socks 代理的工具，比如 v2ray。ip 填 vps ip，端口填服务端时填的端口。账户和密码是服务端的 <code>basic_username</code> 和 <code>basic_password</code>。连接后，不需要像 frp 一样填 vps 的 ip 和穿透使用的另一个端口，而是用原来在内网连接的 ip 和端口即可。另外，只要在内网任意一台设备中开启一个客户端，内网中的所有设备和服务都可以透穿 —— 比如在虚拟机中开启了客户端，在 rdp 中输入局域网中虚拟机原机子的 ip 照样可以链接（虽然我又感觉有点不太安全了）。</p>
 <h3 id="网盘类"><a href="#网盘类" class="headerlink" title="网盘类"></a>网盘类</h3><h4 id="cloudreve（选做）"><a href="#cloudreve（选做）" class="headerlink" title="cloudreve（选做）"></a>cloudreve（选做）</h4><p>参考文章：</p>
 <ul>
 <li><a href="http://www.senra.me/build-your-own-cloud-storage-series-cloudreve-another-production-of-shudong-share-author/">自建云盘系列——Cloudreve(树洞外链作者的又一力作)</a></li>
