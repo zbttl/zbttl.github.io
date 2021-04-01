@@ -690,6 +690,7 @@
 
 <p>  提取 <code>WebView2Loader.dll</code>，可利用 everything 搜索，一般在 <code>C:\Windows\System32\Microsoft.Web.WebView2.1.0.705.50\build\x64\</code> 下，everything 可能会搜索到其他几个 x64 目录下也有 <code>WebView2Loader.dll</code>，应该都是同一个文件。pcap2socks 自带的 <code>WebView2Loader.dll</code> 应该包含了几个平台的依赖，大小 400 多 k，我们提取的 x64 版只有 133k。（这年头不会还有用 x86 的吧？用 x86 寨板跑加速？）</p>
 <p>  然后把提取到的文件覆盖进 pcap2socks 目录内就行。</p>
+<p> <strong>（21.4.2 更新）</strong> netch 已于上个月加入 pcapsocks 功能。我试了一下，好用。除了代理地址定义起来没有原版 pcap2socks 简单，以及界面不够好看，应该没啥缺点。</p>
 </li>
 </ol>
 ]]></content>
