@@ -457,7 +457,7 @@
 <p>另外，vnstat 的日志中还发现有一个叫 vnstat daemon，也就是叫 vnstatd 的东西。其实 vnstat 和 vnstatd 是同一个服务。操作（start/stop/restart/status）的时候只用操作其中一个就好。</p>
 ]]></content>
       <categories>
-        <category>Linux</category>
+        <category>Network</category>
       </categories>
       <tags>
         <tag>探针</tag>
@@ -6173,7 +6173,7 @@
 </ol>
 ]]></content>
       <categories>
-        <category>Linux</category>
+        <category>Network</category>
         <category>Downloadtools</category>
       </categories>
       <tags>
