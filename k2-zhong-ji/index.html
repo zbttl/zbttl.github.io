@@ -62,7 +62,7 @@
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210309000533.png">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210309001359.png">
 <meta property="article:published_time" content="2021-01-26T16:00:00.000Z">
-<meta property="article:modified_time" content="2021-03-08T16:21:25.000Z">
+<meta property="article:modified_time" content="2021-04-05T19:47:24.059Z">
 <meta property="article:author" content="zbttl">
 <meta property="article:tag" content="openwrt">
 <meta property="article:tag" content="xbox">
@@ -239,7 +239,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">41</span>
+          <span class="site-state-item-count">42</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -252,7 +252,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">89</span>
+        <span class="site-state-item-count">91</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -334,7 +334,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2021-03-09 00:21:25" itemprop="dateModified" datetime="2021-03-09T00:21:25+08:00">2021-03-09</time>
+        <time title="修改时间：2021-04-06 03:47:24" itemprop="dateModified" datetime="2021-04-06T03:47:24+08:00">2021-04-06</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -361,7 +361,7 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>9.1k</span>
+      <span>9.3k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
@@ -444,6 +444,7 @@
 <p><strong>（21.2.6 更新）</strong> 灯的问题属于 hiboy padavan 独有问题。自编译 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/hanwckf/rt-n56u">hanwckf/rt-n56u: Padavan</a> 中继模式灯颜色正常，但自编译又没有自切换中继信号的功能了。</p>
 <p>另外 padavan 这么中继问题不小。。。过了几天拿到我朋友家，发现中继没有正常工作，不仅如此，用任何方法 web 管理界面都进不去了（包括访问我们修改过的内部网络 ip，通过有线接到别人的路由下等方法），甚至 pingtools 都探测不到中继路由的 ip，只得重置，感觉 padavan 不靠谱。</p>
 <p><strong>(21.2.10 更新)</strong> 之前中继的时候用的是 newifi Y1S 附赠的 12V 1.5a 电源。后续买了一个 ppd 的 n1，送了一个 12v 1.5a 的电源，意外发现有时用 Y1S 电源时中继失败但换用 n1 电源就可以中继成功，看来电源稳定性对中继是有影响的（联想的几个硬件相对斐讯那算是「偷工减料」了），这个现象在后面的 asus 固件中继中又出现了一次。</p>
+<p><strong>（21.4.3 更新）</strong> 用着用着发现一个神秘问题：我把路由器拿到同学家，发现还是分配不出 ip。手动修改电脑 ip 进入 web 管理界面后，发现日志中 padavan 路由已经识别到我同学家的主路由了，而且上面那个无线桥接页面的各项配置也自动被修改了，但就是连不上。我想了想，再次拔线重启 padavan，这回就连上了。回到家换成连接家中的主路由，同样是这个现象，要重启两次。</p>
 <h2 id="openwrt（21-2-6-更新）"><a href="#openwrt（21-2-6-更新）" class="headerlink" title="openwrt（21.2.6 更新）"></a>openwrt<strong>（21.2.6 更新）</strong></h2><p>padavan 不太行，那就换用 openwrt 吧。</p>
 <h3 id="安装插件"><a href="#安装插件" class="headerlink" title="安装插件"></a>安装插件</h3><p>openwrt 的中继和自动切换热点需要加入两个 luci 插件：<code>luci-proto-relay</code> 和 <code>luci-app-travelmate</code>，可以自己用 ssh 的 opkg 命令安装，我的选择是在编译过程中添加，避免自己用 opkg 安装时出现依赖问题，<code>luci-proto-relay</code> 在  LuCI -&gt; Protocols 下；<code>luci-app-travelmate</code> 在 LuCI -&gt; Applications 下，不懂的编译的同学可以参考<a target="_blank" rel="external nofollow noopener noreferrer" href="https://zbttl.github.io/lu-you-qi-pao-fen-shua-ji/?highlight=openwrt">这篇文章</a>。吐槽一句，k2 要编译成功还得多精简几个东西（比如 ipv6 啊，usb 驱动啊），8m 的 rom 太拮据了。。。</p>
 <p>另外 travelmate 有两个前身。</p>
@@ -718,14 +719,14 @@
       <i class="fa fa-chart-line"></i>
     </span>
       <span>站点总字数：</span>
-    <span title="站点总字数">279k</span>
+    <span title="站点总字数">285k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">8:27</span>
+    <span title="站点阅读时长">8:38</span>
   </span>
 </div>
 <div class="busuanzi-count">

@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/bao32x32.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/bao16x16.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.1/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"zbttl-github-io.vercel.app","root":"/","images":"/images","scheme":"Muse","version":"8.1.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}};
+  </script>
+<meta name="description" content="本来想等自己有钱的时候再买一个性能强悍啥都能干的 x86 软路由的。。。 然而最近折腾加速器，实在受不了这帮硬路由的憨憨性能了：明明 ac86u 性能还凑合但内存只有 512m 结果刷了梅林各种问题各种崩，其他 mt7621 就更不用说了。我也考虑其他设备，比如 r2s，s905x 盒子之类的，但">
+<meta property="og:type" content="article">
+<meta property="og:title" content="斐讯 n1 折腾记录">
+<meta property="og:url" content="https://zbttl-github-io.vercel.app/fei-xun-n1-zhe-teng-ji-lu/index.html">
+<meta property="og:site_name" content="Bao&#39;s 备忘录">
+<meta property="og:description" content="本来想等自己有钱的时候再买一个性能强悍啥都能干的 x86 软路由的。。。 然而最近折腾加速器，实在受不了这帮硬路由的憨憨性能了：明明 ac86u 性能还凑合但内存只有 512m 结果刷了梅林各种问题各种崩，其他 mt7621 就更不用说了。我也考虑其他设备，比如 r2s，s905x 盒子之类的，但">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/IMG_20210402_143256218.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/IMG_20210402_143305864.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/IMG_20210402_143321918.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/IMG_20210212_203219240.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/IMG_20210403_193142103.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/IMG_20210213_091609125.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/chrome_j3W1VqCOim.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/chrome_QH3Ptg9jk9.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210404021521.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/IMG_20210404_194952826.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210405020131.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202021-04-06%20032913.png">
+<meta property="article:published_time" content="2021-04-01T16:00:00.000Z">
+<meta property="article:modified_time" content="2021-04-05T19:42:33.098Z">
+<meta property="article:author" content="zbttl">
+<meta property="article:tag" content="羊毛">
+<meta property="article:tag" content="openwrt">
+<meta property="article:tag" content="yyf">
+<meta property="article:tag" content="n1">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/IMG_20210402_143256218.jpg">
+
+
+<link rel="canonical" href="https://zbttl-github-io.vercel.app/fei-xun-n1-zhe-teng-ji-lu/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+<title>斐讯 n1 折腾记录 | Bao's 备忘录</title>
+  
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link rel="alternate" href="/atom.xml" title="Bao's 备忘录" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Bao's 备忘录</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80" placeholder="搜索..." spellcheck="false" type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <section class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%80%E7%AE%B1"><span class="nav-number">1.</span> <span class="nav-text">开箱</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%87%86%E5%A4%87%E5%B7%A5%E4%BD%9C"><span class="nav-number">2.</span> <span class="nav-text">准备工作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%B7%E7%82%B9%E5%95%A5%E5%91%A2"><span class="nav-number">3.</span> <span class="nav-text">刷点啥呢</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95-%E5%A4%87%E4%BB%BD"><span class="nav-number">4.</span> <span class="nav-text">测试 + 备份</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%99%8D%E7%BA%A7"><span class="nav-number">4.1.</span> <span class="nav-text">降级</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%99-u-%E7%9B%98%E5%88%B7%E5%85%A5-openwrt"><span class="nav-number">4.2.</span> <span class="nav-text">给 u 盘刷入 openwrt</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%9B%E5%85%A5-openwrt-web-%E5%B9%B6%E8%B7%91%E5%88%86"><span class="nav-number">4.3.</span> <span class="nav-text">进入 openwrt web 并跑分</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%87%E4%BB%BD"><span class="nav-number">4.4.</span> <span class="nav-text">备份</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%B7%E5%85%A5-yyf-%E7%B3%BB%E7%BB%9F"><span class="nav-number">5.</span> <span class="nav-text">刷入 yyf 系统</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9B%92%E5%AD%90%E8%B5%84%E6%BA%90%E4%BD%93%E9%AA%8C"><span class="nav-number">6.</span> <span class="nav-text">盒子资源体验</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#openwrt-%E5%88%B7%E5%85%A5-emmc-%E5%92%8C%E4%BD%93%E9%AA%8C"><span class="nav-number">7.</span> <span class="nav-text">openwrt  刷入 emmc 和体验</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B6%E4%BB%96%E5%8F%82%E8%80%83%E6%96%87%E7%AB%A0"><span class="nav-number">8.</span> <span class="nav-text">其他参考文章</span></a></li></ol></div>
+        </section>
+        <!--/noindex-->
+
+        <section class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="zbttl" src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">zbttl</p>
+  <div class="site-description" itemprop="description">玩点好玩的</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">42</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">91</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/zbttl" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;zbttl" rel="external nofollow noopener noreferrer" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:zbttls@gmail.com" title="E-Mail → mailto:zbttls@gmail.com" rel="external nofollow noopener noreferrer" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fa fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+
+
+
+        </section>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://zbttl-github-io.vercel.app/fei-xun-n1-zhe-teng-ji-lu/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="zbttl">
+      <meta itemprop="description" content="玩点好玩的">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Bao's 备忘录">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          斐讯 n1 折腾记录
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-04-02 00:00:00" itemprop="dateCreated datePublished" datetime="2021-04-02T00:00:00+08:00">2021-04-02</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-04-06 03:42:33" itemprop="dateModified" datetime="2021-04-06T03:42:33+08:00">2021-04-06</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%B7%AF%E7%94%B1%E5%99%A8/" itemprop="url" rel="index"><span itemprop="name">路由器</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>5.4k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>10 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>本来想等自己有钱的时候再买一个性能强悍啥都能干的 x86 软路由的。。。</p>
+<p>然而最近折腾加速器，实在受不了这帮硬路由的憨憨性能了：明明 ac86u 性能还凑合但内存只有 512m 结果刷了梅林各种问题各种崩，其他 mt7621 就更不用说了。我也考虑其他设备，比如 r2s，s905x 盒子之类的，但</p>
+<ul>
+<li>r2s 体积小但性能比 n1 还要差；</li>
+<li>s905x 盒子就只能做软路由，做电视盒子差点。</li>
+</ul>
+<p>所以最后决定还是先买个 n1 顶着。以后换成高端一线的虚拟机软路由，再拿来当电视盒子。</p>
+<h2 id="开箱"><a href="#开箱" class="headerlink" title="开箱"></a>开箱</h2><p>购入渠道有两个，拼夕夕和转转（淘宝系禁 fx），我同学 1 月初在转转买了个仅拆箱的 k2p a1 才用了 180 搞得我有点心动（现在这玩意最少要 220 起步，也是个理财产品），但我看了一眼转转的 n1 ，当时没有同城同省，而且成色不知道，带不带码可能也不知道，算了，省省直接拼夕夕了，带盒子不带遥控器准新机 155 到手。</p>
+<p>买到手的时候才二月份，但那时一直没得空研究，所以一直拖到现在。现在到同一家店看，涨到 165 了。。。真-理财产品。</p>
+<p>到手的 n1 成色尚可</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/IMG_20210402_143256218.jpg"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/IMG_20210402_143305864.jpg"></p>
+<p>不过还是有两个令人遗憾的地方：</p>
+<ol>
+<li><p>盒子上没有 s/n 码，也就无法验证是否三码合一了：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/IMG_20210402_143321918.jpg"></p>
+</li>
+<li><p>带的电源是 12v 1.5a 的，肯定不是 n1 原装，多半是 k2p a2 原装。</p>
+</li>
+</ol>
+<p>当时这俩不大不小的问题搞得我想退了。。。算了，先试试，跑个分备个份，就算后续要退也有办法还原。</p>
+<h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><p>相比于刷路由器，刷 n1 要准备的东西多多了~</p>
+<ol>
+<li>hdmi 线</li>
+<li>显示器</li>
+<li>笔记本 / 台式机 / 平板</li>
+<li>一个口为 USB-A 的线</li>
+<li>网线一根</li>
+<li>（可选）一个中继路由</li>
+<li> 一到两个 U 盘 / tf + 读卡器，一个容量最好是 8g（可选），另一个要 16g 以上</li>
+<li>（可选，要备份系统的话必选）usb hub</li>
+<li>鼠标和键盘</li>
+</ol>
+<p>「一个口为 USB-A 的线」是因为 n1 上的 usb 接口是两个 USB-A 口。而这根线的另一头是啥就取决于你的笔记本 / 台式机 / 平板有什么口。大多数笔记本 / 台式机都只有 USB-A 口，这就是许多卖家捆绑销售双头 USB-A 的原因；但新一代的笔记本，特别是轻薄本都标配了两个 usb type-c 口；而旧一点的平板用的是 micro-usb 口，这两种线大家手上都不少，这种情况下就不用买卖家的双公口 USB 线了。不过平板有可能遭遇供电不足的情况，不太建议使用；有种说法是最好用 usb 2.0 线刷，但我用 type-c 3.1 口刷也没问题。</p>
+<p>用中继路由的原因是我的笔记本都是靠无线连接路由器的，路由器本身离设备比较远无法通过有线连接；而进入 fastboot 的时候又需要 n1 和笔记本在同一个子网，所以就需要一个中继路由才能实现。</p>
+<p>还有这个 hub，在一种情况下是必选的，待会我会提到。</p>
+<h2 id="刷点啥呢"><a href="#刷点啥呢" class="headerlink" title="刷点啥呢"></a>刷点啥呢</h2><p>n1 可以刷那么几个 rom：</p>
+<ul>
+<li>openwrt</li>
+<li>armbian</li>
+<li>yyf</li>
+<li>等等等</li>
+</ul>
+<p>主要是我只用得着我提到的这三个。</p>
+<p>前两个可以通过 u 盘直接引导。yyf 只能直接刷入。</p>
+<p>yyf 主要用来看电视，openwrt 是做软路由，armbian 则是做纯粹的 linux 开发系统。</p>
+<p>openwrt 能拿来跑个分，armbian 能拿来备份 rom。</p>
+<p>所以我们大致的刷机路线就是先刷 openwrt 做测试，如果盒子发热不严重并且跑分正常，那就暂时不退了，直接用 armbian 做个备份，之后刷入 yyf 玩一会电视功能，最后刷入 openwrt 做软路由。</p>
+<h2 id="测试-备份"><a href="#测试-备份" class="headerlink" title="测试 + 备份"></a>测试 + 备份</h2><h3 id="降级"><a href="#降级" class="headerlink" title="降级"></a>降级</h3><p>要想从 u 盘启动，必须先把机器降级到 2.19 版本。我的 n1 拿到手就是 2.22 版本，铁定得降级。</p>
+<p>推荐使用<a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.right.com.cn/forum/thread-340279-1-1.html">[2018-9-28]斐讯T1和N1降级恢复线刷功能 , adb脚本工具 - 斐讯无线路由器以及其它斐迅网络设备 - 恩山无线论坛 - Powered by Discuz!</a>，这玩意可以通过网络进行降级，不需要因为驱动问题大费周章。不过得安装 adb，请出老伙计 chocolatey：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">choco install adb -y</span><br></pre></td></tr></tbody></table></figure>
+
+<p>给 n1 插上鼠标，通过中继路由或者在 n1 界面中登录无线网络，点击四次版本号开启开发者模式，因为此时在官方系统中可以直接通过 wifi 连接自己的路由器，所以还暂时用不到中继路由。</p>
+<p>n1 和电脑同时连上路由后，按提示降级即可。降级完毕后，官方系统中显示的估计版本还是 2.22，但实际上内部固件版本已降级。</p>
+<p>之后，去 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://t.me/tony_cn">Tony 的交流群</a>中，找一个叫做「N1盒子激活U盘启动」的软件，解压密码就是 Tony。按照提示开启 u 盘启动即可。</p>
+<h3 id="给-u-盘刷入-openwrt"><a href="#给-u-盘刷入-openwrt" class="headerlink" title="给 u 盘刷入 openwrt"></a>给 u 盘刷入 openwrt</h3><p>有三个工具可以用</p>
+<ul>
+<li>etcher</li>
+<li>USB Image Tool（usbit）</li>
+<li>Win32DiskImager</li>
+</ul>
+<p>这几个都能通过 chocolatey 安装。etcher 的界面不错，另外就算 img 打包在压缩文件中，它也能准确识别并刷入。但这玩意有个 bug，挺多时候进度条跑完会报错，但其实已经刷进去了。</p>
+<p>usbit 需要手动用解压 img.xz 压缩包的内容（内容是一个 img 文件），而且需要先 reset 再刷入。但好处是不会报错，而且刷写速度还比 etcher 快。</p>
+<p>Win32DiskImager 有中文。</p>
+<p>自己选择吧。</p>
+<p>openwrt 的镜像可以从这些地方获取：</p>
+<ul>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.right.com.cn/forum/forum.php?mod=viewthread&amp;tid=981406&amp;extra=page=1&amp;filter=typeid&amp;typeid=21">[2020-10-18]★46+o版， S905x3、N1、贝壳云、我家云等op固件 - 斐讯无线路由器以及其它斐迅网络设备 - 恩山无线论坛 - Powered by Discuz!</a></li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.right.com.cn/forum/thread-4055451-1-1.html">[2021-01-31] 52+、52+O S905x3(含x2)、S922x、贝壳云、我家云、微加云等OP固件 - OPENWRT专版 - 恩山无线论坛 - Powered by Discuz!</a></li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.right.com.cn/forum/thread-4076037-1-1.html">[2021-03-28] 56+、56+O S905x3、S922x、贝壳云、我家云、微加云等OP固件 - OPENWRT专版 - 恩山无线论坛 - Powered by Discuz!</a></li>
+</ul>
+<p>固件有 +o 和 + 两种版本，不同地方在 +o 用的是旧版本 5.4.93 内核，新版本用的是 5.10 新版本内核（以前还有个区别，那就是 +o 用的 flow offloading 加速而 + 版本用 sfe 加速，但现在统一都用 flow offloading 加速了）。新版本内核有个弊端：</p>
+<blockquote>
+<ol>
+<li>amlogic已支持 5.10内核，但是需要从 u盘或 tf卡启动，可以刷入emmc(仅数据分区），boot分区还是只能在 u盘或tf卡上面。</li>
+<li>  5.10内核的副作用是 905x3、922x等机型 hdmi 绿屏、启动时间较长、mac地址会发生变化等</li>
+</ol>
+</blockquote>
+<p>还有 + 版本似乎界面炫酷一点。。。不在意界面的话用 +o 版本就好了（虽然下面测试的截图我用的是 + 版本）。</p>
+<h3 id="进入-openwrt-web-并跑分"><a href="#进入-openwrt-web-并跑分" class="headerlink" title="进入 openwrt web 并跑分"></a>进入 openwrt web 并跑分</h3><p>刷入后，开 n1 前插入 u 盘启动，顺利的话屏幕显示是这样子的</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/IMG_20210212_203219240.jpg"></p>
+<p>此时敲一下回车就会进入熟悉 linux 命令提示界面。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/IMG_20210403_193142103.jpg"></p>
+<p>同时能看到一个叫 openwrt 的 wifi 信号被发射出来，连接上去，并进入 192.168.1.1，就能看到 openwrt 的 web 界面。</p>
+<p>but。。。这里有一个非常神秘的现象会出现：</p>
+<p><strong>如果你刷入 openwrt 的 u 盘大小不是 8g 的话，就没法正常的启动</strong>，具体表现在：</p>
+<ul>
+<li>不断弹出 <code>reset high-speed xxx</code> 的错误提示；</li>
+<li>linux 命令提示界面的提示符后面带一个 none 的标记</li>
+<li>没有 wifi 信号被发射出来</li>
+</ul>
+<p>具体界面类似于这样：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/IMG_20210213_091609125.jpg"></p>
+<p>我估计是因为 n1 的 rom 是 8g 的所以也要求启动 u 盘的容量也是 8g。。。</p>
+<p>但，其实还有一个解决方案，那就是搭配 usb-hub 使用。hub 接上 n1，u 盘再接上 hub 就能正常识别了。话说回来，我想到 hub 的原因，源自于我一开始以为是供电问题，于是拿了一个带供电口的 hub 接上。果然 16g 和  32g 的 u 盘就都能正常启动 openwrt，后续拔掉供电后反复启动都能够正常工作，拔掉 hub 就立即歇菜。甚至就算是 8g 卡，第一次进入可能也要和 usb-hub 配合连接才能成功进入。具体原因我到现在都还没想清楚。。。</p>
+<p>在 web 来到系统 -&gt; ttyd 终端，或者直接在 n1 的 linux cli 中输入测试指令都可以。</p>
+<p>测试命令参照 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.youtube.com/watch?v=utWlY8_rpLg&amp;t=223s">(50) 2021今年买啥软路由？新年度软路由测试总结与推荐！！！ - YouTube</a>，一共有两个：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">coremark</span><br><span class="line">openssl speed -evp aes-256-gcm</span><br></pre></td></tr></tbody></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/chrome_j3W1VqCOim.png"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/chrome_QH3Ptg9jk9.png"></p>
+<p>对下效果：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210404021521.png"></p>
+<p>差不多哦。。。</p>
+<p>而且持续运行时机子并没有严重发热。看起来没啥问题。</p>
+<p>最后最好使用 <code>poweroff</code> 命令关机，再进行下一步。</p>
+<h3 id="备份"><a href="#备份" class="headerlink" title="备份"></a>备份</h3><p>备份就需要刷 armbian 了，因为 openwrt 里面没带有全盘备份工具。</p>
+<p>因为是做全盘备份，所以 8g 的 u 盘那肯定是木大了，就必须得 16g u 盘 + usb-hub 一起上。</p>
+<p>armbian 参考文章：</p>
+<ul>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://yuerblog.cc/2019/10/23/%E6%96%90%E8%AE%AFn1-%E5%AE%8C%E7%BE%8E%E5%88%B7%E6%9C%BAarmbian%E6%95%99%E7%A8%8B/">斐讯 N1 - 完美刷机 Armbian 教程 | 鱼儿的博客</a></li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.right.com.cn/forum/thread-510423-1-1.html">Armbian-5.77 on N1 , so far so good - 斐讯无线路由器以及其它斐迅网络设备 - 恩山无线论坛 - Powered by Discuz!</a></li>
+</ul>
+<p>备份 - ddbr 参考文章：</p>
+<ul>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://luotianyi.vc/1346.html">斐讯 N1 探索手记 #2 – 使用 ddbr 恢复官改系统 – Luminous’ Home</a></li>
+</ul>
+<p>同样，armbian 有这么几个版本可选：</p>
+<ul>
+<li>参考文章的 5.77 版</li>
+<li>上面提到的 openwrt 网盘中的 5.4 和 5.10 内核两种（两种内核的区别我在 openwrt 那里提过了）</li>
+</ul>
+<p>另外还有 dtb 上的讲究。dtb 可以视为 armbian 驱动一类的东西，使用正确的 dtb 能让 armbian 系统获得更好的性能。不过既然我们只是用来备份系统的，其实没啥讲究，可以略过。dtb 有两种选择：参考文章 2 的 <code>meson-gxl-s905d-phicomm-n1-xiangsm.dtb</code> 和 openwrt 那边的 <code>N1_35+o_dtb_fixspeed</code>。使用方法参见参考文章 2，放入改名指向，一气呵成：</p>
+<blockquote>
+<ol start="4">
+<li>此时，armbian 用的是 kdahas-vim 开发板的 dtb，所以不完全适配 n1，一些设备不工作，这是正常的，我们只需修改 /boot/uEnv.ini 指向 n1 的 dtb 即可。<pre><code>\- 修改前的 uEnv.ini：    dtb_name=/dtb/meson-gxl-s905x-khadas-vim.dtb
+\- 修改后的 uEnv.ini：    dtb_name=/dtb/meson-gxl-s905d-phicomm-n1.dtb</code></pre>
+</li>
+</ol>
+</blockquote>
+<p>刷写好接上 hub 和 u 盘开机。如果一切顺利的话，需要先新建一个密码和用户名才能成功进入系统。然后输入 ddbr，按照提示备份：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/IMG_20210404_194952826.jpg"></p>
+<p>备份完输入 <code>poweroff</code> 关机。把 u 盘插回电脑，下载并打开 diskgenius，在 rootfs 分区的 ddbr 文件夹里找到备份拖出，保存即可。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210405020131.png"></p>
+<p>话说回来，如果第一次进入系统因为各种原因报错，可能需要重新制作 armbian u 盘，因为刚开始制作完后 rootfs 其实只分到 1g 多一点大小，只有成功第一次启动成功才会把分区扩大到整个 u 盘，没有成功执行这一步的话，后面再怎么启动可能都无法成功执行了（</p>
+<h2 id="刷入-yyf-系统"><a href="#刷入-yyf-系统" class="headerlink" title="刷入 yyf 系统"></a>刷入 yyf 系统</h2><p>用 win7 成功几率会高的多，而且 vmware 可以指定使用 usb2.0 的驱动，usb2.0 口刷机成功概率更高。不过我最后还是在 win10 实机下用 usb3.0 的线刷成功了（</p>
+<p>参考文章：</p>
+<ul>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.right.com.cn/forum/forum.php?mod=viewthread&amp;tid=318044&amp;extra=page=1&amp;filter=typeid&amp;typeid=21">斐讯天天链 N1 刷机小白教程，大神请无视….. - 斐讯无线路由器以及其它斐迅网络设备 - 恩山无线论坛 - Powered by Discuz!</a></li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.jianshu.com/p/105f12a6cecb">斐讯N1盒子开箱、降级、刷YYF固件全记录 - 简书</a></li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.jianshu.com/p/87e9813f923f">N1盒子无法进入刷机模式解决办法 - 简书</a></li>
+</ul>
+<ol>
+<li><p>下载 YYFROM-N1-无语音实用版 190420 刷机包。这东西在官网网盘已经失效了，所以我备份了一份到网盘，放到文末；</p>
+</li>
+<li><p>安装 Amlogic_USB_Burning_Tool，建议不要装太新的版本，装 2.16 就好了：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://androiddatahost.com/mte3d">Amlogic_USB_Burning_Tool_v2.1.6.zip - Android Data Host</a>。2.16 中的一个  libsub-win32 在安装时会附带安装，但需要手动添加到设备管理器：</p>
+<blockquote>
+<p>打开设备管理器，随便选择一个设备。</p>
+<p>操作 - 添加过时硬件</p>
+<p>安装我手动从列表选择的硬件</p>
+<p>选择 libsub-win32 Usb Devices，一路下一步即可</p>
+</blockquote>
+</li>
+<li><p>通过前面提到的降级软件，按照提示进入 bootloader （线刷）模式。在进入 fastboot 前如果接上屏幕的话，会看到画面定格在 n1 的开始画面中。将 usb 线接入靠近 hdmi 一端的 usb 口，连接电脑会发现一个新硬件名为 usb download gadget，但这东西驱动没法自己安装。下一个驱动精灵之类的软件，检查后根据提示安装相应的 Android adb Interface，安装完再接上 n1 的话，会发现在设备管理器中 n1 被命名为 Lemobile Android Device。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202021-04-06%20032913.png"></p>
+</li>
+<li><p>接下来严格按照步骤走！</p>
+<ol>
+<li>打开 Amlogic_USB_Burning_Tool，加载刷机包，擦除 FLASH 和擦除 Bootloader 前面的 √ 去掉，加载完成点击开始；</li>
+<li>确保 n1 和电脑已通过 usb 线连接</li>
+<li>通过降级软件，进入线刷模式。如果顺利的话，设备已经开始刷写了。稍微晚一点，或者线没接好，Amlogic_USB_Burning_Tool 都可能识别不到设备。</li>
+</ol>
+</li>
+<li><p>刷写成功就可以直接关闭关键拔线重启了。后续可以通过鼠标跳过初始流程，登录家中 wifi 后用刷机包里带的斐讯 app 控制盒子。</p>
+</li>
+</ol>
+<h2 id="盒子资源体验"><a href="#盒子资源体验" class="headerlink" title="盒子资源体验"></a>盒子资源体验</h2><p>再说</p>
+<h2 id="openwrt-刷入-emmc-和体验"><a href="#openwrt-刷入-emmc-和体验" class="headerlink" title="openwrt  刷入 emmc 和体验"></a>openwrt  刷入 emmc 和体验</h2><p>再说</p>
+<h2 id="其他参考文章"><a href="#其他参考文章" class="headerlink" title="其他参考文章"></a>其他参考文章</h2><ul>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://pockies.github.io/2019/03/07/phicomm-n1/">我购买了斐讯 N1 做电视盒子，发现它远比想象的… - Pockies | 博客</a></li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/zisen123/N1-box-bypass-router-tutorial/blob/master/N1-box-bypass-router-tutorial.md">N1-box-bypass-router-tutorial/N1-box-bypass-router-tutorial.md at master · zisen123/N1-box-bypass-router-tutorial</a></li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://post.smzdm.com/p/akm7vk38/">贫民种草指北 篇二：N1 盒子：不谈刷机，只谈使用！_电视盒子_什么值得买</a></li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.leeyiding.com/archives/48/">斐讯 N1 烧录 yyf 和 OpenWrt 固件 - LeeYD・Blog</a></li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://ethanblog.com/tips/tv-box-firmware-for-n1.html">N1 刷电视盒子的固件选择 | Ethan’s Blog - 记录和思考</a></li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://1drv.ms/u/s!AoMoC9XTgpEslq9HsaFw8qlnT0QQ9Q?e=Kg3a9Z">本文资源</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>zbttl
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="https://zbttl-github-io.vercel.app/fei-xun-n1-zhe-teng-ji-lu/" title="斐讯 n1 折腾记录">https://zbttl-github-io.vercel.app/fei-xun-n1-zhe-teng-ji-lu/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="external nofollow noopener noreferrer" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="followme">
+  <span>欢迎关注我的其它发布渠道</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="/atom.xml">
+          <span class="icon">
+            <i class="fa fa-rss"></i>
+          </span>
+
+          <span class="label">RSS</span>
+        </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/%E7%BE%8A%E6%AF%9B/" rel="tag"># 羊毛</a>
+              <a href="/tags/openwrt/" rel="tag"># openwrt</a>
+              <a href="/tags/yyf/" rel="tag"># yyf</a>
+              <a href="/tags/n1/" rel="tag"># n1</a>
+          </div>
+
+        
+  <div class="post-widgets">
+    <div class="wp_rating">
+      <div id="wpac-rating"></div>
+    </div>
+  </div>
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/tong-guo-telegram-bot-jian-kong-she-bei-de-yuan-cheng-deng-lu-qing-kuang/" rel="prev" title="通过 telegram bot 监控设备的远程登录情况">
+                  <i class="fa fa-chevron-left"></i> 通过 telegram bot 监控设备的远程登录情况
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zbttl</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+      <span>站点总字数：</span>
+    <span title="站点总字数">285k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span>站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">8:38</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">本博客使用 <a href="https://hexo.io/" class="theme-link" rel="external nofollow noopener noreferrer" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" class="theme-link" rel="external nofollow noopener noreferrer" target="_blank">NexT.Muse</a> 
+  </div><script color="120,120,120" opacity="0.5" zindex="-1" count="150" src="https://cdn.jsdelivr.net/npm/canvas-nest.js@1/dist/canvas-nest.js"></script>
+<!--《添加网站运行时间 -->
+<!--<br/>-->
+<span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+<script>
+    var now = new Date();
+
+    function createtime() {
+        var grt = new Date("12/18/2020 12:00:00"); //此处修改你的建站时间或者网站上线时间 
+        now.setTime(now.getTime() + 250);
+        days = (now - grt) / 1000 / 60 / 60 / 24;
+        dnum = Math.floor(days);
+        hours = (now - grt) / 1000 / 60 / 60 - (24 * dnum);
+        hnum = Math.floor(hours);
+        if (String(hnum).length == 1) {
+            hnum = "0" + hnum;
+        }
+        minutes = (now - grt) / 1000 / 60 - (24 * 60 * dnum) - (60 * hnum);
+        mnum = Math.floor(minutes);
+        if (String(mnum).length == 1) {
+            mnum = "0" + mnum;
+        }
+        seconds = (now - grt) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+        snum = Math.round(seconds);
+        if (String(snum).length == 1) {
+            snum = "0" + snum;
+        }
+        document.getElementById("timeDate").innerHTML = " 本站已安全运行 " + dnum + " 天 ";
+        document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒";
+    }
+    setInterval("createtime()", 250);
+</script>
+<!-- 添加网站运行时间》 -->
+
+    </div>
+  </footer>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+  <script>
+  if (CONFIG.page.isPost) {
+    wpac_init = window.wpac_init || [];
+    wpac_init.push({
+      widget: 'Rating',
+      id    : 28813,
+      el    : 'wpac-rating',
+      color : '#fc6423'
+    });
+    (function() {
+      if ('WIDGETPACK_LOADED' in window) return;
+      WIDGETPACK_LOADED = true;
+      var mc = document.createElement('script');
+      mc.type = 'text/javascript';
+      mc.async = true;
+      mc.src = '//embed.widgetpack.com/widget.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(mc, s.nextSibling);
+    })();
+  }
+  </script>
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1.7.0/dist/gitalk.css">
+
+<script>
+NexT.utils.loadComments('#gitalk-container', () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1.7.0/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : 'd99d750bdfdb31ecf37e',
+      clientSecret: '1d37215aff71dc84b66e03cb412c7e68b968d76f',
+      repo        : 'zbttl-comment',
+      owner       : 'zbpicture',
+      admin       : ['zbpicture'],
+      id          : '5fe4cce2bbcfc099c9dafa2b542f13e2',
+        language: '',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+<script type="text/javascript" src=" https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+
+  <script async src="/js/cursor/text.js"></script>
+
+
+
+
+</body>
+</html>
