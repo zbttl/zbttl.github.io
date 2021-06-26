@@ -34,7 +34,7 @@
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210104163439.png">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210104165940.png">
 <meta property="article:published_time" content="2021-01-01T16:00:00.000Z">
-<meta property="article:modified_time" content="2021-03-08T17:00:31.000Z">
+<meta property="article:modified_time" content="2021-06-26T17:38:24.716Z">
 <meta property="article:author" content="zbttl">
 <meta property="article:tag" content="游戏加速">
 <meta property="article:tag" content="openwrt">
@@ -303,7 +303,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2021-03-09 01:00:31" itemprop="dateModified" datetime="2021-03-09T01:00:31+08:00">2021-03-09</time>
+        <time title="修改时间：2021-06-27 01:38:24" itemprop="dateModified" datetime="2021-06-27T01:38:24+08:00">2021-06-27</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -330,7 +330,7 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>6.1k</span>
+      <span>6.3k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
@@ -453,11 +453,10 @@
 <li>便宜（14 元/月）</li>
 <li>曾经是唯一支持用 pc 管理路由加速的加速器（下载 6 月左右的旧版 pc 客户端也许还可用）</li>
 <li>不限设备绑定，不限单路由下加速设备数量</li>
-<li>但路由加速 bug 频发，最主要的 bug 就是加速一段时间，加速的设备重启或者待机唤醒后就会断网。通过重启路由，或者通过 ssh 进入路由器，用 <code>netstat -plun</code> 检索 tx 加速进程（名为 pmplugin），kill 后重新加速即可。</li>
+<li>但路由加速 bug 频发，最主要的 bug 就是加速一段时间，加速的设备重启或者待机唤醒后就会断网。通过重启路由，或者通过 ssh 进入路由器，用 <code>netstat -plun</code> 检索 tx 加速进程（名为 pmplugin），kill 后重新加速即可。（<strong>21.6.27 更新</strong>，此 bug 似乎已修复）</li>
 <li>下载加速节点大多数属于空气节点。实测 cod16 和微软模拟飞行下载加速都很慢，烂橘子效果尚可。</li>
 <li>微软商店的游戏几乎都加速不起来。腐烂国度 2 windows store 版加速基本没效果。</li>
 <li>手机端不支持 xbox 云游戏加速。</li>
-<li>支持设备最少。</li>
 </ul>
 <h3 id="uu-加速器"><a href="#uu-加速器" class="headerlink" title="uu 加速器"></a>uu 加速器</h3><ul>
 <li>贵（30 元/月）</li>
@@ -466,6 +465,7 @@
 <li>支持 xbox 云游戏加速。</li>
 <li>openwrt 路由插件不能用手机 app 直接安装。</li>
 <li>没有 tx 那样的 bug。</li>
+<li>当年玩 cod12 pc 频繁掉线，不知道现在是否有改善。</li>
 <li>过节时线路拥堵，延迟会变高。</li>
 </ul>
 <h3 id="灵缇加速器"><a href="#灵缇加速器" class="headerlink" title="灵缇加速器"></a>灵缇加速器</h3><ul>
@@ -473,7 +473,11 @@
 <li>不支持 xbox 云游戏加速。</li>
 <li>支持 padavan。</li>
 <li>支持 openwrt 手机安装和 padavan。但 openwrt 路由器需要提前安装 kmod-tun 功能（目前如果是自己编译的 openwrt，直接安装源上的 kmod-tun 会提示你当前依赖版本太低，但其实 kmod-tun 功能已经作为模块编译了，去编译目录找一下安装就行，实测成功）。</li>
+<li>xbox 下载加速效果不错，但是不要用他的加速节点下载而是联机节点下载。加速节点速度撑死 30m，联机节点最高 200m。</li>
 <li>也没有 tx 那样的 bug。</li>
+<li>港服节点貌似很拉跨。</li>
+<li>如果主路由下拖了一个中继路由（两个路由在同一个子网下），而你有两台游戏机，一台游戏机接主路由，另一台游戏机接子路由，那么你此时只能加速其中一个游戏机，加速另一个游戏机时会报错提示冲突。</li>
+<li>对 merlin（非华硕官方插件）支持一般，有时候装不上插件，而腾讯没这个毛病。</li>
 </ul>
 <h3 id="雷神加速器"><a href="#雷神加速器" class="headerlink" title="雷神加速器"></a>雷神加速器</h3><ul>
 <li>便宜到爆。按使用时间付费而不是按月付费，冲个几千小时基本用不完。</li>
@@ -614,14 +618,14 @@
       <i class="fa fa-chart-line"></i>
     </span>
       <span>站点总字数：</span>
-    <span title="站点总字数">285k</span>
+    <span title="站点总字数">288k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">8:38</span>
+    <span title="站点阅读时长">8:44</span>
   </span>
 </div>
 <div class="busuanzi-count">
