@@ -16,7 +16,7 @@
 <li><p>大幅提升，但有遗憾：apex（xo 版）</p>
 <p>apex 到现在都没有出 xs 专版，但可以明显感受到加载速度的提升，贴图质量也有大幅改善，但是。。。apex 第九赛季开始的时候，曾经有帧数和延迟面板显示字体错位的问题，在我 xbox series S 到手之前，本世代那边就已经修复了；但我把硬盘插上次时代主机这边，这个 bug 就又出现了，直到现在都还没修。</p>
 </li>
-<li><p>有 xs 版，但感知没那么强：极限竞速地平线4、命运 2</p>
+<li><p>有 xs 版，但感知没那么强：极限竞速地平线 4、命运 2</p>
 <p>命运 2 我感受不到啥提升（可能帧数有提升，但非竞技类 fps，我感受不到）；地平线 4 的贴图感受其实是有大幅进步的（毕竟 xos 显存很少），但其实草地的模糊感还是可以感受得出来；另一点就是光追，实际上，上一代主机上 fh4 就实现了效果不错的软光追，因此本身感知很强的光追到 fh4 这里感受就没那么强了。</p>
 </li>
 <li><p>没有 xs 版，依靠机能和技术有提升，但感知没那么强：tf2</p>
@@ -41,11 +41,11 @@
 <p>具体操作，可以参考<a href="https://www.bilibili.com/video/BV1qV41127QY">索尼X9000H更新HDMI2.1固件，4K120Hz/eARC等功能一览，含X9088H/X9100H_哔哩哔哩_bilibili</a>。</p>
 <h2 id="其他优缺点"><a href="#其他优缺点" class="headerlink" title="其他优缺点"></a>其他优缺点</h2><ol>
 <li>因为内存大了，某些游戏打不动字（打字很卡）的问题也解决了。</li>
-<li>我购买的是日版，听说有手柄信号和 5g wifi 冲突的问题，但我并没有遇到（我家路由器是 ac86u）。但有一次手柄确实无法响应主机，而我把旧的 xos 连接新主机后，却又能操作了。</li>
+<li>我购买的是日版，听说有手柄信号和 5g wifi 冲突的问题，但我并没有遇到（我家路由器是 ac86u）。不过有一次手柄确实无法响应主机，接着我把旧的 xos 手柄连接新主机，这个旧手柄倒是能正常操作；然后我重启了一下机子，用 type-c 线把新手柄接到 xss 上，过了一会，好了，很玄学。</li>
 <li>但无线网卡相比 xos 那个弱鸡网卡好了不少，起码无线状态下开加速器我打 cod16 战区没遇到其妙的丢包问题了。</li>
 </ol>
 <hr>
-<p>总体来说，大体满意，我的几个需求 xss 大体都能满足，就是体积在小一点就更好了。</p>
+<p>总体来说，大体满意，我的几个需求 xss 大体都能满足，就是体积再小一点就更好了。</p>
 <p>另一个我好奇的地方是，xs 版和 xbox one X 强化是两个不同的概念，之前有几个游戏 bug 在 xss 这边测试出来就应该是 xos 配置不足的锅，换成 xox 应该也能解决，何况 xox 更便宜，自带的硬盘也更大。去掉光追这一点，如果不是追求便携性，以及这两年少的可怜的独占，xox 和 xss 谁会是更好的选择呢？</p>
 ]]></content>
       <categories>
@@ -248,6 +248,65 @@
       </tags>
   </entry>
   <entry>
+    <title>windows 开启 openssh-server</title>
+    <url>/windows-kai-qi-openssh-server/</url>
+    <content><![CDATA[<p>这篇文章是从<a href="https://zbttl.github.io/azure-yang-mao-er/">azure 羊毛（二） | Bao’s 备忘录</a>这里分离出来的。因为我发现给 windows server 2012 开 openssh 的坑远不及于此，这篇按官方教程来的小实践只能算个引子，于是干脆独立出来。</p>
+<p>在 windows 10 专业版上部署通过。</p>
+<p>参考文章：</p>
+<ul>
+<li><a href="https://docs.microsoft.com/en-us/windows-server/administration/openssh/openssh_install_firstuse">Installation of OpenSSH For Windows Server | Microsoft Docs</a></li>
+<li><a href="https://stackoverflow.com/questions/16212816/setting-up-openssh-for-windows-using-public-key-authentication/50502015#50502015">ssh - Setting up OpenSSH for Windows using public key authentication - Stack Overflow</a></li>
+</ul>
+<h2 id="安装，配置服务"><a href="#安装，配置服务" class="headerlink" title="安装，配置服务"></a>安装，配置服务</h2><p>安装</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">Add-WindowsCapability -Online -Name OpenSSH.Server</span><br></pre></td></tr></tbody></table></figure>
+
+<p>配置自启</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">Set-Service -Name sshd -StartupType 'Automatic'</span><br></pre></td></tr></tbody></table></figure>
+
+<p>配置防火墙（其实我一开始是像 rdp 这边用图形界面配置的，结果软软的教程居然给了命令，学到了，主要是写教程方便不用截图 - -）</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">New-NetFirewallRule -Name sshd -DisplayName 'OpenSSH Server (sshd)' -Enabled True -Direction Inbound -Protocol TCP -Action Allow -LocalPort 999</span><br></pre></td></tr></tbody></table></figure>
+
+<p>如果用的是默认 22 端口不改其实可以略过这步。咱不习惯用默认端口就是。</p>
+<p>更改默认命令行程序为 powershell</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">New-ItemProperty -Path "HKLM:\SOFTWARE\OpenSSH" -Name DefaultShell -Value "C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe" -PropertyType String -Force</span><br></pre></td></tr></tbody></table></figure>
+
+<h2 id="修改-sshd-config"><a href="#修改-sshd-config" class="headerlink" title="修改 sshd_config"></a>修改 sshd_config</h2><p>sshd_config 位于 <code>C:\ProgramData\ssh\sshd_config</code></p>
+<p>修改端口</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">#Port 22</span><br><span class="line">Port 999</span><br></pre></td></tr></tbody></table></figure>
+
+<p>注释掉旧版密钥路径</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">#Match Group administrators</span><br><span class="line">#       AuthorizedKeysFile __PROGRAMDATA__/ssh/administrators_authorized_keys</span><br></pre></td></tr></tbody></table></figure>
+
+<p>关闭密码登录</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">PasswordAuthentication no</span><br></pre></td></tr></tbody></table></figure>
+
+<h2 id="放入密钥"><a href="#放入密钥" class="headerlink" title="放入密钥"></a>放入密钥</h2><p>将公钥放到 <code>C:\Users\zbttl\.ssh</code>里面，改名为<code>authorized_keys</code>。别说你看到这里都还没公钥。。。</p>
+<p>可能还要修复公钥的权限。微软官方文章使用的是 opensshutils 这个软件，但这个软件去年就被标记为 deprecated，实在要装只能手动安装，可以参考<a href="https://stackoverflow.com/questions/62873521/powershell-opensshutils">openssh - PowerShell OpenSSHUtils - Stack Overflow</a>，而且参考文章 2 中写明不建议装。</p>
+<p>另外两种方法：</p>
+<ol>
+<li><p>直接用 gui 修改权限。右键<code>authorized_keys</code> -&gt; 属性 -&gt; 安全 -&gt; 高级 -&gt; 禁用继承，在弹出的对话框选择「将已继承权限转换」。然后删掉多余权限，留下 system 和自己目前所用账号的权限就行。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210318041441.png"></p>
+</li>
+<li><p>使用命令</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">get-acl C:\Users\zbttl\.ssh\authorized_keys | fl</span><br></pre></td></tr></tbody></table></figure>
+
+</li>
+</ol>
+<p>我也不知道哪个好用，因为我几年前从 linux 那边生成的公钥文件貌似没有权限问题。。。</p>
+<h2 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h2><p>启动服务</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">Start-Service sshd</span><br></pre></td></tr></tbody></table></figure>
+
+<p>记得登录的是用户名不是 root 而是当前微软账号或者微软本地用户名。</p>
+]]></content>
+      <categories>
+        <category>Network</category>
+      </categories>
+      <tags>
+        <tag>windows</tag>
+        <tag>openssh</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>通过 telegram bot 监控设备的远程登录情况</title>
     <url>/tong-guo-telegram-bot-jian-kong-she-bei-de-yuan-cheng-deng-lu-qing-kuang/</url>
     <content><![CDATA[<p>之前我先后白嫖了 azure 的 windows server，以及做了 zerotier 用于远控，但前者我提过 3389 端口老是被撞，后者要通过密码和 zerotier 网域两重保险，应该够安全了，但毕竟是把我的主用设备暴露出去，还得更安全一点才行。<br>我听说有些脚本可以登录时从 telegram bot 通知所有者，找了一下，ssh 的和 rdp 的都有，那就一起上了。</p>
@@ -368,65 +427,6 @@
         <tag>windows server</tag>
         <tag>计划任务</tag>
         <tag>ssh</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>windows 开启 openssh-server</title>
-    <url>/windows-kai-qi-openssh-server/</url>
-    <content><![CDATA[<p>这篇文章是从<a href="https://zbttl.github.io/azure-yang-mao-er/">azure 羊毛（二） | Bao’s 备忘录</a>这里分离出来的。因为我发现给 windows server 2012 开 openssh 的坑远不及于此，这篇按官方教程来的小实践只能算个引子，于是干脆独立出来。</p>
-<p>在 windows 10 专业版上部署通过。</p>
-<p>参考文章：</p>
-<ul>
-<li><a href="https://docs.microsoft.com/en-us/windows-server/administration/openssh/openssh_install_firstuse">Installation of OpenSSH For Windows Server | Microsoft Docs</a></li>
-<li><a href="https://stackoverflow.com/questions/16212816/setting-up-openssh-for-windows-using-public-key-authentication/50502015#50502015">ssh - Setting up OpenSSH for Windows using public key authentication - Stack Overflow</a></li>
-</ul>
-<h2 id="安装，配置服务"><a href="#安装，配置服务" class="headerlink" title="安装，配置服务"></a>安装，配置服务</h2><p>安装</p>
-<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">Add-WindowsCapability -Online -Name OpenSSH.Server</span><br></pre></td></tr></tbody></table></figure>
-
-<p>配置自启</p>
-<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">Set-Service -Name sshd -StartupType 'Automatic'</span><br></pre></td></tr></tbody></table></figure>
-
-<p>配置防火墙（其实我一开始是像 rdp 这边用图形界面配置的，结果软软的教程居然给了命令，学到了，主要是写教程方便不用截图 - -）</p>
-<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">New-NetFirewallRule -Name sshd -DisplayName 'OpenSSH Server (sshd)' -Enabled True -Direction Inbound -Protocol TCP -Action Allow -LocalPort 999</span><br></pre></td></tr></tbody></table></figure>
-
-<p>如果用的是默认 22 端口不改其实可以略过这步。咱不习惯用默认端口就是。</p>
-<p>更改默认命令行程序为 powershell</p>
-<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">New-ItemProperty -Path "HKLM:\SOFTWARE\OpenSSH" -Name DefaultShell -Value "C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe" -PropertyType String -Force</span><br></pre></td></tr></tbody></table></figure>
-
-<h2 id="修改-sshd-config"><a href="#修改-sshd-config" class="headerlink" title="修改 sshd_config"></a>修改 sshd_config</h2><p>sshd_config 位于 <code>C:\ProgramData\ssh\sshd_config</code></p>
-<p>修改端口</p>
-<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">#Port 22</span><br><span class="line">Port 999</span><br></pre></td></tr></tbody></table></figure>
-
-<p>注释掉旧版密钥路径</p>
-<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">#Match Group administrators</span><br><span class="line">#       AuthorizedKeysFile __PROGRAMDATA__/ssh/administrators_authorized_keys</span><br></pre></td></tr></tbody></table></figure>
-
-<p>关闭密码登录</p>
-<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">PasswordAuthentication no</span><br></pre></td></tr></tbody></table></figure>
-
-<h2 id="放入密钥"><a href="#放入密钥" class="headerlink" title="放入密钥"></a>放入密钥</h2><p>将公钥放到 <code>C:\Users\zbttl\.ssh</code>里面，改名为<code>authorized_keys</code>。别说你看到这里都还没公钥。。。</p>
-<p>可能还要修复公钥的权限。微软官方文章使用的是 opensshutils 这个软件，但这个软件去年就被标记为 deprecated，实在要装只能手动安装，可以参考<a href="https://stackoverflow.com/questions/62873521/powershell-opensshutils">openssh - PowerShell OpenSSHUtils - Stack Overflow</a>，而且参考文章 2 中写明不建议装。</p>
-<p>另外两种方法：</p>
-<ol>
-<li><p>直接用 gui 修改权限。右键<code>authorized_keys</code> -&gt; 属性 -&gt; 安全 -&gt; 高级 -&gt; 禁用继承，在弹出的对话框选择「将已继承权限转换」。然后删掉多余权限，留下 system 和自己目前所用账号的权限就行。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210318041441.png"></p>
-</li>
-<li><p>使用命令</p>
-<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">get-acl C:\Users\zbttl\.ssh\authorized_keys | fl</span><br></pre></td></tr></tbody></table></figure>
-
-</li>
-</ol>
-<p>我也不知道哪个好用，因为我几年前从 linux 那边生成的公钥文件貌似没有权限问题。。。</p>
-<h2 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h2><p>启动服务</p>
-<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">Start-Service sshd</span><br></pre></td></tr></tbody></table></figure>
-
-<p>记得登录的是用户名不是 root 而是当前微软账号或者微软本地用户名。</p>
-]]></content>
-      <categories>
-        <category>Network</category>
-      </categories>
-      <tags>
-        <tag>windows</tag>
-        <tag>openssh</tag>
       </tags>
   </entry>
   <entry>
@@ -1350,9 +1350,9 @@
       </categories>
       <tags>
         <tag>羊毛</tag>
+        <tag>azure</tag>
         <tag>托管</tag>
         <tag>onedrive</tag>
-        <tag>azure</tag>
         <tag>windows server</tag>
         <tag>app service</tag>
         <tag>acme.sh</tag>
@@ -1583,8 +1583,8 @@
         <category>路由器</category>
       </categories>
       <tags>
-        <tag>openwrt</tag>
         <tag>xbox</tag>
+        <tag>openwrt</tag>
         <tag>padavan</tag>
         <tag>中继</tag>
         <tag>asusfirmware</tag>
@@ -2192,8 +2192,8 @@
         <category>game</category>
       </categories>
       <tags>
-        <tag>流水账</tag>
         <tag>xbox</tag>
+        <tag>流水账</tag>
       </tags>
   </entry>
   <entry>
@@ -3906,8 +3906,8 @@
       </categories>
       <tags>
         <tag>magisk</tag>
-        <tag>mipush</tag>
         <tag>xposed</tag>
+        <tag>mipush</tag>
       </tags>
   </entry>
   <entry>
@@ -4122,9 +4122,9 @@
         <category>Network</category>
       </categories>
       <tags>
-        <tag>wireshark</tag>
         <tag>kcptun</tag>
         <tag>finalspeed</tag>
+        <tag>wireshark</tag>
       </tags>
   </entry>
   <entry>
@@ -4737,9 +4737,9 @@
         <category>Network</category>
       </categories>
       <tags>
+        <tag>gost</tag>
         <tag>kcptun</tag>
         <tag>finalspeed</tag>
-        <tag>gost</tag>
       </tags>
   </entry>
   <entry>
