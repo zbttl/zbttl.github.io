@@ -30,6 +30,8 @@
 <meta property="og:site_name" content="Bao&#39;s 备忘录">
 <meta property="og:description" content="debian 安装时是否使用网络安装一定要选是，然后选 163 源，否则后面安装虽然说默认从本地 iso 安装但 kde 之类的东西实际上还是远程安装，默认的国外源非常慢。">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210702014320.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210702014602.png">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/q6xrR3g.png">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/IigBKYQ.png">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/qK0mouw.png">
@@ -38,7 +40,7 @@
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/rPP1F98.png">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20201222235724.png">
 <meta property="article:published_time" content="2020-02-23T16:00:00.000Z">
-<meta property="article:modified_time" content="2021-01-20T19:56:26.313Z">
+<meta property="article:modified_time" content="2021-07-01T17:50:32.715Z">
 <meta property="article:author" content="zbttl">
 <meta property="article:tag" content="terminal">
 <meta property="article:tag" content="vscode">
@@ -46,7 +48,7 @@
 <meta property="article:tag" content="ubuntu">
 <meta property="article:tag" content="wireguard">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/q6xrR3g.png">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210702014320.png">
 
 
 <link rel="canonical" href="https://zbttl-github-io.vercel.app/zhuo-mian-ban-ubuntu-debian-cai-keng/">
@@ -199,7 +201,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <section class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#debian-%E5%AE%89%E8%A3%85%E6%97%B6"><span class="nav-number">1.</span> <span class="nav-text">debian 安装时</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#debian-%E5%AE%89%E8%A3%85-vmware-tools"><span class="nav-number">2.</span> <span class="nav-text">debian 安装 vmware-tools</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#python-%E7%89%88%E6%9C%AC%E9%97%AE%E9%A2%98"><span class="nav-number">3.</span> <span class="nav-text">python 版本问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%AD%E8%A8%80%E9%97%AE%E9%A2%98"><span class="nav-number">4.</span> <span class="nav-text">语言问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#root-%E7%94%A8%E6%88%B7%E9%97%AE%E9%A2%98"><span class="nav-number">5.</span> <span class="nav-text">root 用户问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E6%B5%8F%E8%A7%88%E5%99%A8-root-%E5%BC%80%E5%90%AF"><span class="nav-number">6.</span> <span class="nav-text">文件浏览器 root 开启</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#wireshark-%E5%AE%89%E8%A3%85"><span class="nav-number">7.</span> <span class="nav-text">wireshark 安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#vscode-%E7%82%B9%E5%87%BB%E5%85%B3%E9%97%AD%E6%8C%89%E9%92%AE%E6%95%B4%E4%B8%AA%E7%95%8C%E9%9D%A2%E5%8D%A1%E6%AD%BB"><span class="nav-number">8.</span> <span class="nav-text">vscode 点击关闭按钮整个界面卡死</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#zsh"><span class="nav-number">9.</span> <span class="nav-text">zsh</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9D%91-1%EF%BC%9A%E4%BF%AE%E6%94%B9%E9%BB%98%E8%AE%A4-shell"><span class="nav-number">9.1.</span> <span class="nav-text">坑 1：修改默认 shell</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9D%91-2%EF%BC%9A%E5%AD%97%E4%BD%93%E6%94%AF%E6%8C%81"><span class="nav-number">9.2.</span> <span class="nav-text">坑 2：字体支持</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9D%91-3%EF%BC%9A%E7%B3%BB%E7%BB%9F-%E7%94%A8%E6%88%B7%E5%8F%98%E9%87%8F-alias"><span class="nav-number">9.3.</span> <span class="nav-text">坑 3：系统 &#x2F; 用户变量 &#x2F;alias</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9D%91-4-%EF%BC%9Azsh-%E4%B8%8B-ssh-%E9%94%AE%E4%BD%8D%E9%94%99%E8%AF%AF"><span class="nav-number">9.4.</span> <span class="nav-text">坑 4 ：zsh 下 ssh 键位错误</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9D%91-5%EF%BC%9A%E5%9B%A0%E4%B8%8D%E6%AD%A3%E5%B8%B8%E5%85%B3%E6%9C%BA%E5%AF%BC%E8%87%B4-zsh-history-%E6%8A%A5%E9%94%99"><span class="nav-number">9.5.</span> <span class="nav-text">坑 5：因不正常关机导致 zsh history 报错</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#debian-%E5%92%8C-ubuntu-%E6%98%BE%E8%91%97%E5%8C%BA%E5%88%AB%EF%BC%88%E4%BB%A5%E5%8F%8A-debian-ppa-%E4%BD%BF%E7%94%A8%EF%BC%89"><span class="nav-number">10.</span> <span class="nav-text">debian 和 ubuntu 显著区别（以及 debian ppa 使用）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%EF%BC%8812-22-%E6%9B%B4%E6%96%B0%EF%BC%89-%E8%BF%87%E6%9C%9F%E7%9A%84-ubuntu"><span class="nav-number">11.</span> <span class="nav-text">（12.22 更新） 过期的 ubuntu</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#apt-update-%E5%A4%B1%E6%95%88"><span class="nav-number">11.1.</span> <span class="nav-text">apt update 失效</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#do-release-upgrade-%E4%B9%9F%E5%A4%B1%E6%95%88"><span class="nav-number">11.2.</span> <span class="nav-text">do-release-upgrade 也失效</span></a></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#debian-%E5%AE%89%E8%A3%85%E6%97%B6"><span class="nav-number">1.</span> <span class="nav-text">debian 安装时</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#debian-%E5%AE%89%E8%A3%85-vmware-tools"><span class="nav-number">2.</span> <span class="nav-text">debian 安装 vmware-tools</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#python-%E7%89%88%E6%9C%AC%E9%97%AE%E9%A2%98"><span class="nav-number">3.</span> <span class="nav-text">python 版本问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%AD%E8%A8%80%E9%97%AE%E9%A2%98"><span class="nav-number">4.</span> <span class="nav-text">语言问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#root-%E7%94%A8%E6%88%B7%E9%97%AE%E9%A2%98"><span class="nav-number">5.</span> <span class="nav-text">root 用户问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E6%B5%8F%E8%A7%88%E5%99%A8-root-%E5%BC%80%E5%90%AF%EF%BC%8C%E4%BB%A5%E5%8F%8A%E5%BC%80%E5%90%AF%E5%9C%B0%E5%9D%80%E6%A0%8F"><span class="nav-number">6.</span> <span class="nav-text">文件浏览器 root 开启，以及开启地址栏</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#wireshark-%E5%AE%89%E8%A3%85"><span class="nav-number">7.</span> <span class="nav-text">wireshark 安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#vscode-%E7%82%B9%E5%87%BB%E5%85%B3%E9%97%AD%E6%8C%89%E9%92%AE%E6%95%B4%E4%B8%AA%E7%95%8C%E9%9D%A2%E5%8D%A1%E6%AD%BB"><span class="nav-number">8.</span> <span class="nav-text">vscode 点击关闭按钮整个界面卡死</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#zsh"><span class="nav-number">9.</span> <span class="nav-text">zsh</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9D%91-1%EF%BC%9A%E4%BF%AE%E6%94%B9%E9%BB%98%E8%AE%A4-shell"><span class="nav-number">9.1.</span> <span class="nav-text">坑 1：修改默认 shell</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9D%91-2%EF%BC%9A%E5%AD%97%E4%BD%93%E6%94%AF%E6%8C%81"><span class="nav-number">9.2.</span> <span class="nav-text">坑 2：字体支持</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9D%91-3%EF%BC%9A%E7%B3%BB%E7%BB%9F-%E7%94%A8%E6%88%B7%E5%8F%98%E9%87%8F-alias"><span class="nav-number">9.3.</span> <span class="nav-text">坑 3：系统 &#x2F; 用户变量 &#x2F;alias</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9D%91-4-%EF%BC%9Azsh-%E4%B8%8B-ssh-%E9%94%AE%E4%BD%8D%E9%94%99%E8%AF%AF"><span class="nav-number">9.4.</span> <span class="nav-text">坑 4 ：zsh 下 ssh 键位错误</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9D%91-5%EF%BC%9A%E5%9B%A0%E4%B8%8D%E6%AD%A3%E5%B8%B8%E5%85%B3%E6%9C%BA%E5%AF%BC%E8%87%B4-zsh-history-%E6%8A%A5%E9%94%99"><span class="nav-number">9.5.</span> <span class="nav-text">坑 5：因不正常关机导致 zsh history 报错</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#debian-%E5%92%8C-ubuntu-%E6%98%BE%E8%91%97%E5%8C%BA%E5%88%AB%EF%BC%88%E4%BB%A5%E5%8F%8A-debian-ppa-%E4%BD%BF%E7%94%A8%EF%BC%89"><span class="nav-number">10.</span> <span class="nav-text">debian 和 ubuntu 显著区别（以及 debian ppa 使用）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%EF%BC%8812-22-%E6%9B%B4%E6%96%B0%EF%BC%89-%E8%BF%87%E6%9C%9F%E7%9A%84-ubuntu"><span class="nav-number">11.</span> <span class="nav-text">（12.22 更新） 过期的 ubuntu</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#apt-update-%E5%A4%B1%E6%95%88"><span class="nav-number">11.1.</span> <span class="nav-text">apt update 失效</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#do-release-upgrade-%E4%B9%9F%E5%A4%B1%E6%95%88"><span class="nav-number">11.2.</span> <span class="nav-text">do-release-upgrade 也失效</span></a></li></ol></li></ol></div>
         </section>
         <!--/noindex-->
 
@@ -309,7 +311,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2021-01-21 03:56:26" itemprop="dateModified" datetime="2021-01-21T03:56:26+08:00">2021-01-21</time>
+        <time title="修改时间：2021-07-02 01:50:32" itemprop="dateModified" datetime="2021-07-02T01:50:32+08:00">2021-07-02</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -392,7 +394,7 @@
 
 
 
-<h2 id="文件浏览器-root-开启"><a href="#文件浏览器-root-开启" class="headerlink" title="文件浏览器 root 开启"></a>文件浏览器 root 开启</h2><p>没有 root 模式的话很多文件没法直接复制粘贴。</p>
+<h2 id="文件浏览器-root-开启，以及开启地址栏"><a href="#文件浏览器-root-开启，以及开启地址栏" class="headerlink" title="文件浏览器 root 开启，以及开启地址栏"></a>文件浏览器 root 开启，以及开启地址栏</h2><p>没有 root 模式的话很多文件没法直接复制粘贴。</p>
 <p>ubuntu：安装 nautilus-admin</p>
 <figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install nautilus-admin</span><br></pre></td></tr></tbody></table></figure>
 
@@ -400,6 +402,18 @@
 <figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nautilus -q</span><br></pre></td></tr></tbody></table></figure>
 
 <p>然后就可以右键管理员模式打开文件夹了。</p>
+<p>原来的地址栏可以通过 ctrl+l 打开全路径编辑样式，但我倾向于一直开着而不是使用默认的块状路径样式。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210702014320.png"></p>
+<center>块状路径样式</center>
+
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210702014602.png"></p>
+<center>全路径样式</center>
+
+<p>安装 dconf-editor</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install dconf-editor -y</span><br></pre></td></tr></tbody></table></figure>
+
+<p>打开后，按下 ctrl+L，进入路径 <code>/org/gnome/nautilus/preferences/</code></p>
+<p>开启 <code>always-use-location-entry</code> 这项即可。</p>
 <h2 id="wireshark-安装"><a href="#wireshark-安装" class="headerlink" title="wireshark 安装"></a>wireshark 安装</h2><p>参考文章：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.itdaan.com/tw/9a3a0e3fe1182c4af85ac6fb42c54cc6">【Tools】Wireshark 在 Linux 系統下的安裝及使用</a></p>
 <p>wireshark 可以通过 apt 安装旧版，也可以通过 ppa 安装新版。安装时会出现弹窗，大概意思是要不要授予非 root 用户监听权限，选 yes。</p>
 <p>之后</p>
@@ -724,7 +738,7 @@
       <i class="fa fa-coffee"></i>
     </span>
       <span>站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">8:48</span>
+    <span title="站点阅读时长">8:49</span>
   </span>
 </div>
 <div class="busuanzi-count">

@@ -4783,7 +4783,7 @@
 
 
 
-<h2 id="文件浏览器-root-开启"><a href="#文件浏览器-root-开启" class="headerlink" title="文件浏览器 root 开启"></a>文件浏览器 root 开启</h2><p>没有 root 模式的话很多文件没法直接复制粘贴。</p>
+<h2 id="文件浏览器-root-开启，以及开启地址栏"><a href="#文件浏览器-root-开启，以及开启地址栏" class="headerlink" title="文件浏览器 root 开启，以及开启地址栏"></a>文件浏览器 root 开启，以及开启地址栏</h2><p>没有 root 模式的话很多文件没法直接复制粘贴。</p>
 <p>ubuntu：安装 nautilus-admin</p>
 <figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">sudo apt-get install nautilus-admin</span><br></pre></td></tr></tbody></table></figure>
 
@@ -4791,6 +4791,18 @@
 <figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">nautilus -q</span><br></pre></td></tr></tbody></table></figure>
 
 <p>然后就可以右键管理员模式打开文件夹了。</p>
+<p>原来的地址栏可以通过 ctrl+l 打开全路径编辑样式，但我倾向于一直开着而不是使用默认的块状路径样式。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210702014320.png"></p>
+<center>块状路径样式</center>
+
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210702014602.png"></p>
+<center>全路径样式</center>
+
+<p>安装 dconf-editor</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">sudo apt install dconf-editor -y</span><br></pre></td></tr></tbody></table></figure>
+
+<p>打开后，按下 ctrl+L，进入路径 <code>/org/gnome/nautilus/preferences/</code></p>
+<p>开启 <code>always-use-location-entry</code> 这项即可。</p>
 <h2 id="wireshark-安装"><a href="#wireshark-安装" class="headerlink" title="wireshark 安装"></a>wireshark 安装</h2><p>参考文章：<a href="https://www.itdaan.com/tw/9a3a0e3fe1182c4af85ac6fb42c54cc6">【Tools】Wireshark 在 Linux 系統下的安裝及使用</a></p>
 <p>wireshark 可以通过 apt 安装旧版，也可以通过 ppa 安装新版。安装时会出现弹窗，大概意思是要不要授予非 root 用户监听权限，选 yes。</p>
 <p>之后</p>
