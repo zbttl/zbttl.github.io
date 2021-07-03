@@ -1178,11 +1178,11 @@
 <p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210217185446.png"></p>
 </li>
 <li><p>接下来就是大家熟悉的操作了。可以参考<a href="https://zbttl.github.io/yi-bu-dao-wei-de-vps-cong-ru-men-dao-fang-qi/#%E5%85%B3%E4%BA%8E%E8%AF%81%E4%B9%A6%E7%9A%84%E9%85%8D%E7%BD%AE">一步到位的vps从入门到放弃 | Bao’s 备忘录</a>。最后证书建议安装在一个路径固定的目录（方便以后操作，放在桌面等 <code>C:/Users/xxx</code> 打头的目录），但不要放在 c 盘根（权限问题）。我自己放在 %public% 文件夹（即  <code>C:\Users\Public</code>），新建的 <code>ssl</code> 文件夹中。</p>
-<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">export CF_Key="xxxxxx"</span><br><span class="line">export CF_Email="xxxxxx"</span><br><span class="line">./acme.sh --issue --dns dns_cf -d baobaobao.club -d *.baobaobao.club -k ec-256</span><br><span class="line">mkdir C:\\Users\\Public\\ssl</span><br><span class="line">./acme.sh --installcert -d baobaobao.club --keypath 'C:\Users\Public\ssl\baobaobao.key' --fullchainpath 'C:\Users\Public\ssl\baobaobao.crt' --ecc</span><br></pre></td></tr></tbody></table></figure>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">export CF_Key="xxxxxx"</span><br><span class="line">export CF_Email="xxxxxx"</span><br><span class="line">./acme.sh --issue --dns dns_cf -d baobaobao.xxx -d *.baobaobao.xxx -k ec-256</span><br><span class="line">mkdir C:\\Users\\Public\\ssl</span><br><span class="line">./acme.sh --installcert -d baobaobao.xxx --keypath 'C:\Users\Public\ssl\baobaobao.key' --fullchainpath 'C:\Users\Public\ssl\baobaobao.crt' --ecc</span><br></pre></td></tr></tbody></table></figure>
 </li>
 <li><p>acme.sh 的自动续签依赖于 Linux 的 crontab。windows 没这玩意，只能自己搞个伪劣版（</p>
 <p>新建 <code>acme-cron.sh</code> 放在 %public% 下</p>
-<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">#!/usr/bin/env bash</span><br><span class="line">cd 'C:\ProgramData\chocolatey\lib\acme-sh\tools\acme.sh-2.8.8'</span><br><span class="line">./acme.sh --renew --dns dns_cf -d baobaobao.club -d '*.baobaobao.club' -k ec-256</span><br><span class="line"> ./acme.sh --installcert -d baobaobao.club --keypath 'C:\Users\Public\ssl\baobaobao.key' --fullchainpath 'C:\Users\Public\ssl\baobaobao.crt' --ecc</span><br></pre></td></tr></tbody></table></figure>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">#!/usr/bin/env bash</span><br><span class="line">cd 'C:\ProgramData\chocolatey\lib\acme-sh\tools\acme.sh-2.8.8'</span><br><span class="line">./acme.sh --renew --dns dns_cf -d baobaobao.xxx -d '*.baobaobao.xxx' -k ec-256 --ecc</span><br><span class="line"> ./acme.sh --installcert -d baobaobao.xxx --keypath 'C:\Users\Public\ssl\baobaobao.key' --fullchainpath 'C:\Users\Public\ssl\baobaobao.crt' --ecc</span><br></pre></td></tr></tbody></table></figure>
 
 <p>在同一目录下新建 <code>acme.bat</code></p>
 <figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">@echo off</span><br><span class="line">cmd /c ""%PROGRAMFILES%\Git\bin\bash.exe" --login -i -- %PUBLIC%\acme-cron.sh"</span><br></pre></td></tr></tbody></table></figure>
@@ -5588,7 +5588,7 @@
 <p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/yX456qs.png"></p>
 </li>
 </ul>
-<p>以下假设我配置了一个 708hentai.baobaobao.club 的站点。</p>
+<p>以下假设我配置了一个 708hentai.baobaobao.xxx 的站点。</p>
 <h4 id="基本的手工配置"><a href="#基本的手工配置" class="headerlink" title="基本的手工配置"></a>基本的手工配置</h4><p>进入 <code>vhost</code> 目录，打开站点 conf 文件，大概会是这样的：</p>
 <p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/qYYUQUl.png"></p>
 <p>listen：nginx 所在的端口，如果填写 80 证明是 http 端口，443 是 https 端口，这两种情况下地址后面无需附上端口号。</p>
@@ -5613,11 +5613,11 @@
 <li><p>下载，安装，申请证书，注意里面一个是二级域名一个是泛域名，两个缺一不可（<code>-k ec-256</code> 可选，ecc 证书兼容性稍差无法兼容安卓 2.2 等超旧版本，但速度快于普通 rsa 证书）</p>
 <figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">curl  https://get.acme.sh | sh</span><br><span class="line">source ~/.bashrc</span><br><span class="line">acme.sh --issue --dns dns_cf -d example.com -d *.example.com -k ec-256</span><br></pre></td></tr></tbody></table></figure>
 
-<p>例如我的域名是 baobaobao.club，那么就应该这么写</p>
-<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">acme.sh --issue --dns dns_cf -d baobaobao.club -d *.baobaobao.club -k ec-256</span><br></pre></td></tr></tbody></table></figure>
+<p>例如我的域名是 baobaobao.xxx，那么就应该这么写</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">acme.sh --issue --dns dns_cf -d baobaobao.xxx -d *.baobaobao.xxx -k ec-256</span><br></pre></td></tr></tbody></table></figure>
 </li>
 <li><p>安装证书，<code>keypath</code> 和 <code>fullchainpath</code> 后面的路径和名字自定，建议放到同一目录，可以放到 <code>/home</code> 或者 <code>/etc</code>，后续还要再给读写权限。</p>
-<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">acme.sh --installcert -d baobaobao.club --keypath /home/ssl/baobaobao.key --fullchainpath /home/ssl/baobaobao.crt --reloadcmd "nginx -s reload" --ecc</span><br></pre></td></tr></tbody></table></figure>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">acme.sh --installcert -d baobaobao.xxx --keypath /home/ssl/baobaobao.key --fullchainpath /home/ssl/baobaobao.crt --reloadcmd "nginx -s reload" --ecc</span><br></pre></td></tr></tbody></table></figure>
 </li>
 <li><p>生成 <code>dhparam.pem</code>文件，生成目录跟上面两个文件的目录保持一致（仅 nginx 使用，caddy 跳过该步骤）</p>
 <figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">openssl dhparam -out /home/ssl/dhparam.pem 2048</span><br></pre></td></tr></tbody></table></figure>
