@@ -1,6 +1,245 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>萌新的 linux qt 程序编译实战</title>
+    <url>/meng-xin-de-linux-qt-cheng-xu-bian-yi-shi-zhan/</url>
+    <content><![CDATA[<p>事情的来源，是两个月前和朋友讨论啥软件界面又好看「学术网站」又快界面又漂亮。clash 虽然漂亮，但支持的协议少了点。</p>
+<p>这时候我就提了一嘴「qv2ray 新界面呀，不是挺漂亮的吗，只是要编译，又不麻烦」</p>
+<p>前半句是对的，确实挺漂亮的：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/QQ%E5%9B%BE%E7%89%8720210517003751.jpg"></p>
+<p>但为了圆后半句，我花了两个月时间。。。不要小看编译啊 kora！</p>
+<p>环境：ubuntu 20.04 桌面端，否则没有 opengl 支持，没法试还报错</p>
+<h2 id="标准编译步骤——借助-ubuntu-内置的-apt-安装以来并直接编译"><a href="#标准编译步骤——借助-ubuntu-内置的-apt-安装以来并直接编译" class="headerlink" title="标准编译步骤——借助 ubuntu 内置的 apt 安装以来并直接编译"></a>标准编译步骤——借助 ubuntu 内置的 apt 安装以来并直接编译</h2><h3 id="初步安装依赖"><a href="#初步安装依赖" class="headerlink" title="初步安装依赖"></a>初步安装依赖</h3><figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">sudo apt update</span><br><span class="line">sudo apt install git openssl -y</span><br><span class="line">#编译所需工具</span><br><span class="line">sudo apt install autoconf automake libtool build-essential -y</span><br><span class="line"># qv2ray 和 grpc 编译所需的 ssl 库</span><br><span class="line">sudo apt install libssl-dev -y</span><br></pre></td></tr></tbody></table></figure>
+
+<h3 id="安装-qt5（通过官方在线安装包）"><a href="#安装-qt5（通过官方在线安装包）" class="headerlink" title="安装 qt5（通过官方在线安装包）"></a>安装 qt5（通过官方在线安装包）</h3><p>参考文章：<a href="https://forum.qt.io/topic/72009/how-do-i-move-qt-to-usr-local-share-qt">How do I move ~/Qt to /usr/local/share/Qt? | Qt Forum</a></p>
+<p>需要保持网络通畅！</p>
+<p>下载：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">wget http://qt.mirror.constant.com/archive/online_installers/4.1/qt-unified-linux-x86_64-4.1.0-online.run</span><br><span class="line">chmod +x ./qt-unified-linux-x86_64-4.1.0-online.run</span><br><span class="line">./qt-unified-linux-x86_64-4.1.0-online.run</span><br></pre></td></tr></tbody></table></figure>
+
+<p>根据提示，注册并安装 qt 5.12.5 。我就直接装在默认路径，<code>/home/zbttl/xxx</code> 下了。另外程序默认会安装 Ninja 和 cmake，这两个后面都会用得上。</p>
+<p>将 qt 和 cmake 路径加到 root 和在进行操作的用户的环境变量中（后续如果不装到系统目录中，也可以省去吧路径加到的 root 下的命令，即第一条命令）</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">echo "export PATH=/home/zbttl/Qt/5.15.2/gcc_64/bin:/home/zbttl/Qt/Tools/CMake/bin/:/home/zbttl/Qt/Tools/Ninja/:$PATH"|sudo tee /etc/bash.bashrc</span><br><span class="line"></span><br><span class="line">echo "export PATH=\$HOME/Qt/5.15.2/gcc_64/bin:\$HOME/Qt/Tools/CMake/bin/:\$HOME/Qt/Tools/Ninja/:\$PATH" &gt;&gt; ~/.bashrc</span><br><span class="line">source ~/.bashrc</span><br></pre></td></tr></tbody></table></figure>
+
+<p>测试：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">cmake -version</span><br><span class="line">qmake -v</span><br></pre></td></tr></tbody></table></figure>
+
+<p>都有输出的话则正常。</p>
+<p>还需要添加 qt 的动态链接库：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">cd /etc/ld.so.conf.d</span><br><span class="line">echo -e "/home/zbttl/Qt/5.15.2/gcc_64/lib\n/home/zbttl/Qt/Tools/QtCreator/lib/qtcreator"|sudo tee qt-5.15.2-x86_64.conf</span><br><span class="line">sudo ldconfig</span><br><span class="line">cd</span><br></pre></td></tr></tbody></table></figure>
+
+<h3 id="安装-grpc、protobuf-、opengl-库"><a href="#安装-grpc、protobuf-、opengl-库" class="headerlink" title="安装  grpc、protobuf 、opengl 库"></a>安装  grpc、protobuf 、opengl 库</h3><figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">sudo apt-get install libprotobuf-dev protobuf-compiler libgrpc-dev libgrpc++-dev protobuf-compiler-grpc -y</span><br><span class="line">sudo apt install mesa-common-dev -y</span><br></pre></td></tr></tbody></table></figure>
+
+<h3 id="编译-qv2ray-发行版"><a href="#编译-qv2ray-发行版" class="headerlink" title="编译 qv2ray 发行版"></a>编译 qv2ray 发行版</h3><figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">git clone https://github.com/Qv2ray/Qv2ray.git --recursive</span><br><span class="line">cd Qv2ray</span><br><span class="line">mkdir build; cd build;</span><br><span class="line">cmake -DCMAKE_INSTALL_PREFIX=/home/zbttl/q2 -DCMAKE_BUILD_TYPE=Release -GNinja ..</span><br><span class="line">#如果没装Ninja，也可以不用Ninja，Ninja编译时是显示编译到多少个包，普通编译则是显示百分比</span><br><span class="line">#cmake -DCMAKE_INSTALL_PREFIX=/home/zbttl/q2 -DCMAKE_BUILD_TYPE=Release ..</span><br><span class="line">cmake --build . --parallel $(nproc)</span><br><span class="line">#装到系统路径中的话，要配合 sudo</span><br><span class="line">#sudo -s</span><br><span class="line">cmake --install .</span><br></pre></td></tr></tbody></table></figure>
+
+<h3 id="运行"><a href="#运行" class="headerlink" title="运行"></a>运行</h3><figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">cd /home/zbttl/q2/bin/</span><br><span class="line">./qv2ray</span><br></pre></td></tr></tbody></table></figure>
+
+<p>有可能会报错哦。需要安装 xcb 库。</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">sudo apt install libxcb-xinerama0 -y</span><br></pre></td></tr></tbody></table></figure>
+
+<h2 id="未曾设想的道路（雾）"><a href="#未曾设想的道路（雾）" class="headerlink" title="未曾设想的道路（雾）"></a>未曾设想的道路（雾）</h2><h3 id="换用-qt6-编译-dev-版"><a href="#换用-qt6-编译-dev-版" class="headerlink" title="换用 qt6 编译 dev 版"></a>换用 qt6 编译 dev 版</h3><p>新界面只有 dev 版支持。编译 dev 版则需要安装 qt6。</p>
+<p>需要多装一个库：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">sudo apt-get install libcurl4-openssl-dev -y</span><br></pre></td></tr></tbody></table></figure>
+
+<p>和装 qt5 的步骤接近，除了通过安装程序安装时选择 qt 6.1.2 外，还有编译的参数要做出修改：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">git clone -b dev-v3 https://github.com/Qv2ray/Qv2ray.git --recursive</span><br><span class="line">cd Qv2ray</span><br><span class="line">mkdir build; cd build;</span><br><span class="line">#如果是编译dev版可省略-DQV2RAY_QT6=ON参数，编译发行版必须加入（不过也有可能加上都编译不了，所以编译发行版建议用qt5）</span><br><span class="line">cmake -DCMAKE_INSTALL_PREFIX=/home/zbttl/q2 -DCMAKE_BUILD_TYPE=Release -GNinja -DQV2RAY_QT6=ON ..</span><br><span class="line">cmake --build . --parallel $(nproc)</span><br></pre></td></tr></tbody></table></figure>
+
+<hr>
+<p>但到这里，我还有一个小目标：</p>
+<p>编都编了，干脆能手动编译的都手动编译吧！apt 装的版本虽然能用，但确实有点旧了。</p>
+<p>大概有四样东西可以手动编译，分别是 openssl，grpc+protobuf、cmake 和 qt，这几样东西更新快且编译新软件的时候经常对他们有版本号上的需求。严格意义说，opengl 和 ninja 也是能手工编译的，但这两样东西似乎比较稳定，没啥必要手工编译。</p>
+<h3 id="手工编译-openssl"><a href="#手工编译-openssl" class="headerlink" title="手工编译 openssl"></a>手工编译 openssl</h3><p>可以替换上面用到的 <code>libcurl4-openssl-dev</code>、<code>libssl-dev</code> 两个库。（但不要去卸载 openssl，否则使用 wget 等命令时就会报警证书错误。不敲 <code>sudo rm -r /usr/local/ssl/certs&amp;&amp;sudo ln -s /etc/ssl/certs /usr/local/ssl</code> 这个命令也会造成证书报警，但如果卸了 openssl，敲了这个命令也没用。）</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">sudo apt remove libcurl4-openssl-dev libssl-dev -y</span><br></pre></td></tr></tbody></table></figure>
+
+<p>下载的版本是 1.1.1f，现在应该还有更新的版本，但别用 3 开头的 alpha 版。</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">wget https://www.openssl.org/source/openssl-1.1.1i.tar.gz --no-check-certificate</span><br><span class="line">tar xzvf openssl-1.1.1i.tar.gz </span><br><span class="line">cd openssl*/</span><br><span class="line">./config</span><br><span class="line">make</span><br><span class="line">make test</span><br><span class="line">sudo make install</span><br><span class="line">sudo ldconfig</span><br><span class="line">sudo rm -r /usr/local/ssl/certs&amp;&amp;sudo ln -s /etc/ssl/certs /usr/local/ssl</span><br><span class="line">cd</span><br></pre></td></tr></tbody></table></figure>
+
+<p>安装完确认一下</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">openssl version</span><br><span class="line"></span><br><span class="line">pkg-config --libs openssl</span><br></pre></td></tr></tbody></table></figure>
+
+<p>应有类似输出：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">OpenSSL 1.1.1f  31 Mar 2020</span><br><span class="line"></span><br><span class="line">-L/usr/local/lib -lssl -lcrypto</span><br></pre></td></tr></tbody></table></figure>
+
+<h3 id="手动安装-cmake"><a href="#手动安装-cmake" class="headerlink" title="手动安装 cmake"></a>手动安装 cmake</h3><p>qt6 必须要 cmake 3.16 以后版本才能编译，好死不死 apt 里带的版本是 3.15。之前用了 qt 官方的在线安装程序，安装的是 3.19，这才勉强能用。新版 grpc 也强制要求使用 cmake 而不是 make 了，本来想和 qt 编译写在一起，现在把这个步骤提前到这里。</p>
+<p>cmake 官方直接给了最新的安装脚本，我们直接用就好了，懒得编译了。</p>
+<p>可以到 <code>https://github.com/Kitware/CMake/releases</code> 获取最新 release 版本号：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">#参考https://sobaigu.com/shell-get-lastest-version-from-github.html命令行直接获取版本号</span><br><span class="line">cmake_new_ver=$(wget -qO- -t1 -T2 "https://api.github.com/repos/Kitware/CMake/releases/latest" | grep "tag_name" | head -n 1 | awk -F ":" '{print $2}' | sed 's/\"//g;s/,//g;s/ //g'|sed 's/[a-z]*//g')</span><br><span class="line">#或者是 cmake_new_ver=$(wget -qO- -t1 -T2 "https://api.github.com/repos/Kitware/CMake/releases/latest" | jq -r '.tag_name'|sed 's/[a-z]*//g')</span><br></pre></td></tr></tbody></table></figure>
+
+<p>下载运行</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">sudo apt remove cmake -y</span><br><span class="line">wget https://github.com/Kitware/CMake/releases/download/v${cmake_new_ver}/cmake-${cmake_new_ver}-linux-x86_64.sh</span><br><span class="line">chmod +x cmake-${cmake_new_ver}-linux-x86_64.sh</span><br><span class="line">sudo bash cmake-${cmake_new_ver}-linux-x86_64.sh --prefix=/usr/ --exclude-subdir</span><br></pre></td></tr></tbody></table></figure>
+
+<p>如果在使用 ubuntu 且不在意空间的话，也可以通过 snap 安装：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">sudo snap install cmake</span><br></pre></td></tr></tbody></table></figure>
+
+<h3 id="手工编译-grpc-和-protobuf"><a href="#手工编译-grpc-和-protobuf" class="headerlink" title="手工编译 grpc 和 protobuf"></a>手工编译 grpc 和 protobuf</h3><p>参考文章</p>
+<p>官方文档：</p>
+<ul>
+<li><a href="https://github.com/grpc/grpc/blob/master/BUILDING.md">grpc/BUILDING.md at master · grpc/grpc</a></li>
+<li><a href="https://grpc.io/docs/languages/cpp/quickstart/">Quick start | C++ | gRPC</a></li>
+</ul>
+<p>其他使用者的使用心得：</p>
+<ul>
+<li><a href="https://github.com/grpc/grpc/blob/70ce9e21df4f6a18fbcfbb2103d1e89987125f4a/test/distrib/cpp/run_distrib_test_cmake.sh">grpc 正确安装 grpc/run_distrib_test_cmake.sh at 70ce9e21df4f6a18fbcfbb2103d1e89987125f4a · grpc/grpc</a></li>
+<li><a href="https://blog.csdn.net/u012182853/article/details/106243399/">ubuntu16.04 grpc安装_u012182853的博客-CSDN博客_cares安装</a></li>
+<li>多版本 grpc 安装、国内镜像、需要编译出的 c 版本组件列出 ：<a href="https://www.cnblogs.com/52fhy/p/11110704.html">gRPC入坑记 - 飞鸿影 - 博客园</a></li>
+<li><a href="https://www.jianshu.com/p/3479272f90bb">gRPC 和 protobuf 的安装 - 简书</a></li>
+</ul>
+<p>代替了 <code>libprotobuf-dev</code>、<code>protobuf-compiler</code>、<code>libgrpc-dev</code>、<code>libgrpc++-dev</code> 四个包。</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">sudo apt remove libprotobuf-dev protobuf-compiler libgrpc-dev libgrpc++-dev -y</span><br><span class="line">sudo apt install zlib1g-dev -y</span><br></pre></td></tr></tbody></table></figure>
+
+<p>protobuf 包含在 grpc 中，所以一起拿下来就好了。cmake 这里，如果全部都手动编译的话，先参考下面手工安装 cmake 章节（因为 grpc 并不要求 cmake 版本，所以用 apt 版本的 cmake 也可以）。</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">git clone --recurse-submodules https://github.com/grpc/grpc</span><br><span class="line"></span><br><span class="line">cd grpc/third_party/protobuf/</span><br><span class="line">git submodule update --init --recursive</span><br><span class="line">./autogen.sh</span><br><span class="line">./configure --prefix=/usr</span><br><span class="line">make -j $(nproc)</span><br><span class="line">sudo make install </span><br><span class="line">sudo ldconfig</span><br><span class="line">cd ../..</span><br><span class="line">cd third_party/abseil-cpp</span><br><span class="line">cmake -DCMAKE_INSTALL_PREFIX=/usr \</span><br><span class="line">      -DCMAKE_POSITION_INDEPENDENT_CODE=TRUE</span><br><span class="line">make -j $(nproc)</span><br><span class="line">sudo make install</span><br><span class="line">cd ../..</span><br><span class="line">cmake -DgRPC_INSTALL=ON \</span><br><span class="line">      -DgRPC_BUILD_TESTS=OFF \</span><br><span class="line">      -DCMAKE_INSTALL_PREFIX=/usr \</span><br><span class="line">      -DgRPC_SSL_PROVIDER=package</span><br><span class="line">make -j $(nproc)</span><br><span class="line">sudo make install</span><br><span class="line">cd ..</span><br></pre></td></tr></tbody></table></figure>
+
+<p>安装完确认一下</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">protoc --version</span><br></pre></td></tr></tbody></table></figure>
+
+<p>应有输出</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">libprotoc 3.15.8</span><br></pre></td></tr></tbody></table></figure>
+
+<p>另外还可以通过运行 example 测试，可参照参考文章 4。</p>
+<h3 id="编译安装-qt6"><a href="#编译安装-qt6" class="headerlink" title="编译安装 qt6"></a>编译安装 qt6</h3><p>说实话，实操后感觉并不推荐大家去单独编译 qt，坑又多，空间占用又大（大概要 17g 左右），编译时间又久，纯属自己好奇，活该（</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210720004656.png"></p>
+<p>先装依赖。由于没有 <code>cmake clean</code> 这种类似的命令，因为编译时间比较久，万一哪个依赖没装导致编译中出错，就得删掉整个文件夹重新编译，得不偿失，所以依赖尽量装全一点；除了上面文章提到的依赖（openssl、cmake，grpc 和 protobuf 可以不用），还装了以下这些：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">sudo apt install  libgl1-mesa-dev libxcb*-dev libfontconfig1-dev libxkbcommon-x11-dev python libgtk-3-dev mesa-common-dev libglu1-mesa-dev -y</span><br></pre></td></tr></tbody></table></figure>
+
+<p>到 <a href="download.qt.io/archive/qt/">qt 官网</a>寻找对应版本的源码包，这里我下了 6.1.0 single 目录下的 zip 版本：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210719225612.png"></p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">wget https://download.qt.io/archive/qt/6.1/6.1.0/single/qt-everywhere-src-6.1.0.zip</span><br><span class="line">sudo apt install unzip -y</span><br><span class="line">unzip qt-everywhere-src-6.1.0.zip </span><br><span class="line">cd qt-everywhere-src-6.1.0</span><br></pre></td></tr></tbody></table></figure>
+
+<p>但这时如果直接 configure 会报错，因为下下来的 zip 文件里换行符似乎是 windows 格式的 CFLR。。。</p>
+<p>应该下 tar.xz 包的，算了，下都下了，搞个工具转换一下吧：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">sudo apt install dos2unix -y</span><br><span class="line">find . -type f -print0 | xargs -0 dos2unix</span><br></pre></td></tr></tbody></table></figure>
+
+<p>编译安装：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">./configure -openssl --prefix=/usr/local/qt6</span><br><span class="line">export PATH=/usr/local/qt6/bin:$PATH</span><br><span class="line">cmake --build . --parallel $(nproc)</span><br><span class="line">sudo cmake --install .</span><br><span class="line"></span><br><span class="line">echo "export PATH=/usr/local/qt6/bin:\$PATH" &gt;&gt; ~/.bashrc</span><br><span class="line">source ~/.bashrc</span><br><span class="line"></span><br><span class="line">cd /etc/ld.so.conf.d</span><br><span class="line">echo -e "/usr/local/qt6/lib"|sudo tee qt-6-x86_64.conf</span><br><span class="line">sudo ldconfig</span><br><span class="line">cd</span><br></pre></td></tr></tbody></table></figure>
+
+<p>此时输入</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">qmake -v</span><br></pre></td></tr></tbody></table></figure>
+
+<p>应有输出</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">QMake version 3.1</span><br><span class="line">Using Qt version 6.1.0 in /usr/local/qt6/lib</span><br></pre></td></tr></tbody></table></figure>
+
+<h2 id="安全绳"><a href="#安全绳" class="headerlink" title="安全绳"></a>安全绳</h2><p>如果你看完了上面的内容才来到这里，有两种可能：</p>
+<ol>
+<li>你很幸运，一次过了；</li>
+<li>你在云，根本没动手！</li>
+</ol>
+<p>保守估计有起码一半的人会在半路跳进坑里，那你就得在这里找绳子啦~</p>
+<h3 id="关于-grpc-和-protobuf-的版本问题"><a href="#关于-grpc-和-protobuf-的版本问题" class="headerlink" title="关于 grpc 和 protobuf 的版本问题"></a>关于 grpc 和 protobuf 的版本问题</h3><p>估计有一部分人（包括我）之前接触过 go 版本的 grpc 和 protobuf，刚开始就会心生疑问：这俩玩意用 go 或者 pip 装不是更快吗？</p>
+<p>很遗憾。。。并不行，必须用 c 版本的，还得编译出 lib 版本的库装到系统中才能正常使用。</p>
+<h3 id="ssl-错误"><a href="#ssl-错误" class="headerlink" title="ssl 错误"></a>ssl 错误</h3><p>常见于 qv2ray 和 qt6 编译中出现。</p>
+<p>qv2ray 编译中出现，一般是因为</p>
+<ol>
+<li>版本不匹配，比如自己编译了 openssl，又安装了 <code>libssl-dev</code></li>
+<li>编译 grpc 的时候没有加参数 <code>-DgRPC_SSL_PROVIDER=package</code>，参见 <a href="https://github.com/Qv2ray/Qv2ray/discussions/1509">编译到最后一步报错 · Discussion #1509 · Qv2ray/Qv2ray</a></li>
+</ol>
+<p>在 qt 编译中出现，大概率是 <code>libssl-dev</code> 没装或者是 configure 后补装的。</p>
+<p>另参考：</p>
+<ul>
+<li><a href="https://github.com/grpc/grpc/issues/15054">static link grpc lib not working · Issue #15054 · grpc/grpc</a></li>
+</ul>
+<h3 id="库错误"><a href="#库错误" class="headerlink" title="库错误"></a>库错误</h3><p>最大的坑。严格意义上上面的 ssl 错误也可以归类为库错误的范畴。</p>
+<p>原因有：</p>
+<ol>
+<li>新编译软件的库没有放到 ldconfig 中；</li>
+<li>没装库</li>
+<li>库装晚了（常见于 qt 编译）</li>
+<li>既用了 apt 装库也编译安装了一份，apt 装的优先被读取但编译其他东西的时候用的是编译安装的库因此运行时报错。 </li>
+</ol>
+<p>有那么几个检查方法：</p>
+<ol>
+<li><p>编译时报错。可用 <code>pkg-config</code> 命令，类似</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">pkg-config --libs openssl</span><br><span class="line">pkg-config --libs xcb</span><br></pre></td></tr></tbody></table></figure>
+
+<p>有输出证明库正常安装，没有就是缺了。</p>
+</li>
+<li><p>运行时报错。比如常见的运行 qv2ray 二进制时报 xcb 相关的错误，可使用 ldd 命令：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">ldd ./qv2ray</span><br></pre></td></tr></tbody></table></figure>
+
+<p>如果有库没找到 / 没装，会有提示。 </p>
+</li>
+</ol>
+<p>解决方法就是使用 <code>sudo find / -name </code> 命令搜查相关文件确定原因，然后根据原因对症下药：</p>
+<ol>
+<li>加入相关路径到 ldconfig（可参考上面 qt 安装和编译的文章）</li>
+<li> apt 装库或者编译库</li>
+<li> 装库后删除已编译部分重新编译，或者删除整个项目并重新拉取。</li>
+<li>配置 LD_LIBRARY_PATH 变量。参考 qt 错误第一条。</li>
+</ol>
+<h3 id="多线程编译错误"><a href="#多线程编译错误" class="headerlink" title="多线程编译错误"></a>多线程编译错误</h3><p>在使用类似</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">make -j $(nproc)</span><br></pre></td></tr></tbody></table></figure>
+
+<p>这类命令时，有可能出现各种编译错误问题，例如这个报错：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">lib error: relink 'libprotoc.la' with the above command before installing it</span><br></pre></td></tr></tbody></table></figure>
+
+<p>解决方法有：</p>
+<ol>
+<li>如果可能，使用 <code>make clean</code> 命令后重新 make；没有 <code>make clean</code> 命令的话就只能重新拉取项目代码；</li>
+<li>使用单线程或手动指定进程数而不是使用 <code>$(nproc)</code> 变量。注意，不要指定过大的线程数或者不指定线程数（比如直接使用 <code>make -j</code> 命令），错误的进程数可能消耗过大的内存导致系统卡死。</li>
+</ol>
+<h3 id="qt-错误"><a href="#qt-错误" class="headerlink" title="qt 错误"></a>qt 错误</h3><p>qt 有可能遭遇编译错误；也有可能编译安装成功后发现 qv2ray 运行不了，因为编译的 qt 组件不全。</p>
+<h4 id="自编译-qt-后不慎在-apt-内安装了对应包导致报错"><a href="#自编译-qt-后不慎在-apt-内安装了对应包导致报错" class="headerlink" title="自编译 qt 后不慎在 apt 内安装了对应包导致报错"></a>自编译 qt 后不慎在 apt 内安装了对应包导致报错</h4><p>报错代码类似于 <code>version 'Qt_5.15' not found (required by xxxx)</code>。</p>
+<p>解决方法是配置 <code>LD_LIBRARY_PATH</code>。让自编译的 qt 库优先被使用。</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">echo "export LD_LIBRARY_PATH=/home/zbttl/Qt/5.15.2/gcc_64/lib"|sudo tee /etc/bash.bashrc</span><br><span class="line"></span><br><span class="line">echo "export LD_LIBRARY_PATH=\$HOME/Qt/5.15.2/gcc_64/lib" &gt;&gt; ~/.bashrc</span><br><span class="line">source ~/.bashrc</span><br></pre></td></tr></tbody></table></figure>
+
+<h4 id="防止-configure-时库不全"><a href="#防止-configure-时库不全" class="headerlink" title="防止 configure 时库不全"></a>防止 configure 时库不全</h4><p>运行 <code>./configure</code> 命令后，会在 qt 目录下生成一个 <code>CMakeCache.txt</code> 文件，里面就是本次 qt 编译所支持的功能。如果此时环境内依赖不全，就会导致组件缺失。这里放出我自己测试能够成功运行 qv2ray 的 <a href="https://1drv.ms/t/s!AoMoC9XTgpEsmc4Pi5-M08cQCoWicg?e=hpV7d9">qt6 编译组件清单文件</a>，出问题的话可以用 vscode 对一下。</p>
+<p>另外使用 <code>./configure</code> 命令时，可以考虑带上 <code>-openssl</code> 和 <code>-opengl</code> 等参数（上面的教程例子中已经带上了 <code>-openssl</code>），如果找不到相应的库，就会直接报错告诉你差这些而不是各种一闪而过告诉你准备完成。</p>
+<h4 id="已编译安装的-qt6-测试"><a href="#已编译安装的-qt6-测试" class="headerlink" title="已编译安装的 qt6 测试"></a>已编译安装的 qt6 测试</h4><p>可以写一个小测试项目，因为目前我遇到的安装后的 qt 方面的三个问题，分别对应 openssl、opengl、xcb 三个问题，而我编的这个小程序要是能够正常编译运行，就证明不存在那三个问题。</p>
+<ol>
+<li><p>新建一个文件夹，文件夹里面放上名为 <code>test.cpp</code> 的文件，写入以下内容：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">#include &lt;QApplication&gt;</span><br><span class="line">#include &lt;QLabel&gt;</span><br><span class="line">#include &lt;QDebug&gt;</span><br><span class="line">#include &lt;QSslSocket&gt;</span><br><span class="line"></span><br><span class="line">int main(int argc,char *argv[])</span><br><span class="line">{</span><br><span class="line">QApplication app(argc,argv);</span><br><span class="line">//qDebug()&lt;&lt;QSslSocket::sslLibraryBuildVersionString();</span><br><span class="line">QLabel *Label = new QLabel(QSslSocket::sslLibraryBuildVersionString());</span><br><span class="line">Label-&gt;show();</span><br><span class="line">return app.exec();</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>生成 pro 文件</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">qmake -project</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>生成 stash 文件</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">qmake</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>修改 pro 文件，加入</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">QT       += widgets \</span><br><span class="line">            network</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>编译</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">make</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>运行</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">./test</span><br></pre></td></tr></tbody></table></figure>
+
+<p>如果没问题就会弹出带有当前系统 openssl 版本号的弹窗。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210720010314.png"></p>
+<p>后续如果想要显示其他内容，修改 <code>test.cpp</code> 内容并 <code>make</code> 就可以。不要执行 <code>qmake</code>，否则 pro 文件里这行就要重新写了。</p>
+</li>
+</ol>
+<h4 id="运行后报错，查看具体信息"><a href="#运行后报错，查看具体信息" class="headerlink" title="运行后报错，查看具体信息"></a>运行后报错，查看具体信息</h4><p>输入</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">export QT_DEBUG_PLUGINS=1</span><br></pre></td></tr></tbody></table></figure>
+
+<p>此时再运行 qt 程序就会弹出更详细的错误信息。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210720010945.png"></p>
+<h3 id="qv2ray-官方部署参考文章和其他参考文章"><a href="#qv2ray-官方部署参考文章和其他参考文章" class="headerlink" title="qv2ray 官方部署参考文章和其他参考文章"></a>qv2ray 官方部署参考文章和其他参考文章</h3><ul>
+<li>qv2ray 的 github actions 配置 <a href="https://github.com/Qv2ray/Qv2ray/blob/master/.github/workflows/build-qv2ray-cmake.yml">Qv2ray/build-qv2ray-cmake.yml at master · Qv2ray/Qv2ray</a></li>
+<li>官方文档 <a href="https://qv2ray.net/lang/zh/hacking/manuallybuild.html">手动构建 Qv2ray 项目 | Qv2ray</a></li>
+<li>超全的 qt 笔记：<a href="https://github.com/wangwenx190/notes/blob/master/qt.zh.cn.md">notes/qt.zh.cn.md at master · wangwenx190/notes</a></li>
+</ul>
+<hr>
+<h2 id="二号坑"><a href="#二号坑" class="headerlink" title="二号坑"></a>二号坑</h2><p>总算是搞定了。。。可是等一下，新界面呢？</p>
+<p>还有怎么没有中文，按下插件按钮时报错？（似乎只有 qt5 编译的发行版没有发生这种错误）</p>
+<p>另外编译出来的东西怎么打包呢。。。</p>
+<p>没有新界面是编译过程有问题吗？但后来我在 tg 群中发现，其实如果只是 ubuntu 下想要装新版本，qv2ray 官方搞了这个东西：<a href="https://qv2ray.net/debian-dev/">Qv2ray Debian Repository (Nightly) | debian-dev</a>，装这个就好了。。。。但这里面的新版本界面我也没调出来。</p>
+<p>嘛，看来，还得折腾。</p>
+]]></content>
+      <categories>
+        <category>Complier</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+        <tag>Ubuntu</tag>
+        <tag>qt5</tag>
+        <tag>qt6</tag>
+        <tag>grpc</tag>
+        <tag>openssl</tag>
+        <tag>cmake</tag>
+        <tag>Ninja</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>凑合用呗，还能砸了咋滴？————老旧的 ipad AIR2 搭配键鼠使用体验</title>
     <url>/cou-he-yong-bai-huan-neng-za-liao-zha-di-lao-jiu-de-ipad-air2-da-pei-jian-shu-shi-yong-ti-yan/</url>
     <content><![CDATA[<p>之前说过，我的笔记本这周送修了。</p>
@@ -4369,7 +4608,7 @@
 <p>查看日志 <code>cat $PREFIX/var/log/sv/${tpath}/current</code></p>
 <p>关闭 <code>sv down ${tpath}</code></p>
 <p>一切没问题就可以开启自启 <code>sv-enable ${tpath}</code>，开启自启时程序会自动打开</p>
-<p>不想用的时候可以关闭自启 <code>sv-enable ${tpath}</code></p>
+<p>不想用的时候可以关闭自启 <code>sv-disable ${tpath}</code></p>
 </li>
 </ol>
 <h3 id="supervisor"><a href="#supervisor" class="headerlink" title="supervisor"></a>supervisor</h3><p>参考文章：<a href="https://blog.csdn.net/tyy649909457/article/details/99348032">termux 安装supervisor</a></p>

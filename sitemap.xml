@@ -2,6 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://zbttl.github.io/meng-xin-de-linux-qt-cheng-xu-bian-yi-shi-zhan/</loc>
+    
+    <lastmod>2021-07-28</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://zbttl.github.io/ma-que-sui-xiao-wu-zang-ju-quan-android-duan-terminal-termux-shang-shou-diao-xiao-zhi-nan/</loc>
+    
+    <lastmod>2021-07-28</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://zbttl.github.io/bi-ji-ben-song-xiu-ji/</loc>
     
     <lastmod>2021-07-05</lastmod>
@@ -261,13 +275,6 @@
   </url>
   
   <url>
-    <loc>https://zbttl.github.io/ma-que-sui-xiao-wu-zang-ju-quan-android-duan-terminal-termux-shang-shou-diao-xiao-zhi-nan/</loc>
-    
-    <lastmod>2021-01-20</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://zbttl.github.io/cod-zhan-qu-fu-huo-dao-huo-dong-tu-cao/</loc>
     
     <lastmod>2021-01-20</lastmod>
@@ -340,7 +347,7 @@
 
   <url>
     <loc>https://zbttl.github.io/</loc>
-    <lastmod>2021-07-05</lastmod>
+    <lastmod>2021-07-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -348,665 +355,721 @@
   
   <url>
     <loc>https://zbttl.github.io/tags/google%E6%A1%86%E6%9E%B6/</loc>
-    <lastmod>2021-07-05</lastmod>
+    <lastmod>2021-07-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://zbttl.github.io/tags/magisk/</loc>
-    <lastmod>2021-07-05</lastmod>
+    <lastmod>2021-07-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://zbttl.github.io/tags/xposed/</loc>
-    <lastmod>2021-07-05</lastmod>
+    <lastmod>2021-07-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://zbttl.github.io/tags/simulator/</loc>
-    <lastmod>2021-07-05</lastmod>
+    <lastmod>2021-07-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://zbttl.github.io/tags/mipush/</loc>
-    <lastmod>2021-07-05</lastmod>
+    <lastmod>2021-07-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://zbttl.github.io/tags/log/</loc>
-    <lastmod>2021-07-05</lastmod>
+    <lastmod>2021-07-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://zbttl.github.io/tags/crontab/</loc>
-    <lastmod>2021-07-05</lastmod>
+    <lastmod>2021-07-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://zbttl.github.io/tags/DLNA/</loc>
-    <lastmod>2021-07-05</lastmod>
+    <lastmod>2021-07-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://zbttl.github.io/tags/windows/</loc>
-    <lastmod>2021-07-05</lastmod>
+    <lastmod>2021-07-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://zbttl.github.io/tags/socks/</loc>
-    <lastmod>2021-07-05</lastmod>
+    <lastmod>2021-07-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://zbttl.github.io/tags/mellow/</loc>
-    <lastmod>2021-07-05</lastmod>
+    <lastmod>2021-07-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://zbttl.github.io/tags/gost/</loc>
-    <lastmod>2021-07-05</lastmod>
+    <lastmod>2021-07-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://zbttl.github.io/tags/kcptun/</loc>
-    <lastmod>2021-07-05</lastmod>
+    <lastmod>2021-07-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://zbttl.github.io/tags/finalspeed/</loc>
-    <lastmod>2021-07-05</lastmod>
+    <lastmod>2021-07-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://zbttl.github.io/tags/termux/</loc>
-    <lastmod>2021-07-05</lastmod>
+    <lastmod>2021-07-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://zbttl.github.io/tags/zsh/</loc>
-    <lastmod>2021-07-05</lastmod>
+    <lastmod>2021-07-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://zbttl.github.io/tags/terminal/</loc>
-    <lastmod>2021-07-05</lastmod>
+    <lastmod>2021-07-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://zbttl.github.io/tags/powershell/</loc>
-    <lastmod>2021-07-05</lastmod>
+    <lastmod>2021-07-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://zbttl.github.io/tags/wireshark/</loc>
-    <lastmod>2021-07-05</lastmod>
+    <lastmod>2021-07-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://zbttl.github.io/tags/%E8%B7%A8%E5%8C%BA/</loc>
-    <lastmod>2021-07-05</lastmod>
+    <lastmod>2021-07-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://zbttl.github.io/tags/%E7%BE%8A%E6%AF%9B/</loc>
-    <lastmod>2021-07-05</lastmod>
+    <lastmod>2021-07-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://zbttl.github.io/tags/xbox/</loc>
-    <lastmod>2021-07-05</lastmod>
+    <lastmod>2021-07-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://zbttl.github.io/tags/ffmpeg/</loc>
-    <lastmod>2021-07-05</lastmod>
+    <lastmod>2021-07-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://zbttl.github.io/tags/gifsicle/</loc>
-    <lastmod>2021-07-05</lastmod>
+    <lastmod>2021-07-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://zbttl.github.io/tags/imagemagick/</loc>
-    <lastmod>2021-07-05</lastmod>
+    <lastmod>2021-07-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://zbttl.github.io/tags/cod/</loc>
-    <lastmod>2021-07-05</lastmod>
+    <lastmod>2021-07-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://zbttl.github.io/tags/%E6%B5%81%E6%B0%B4%E8%B4%A6/</loc>
-    <lastmod>2021-07-05</lastmod>
+    <lastmod>2021-07-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://zbttl.github.io/tags/hexo/</loc>
-    <lastmod>2021-07-05</lastmod>
+    <lastmod>2021-07-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://zbttl.github.io/tags/NexT/</loc>
-    <lastmod>2021-07-05</lastmod>
+    <lastmod>2021-07-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://zbttl.github.io/tags/github/</loc>
-    <lastmod>2021-07-05</lastmod>
+    <lastmod>2021-07-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://zbttl.github.io/tags/azure/</loc>
-    <lastmod>2021-07-05</lastmod>
+    <lastmod>2021-07-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://zbttl.github.io/tags/mailutils/</loc>
-    <lastmod>2021-07-05</lastmod>
+    <lastmod>2021-07-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://zbttl.github.io/tags/vscode/</loc>
-    <lastmod>2021-07-05</lastmod>
+    <lastmod>2021-07-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://zbttl.github.io/tags/bash/</loc>
-    <lastmod>2021-07-05</lastmod>
+    <lastmod>2021-07-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://zbttl.github.io/tags/bilibili/</loc>
-    <lastmod>2021-07-05</lastmod>
+    <lastmod>2021-07-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://zbttl.github.io/tags/linux/</loc>
-    <lastmod>2021-07-05</lastmod>
+    <lastmod>2021-07-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://zbttl.github.io/tags/%E6%89%98%E7%AE%A1/</loc>
-    <lastmod>2021-07-05</lastmod>
+    <lastmod>2021-07-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://zbttl.github.io/tags/onedrive/</loc>
-    <lastmod>2021-07-05</lastmod>
+    <lastmod>2021-07-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://zbttl.github.io/tags/cloudflare/</loc>
-    <lastmod>2021-07-05</lastmod>
+    <lastmod>2021-07-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://zbttl.github.io/tags/%E6%B8%B8%E6%88%8F%E5%8A%A0%E9%80%9F/</loc>
-    <lastmod>2021-07-05</lastmod>
+    <lastmod>2021-07-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://zbttl.github.io/tags/ikago/</loc>
-    <lastmod>2021-07-05</lastmod>
+    <lastmod>2021-07-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://zbttl.github.io/tags/pcap2socks/</loc>
-    <lastmod>2021-07-05</lastmod>
+    <lastmod>2021-07-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://zbttl.github.io/tags/netch/</loc>
-    <lastmod>2021-07-05</lastmod>
+    <lastmod>2021-07-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://zbttl.github.io/tags/mysql/</loc>
-    <lastmod>2021-07-05</lastmod>
+    <lastmod>2021-07-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://zbttl.github.io/tags/debian/</loc>
-    <lastmod>2021-07-05</lastmod>
+    <lastmod>2021-07-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://zbttl.github.io/tags/%E6%8E%A2%E9%92%88/</loc>
-    <lastmod>2021-07-05</lastmod>
+    <lastmod>2021-07-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://zbttl.github.io/tags/ServerStatus/</loc>
-    <lastmod>2021-07-05</lastmod>
+    <lastmod>2021-07-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://zbttl.github.io/tags/vnstat/</loc>
-    <lastmod>2021-07-05</lastmod>
+    <lastmod>2021-07-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://zbttl.github.io/tags/openssh/</loc>
-    <lastmod>2021-07-05</lastmod>
+    <lastmod>2021-07-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://zbttl.github.io/tags/zerotier/</loc>
-    <lastmod>2021-07-05</lastmod>
+    <lastmod>2021-07-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://zbttl.github.io/tags/rdp/</loc>
-    <lastmod>2021-07-05</lastmod>
+    <lastmod>2021-07-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://zbttl.github.io/tags/teamviewer/</loc>
-    <lastmod>2021-07-05</lastmod>
+    <lastmod>2021-07-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://zbttl.github.io/tags/%E7%AB%AF%E5%8F%A3%E9%80%8F%E7%A9%BF/</loc>
-    <lastmod>2021-07-05</lastmod>
+    <lastmod>2021-07-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://zbttl.github.io/tags/openwrt/</loc>
-    <lastmod>2021-07-05</lastmod>
+    <lastmod>2021-07-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://zbttl.github.io/tags/yyf/</loc>
-    <lastmod>2021-07-05</lastmod>
+    <lastmod>2021-07-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://zbttl.github.io/tags/n1/</loc>
-    <lastmod>2021-07-05</lastmod>
+    <lastmod>2021-07-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://zbttl.github.io/tags/xbox-Series-S/</loc>
-    <lastmod>2021-07-05</lastmod>
+    <lastmod>2021-07-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://zbttl.github.io/tags/%E8%AF%84%E6%B5%8B/</loc>
-    <lastmod>2021-07-05</lastmod>
+    <lastmod>2021-07-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://zbttl.github.io/tags/telegram-bot/</loc>
-    <lastmod>2021-07-05</lastmod>
+    <lastmod>2021-07-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://zbttl.github.io/tags/windows-server/</loc>
-    <lastmod>2021-07-05</lastmod>
+    <lastmod>2021-07-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://zbttl.github.io/tags/%E8%AE%A1%E5%88%92%E4%BB%BB%E5%8A%A1/</loc>
-    <lastmod>2021-07-05</lastmod>
+    <lastmod>2021-07-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://zbttl.github.io/tags/ssh/</loc>
-    <lastmod>2021-07-05</lastmod>
+    <lastmod>2021-07-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://zbttl.github.io/tags/padavan/</loc>
-    <lastmod>2021-07-05</lastmod>
+    <lastmod>2021-07-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://zbttl.github.io/tags/merlin/</loc>
-    <lastmod>2021-07-05</lastmod>
+    <lastmod>2021-07-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://zbttl.github.io/tags/ubuntu/</loc>
-    <lastmod>2021-07-05</lastmod>
+    <lastmod>2021-07-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://zbttl.github.io/tags/wireguard/</loc>
-    <lastmod>2021-07-05</lastmod>
+    <lastmod>2021-07-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://zbttl.github.io/tags/nat/</loc>
-    <lastmod>2021-07-05</lastmod>
+    <lastmod>2021-07-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://zbttl.github.io/tags/fullcone/</loc>
-    <lastmod>2021-07-05</lastmod>
+    <lastmod>2021-07-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://zbttl.github.io/tags/%E4%B8%AD%E7%BB%A7/</loc>
-    <lastmod>2021-07-05</lastmod>
+    <lastmod>2021-07-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://zbttl.github.io/tags/asusfirmware/</loc>
-    <lastmod>2021-07-05</lastmod>
+    <lastmod>2021-07-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://zbttl.github.io/tags/%E9%9B%86%E5%AE%A2ap/</loc>
-    <lastmod>2021-07-05</lastmod>
+    <lastmod>2021-07-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://zbttl.github.io/tags/%E6%8C%81%E7%BB%AD%E6%9B%B4%E6%96%B0/</loc>
-    <lastmod>2021-07-05</lastmod>
+    <lastmod>2021-07-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://zbttl.github.io/tags/app-service/</loc>
-    <lastmod>2021-07-05</lastmod>
+    <lastmod>2021-07-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://zbttl.github.io/tags/acme-sh/</loc>
-    <lastmod>2021-07-05</lastmod>
+    <lastmod>2021-07-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://zbttl.github.io/tags/fonts/</loc>
-    <lastmod>2021-07-05</lastmod>
+    <lastmod>2021-07-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://zbttl.github.io/tags/chrome/</loc>
-    <lastmod>2021-07-05</lastmod>
+    <lastmod>2021-07-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://zbttl.github.io/tags/firefox/</loc>
-    <lastmod>2021-07-05</lastmod>
+    <lastmod>2021-07-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://zbttl.github.io/tags/mactype/</loc>
-    <lastmod>2021-07-05</lastmod>
+    <lastmod>2021-07-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://zbttl.github.io/tags/lnmp/</loc>
-    <lastmod>2021-07-05</lastmod>
+    <lastmod>2021-07-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://zbttl.github.io/tags/nginx/</loc>
-    <lastmod>2021-07-05</lastmod>
+    <lastmod>2021-07-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://zbttl.github.io/tags/docker/</loc>
-    <lastmod>2021-07-05</lastmod>
+    <lastmod>2021-07-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://zbttl.github.io/tags/rsshub/</loc>
-    <lastmod>2021-07-05</lastmod>
+    <lastmod>2021-07-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://zbttl.github.io/tags/filemanger/</loc>
-    <lastmod>2021-07-05</lastmod>
+    <lastmod>2021-07-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://zbttl.github.io/tags/aria2/</loc>
-    <lastmod>2021-07-05</lastmod>
+    <lastmod>2021-07-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://zbttl.github.io/tags/transmission/</loc>
-    <lastmod>2021-07-05</lastmod>
+    <lastmod>2021-07-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://zbttl.github.io/tags/bt/</loc>
-    <lastmod>2021-07-05</lastmod>
+    <lastmod>2021-07-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://zbttl.github.io/tags/vscoder/</loc>
-    <lastmod>2021-07-05</lastmod>
+    <lastmod>2021-07-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://zbttl.github.io/tags/emule/</loc>
-    <lastmod>2021-07-05</lastmod>
+    <lastmod>2021-07-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://zbttl.github.io/tags/vnc/</loc>
-    <lastmod>2021-07-05</lastmod>
+    <lastmod>2021-07-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://zbttl.github.io/tags/frp/</loc>
-    <lastmod>2021-07-05</lastmod>
+    <lastmod>2021-07-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://zbttl.github.io/tags/%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/</loc>
-    <lastmod>2021-07-05</lastmod>
+    <lastmod>2021-07-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://zbttl.github.io/tags/cloudreve/</loc>
-    <lastmod>2021-07-05</lastmod>
+    <lastmod>2021-07-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://zbttl.github.io/tags/rclone/</loc>
-    <lastmod>2021-07-05</lastmod>
+    <lastmod>2021-07-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://zbttl.github.io/tags/lenovo/</loc>
-    <lastmod>2021-07-05</lastmod>
+    <lastmod>2021-07-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://zbttl.github.io/tags/%E9%94%AE%E9%BC%A0/</loc>
-    <lastmod>2021-07-05</lastmod>
+    <lastmod>2021-07-28</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://zbttl.github.io/tags/Linux/</loc>
+    <lastmod>2021-07-28</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://zbttl.github.io/tags/Ubuntu/</loc>
+    <lastmod>2021-07-28</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://zbttl.github.io/tags/qt5/</loc>
+    <lastmod>2021-07-28</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://zbttl.github.io/tags/qt6/</loc>
+    <lastmod>2021-07-28</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://zbttl.github.io/tags/grpc/</loc>
+    <lastmod>2021-07-28</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://zbttl.github.io/tags/openssl/</loc>
+    <lastmod>2021-07-28</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://zbttl.github.io/tags/cmake/</loc>
+    <lastmod>2021-07-28</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://zbttl.github.io/tags/Ninja/</loc>
+    <lastmod>2021-07-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
@@ -1015,84 +1078,91 @@
   
   <url>
     <loc>https://zbttl.github.io/categories/Android/</loc>
-    <lastmod>2021-07-05</lastmod>
+    <lastmod>2021-07-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://zbttl.github.io/categories/Linux/</loc>
-    <lastmod>2021-07-05</lastmod>
+    <lastmod>2021-07-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://zbttl.github.io/categories/%E5%BD%B1%E9%9F%B3/</loc>
-    <lastmod>2021-07-05</lastmod>
+    <lastmod>2021-07-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://zbttl.github.io/categories/Network/</loc>
-    <lastmod>2021-07-05</lastmod>
+    <lastmod>2021-07-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://zbttl.github.io/categories/Windows/</loc>
-    <lastmod>2021-07-05</lastmod>
+    <lastmod>2021-07-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://zbttl.github.io/categories/Game/</loc>
-    <lastmod>2021-07-05</lastmod>
+    <lastmod>2021-07-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://zbttl.github.io/categories/game/</loc>
-    <lastmod>2021-07-05</lastmod>
+    <lastmod>2021-07-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://zbttl.github.io/categories/%E5%8D%9A%E5%AE%A2/</loc>
-    <lastmod>2021-07-05</lastmod>
+    <lastmod>2021-07-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://zbttl.github.io/categories/Downloadtools/</loc>
-    <lastmod>2021-07-05</lastmod>
+    <lastmod>2021-07-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://zbttl.github.io/categories/%E8%B7%AF%E7%94%B1%E5%99%A8/</loc>
-    <lastmod>2021-07-05</lastmod>
+    <lastmod>2021-07-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://zbttl.github.io/categories/IOS/</loc>
-    <lastmod>2021-07-05</lastmod>
+    <lastmod>2021-07-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://zbttl.github.io/categories/%E6%B5%81%E6%B0%B4%E8%B4%A6/</loc>
-    <lastmod>2021-07-05</lastmod>
+    <lastmod>2021-07-28</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://zbttl.github.io/categories/Complier/</loc>
+    <lastmod>2021-07-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
