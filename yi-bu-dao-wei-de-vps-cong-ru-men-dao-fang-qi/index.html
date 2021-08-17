@@ -996,4 +996,722 @@
 <h5 id="配置前端"><a href="#配置前端" class="headerlink" title="配置前端"></a>配置前端</h5><p>从<a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/mayswind/AriaNg/releases">这里</a>下载 AriaNG 最新版。</p>
 <p>然后放到上传到一个文件夹里面，我选择<code>/home/ariaNG/</code></p>
 <p>然后再 nginx 配置文件中的某一个站点写入</p>
-<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">location /aria2 {</span><br><span class="line">   #用alias表示最终url不包含�
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">location /aria2 {</span><br><span class="line">   #用alias表示最终url不包含中/aria2/目录</span><br><span class="line">      alias /home/ariaNG/;</span><br><span class="line">      index index.html;</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<p>即可通过<code>网址/aria2</code>打开前端，输入密码即可使用。</p>
+<h4 id="transmission（选用）"><a href="#transmission（选用）" class="headerlink" title="transmission（选用）"></a>transmission（选用）</h4><p>一般而言，http 下载我偏爱 aria2，而挂 pt 我就喜欢用 transmission 了。</p>
+<p>参考文章：</p>
+<ul>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/ronggang/transmission-web-control/wiki/Linux-Installation-CN">在 Linux 下安装与更新</a></li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://wiki.debian.org/BitTorrent/Transmission">Transmission</a></li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://tsukkomi.org/post/set-ngxin-https-reverse-proxy-to-transmission-web-ui">Ngxin HTTPS代理Transmission Web UI</a></li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.ephestione.it/change-user-of-transmission-daemon-under-debian-and-raspbian/">CHANGE USER OF TRANSMISSION-DAEMON UNDER DEBIAN AND RASPBIAN</a></li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/transmission/transmission/issues/342">Failed to set receive buffer UDP in Debian Solution?</a></li>
+</ul>
+<ol>
+<li><p>安装 transmission</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">apt install  transmission</span><br><span class="line">apt install  transmission-daemon</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>建立下载文件夹</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p /home/zbttl/download/transmission</span><br><span class="line">chmod 777 /home/zbttl/download/transmission</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>修改配置</p>
+<ol>
+<li><p>先停止服务</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service transmission-daemon stop</span><br></pre></td></tr></tbody></table></figure>
+
+<p>注意一定要停止后再修改，而不能修改完再重启。</p>
+</li>
+<li><p>修改 <code>/etc/init.d/transmission-daemon</code>，将其中的 user 等号后面的名字改成 zbttl。</p>
+</li>
+<li><p>修改<code>/lib/systemd/system/transmission-daemon.service</code>，同样是将 Service 中的 user 改成 zbttl。然后使用<code>systemctl daemon-reload</code>刷新配置。</p>
+</li>
+<li><p>寻找配置文件。这里注意一件事，未修改用户之前 transmission 的默认用户为 www-data，通过<code>cat /etc/passwd</code>可以看到默认目录在<code>/var/lib/transmission-daemon/</code>，所以配置文件就为其目录下的<code>.config/transmission-daemon/settings.json</code>。当然为了配置方便，该文件其实是连接到<code>/etc/transmission-daemon/settings.json</code>里的，直接去改这玩意也行。不过，更换了用户以后，配置文件就跑到用户目录下<code>.config/transmission-daemon/settings.json</code>，可以通过带连接的 cp 命令把 /etc/transmission-daemon/ 整个考过来，也可以等其生成后再停下来改。不过卸载的时候这三者都不会被删除，但是如果你手动删掉 /etc 下的这个快捷方式文件夹，重新安装之后不会自动生成。而另外两个文件夹内文件会自动在运行时生成。我们这里选择自动生成。</p>
+<p>不过上面说的这些实际执行起来还有各种诡异的变化，表现在两点：</p>
+<ol>
+<li><code>/etc/transmission-daemon/ </code>里面的配置文件和 <code>.config/transmission-daemon/settings.json</code> 里面的配置文件部分不同步，注意是部分，在我这里反映出就是目录用户密码都同步了，但 <code>rpc-whitelist-enabled</code> 用户文件那边变成 <code>true</code> 了，然后就弹出 403 错误；</li>
+<li>权限不一致。<code>/etc/transmission-daemon/ </code> 里面的数据库文件莫名其妙拥有者变成了默认用户，导致原来种子的资料读不出来。</li>
+</ol>
+<p>对症下药把，也没摸出什么规律来。</p>
+<p>回到正题。</p>
+<p>先切换用户<code>su zbttl</code></p>
+<p>测试前台开启命令<code>transmission-daemon -f</code></p>
+<p>此时会看见日志里面有自带创建文件的提示。同时非 root 下还会出现 udp failed 的提示，这里我们先不管，下面解决。</p>
+</li>
+<li><p>打开生成的文件<code>nano /home/zbttl/.config/transmission-daemon/settings.json</code></p>
+<p>修改配置文件：</p>
+<p>我打算修改一下<code>"download-dir": "/var/lib/transmission-daemon/downloads"</code>修改到<code>/home/zbttl/download/transmission</code>里面，另外还有<code>rpc-password</code>和<code>rpc-username</code>要设置，<code>rpc-whitelist-enabled</code>更改为false，默认 rpc 端口 9091，如果有冲突也需要修改一下。<code>port-forwarding-enabled</code>改成 false，<code>rpc-authentication-required</code>改成 true，允许使用域名代替 ip 访问。</p>
+<p>设置完后经过前台开始命令，并通过浏览器查看是否能够访问。</p>
+</li>
+<li><p>切换回来<code>su</code> </p>
+<p>针对 udp failed 问题，修改<code>/etc/sysctl.conf</code>，新增下面两行</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">net.core.rmem_max = 4194304</span><br><span class="line">net.core.wmem_max = 1048576</span><br></pre></td></tr></tbody></table></figure>
+
+<p>应用</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sysctl -p</span><br></pre></td></tr></tbody></table></figure>
+
+<p>最后重新启动</p>
+ <figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service transmission-daemon start </span><br></pre></td></tr></tbody></table></figure>
+</li>
+</ol>
+</li>
+<li><p>安装美化</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget https://github.com/ronggang/transmission-web-control/raw/master/release/install-tr-control-cn.sh|bash</span><br></pre></td></tr></tbody></table></figure>
+
+<p>按下「1」即可。</p>
+<p>此时输入<code>ip:9091</code>，之后输入 <code>rpc-password</code>和<code>rpc-username</code> 就能顺利登录了。如果不能正常加载美化界面，请使用硬性重新加载。</p>
+</li>
+<li><p>和 nginx 配合使用</p>
+<p>如果需要通过网址访问，则需要在nginx 配置文件中的某一个站点写入</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">    location ^~ /transmission {</span><br><span class="line">        proxy_set_header X-Real-IP $remote_addr;</span><br><span class="line">        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;</span><br><span class="line">        proxy_set_header Host $http_host;</span><br><span class="line">        proxy_set_header X-NginX-Proxy true;</span><br><span class="line">        proxy_http_version 1.1;</span><br><span class="line">        proxy_set_header Connection "";</span><br><span class="line">        proxy_pass_header X-Transmission-Session-Id;</span><br><span class="line">        add_header   Front-End-Https   on;</span><br><span class="line"></span><br><span class="line">        location /transmission/rpc {</span><br><span class="line">            proxy_pass http://127.0.0.1:9091;</span><br><span class="line">        }</span><br><span class="line"></span><br><span class="line">        location /transmission/web/ {</span><br><span class="line">            proxy_pass http://127.0.0.1:9091;</span><br><span class="line">        }</span><br><span class="line"></span><br><span class="line">        location /transmission/upload {</span><br><span class="line">            proxy_pass http://127.0.0.1:9091;</span><br><span class="line">        }</span><br><span class="line"></span><br><span class="line">        location /transmission/web/style/ {</span><br><span class="line">            alias /usr/share/transmission/web/style/;</span><br><span class="line">        }</span><br><span class="line"></span><br><span class="line">        location /transmission/web/javascript/ {</span><br><span class="line">            alias /usr/share/transmission/web/javascript/;</span><br><span class="line">        }</span><br><span class="line"></span><br><span class="line">        location /transmission/web/images/ {</span><br><span class="line">            alias /usr/share/transmission/web/images/;</span><br><span class="line">        }</span><br><span class="line">        location /transmission/ {</span><br><span class="line">            return 301 http://$server_name/transmission/web;</span><br><span class="line">            #如果是使用 https 请换成这句</span><br><span class="line">            #return 301 https://$server_name/transmission/web;</span><br><span class="line">        }</span><br><span class="line">        #另外，我想要访问网址的 /download 后缀也能进入 transmission</span><br><span class="line">        location /download {</span><br><span class="line">            return 301 http://$server_name/transmission/web;</span><br><span class="line">        }</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<p>即可使用。</p>
+</li>
+</ol>
+<h4 id="Simple-Torrent（选做）"><a href="#Simple-Torrent（选做）" class="headerlink" title="Simple Torrent（选做）"></a>Simple Torrent（选做）</h4><p>参考文章：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.moerats.com/archives/1023/">Simple Torrent：一个支持边下边播、无版权限制和自动上传的BT离线下载程序</a></p>
+<p>相比 aria2 和 transmission，这玩意能开 obfs 混淆一定程度防止 bt 追查。</p>
+<p>这玩意有 docker，但不支持指定用户，只能硬着头皮上通常版了。</p>
+<ol>
+<li><p>一键脚本安装</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bash &lt;(wget -qO- https://raw.githubusercontent.com/boypt/simple-torrent/master/scripts/quickinstall.sh)</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>修改 <code>/etc/systemd/system/multi-user.target.wants/cloud-torrent.service</code></p>
+<p>修改以下项目</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">User=zbttl #运行用户</span><br><span class="line">WorkingDirectory=/home/zbttl #运行用户的主目录</span><br><span class="line">ExecStart=/usr/local/bin/cloud-torrent -c /home/zbttl/download/cloudtorrent/cloud-torrent.json --host 0.0.0.0 --disable-log-time #cloud-torrent 最好改成绝对路径</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>改 <code>/root/cloud-torrent.json</code></p>
+<p>修改以下项目</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">"downloaddirectory": "/home/zbttl/download/cloudtorrent/downloads", #待会用的下载文件夹</span><br><span class="line">"obfsrequirepreferred": true, #obfs 加密优先</span><br><span class="line">"trackerlisturl": "https://trackerslist.com/all.txt", #想要tracker全一点</span><br><span class="line">"watchdirectory": "/home/zbttl/download/cloudtorrent/torrents" #待会用的种子文件夹</span><br></pre></td></tr></tbody></table></figure>
+
+<p>复制到第二部写的 cloud-torrent 路径里面，修改所有者</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cp /root/cloud-torrent.json/home/zbttl/download/cloudtorrent/cloud-torrent.json</span><br><span class="line">chown zbttl/home/zbttl/download/cloudtorrent/cloud-torrent.json</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>新建下载和种子文件夹</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p /home/zbttl/download/cloudtorrent/downloads</span><br><span class="line">mkdir -p /home/zbttl/download/cloudtorrent/torrents</span><br><span class="line">chown zbttl /home/zbttl/download/cloudtorrent/downloads /home/zbttl/download/cloudtorrent/torrents</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>重启服务</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">systemctl daemon-reload</span><br><span class="line">systemctl restart cloud-torrent</span><br></pre></td></tr></tbody></table></figure>
+
+<p>通过 ip:3000 访问</p>
+</li>
+</ol>
+<h4 id="filebrowser（普通）"><a href="#filebrowser（普通）" class="headerlink" title="filebrowser（普通）"></a>filebrowser（普通）</h4><p>不依赖 caddy 和 docker 的普通版 filebrowser。</p>
+<p>参考资料：</p>
+<ul>
+<li><p><a target="_blank" rel="external nofollow noopener noreferrer" href="https://docs.filebrowser.xyz/">官方文档</a></p>
+</li>
+<li><p><a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.mivm.cn/filebrowser/">File Browser 安装及使用</a></p>
+</li>
+</ul>
+<ol>
+<li><p>安装</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -fsSL https://filebrowser.xyz/get.sh | bash</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>配置。filebrowser 支持两种方法的配置：数据库配置和文件配置。数据库配置不能直接编辑，可以通过数条命令进行编辑。而文件配置方法可以先用命令导出编辑后再导入，但是貌似没有什么例子来说明如何修改导出的文件。。。于是我们选用数据库方案。<a target="_blank" rel="external nofollow noopener noreferrer" href="https://2333blog.com/post/26/">配置文件法参考</a></p>
+<p>新建一个数据库，建立在 <code>/etc/filebrowser</code></p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">filebrowser -d /etc/filebrowser.db config init</span><br></pre></td></tr></tbody></table></figure>
+
+<p>设置监听地址，这里可以写实机外部 ip，也可以写 0.0.0.0，但是不能写 127.0.0.1</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">filebrowser -d /etc/filebrowser.db config set --address 0.0.0.0</span><br></pre></td></tr></tbody></table></figure>
+
+<p>设置端口</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">filebrowser -d /etc/filebrowser.db config set --port 100</span><br></pre></td></tr></tbody></table></figure>
+
+<p>设置语言环境</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">filebrowser -d /etc/filebrowser.db config set --locale zh-cn</span><br></pre></td></tr></tbody></table></figure>
+
+<p>设置日志位置</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">filebrowser -d /etc/filebrowser.db config set --log /var/log/filebrowser.log</span><br></pre></td></tr></tbody></table></figure>
+
+<p>添加用户</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">filebrowser -d /etc/filebrowser.db users add root password --perm.admin</span><br></pre></td></tr></tbody></table></figure>
+
+<p>启动</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">filebrowser -d /etc/filebrowser.db</span><br></pre></td></tr></tbody></table></figure>
+
+<p>此时即可通过 ip 进行访问。</p>
+<p>确定可使用后，中段程序，设置自启：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nano /etc/supervisor/conf.d/filebrowser</span><br></pre></td></tr></tbody></table></figure>
+
+<p>打入代码</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[program:filebrowser] </span><br><span class="line">command=filebrowser -d /etc/filebrowser.db</span><br><span class="line">autorestart=true  </span><br><span class="line">user=root  </span><br></pre></td></tr></tbody></table></figure>
+
+<p>重启 supervisor <code>supervisorctl restart</code></p>
+</li>
+</ol>
+<h4 id="amule（选用）"><a href="#amule（选用）" class="headerlink" title="amule（选用）"></a>amule（选用）</h4><p>还有某些 ed2k 链接 tr 和 aria2 是搞不掂的。得用专用的电驴下载工具（其实比较著名的 ed2k 也就是 msdn 了）。不过其实 amule 协议由于某种原因在和 bt 的竞争中已经落于下风濒临死亡，目前常用的两个工具都许久没有更新，都有比较要命的 bug，所以我两个都说一下，任选其一安装。</p>
+<p>参考文章：</p>
+<ul>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://wiki.debian.org/aMule">aMule</a></li>
+<li>[How to setup AMule and control it via web interface on a Raspberry Pi](How to setup AMule and control it via web interface on a Raspberry Pi)</li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://tieba.baidu.com/p/5508629232?red_tag=2301445028#116899889402l">Debian系统如何安装aMule ?</a></li>
+</ul>
+<ol>
+<li><p>安装 amule-daemon（没错，只要装这个就好了，其他都不用）</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt install amule-daemon</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>修改 amule 的启动用户和启动文件夹</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/default/amule-daemon</span><br></pre></td></tr></tbody></table></figure>
+
+<p>这里我的 user 设置为 zbttl，文件夹设置为 <code>/home/zbttl/download/amule</code></p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">AMULED_USER="zbttl"</span><br><span class="line">AMULED_HOME="/home/zbttl/download/amule"</span><br></pre></td></tr></tbody></table></figure>
+
+<p>设置完以后重启一遍服务</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service amule-daemon start</span><br></pre></td></tr></tbody></table></figure>
+
+<p>接下来才会在刚刚设置的文件夹里面放置程序文件</p>
+<p>然后停止进程（也许不需要）</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service amule-daemon stop</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>运行一边 amuled 命令</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">amuled</span><br></pre></td></tr></tbody></table></figure>
+
+<p>在刚刚设置的文件夹里就会出现关键配置文件 amule.conf</p>
+<p>修改其中的几个参数 `</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ECPassword=[处理过的密码]</span><br><span class="line">[WebServer]</span><br><span class="line">Enabled=1</span><br><span class="line">Password=[处理过的密码]</span><br></pre></td></tr></tbody></table></figure>
+
+<p>其中的两个密码需要通过命令处理生成</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo -n [密码] | md5sum | cut -d ' ' -f 1</span><br></pre></td></tr></tbody></table></figure>
+
+<p>两个密码可以填一样的，实际上登录的时候只有后一个密码有用，前一个密码填啥都行</p>
+<p>上面的配置方法其实是抄了近路，正经的配置方法是只配置 <code>ECPassword</code>，保存后</p>
+<p>用命令生成并配置 webserver 的密码</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">amuleweb --write-config --host=localhost --password=[未处理过的Password] --admin-pass=[未处理过的 ECPassword]</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>重启，即可使用，通过 <code>ip:4711</code> 访问</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service amule-daemon start</span><br></pre></td></tr></tbody></table></figure>
+
+<p>不进行调试的情况下，普遍 amule 下载速度貌似比下面这个快。但缺点是有时候会出现奇怪的错误，需要手动重启进程，这个错误在官方 github 上面可以找到类似的（还是两个，下面这是其中一个）：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/amule-project/amule/issues/121">../../src/CFile.cpp(370): assert “Assert failure” failed in doSeek(): ((IsOpened()))</a>。</p>
+<p>opened 了很久，无人解决，上一次更新在 2015 年，估计凉了。</p>
+</li>
+</ol>
+<h4 id="mldonkey（选用）"><a href="#mldonkey（选用）" class="headerlink" title="mldonkey（选用）"></a>mldonkey（选用）</h4><p>mldonkey 相对比较稳定，但部署上确实比较麻烦。。。</p>
+<p>参考文章：</p>
+<ul>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://forum.ubuntu.com.cn/viewtopic.php?t=327518">Ubuntu自带的mldonkey-server启动脚本详解</a></li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.polarxiong.com/archives/Ubuntu-MLDonkey%E5%AE%89%E8%A3%85%E6%AD%A5%E9%AA%A4%E5%92%8C%E4%B8%80%E4%BA%9B%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9.html">Ubuntu:MLDonkey安装步骤和一些注意事项</a>（改配置文件法，不成功）</li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="http://mldonkey.sourceforge.net/Quickstart_guide#Initial_Setup_and_Usage">Quickstart guide</a>（官方安装文档）</li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="http://mldonkey.sourceforge.net/MLdonkeyOptionsExplained#Download">MLdonkeyOptionsExplained</a>（官方文档，全配置参数）</li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="http://mldonkey.sourceforge.net/MultiUser">MultiUser</a>（官方文档，用户管理）</li>
+</ul>
+<ol>
+<li><p>安装 mldonkey 和 telnet</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">apt install mldonkey-server</span><br><span class="line">apt install telnet</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>停止程序运行</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo /etc/init.d/mldonkey-server stop</span><br></pre></td></tr></tbody></table></figure>
+
+<p>运行一遍程序</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mlnet</span><br></pre></td></tr></tbody></table></figure>
+
+<p>开启另一个 ssh 窗口，尝试使用 telnet 登录配置端</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">telnet 127.0.0.1 4000</span><br></pre></td></tr></tbody></table></figure>
+
+<p>成功的话输入 <code>exit</code> 退出。</p>
+</li>
+<li><p>修改用户和下载目录配置文件 <code>/etc/default/mldonkey-server</code>，修改以下部分</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">MLDONKEY_DIR=/home/zbttl/download/mldonkey #mldonkey 程序配置文件目录</span><br><span class="line">MLDONKEY_USER=zbttl #运行用户</span><br><span class="line">MLDONKEY_GROUP=zbttl</span><br></pre></td></tr></tbody></table></figure>
+
+<p>拷贝原来的 mldonkey 配置文件到新的程序配置文件目录，默认在 <code>/root/.mldonkey</code></p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp -r /root/.mldonkey/* /home/zbttl/download/mldonkey/</span><br></pre></td></tr></tbody></table></figure>
+
+<p>修改运行配置文件 <code>/etc/init.d/mldonkey-server</code>，修改以下部分</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">PIDDIR=/home/zbttl/download/mldonkey #配置程序文件目录</span><br><span class="line">LOGFILE=/home/zbttl/download/mldonkey/mldonkey-server.log #日志目录1</span><br><span class="line">SERVERLOG=/home/zbttl/download/mldonkey/mlnet.log #日志目录2</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>修改配置文件/日志目录的用户，像我一样把所有文件放一块的，对一个文件夹配置就好了</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chown -R zbttl /home/zbttl/download/mldonkey</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>重启服务</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">systemctl daemon-reload</span><br><span class="line">sudo /etc/init.d/mldonkey-server restart</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>再次登录 telnet</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">telnet 127.0.0.1 4000</span><br></pre></td></tr></tbody></table></figure>
+
+<p>初始用户 admin，进入 telnet 时未重置过密码即使用该用户，通过 passwd 命令设置密码</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">passwd [密码]</span><br></pre></td></tr></tbody></table></figure>
+
+<p>密码在 telnet 和 web 下通用。</p>
+<p>下次登录 telnet 时需要输入密码才可相应各个命令</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">auth admin [密码]</span><br></pre></td></tr></tbody></table></figure>
+
+<p>还可通过 useradd 添加新用户</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">useradd zbttl [密码] </span><br></pre></td></tr></tbody></table></figure>
+
+<p>关闭 ip 限制</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">set allowed_ips 0.0.0.0/0</span><br></pre></td></tr></tbody></table></figure>
+
+<p>此时就可以通过 <code>ip:4080</code> 登录 web 界面。</p>
+<p>剩下的参数，可以查询官方文档参数名，然后通过 set 指令调整，如果想知道当前参数默认值，可以通过 grep -r 查询，比如：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">grep -r allowed_ips</span><br></pre></td></tr></tbody></table></figure>
+
+<p>另外在 gui 里面大部分参数亦可以调节，不过 gui 要找到参数的文件可能更麻烦。。。</p>
+</li>
+<li><p>web 内参数较 amule 多很多，但最重要的是 settings 里面的 max_hard_download_rate，初始限速 50kb。往高了调吧。</p>
+</li>
+</ol>
+<p>另外，第六部有的教程里是通过直接调节 download.ini 文件内容，我之前尝试了一下，姿势不对，调节完 mldonkey 进程的启动不起来了，甚至需要重启来解决，重启后配置又还原了。。。</p>
+<h3 id="远程控制类"><a href="#远程控制类" class="headerlink" title="远程控制类"></a>远程控制类</h3><h4 id="vnc"><a href="#vnc" class="headerlink" title="vnc"></a>vnc</h4><p>有时候，下载某些不可描述的东西会碰到一些下的慢又限制重复 ip 的网盘，用自己的电脑下的话，又久，一断电又前功尽弃了。这时不如远程操作 vps，使用上面的远程桌面来下载，在 vps 上下完再下到自己的电脑上。linux 的远程桌面，一般我们使用 vnc。</p>
+<p>参考资料：</p>
+<ul>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-vnc-on-debian-9"> How to Install and Configure VNC on Debian 9</a></li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://zhuanlan.zhihu.com/p/26843097">VPS开启VNC服务，并解决中文乱码的方法——ubuntu系统</a></li>
+</ul>
+<ol>
+<li><p>安装 tightvnc</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt install tightvncserver</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>安装语言包</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt-get install ttf-wqy-zenhei</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>启动<code>vncserver</code>，会提示让你输入密码，最多 8 位，多于 8 位会警告并被截断。输入完密码后会提醒你是否创建 view-only 密码，选择否。之后查看 ssh 内输出，应该是<code>主机名:1</code>，这里的「:1」的意思是 「5900+1」，也就是 vnc 运行在 5901 端口。</p>
+</li>
+<li><p>下载 windows 端 vnc viewer，新建一个远程主机，地址为<code>ip:5901</code>，然后输入密码，便能够看到图形界面了。如果发现连不上，有可能是你开着代理，或者是 vnc viewer 自动识别了你的代理地址，左上角<code>file-&gt;preferences-&gt;proxy</code>，选择第一项。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/3vV2Bp4.png"></p>
+<p>我们看到这里实际上只有一个命令行窗口在工作，是因为系统里面还没有图形化桌面。图形化桌面有名的有 kde，ghome，xfce，由于我们的 vps 内存较小，我们就选择占用最小的 xfce 来安装。</p>
+</li>
+<li><p>安装 xfce</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt install xfce4 xfce4-goodies</span><br></pre></td></tr></tbody></table></figure>
+
+<p>然后重启 vnc</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">vncserver -kill :1</span><br><span class="line">vncserver</span><br></pre></td></tr></tbody></table></figure>
+
+<p>即可在 windows 端查看效果（不需要像其他教程那样修改 xstartup 文件）。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/Dufepps.png"></p>
+</li>
+<li><p>安装浏览器</p>
+<p>firefox 是最容易安装的，不过资源占用可能有点大</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt install firefox-esr</span><br></pre></td></tr></tbody></table></figure>
+
+<p>安装完后，vnc 内的浏览器图标才能够正常打开。</p>
+</li>
+</ol>
+<h4 id="tiny-remote-desktops-（20-12-23-更新）"><a href="#tiny-remote-desktops-（20-12-23-更新）" class="headerlink" title="tiny-remote-desktops （20.12.23 更新）"></a>tiny-remote-desktops <strong>（20.12.23 更新）</strong></h4><p>来自：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://renzhn.github.io/posts/vps-remote-de/">Linux VPS一键搭建远程桌面（包含Chrome和Firefox）教程</a></p>
+<p>一个 rdp + vnc + noVNC 的 docker。</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo docker run -d --name rdpvnc -v /home/zbttl/rdp_download:/root -p 3389:3389 -p 5901:5901 -p 6901:6901   soff/tiny-remote-desktop</span><br></pre></td></tr></tbody></table></figure>
+
+<p>下载的文件会被放在 <code>/home/zbttl/rdp_download/Downloads</code>。但没有办法用非 root 方式运行，试过 <code>-u</code> 运行不起来，<code>-e</code> 没用。</p>
+<p>如果要用密码连接的话：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo docker run -d --name rdpvnc -v /home/zbttl/rdp_download:/root -p 5901:5901 -p 6901:6901 -e VNC_PASSWORD="vncpassword"  soff/tiny-remote-desktop</span><br></pre></td></tr></tbody></table></figure>
+
+<p>但这样就不能开 rdp 了。</p>
+<h3 id="内网穿透"><a href="#内网穿透" class="headerlink" title="内网穿透"></a>内网穿透</h3><h4 id="frp"><a href="#frp" class="headerlink" title="frp"></a>frp</h4><p>参考文章：</p>
+<ul>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.zhihu.in/archives/261">内网穿透工具frp服务器端frps一键安装教程</a></li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.zhihu.in/archives/2119">内网穿透工具frp Windows客户端frpc安装及使用教程</a></li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://blog.51cto.com/sonlich/2126175">利用vps+frp实现访问公司内网windows远程桌面</a></li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.hi-linux.com/posts/25686.html">推荐一款很好用的内网穿透工具 FRP</a></li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://diannaobos.com/post/405.html">创建windows计划任务使FRP开机启动</a></li>
+</ul>
+<p>最重要的用途是拿来穿透到主机上做远程控制，部分代替 teamviewer。</p>
+<p>在服务器端使用一键脚本安装</p>
+<h5 id="服务端"><a href="#服务端" class="headerlink" title="服务端"></a>服务端</h5><figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">wget --no-check-certificate https://raw.githubusercontent.com/clangcn/onekey-install-shell/master/frps/install-frps.sh -O ./install-frps.sh</span><br><span class="line">chmod 700 ./install-frps.sh</span><br><span class="line">./install-frps.sh install</span><br></pre></td></tr></tbody></table></figure>
+
+<p>   回车后，需要设置参数，有几个参数要注意：</p>
+<p>第一第二个的 frp 通信端口和 dashboard 端口如果不是端口冲突的话建议默认，dashboard 密码自己设，要记牢；</p>
+<p>后面三个需要修改，</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Please input frps vhost_http_port [1-65535](Default vhost_http_port: 80):</span><br><span class="line">#输入frp进行http穿透的http服务端口，按Enter键表示默认80，否则手动输入新端口，一般不建议默认80，防止和caddy/nginx冲突</span><br><span class="line"></span><br><span class="line">Please input frps vhost_https_port [1-65535](Default vhost_https_port: 443):</span><br><span class="line">#输入frp进行https穿透的https服务端口，按Enter键表示默认443，否则手动输入新端口,建议不用默认，防止和caddy/nginx冲突</span><br><span class="line"></span><br><span class="line">Please input privilege_token (Default: WEWLRgwRjIJVPx2kuqzkGnvuftPLQniq):</span><br><span class="line">#输入frp服务器和客户端通信的密码，默认是随机生成的，按Enter键表示按默认来，否则手动输入。frpc客户端需要这个接头暗号</span><br></pre></td></tr></tbody></table></figure>
+
+<p>后面的基本全部设置为默认就行了，除了特殊情况：mux 打开后如果觉得卡顿断流需要关掉；kcp 如果恰逢家中宽带被运营商 qos 的话也建议关掉。</p>
+<p>如果设置错误的话，可以使用 <code>frps config</code> 命令修改。</p>
+<p>配置好后使用 <code>frps status</code>确认是否正确运行。</p>
+<h5 id="客户端（windows）"><a href="#客户端（windows）" class="headerlink" title="客户端（windows）"></a>客户端（windows）</h5><p><a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/fatedier/frp/releases">下载</a> windows 命令行客户端，解压到任意目录，并在解压目录下地址栏输入 cmd 进入命令行界面。</p>
+<p>修改 frpc.ini（这里只配置了远程控制）</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[common]</span><br><span class="line">server_addr = 167.179.x.x</span><br><span class="line">server_port = 5443        </span><br><span class="line">token=123456</span><br><span class="line">type = kcp</span><br><span class="line">[rdp]</span><br><span class="line">local_ip = 127.0.0.1           </span><br><span class="line">local_port = 3389                 </span><br><span class="line">remote_port = 5200              </span><br></pre></td></tr></tbody></table></figure>
+
+<p>其中，server_addr 是服务器地址，sever_port 是 frp 通信端口，token 则是通信密码；rdp 中前三项不用改，第四项决定着你接下来要用的远程地址后跟端口号是多少。注意 ini 配置文件不能放注释。</p>
+<p>然后在 cmd 下面敲入</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">frpc -c frpc.ini</span><br></pre></td></tr></tbody></table></figure>
+
+<p>如果出现下面界面证明启动成功</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/OJzLDBS.png"></p>
+<p>此时使用 rdp 客户端访问 <code>ip:5200</code>即可远程访问该电脑。因为我们域名指向了该 ip，也可以用<code>域名:5200</code>访问该电脑。当然也可以通过 nginx/caddy 反向代理，无需域名，这里不再赘述。</p>
+<p>此时使用<code>域名:6443</code>（dashboard 默认端口）就应该能够进入到 frp 的管理页面，可以看到 tcp 项里面远程桌面端口在线。</p>
+<p>另外，如果发现某些时候重启后 frp.exe 并没有启动，可以到服务界面中将其自启模式改为「自动（延迟）」。</p>
+<h5 id="快速运行"><a href="#快速运行" class="headerlink" title="快速运行"></a>快速运行</h5><p>新建一个 bat，假设 frp 文件夹放在 <code>E:\network tools\frp</code> 下</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">@echo off  </span><br><span class="line">start  "C:\Windows\System32\cmd.exe"   </span><br><span class="line">"E:\network tools\frp\frpc" -c "E:\network tools\frp\frpc.ini"</span><br><span class="line">exit</span><br></pre></td></tr></tbody></table></figure>
+
+<p>双击打开，运行正常。</p>
+<h5 id="配置自启"><a href="#配置自启" class="headerlink" title="配置自启"></a>配置自启</h5><p>建议配合 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/kohsuke/winsw/releases">winsw</a> 实现自启。根据系统环境下载 net2 或 net4 版本的可执行文件，下载后放入 frp 文件夹中，改名为 winsw.exe。并在相同目录创建一个 winsw.xml，输入以下文字</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&lt;service&gt;</span><br><span class="line"></span><br><span class="line">    &lt;id&gt;frp&lt;/id&gt;</span><br><span class="line"></span><br><span class="line">    &lt;name&gt;frp&lt;/name&gt;</span><br><span class="line"></span><br><span class="line">    &lt;description&gt;用frp发布本地电脑网站到外网&lt;/description&gt;</span><br><span class="line"></span><br><span class="line">    &lt;executable&gt;frpc&lt;/executable&gt;</span><br><span class="line"></span><br><span class="line">    &lt;arguments&gt;-c frpc.ini&lt;/arguments&gt;</span><br><span class="line"></span><br><span class="line">    &lt;logmode&gt;reset&lt;/logmode&gt;</span><br><span class="line"></span><br><span class="line">&lt;/service&gt;</span><br></pre></td></tr></tbody></table></figure>
+
+<p>然后 frp 文件夹地址栏敲入 cmd，输入<code>winsw install</code>，没有错误的话证明配置成功，输入<code>winsw start</code>立即启动。</p>
+<p>另外，有可能还要到 services.msc 处将服务自启类型调为<code>自动(延迟)</code>，避免因为刚开机网络服务没有启动导致连接失败并无法自动重新启动。</p>
+<h5 id="stcp-和-xtcp"><a href="#stcp-和-xtcp" class="headerlink" title="stcp 和 xtcp"></a>stcp 和 xtcp</h5><p>参考文章：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/fatedier/frp/blob/master/README_zh.md">frp中文文档</a></p>
+<p>虽然一个单词只差。。。但这俩区别很大，前者是将 tcp 进行加密，而后者是 nat 打孔，之后流量不经过 vps 而是服务端和客户端直连。</p>
+<p>配置方法倒是差不多。</p>
+<p>服务端需要加一个 udp 端口</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bind_udp_port = 7001</span><br></pre></td></tr></tbody></table></figure>
+
+<p>然后客户端，删去 common 内的 <code>protocol = kcp</code></p>
+<p>加入一个节点</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[rdp-stcp]</span><br><span class="line">type = stcp</span><br><span class="line"># 只有 sk 一致的用户才能访问到此服务</span><br><span class="line">sk = abcdefg</span><br><span class="line">local_ip = 127.0.0.1</span><br><span class="line">local_port = 3389</span><br></pre></td></tr></tbody></table></figure>
+
+<p>另外，在另一段，连接过去的机子上也要做一个客户端，因为两边都有客户端了，就不需要 remote_port 了。</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"># frpc.ini</span><br><span class="line">[common]</span><br><span class="line">server_addr = x.x.x.x</span><br><span class="line">server_port = 5443</span><br><span class="line"></span><br><span class="line">[rdp-stcp-rdp-stcp]</span><br><span class="line">type = stcp</span><br><span class="line"># xtcp 的访问者</span><br><span class="line">role = visitor</span><br><span class="line"># 要访问的 xtcp 代理的名字</span><br><span class="line">server_name = p2p_ssh</span><br><span class="line">sk = abcdefg</span><br><span class="line"># 绑定本地端口用于访问 ssh 服务</span><br><span class="line">bind_addr = 127.0.0.1</span><br><span class="line">bind_port = 5200</span><br></pre></td></tr></tbody></table></figure>
+
+<p>此时同样通过 ip:5200 连接。</p>
+<p>使用 xtcp 的话，只要把上面的 stcp 改成 xtcp 就行。</p>
+<p>不过，sftp 经过我实验没问题，xtcp 尽管我家已经调整为 fullcone nat 但还是连不上，挺见鬼。</p>
+<h4 id="nps"><a href="#nps" class="headerlink" title="nps"></a>nps</h4><p>参考文章：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://ehang-io.github.io/nps/#/server_config">nps 配置</a></p>
+<p>frp 有个大问题，就是安全性。开了 frp 结果发现电脑日志中一大堆扫描的痕迹，毕竟有了 ip 和端口就可以无限扫描这个开在公网的电脑。。。</p>
+<p>虽然有 xftp 这玩意，但 xftp 在手机上其实不太好使用（要用 termux 之类的终端模拟器运行 frpc）。其他的方案，就是使用 nps。</p>
+<h5 id="服务端-1"><a href="#服务端-1" class="headerlink" title="服务端"></a>服务端</h5><p><a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/ehang-io/nps/releases">下载地址</a>，下载后解压修改 <code>conf</code> 文件夹下的 <code>nps.conf</code>。参考配置</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br></pre></td><td class="code"><pre><span class="line">appname = nps</span><br><span class="line">#Boot mode(dev|pro)</span><br><span class="line">runmode = dev</span><br><span class="line"></span><br><span class="line">#HTTP(S) proxy port, no startup if empty</span><br><span class="line">http_proxy_ip=0.0.0.0</span><br><span class="line">http_proxy_port=10002</span><br><span class="line">https_proxy_port=10003</span><br><span class="line">https_just_proxy=true</span><br><span class="line">#default https certificate setting</span><br><span class="line">https_default_cert_file=conf/server.pem</span><br><span class="line">https_default_key_file=conf/server.key</span><br><span class="line"></span><br><span class="line">##bridge</span><br><span class="line">bridge_type=tcp</span><br><span class="line">bridge_port=8024</span><br><span class="line">bridge_ip=0.0.0.0</span><br><span class="line"></span><br><span class="line"># Public password, which clients can use to connect to the server</span><br><span class="line"># After the connection, the server will be able to open relevant ports and parse related domain names according to its own configuration file.</span><br><span class="line">public_vkey=123</span><br><span class="line"></span><br><span class="line">#Traffic data persistence interval(minute)</span><br><span class="line">#Ignorance means no persistence</span><br><span class="line">#flow_store_interval=1</span><br><span class="line"></span><br><span class="line"># log level LevelEmergency-&gt;0  LevelAlert-&gt;1 LevelCritical-&gt;2 LevelError-&gt;3 LevelWarning-&gt;4 LevelNotice-&gt;5 LevelInformational-&gt;6 LevelDebug-&gt;7</span><br><span class="line">log_level=7</span><br><span class="line">#log_path=nps.log</span><br><span class="line"></span><br><span class="line">#Whether to restrict IP access, true or false or ignore</span><br><span class="line">#ip_limit=true</span><br><span class="line"></span><br><span class="line">#p2p</span><br><span class="line">#p2p_ip=127.0.0.1</span><br><span class="line">#p2p_port=6000</span><br><span class="line"></span><br><span class="line">#web</span><br><span class="line">web_host=a.o.com</span><br><span class="line">web_username=[账号]</span><br><span class="line">web_password=[密码]</span><br><span class="line">web_port = [端口]</span><br><span class="line">web_ip=0.0.0.0</span><br><span class="line">web_base_url=</span><br><span class="line">web_open_ssl=false</span><br><span class="line">web_cert_file=conf/server.pem</span><br><span class="line">web_key_file=conf/server.key</span><br><span class="line"># if web under proxy use sub path. like http://host/nps need this.</span><br><span class="line">#web_base_url=/nps</span><br><span class="line"></span><br><span class="line">#Web API unauthenticated IP address(the len of auth_crypt_key must be 16)</span><br><span class="line">#Remove comments if needed</span><br><span class="line">#auth_key=test</span><br><span class="line">auth_crypt_key =1234567812345678</span><br><span class="line"></span><br><span class="line">#allow_ports=9001-9009,10001,11000-12000</span><br><span class="line"></span><br><span class="line">#Web management multi-user login</span><br><span class="line">allow_user_login=false</span><br><span class="line">allow_user_register=false</span><br><span class="line">allow_user_change_username=false</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#extension</span><br><span class="line">allow_flow_limit=false</span><br><span class="line">allow_rate_limit=false</span><br><span class="line">allow_tunnel_num_limit=false</span><br><span class="line">allow_local_proxy=false</span><br><span class="line">allow_connection_num_limit=false</span><br><span class="line">allow_multi_ip=false</span><br><span class="line">system_info_display=false</span><br><span class="line"></span><br><span class="line">#cache</span><br><span class="line">http_cache=false</span><br><span class="line">http_cache_length=100</span><br><span class="line"></span><br><span class="line">#get origin ip</span><br><span class="line">http_add_origin_header=false</span><br><span class="line"></span><br><span class="line">#pprof debug options</span><br><span class="line">#pprof_ip=0.0.0.0</span><br><span class="line">#pprof_port=9999</span><br><span class="line"></span><br><span class="line">#client disconnect timeout</span><br><span class="line">disconnect_timeout=60</span><br></pre></td></tr></tbody></table></figure>
+
+<p>主要修改 <code>web_username</code>、<code>web_password</code> 和 <code>web_port</code>，以及 <code>http_proxy_port</code> 和 <code>https_proxy_port</code> 端口不可以重复。然后直接运行</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./nps</span><br></pre></td></tr></tbody></table></figure>
+
+<p>或者安装后运行</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">./nps install</span><br><span class="line">nps start</span><br></pre></td></tr></tbody></table></figure>
+
+<p>前者在前台运行，有日志。后者安装时会把刚刚修改好的 <code>nps.conf</code> 考到 <code>/etc/nps.conf</code> 中，到时有要改的修改那个就好。</p>
+<p>然后在浏览器中打开 <code>[vps ip]:web_port</code>，输入上面我说要主要修改的账户和密码。</p>
+<p>到客户端处点击加号新增配置</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/7l7REb9.png"></p>
+<p>basic 那两项可以不填，但为了安全最好填上，这两项是 socks 的账户和密码（一般 socks 代理我们都是用在本地 v2ray/ss 和浏览器之间的链接，一般都不设密码。现在是和远程服务器链接，所以需要密码保护安全）</p>
+<p>验证密钥记清楚。待会客户端要用到。</p>
+<p>保存后列表中会显示刚刚我们新增配置的 id，也记住。</p>
+<p>切换到 socks 代理，新增一个配置，填入上一句我说要记住的的配置 id，端口任填一个，也记住，待会也是客户端用到。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/mYBY1qN.png"></p>
+<h5 id="客户端"><a href="#客户端" class="headerlink" title="客户端"></a>客户端</h5><p>在上面的<a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/ehang-io/nps/releases">下载地址</a>中下载客户端。解压后修改 <code>conf/npc.conf</code>，将大部分配置删除（不要注释，注释没用，照样报错），留下下面这些</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">[common]</span><br><span class="line">server_addr=[vps ip]:8024</span><br><span class="line">conn_type=tcp</span><br><span class="line">vkey=[验证密钥]</span><br><span class="line">auto_reconnection=true</span><br><span class="line">max_conn=1000</span><br><span class="line">flow_limit=1000</span><br><span class="line">rate_limit=1000</span><br><span class="line">basic_username=[也许可以不填，填的话填上面那个basic的账户]</span><br><span class="line">basic_password=[也许可以不填，填的话填上面那个basic的密码]</span><br><span class="line">crypt=true</span><br><span class="line">compress=true</span><br><span class="line">#pprof_addr=0.0.0.0:9999</span><br><span class="line">disconnect_timeout=60</span><br></pre></td></tr></tbody></table></figure>
+
+<p>运行 <code>./npc</code> 启动。如果成功的话会显示如下：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/WzbpA9R.png"></p>
+<p>手机这边，用有 socks 代理的工具，比如 v2ray。ip 填 vps ip，端口填服务端时填的端口。账户和密码是服务端的 <code>basic_username</code> 和 <code>basic_password</code>。连接后，不需要像 frp 一样填 vps 的 ip 和穿透使用的另一个端口，而是用原来在内网连接的 ip 和端口即可。另外，只要在内网任意一台设备中开启一个客户端，内网中的所有设备和服务都可以透穿 —— 比如在虚拟机中开启了客户端，在 rdp 中输入局域网中虚拟机原机子的 ip 照样可以链接（虽然我又感觉有点不太安全了）。</p>
+<h3 id="网盘类"><a href="#网盘类" class="headerlink" title="网盘类"></a>网盘类</h3><h4 id="cloudreve（选做）"><a href="#cloudreve（选做）" class="headerlink" title="cloudreve（选做）"></a>cloudreve（选做）</h4><p>参考文章：</p>
+<ul>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="http://www.senra.me/build-your-own-cloud-storage-series-cloudreve-another-production-of-shudong-share-author/">自建云盘系列——Cloudreve(树洞外链作者的又一力作)</a></li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://cvps.top/8189.html">【自建网盘】宝塔面板 安装Cloudreve 网盘系统 与 初缘cvps小站遇到的问题解决方案 （无响应）</a></li>
+</ul>
+<p>用这玩意的话，aria2 前端面板就不用搭了，另外还附赠一些其他服务器的外挂和中转功能可以用来扩充 vps 本身不大的硬盘（不过我手上的 onedrive 只能拿来中转，其实没什么用，无法下载比 ssd 硬盘最大容量还大的资源），另外其本身也是一个 filemanager，不过嘛。。。只能管理站内内容，站外文件夹摸不到，所以其实没什么用（能管理站外内容的话就可以和上面几个工具联合管理一个文件夹了）。主要是搭建上其实很麻烦。。。</p>
+<ol>
+<li><p>有两种安装方法，一种是靠 composer 进行快速部署，另一种是直接下载压缩包然后释放到网站文件夹里面，<a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/HFO4/Cloudreve/wiki/%E5%AE%89%E8%A3%85%E8%AF%B4%E6%98%8E">官方github</a>给的安装方法是用前者。但我试过 composer 的方法，有些功能会出错（比如 cron 进程守护，还有图片集功能），所以还是建议直接用下载压缩包的方法进行部署。先进<code>https://cloudreve.org/download.php</code>，下载安装包后传到 vps 的 <code>/root</code>下，然后解压到站点。</p>
+<p>先新建一个站点，lnmp 一键包新建的时候注意这个站点的 rewrite 规则需要配置，使用thinkphp，宝塔可以建了再设置。假设我的站点位于<code>/home/cloudreve</code></p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">unzip xxxx.zip -d /home/Cloudreve/</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>然后进入站点目录</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd /home/Cloudreve/</span><br></pre></td></tr></tbody></table></figure>
+
+<p>设置权限（文件夹用户必须是 www 否则打不开，runtime 和 public 不开写入权限就下不了东西），宝塔在站点根目录那里点一下，就可以进到 ui 界面里面调了</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">chown -R www:www *</span><br><span class="line">chmod -R 755 runtime public</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>之后导入目录里面的 mysql.sql 文件，需要先创建一个数据库，建议先新建一个叫 Cloudreve 的用户来创建数据库</p>
+<p>然后导入</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql -u zbttl -p Cloudreve &lt; /home/Cloudreve/mysql.sql</span><br></pre></td></tr></tbody></table></figure>
+
+<p>输入密码即可导入成功。如果是宝塔面板，从 ui 界面新建数据库，然后按下管理，将 mysql.php 下到本地再拖到网页中即可自动导入。</p>
+</li>
+<li><p>编辑 <code>/home/Cloudreve/application/database_sample.php</code> 文件</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nano /home/Cloudreve/application/database_sample.php</span><br></pre></td></tr></tbody></table></figure>
+
+<p>更改数据名，用户名和密码。然后更改名字为 <code>database.php</code></p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mv ./database_sample.php ./database.php</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>最后访问站点，初始用户名：<code>admin@cloudreve.org</code>，初始密码：<code>admin</code>，后台URl：<code>http://你的域名/Admin</code>，即可使用。输入<code>你的域名/Cron</code>，若是显示几行代码，说明自启可配置</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">nano /etc/crontab</span><br><span class="line">#或者是 nano /var/spool/cron/root</span><br></pre></td></tr></tbody></table></figure>
+
+<p>在最后一行输入</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">* * * * * curl http://你的域名/Cron</span><br></pre></td></tr></tbody></table></figure>
+
+<p>如果是宝塔面板，在计划任务处添加任务即可。</p>
+</li>
+<li><p>另外注意几个坑：</p>
+<ol>
+<li>进去记得改帐号和密码</li>
+<li>要离线下载需要先装 aria2 后端，前端 AriaNG 可以不装了。而且默认的目录也是错的，需要你自己去改。另外就算是管理员，一开始也只有 1g 空间也不能够离线下载，需要在后端增大空间，开放离线下载权限。</li>
+</ol>
+</li>
+</ol>
+<h4 id="rclone"><a href="#rclone" class="headerlink" title="rclone"></a>rclone</h4><p>参考文章：</p>
+<ul>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://p3terx.com/archives/rclone-installation-and-configuration-tutorial.html">Rclone 安装配置教程 - 连接 OneDrive 和 Google Drive</a></li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://p3terx.com/archives/linux-vps-uses-rclone-to-mount-network-drives-such-as-onedrive-and-google-drive.html">Rclone 使用教程 - 挂载 OneDrive、Google Drive 等网盘(Linux)</a></li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://p3terx.com/archives/rclone-advanced-user-manual-common-command-parameters.html">Rclone 进阶使用教程 - 常用命令参数详解</a></li>
+</ul>
+<p>详细过程不谈，这三篇文章讲的相对清楚了。</p>
+<p>先按第一篇文章的方法在 windows 上获取一长串密钥通过密钥在 linux 上完成链接。</p>
+<p>然后第二篇重点讲的是 rclone mount。</p>
+<p>第三篇讲的是 rclone 的其他指令，比如 rclone copy，rclone move。</p>
+<p>有一些小贴士：</p>
+<ol>
+<li><p>rclone mount 需要事先安装 fuse，往 mount 网盘的文件夹使用 copy、move 等指令其实和 rclone copy、move 的效果（起码速度是）差不多，不过 rclone 类指令可以在后台运行，后台运行时也可以通过 <code>-v</code> 参数获取当前速度和最后所用时间，比单纯的 copy 好用一些但指令也复杂。</p>
+</li>
+<li><p>不过使用 rclone move 要注意，文件是搬过去了，但是搬移的文件夹里面的子文件夹并不会自动删除，需要多带一个参数 <code>--delete-empty-src-dirs</code>。-v 是显示进度，嫌显示的不够多可以换成 -vv。默认 4 线程，经常断，可能是内存原因，保险一点，单线程，虽然慢，不会断。最后出来的参数类似：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rclone copy -v /home/zbttl/aria2 zbttltest:pan --transfers=1 --delete-empty-src-dirs</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>不知道自己网盘里有啥？</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rclone lsd [网盘名称]:/</span><br></pre></td></tr></tbody></table></figure>
+
+<p>不知道自己网盘设置为啥名字了？</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rclone config</span><br></pre></td></tr></tbody></table></figure>
+
+<p>久不用了可能还要重新获取 token，用上面这个命令，选择 edit 响应的网盘，先是提示是否更改 client_id 和 client_secret，选择否（自建 api 的话才需要检查和修改），然后会弹出一次提示，选择「That’s OK」；然后就会提示「Already have a token - refresh?」，重新获取粘贴就好。</p>
+</li>
+<li><p>尽管挂载了，用 filebrowser 开进去看挂载网盘的文件夹还是空的；下载工具下载地址直接指向挂载文件夹会报错，因为缓存没那么大。还是老老实实下到其他地方再用命令转过去，或者用自动调用 rclone 的下载工具吧。</p>
+</li>
+<li><p>另外，想加速的话，还能通过<a target="_blank" rel="external nofollow noopener noreferrer" href="https://p3terx.com/archives/rclone-connect-onedrive-with-selfbuilt-api.html">Rclone 使用自建 API 连接 OneDrive（Office 365 E5 自动续订）</a>自建 api 加速（虽然我实验了感觉效果不太好，也有可能是我之前用的是共用接口，后来改用私有接口的时候配置没更新好，总之我不太想再折腾了），以及加缓存（<code>--onedrive-chunk-size</code>，大部分加 100m 也就是 102400，但吃内存太大容易被杀）和加线程（<code>--transfers</code>，建议为 4 不稳定）。</p>
+</li>
+<li><p>copy 到 onedrive 的中文文件夹，需要给文件夹打单引号，比如 `zbttl:’下载文件集合’。</p>
+</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>zbttl
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="https://zbttl-github-io.vercel.app/yi-bu-dao-wei-de-vps-cong-ru-men-dao-fang-qi/" title="一步到位的 vps 从入门到放弃">https://zbttl-github-io.vercel.app/yi-bu-dao-wei-de-vps-cong-ru-men-dao-fang-qi/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="external nofollow noopener noreferrer" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="followme">
+  <span>欢迎关注我的其它发布渠道</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="/atom.xml">
+          <span class="icon">
+            <i class="fa fa-rss"></i>
+          </span>
+
+          <span class="label">RSS</span>
+        </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/mysql/" rel="tag"># mysql</a>
+              <a href="/tags/rdp/" rel="tag"># rdp</a>
+              <a href="/tags/lnmp/" rel="tag"># lnmp</a>
+              <a href="/tags/nginx/" rel="tag"># nginx</a>
+              <a href="/tags/docker/" rel="tag"># docker</a>
+              <a href="/tags/rsshub/" rel="tag"># rsshub</a>
+              <a href="/tags/filemanger/" rel="tag"># filemanger</a>
+              <a href="/tags/aria2/" rel="tag"># aria2</a>
+              <a href="/tags/transmission/" rel="tag"># transmission</a>
+              <a href="/tags/bt/" rel="tag"># bt</a>
+              <a href="/tags/vscoder/" rel="tag"># vscoder</a>
+              <a href="/tags/emule/" rel="tag"># emule</a>
+              <a href="/tags/vnc/" rel="tag"># vnc</a>
+              <a href="/tags/frp/" rel="tag"># frp</a>
+              <a href="/tags/%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/" rel="tag"># 内网穿透</a>
+              <a href="/tags/cloudreve/" rel="tag"># cloudreve</a>
+              <a href="/tags/rclone/" rel="tag"># rclone</a>
+          </div>
+
+        
+  <div class="post-widgets">
+    <div class="wp_rating">
+      <div id="wpac-rating"></div>
+    </div>
+  </div>
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/ge-ping-tai-zi-ti-mei-hua-zhi-nan/" rel="prev" title="各平台字体美化指南">
+                  <i class="fa fa-chevron-left"></i> 各平台字体美化指南
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/powershell-quan-gong-lue/" rel="next" title="powershell 全攻略">
+                  powershell 全攻略 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zbttl</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+      <span>站点总字数：</span>
+    <span title="站点总字数">307k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span>站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">9:18</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">本博客使用 <a href="https://hexo.io/" class="theme-link" rel="external nofollow noopener noreferrer" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" class="theme-link" rel="external nofollow noopener noreferrer" target="_blank">NexT.Muse</a> 
+  </div><script color="120,120,120" opacity="0.5" zindex="-1" count="150" src="https://cdn.jsdelivr.net/npm/canvas-nest.js@1/dist/canvas-nest.js"></script>
+<!--《添加网站运行时间 -->
+<!--<br/>-->
+<span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+<script>
+    var now = new Date();
+
+    function createtime() {
+        var grt = new Date("12/18/2020 12:00:00"); //此处修改你的建站时间或者网站上线时间 
+        now.setTime(now.getTime() + 250);
+        days = (now - grt) / 1000 / 60 / 60 / 24;
+        dnum = Math.floor(days);
+        hours = (now - grt) / 1000 / 60 / 60 - (24 * dnum);
+        hnum = Math.floor(hours);
+        if (String(hnum).length == 1) {
+            hnum = "0" + hnum;
+        }
+        minutes = (now - grt) / 1000 / 60 - (24 * 60 * dnum) - (60 * hnum);
+        mnum = Math.floor(minutes);
+        if (String(mnum).length == 1) {
+            mnum = "0" + mnum;
+        }
+        seconds = (now - grt) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+        snum = Math.round(seconds);
+        if (String(snum).length == 1) {
+            snum = "0" + snum;
+        }
+        document.getElementById("timeDate").innerHTML = " 本站已安全运行 " + dnum + " 天 ";
+        document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒";
+    }
+    setInterval("createtime()", 250);
+</script>
+<!-- 添加网站运行时间》 -->
+
+    </div>
+  </footer>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+  <script>
+  if (CONFIG.page.isPost) {
+    wpac_init = window.wpac_init || [];
+    wpac_init.push({
+      widget: 'Rating',
+      id    : 28813,
+      el    : 'wpac-rating',
+      color : '#fc6423'
+    });
+    (function() {
+      if ('WIDGETPACK_LOADED' in window) return;
+      WIDGETPACK_LOADED = true;
+      var mc = document.createElement('script');
+      mc.type = 'text/javascript';
+      mc.async = true;
+      mc.src = '//embed.widgetpack.com/widget.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(mc, s.nextSibling);
+    })();
+  }
+  </script>
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1.7.0/dist/gitalk.css">
+
+<script>
+NexT.utils.loadComments('#gitalk-container', () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1.7.0/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : 'd99d750bdfdb31ecf37e',
+      clientSecret: '1d37215aff71dc84b66e03cb412c7e68b968d76f',
+      repo        : 'zbttl-comment',
+      owner       : 'zbpicture',
+      admin       : ['zbpicture'],
+      id          : '3a1dc525742737bdd0a3791de988886c',
+        language: '',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+<script type="text/javascript" src=" https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+
+  <script async src="/js/cursor/text.js"></script>
+
+
+
+
+</body>
+</html>
