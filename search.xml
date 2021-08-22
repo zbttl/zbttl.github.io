@@ -1,6 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>换用 zplug</title>
+    <url>/huan-yong-zplug/</url>
+    <content><![CDATA[<p>最近要搬几个服务器，想把迁移服务器时配置环境的这些步骤搞简单一点。自从用上了 zsh 和各种插件后，不装这玩意就浑身难受，但配置 zsh 的各种插件又相当费事。之前了解过 zplug 这玩意，今天就研究一下怎么切上去。</p>
+<p>参考文章：<a href="https://www.jkg.tw/p2965/">zsh + zplug 快速部屬你的 Shell 工作環境 | jkgtw’s blog </a></p>
+<p>之前配置 zsh，参考 <a href="https://zbttl.github.io/zhuo-mian-ban-ubuntu-debian-cai-keng/">桌面版 ubuntu &amp; debian 踩坑 | Bao’s 备忘录</a>，大概步骤是：</p>
+<ol>
+<li>安装 zsh </li>
+<li>切换默认终端为 zsh </li>
+<li>安装 oh-my-zsh </li>
+<li>安装 p10k </li>
+<li>配置 oh-my-zsh 和安装相应插件（这一步要 git clone 各种插件，挺麻烦的）</li>
+<li>配置 p10k</li>
+<li>一些 bug 的解决（比如字体不能显示，小键盘不能用等等）</li>
+<li>导入历史记录 </li>
+</ol>
+<p>使用 zplug 可以精简掉其中的 3-6 步，之后只要装好 zplug 后，把 <code>.zshrc</code> 和 <code>.p10k.zsh</code> 考过来，用 source 或者重启一下就能自动搞定了。具体的说：</p>
+<ol>
+<li><p>安装 zplug</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>修改原有的 <code>.zshrc</code> 文件</p>
+<p>在 zshrc 最上面加上一行 source 启用 zplug</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">source ~/.zplug/init.zsh</span><br></pre></td></tr></tbody></table></figure>
+
+<p>在 zshrc 最下面加上以下代码，作用是每次重载 zsh 检查 <code>.zshrc</code> 相关代码中是否有新的插件需要安装。</p>
+ <figure class="highlight bash"><table><tbody><tr><td class="code"><pre><span class="line"><span class="comment"># Install plugins if there are plugins that have not been installed</span></span><br><span class="line"><span class="keyword">if</span> ! zplug check --verbose; <span class="keyword">then</span></span><br><span class="line">    <span class="built_in">printf</span> <span class="string">"Install? [y/N]: "</span></span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">read</span> -q; <span class="keyword">then</span></span><br><span class="line">        <span class="built_in">echo</span>; zplug install</span><br><span class="line">    <span class="keyword">fi</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Then, source plugins and add commands to $PATH</span></span><br><span class="line">zplug load</span><br></pre></td></tr></tbody></table></figure>
+
+<p> 剩下的这几行代码，写在中间。</p>
+<p> 插件声明语句，就是上面说的相关代码，格式类似这样：</p>
+ <figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">zplug "romkatv/powerlevel10k", as:theme, depth:1</span><br></pre></td></tr></tbody></table></figure>
+
+<p> 双引号中的内容就是 <code>git clone</code> 那些插件时的插件的作者和库名，都在 url 的后半段里面。像我之前装的那些插件，大概就需要写这几行：</p>
+ <figure class="highlight bash"><table><tbody><tr><td class="code"><pre><span class="line">zplug <span class="string">"romkatv/powerlevel10k"</span>, as:theme, depth:1</span><br><span class="line">zplug <span class="string">'zplug/zplug'</span>, hook-build:<span class="string">'zplug --self-manage'</span></span><br><span class="line">zplug <span class="string">"zsh-users/zsh-completions"</span></span><br><span class="line">zplug <span class="string">"zsh-users/zsh-history-substring-search"</span></span><br><span class="line">zplug <span class="string">"zsh-users/zsh-autosuggestions"</span></span><br><span class="line">zplug <span class="string">"wting/autojump"</span></span><br></pre></td></tr></tbody></table></figure>
+
+<p> 由于不需要单独安装 oh-my-zsh 了，相关代码注释掉</p>
+ <figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">#export ZSH="/root/.oh-my-zsh"</span><br><span class="line"></span><br><span class="line">#source $ZSH/oh-my-zsh.sh</span><br></pre></td></tr></tbody></table></figure>
+
+<p> 同样，因为没有 oh-my-zsh 了，我们得声明一段代码，启用历史记录功能：</p>
+ <figure class="highlight bash"><table><tbody><tr><td class="code"><pre><span class="line"><span class="comment"># History config</span></span><br><span class="line">HISTSIZE=10000</span><br><span class="line">SAVEHIST=10000</span><br><span class="line">HISTFILE=~/.zsh_history</span><br></pre></td></tr></tbody></table></figure>
+
+<p> 最后重载 zsh 即可。</p>
+ <figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">source ~/.zshrc</span><br></pre></td></tr></tbody></table></figure>
+
+</li>
+</ol>
+<p>最后推荐两篇文章，可以参考里面的内容，添加更多有趣的插件（不过加载时间也会因此变慢，自己抉择）</p>
+<ul>
+<li><a href="https://macosdoc.googo.cc/enivironment/zhong-jian-kai-fa-huan-jing">iTerm2 + zsh + oh-my-zsh - macOS Setup</a></li>
+<li><a href="https://guojing.io/posts/zplug/">zplug 武装 zsh · 郭靖 I/O</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>zsh</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>萌新的 linux qt 程序编译实战</title>
     <url>/meng-xin-de-linux-qt-cheng-xu-bian-yi-shi-zhan/</url>
     <content><![CDATA[<p>事情的来源，是两个月前和朋友讨论啥软件界面又好看「学术网站」又快界面又漂亮。clash 虽然漂亮，但支持的协议少了点。</p>
@@ -9,7 +68,7 @@
 <p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/QQ%E5%9B%BE%E7%89%8720210517003751.jpg"></p>
 <p>但为了圆后半句，我花了两个月时间。。。不要小看编译啊 kora！</p>
 <p>环境：ubuntu 20.04 桌面端，否则没有 opengl 支持，没法试还报错</p>
-<h2 id="标准编译步骤——借助-ubuntu-内置的-apt-安装以来并直接编译"><a href="#标准编译步骤——借助-ubuntu-内置的-apt-安装以来并直接编译" class="headerlink" title="标准编译步骤——借助 ubuntu 内置的 apt 安装以来并直接编译"></a>标准编译步骤——借助 ubuntu 内置的 apt 安装以来并直接编译</h2><h3 id="初步安装依赖"><a href="#初步安装依赖" class="headerlink" title="初步安装依赖"></a>初步安装依赖</h3><figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">sudo apt update</span><br><span class="line">sudo apt install git openssl -y</span><br><span class="line">#编译所需工具</span><br><span class="line">sudo apt install autoconf automake libtool build-essential -y</span><br><span class="line"># qv2ray 和 grpc 编译所需的 ssl 库</span><br><span class="line">sudo apt install libssl-dev -y</span><br></pre></td></tr></tbody></table></figure>
+<h2 id="标准编译步骤——借助-ubuntu-内置的-apt-安装依赖并直接编译"><a href="#标准编译步骤——借助-ubuntu-内置的-apt-安装依赖并直接编译" class="headerlink" title="标准编译步骤——借助 ubuntu 内置的 apt 安装依赖并直接编译"></a>标准编译步骤——借助 ubuntu 内置的 apt 安装依赖并直接编译</h2><h3 id="初步安装依赖"><a href="#初步安装依赖" class="headerlink" title="初步安装依赖"></a>初步安装依赖</h3><figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">sudo apt update</span><br><span class="line">sudo apt install git openssl -y</span><br><span class="line">#编译所需工具</span><br><span class="line">sudo apt install autoconf automake libtool build-essential -y</span><br><span class="line"># qv2ray 和 grpc 编译所需的 ssl 库</span><br><span class="line">sudo apt install libssl-dev -y</span><br></pre></td></tr></tbody></table></figure>
 
 <h3 id="安装-qt5（通过官方在线安装包）"><a href="#安装-qt5（通过官方在线安装包）" class="headerlink" title="安装 qt5（通过官方在线安装包）"></a>安装 qt5（通过官方在线安装包）</h3><p>参考文章：<a href="https://forum.qt.io/topic/72009/how-do-i-move-qt-to-usr-local-share-qt">How do I move ~/Qt to /usr/local/share/Qt? | Qt Forum</a></p>
 <p>需要保持网络通畅！</p>
@@ -1392,7 +1451,7 @@
 </ol>
 <p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210220052345.png"></p>
 <ol start="4">
-<li>我不是特别能理解。。。cf 不是绑定域名就能用么，为什么做出来的 worker 一开始还用的是 <code>xxxx.yyy.workers.dev</code> 这种 cf 自己的域名。。。这么长不好记啊。推荐把这个 worker 的域名绑定我们本身的域名。参考文章：<a href="https://www.andressevilla.com/how-to-setup-cloudflare-workers-on-a-custom-domain/">How to Setup Cloudflare Workers on a Custom Domain - Andres Sevilla</a></li>
+<li><del>我不是特别能理解。。。cf 不是绑定域名就能用么，为什么做出来的 worker 一开始还用的是 <code>xxxx.yyy.workers.dev</code> 这种 cf 自己的域名。。。这么长不好记啊。</del>这个 worker 跟账号有关，跟域名无关。但因为太长不好记，所以推荐把这个 worker 的域名绑定我们本身的域名。参考文章：<a href="https://www.andressevilla.com/how-to-setup-cloudflare-workers-on-a-custom-domain/">How to Setup Cloudflare Workers on a Custom Domain - Andres Sevilla</a></li>
 </ol>
 <p>到顶上 dns 图标那里，添加记录，类型设为 cname；名称起一个顺耳的二级域名名称；目标则设置为我们刚刚创建的那个 <code>xxxx.yyy.workers.dev</code>，保存。</p>
 <p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210220060402.png"></p>
@@ -2792,7 +2851,7 @@
   <entry>
     <title>玩一下 FFmpeg</title>
     <url>/wan-yi-xia-ffmpeg/</url>
-    <content><![CDATA[<h1 id="玩一下-FFmpeg"><a href="#玩一下-FFmpeg" class="headerlink" title="玩一下 FFmpeg"></a>玩一下 FFmpeg</h1><p>因为最近有两件事情，所以要研究一下这玩意：把一整个 capoo 动画分割出几个小片段然后做成表情包（capoo 好萌），还有就是 vps 上下的动画，直接用 filebroswer 播不了，需要稍微转一下码才行。</p>
+    <content><![CDATA[<p>因为最近有两件事情，所以要研究一下这玩意：把一整个 capoo 动画分割出几个小片段然后做成表情包（capoo 好萌），还有就是 vps 上下的动画，直接用 filebroswer 播不了，需要稍微转一下码才行。</p>
 <p>总参数参考：<a href="https://ffmpeg.org/ffmpeg.html">ffmpeg Documentation</a></p>
 <h2 id="视频精确分割"><a href="#视频精确分割" class="headerlink" title="视频精确分割"></a>视频精确分割</h2><p>关键词：帧内编码（intra）</p>
 <p>参考文章：<a href="https://www.jianshu.com/p/cf1e61eb6fc8">FFMPEG 视频分割和合并</a></p>
@@ -5370,11 +5429,12 @@
         <category>Linux</category>
       </categories>
       <tags>
+        <tag>zsh</tag>
         <tag>terminal</tag>
+        <tag>wireshark</tag>
         <tag>vscode</tag>
         <tag>debian</tag>
         <tag>ubuntu</tag>
-        <tag>wireguard</tag>
       </tags>
   </entry>
   <entry>
