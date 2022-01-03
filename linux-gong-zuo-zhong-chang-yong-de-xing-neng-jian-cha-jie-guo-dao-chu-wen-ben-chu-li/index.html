@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/bao32x32.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/bao16x16.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.1/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"zbttl-github-io.vercel.app","root":"/","images":"/images","scheme":"Muse","version":"8.1.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}};
+  </script>
+<meta name="description" content="emmm。。。我这 18 线城市的运维，经常得对服务器进行性能检查，并把结果进行导出。大多数时候服务器都是没啥问题的，所以时间都费在复制粘贴上了，如果把那些持续运行的命令结果直接导出，然后全部合并在一起以格式化输出不就省事了？ cpu 性能检查——top 与 ps 之争！">
+<meta property="og:type" content="article">
+<meta property="og:title" content="linux 工作中常用的性能检查 - 结果导出 - 文本处理">
+<meta property="og:url" content="https://zbttl-github-io.vercel.app/linux-gong-zuo-zhong-chang-yong-de-xing-neng-jian-cha-jie-guo-dao-chu-wen-ben-chu-li/index.html">
+<meta property="og:site_name" content="Bao&#39;s 备忘录">
+<meta property="og:description" content="emmm。。。我这 18 线城市的运维，经常得对服务器进行性能检查，并把结果进行导出。大多数时候服务器都是没啥问题的，所以时间都费在复制粘贴上了，如果把那些持续运行的命令结果直接导出，然后全部合并在一起以格式化输出不就省事了？ cpu 性能检查——top 与 ps 之争！">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20220103215039.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20220104012407.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20220103135642.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20220103135359.png">
+<meta property="article:published_time" content="2022-01-02T16:00:00.000Z">
+<meta property="article:modified_time" content="2022-01-03T18:02:18.635Z">
+<meta property="article:author" content="zbttl">
+<meta property="article:tag" content="top">
+<meta property="article:tag" content="ps(command)">
+<meta property="article:tag" content="paste">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20220103215039.png">
+
+
+<link rel="canonical" href="https://zbttl-github-io.vercel.app/linux-gong-zuo-zhong-chang-yong-de-xing-neng-jian-cha-jie-guo-dao-chu-wen-ben-chu-li/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+<title>linux 工作中常用的性能检查 - 结果导出 - 文本处理 | Bao's 备忘录</title>
+  
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link rel="alternate" href="/atom.xml" title="Bao's 备忘录" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Bao's 备忘录</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80" placeholder="搜索..." spellcheck="false" type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <section class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#cpu-%E6%80%A7%E8%83%BD%E6%A3%80%E6%9F%A5%E2%80%94%E2%80%94top-%E4%B8%8E-ps-%E4%B9%8B%E4%BA%89%EF%BC%81"><span class="nav-number">1.</span> <span class="nav-text">cpu 性能检查——top 与 ps 之争！</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8B%BC%E6%8E%A5%E7%BB%93%E6%9E%9C%EF%BC%9A%E5%A4%A7%E6%98%BE%E7%A5%9E%E9%80%9A%E7%9A%84-paste-%E5%92%8C%E6%8B%A6%E8%B7%AF%E8%99%8E-ansi-%E5%AD%97%E7%AC%A6"><span class="nav-number">2.</span> <span class="nav-text">拼接结果：大显神通的 paste 和拦路虎 ansi 字符</span></a></li></ol></div>
+        </section>
+        <!--/noindex-->
+
+        <section class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="zbttl" src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">zbttl</p>
+  <div class="site-description" itemprop="description">玩点好玩的</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">48</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">105</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/zbttl" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;zbttl" rel="external nofollow noopener noreferrer" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:zbttls@gmail.com" title="E-Mail → mailto:zbttls@gmail.com" rel="external nofollow noopener noreferrer" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fa fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+
+
+
+        </section>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://zbttl-github-io.vercel.app/linux-gong-zuo-zhong-chang-yong-de-xing-neng-jian-cha-jie-guo-dao-chu-wen-ben-chu-li/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="zbttl">
+      <meta itemprop="description" content="玩点好玩的">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Bao's 备忘录">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          linux 工作中常用的性能检查 - 结果导出 - 文本处理
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-01-03 00:00:00" itemprop="dateCreated datePublished" datetime="2022-01-03T00:00:00+08:00">2022-01-03</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2022-01-04 02:02:18" itemprop="dateModified" datetime="2022-01-04T02:02:18+08:00">2022-01-04</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>6k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>11 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>emmm。。。我这 18 线城市的运维，经常得对服务器进行性能检查，并把结果进行导出。大多数时候服务器都是没啥问题的，所以时间都费在复制粘贴上了，如果把那些持续运行的命令结果直接导出，然后全部合并在一起以格式化输出不就省事了？</p>
+<h3 id="cpu-性能检查——top-与-ps-之争！"><a href="#cpu-性能检查——top-与-ps-之争！" class="headerlink" title="cpu 性能检查——top 与 ps 之争！"></a>cpu 性能检查——top 与 ps 之争！</h3><p>top 可以看 cpu 占用率这个大家应该都知道。但 ps 其实也可以看。因为当我们运行 <code>ps aux</code> 的时候：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20220103215039.png"><br>这一排 cpu 占用率实际上是可以利用起来的：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ps aux|sed 1d|awk '{a+=$3}END{print a"%"}'</span><br></pre></td></tr></tbody></table></figure>
+
+<p>这一行命令下去，就可以直接得出当时的 cpu 占用率了，相比从茫茫的 top 运行屏幕中把结果摘出来，是不是方便了不少？</p>
+<p>且慢！</p>
+<p>实际上，当你用多了这个命令，不难发现几个奇怪的地方：</p>
+<ol>
+<li>当负载起来以后，如果恰好你的机器是多核心的话。。。就会发现，出来的数字怎么就大于 100% 了呢？</li>
+<li>负载下去以后，发现出来的数字并没有马上降下去，但是多敲几次命令的话，会发现越到后面数字越低，但很长一段时间都不会是低负载时的哪个占用率，奇怪，此时 cpu 占用率应该已经接近 0 了呀？</li>
+<li>发现 root 下运行出来的结果和非 root 下运行的结果居然差了 10 个百分点？</li>
+</ol>
+<p>实际上，这几个问题的答案，就能充分反映出 ps 和 top 两个命令之间的机制差异：</p>
+<ul>
+<li><p>top 的 cpu 最大值是 100，而 ps 统计出来的 cpu 最大值上限是 100xCPU 核心总数的值。假设一台机器有两个 cpu，每个 cpu 有四个核心，那么 <code>ps aux</code> 统计出的 cpu 最大值上限就是 100*2*4=800；</p>
+</li>
+<li><p>参考<a target="_blank" rel="external nofollow noopener noreferrer" href="https://superuser.com/questions/643331/ps-and-top-give-different-cpu-usage">linux - ps and top give different CPU usage - Super User</a></p>
+<blockquote>
+<p>from man top:</p>
+<blockquote>
+<ol>
+<li>%CPU – CPU Usage The task’s share of the elapsed <strong>CPU time since the last screen update</strong>, expressed as a percentage of total CPU time.</li>
+</ol>
+</blockquote>
+<p>from man ps:</p>
+<blockquote>
+<p>CPU usage is currently expressed as the percentage of <strong>time spent running during the entire lifetime of a process</strong>.</p>
+</blockquote>
+</blockquote>
+<p>翻译成人话就是：top 的结果更即时，严格反映出当前时间点的 cpu 占用；而 ps 中进程的 cpu 占用率是当前进程全生命时间占用率的平均值。</p>
+</li>
+<li><p>在非 root 账户下 ps 输出的结果不包含 root 状态下运行进程的 cpu 占用。</p>
+</li>
+</ul>
+<p>所以嘛，平时对服务器的检查究竟用哪个比较合适呢？</p>
+<p>思来想去，我觉得其实都可以。虽然 ps 不包含 root 下的进程，但企业用的服务器为了安全着想，本就不会在 root 下运行高占用的进程；而平时 cpu 占用率检查的意义，一个是查看当前时间点的 cpu 占用率是否过高（突发负载），更重要的目的，或许还是判断当前 cpu 是否能胜任所负担的工作（平均负载）。这么说，两个命令应该配合着使用才对呀，不过，检查要填的单子里面只用填一个 cpu 占用率数据，所以嘛。。。</p>
+<p>对于 ps，只要把上面的命令处理一下，除一下核心数就好了：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ps aux|sed 1d|awk -v cpu=$(cat /proc/cpuinfo| grep "processor"| wc -l) '{a+=$3/cpu}END{print a"%"}'</span><br></pre></td></tr></tbody></table></figure>
+
+<p>对于 top，也可以通过 <code>-n1</code> 只运行 1s，然后通过 sed 和 awk 摘出里面的 cpu 占用数据：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">top -n1|sed -n '3p'|awk '{print $2}'</span><br></pre></td></tr></tbody></table></figure>
+
+<h3 id="拼接结果：大显神通的-paste-和拦路虎-ansi-字符"><a href="#拼接结果：大显神通的-paste-和拦路虎-ansi-字符" class="headerlink" title="拼接结果：大显神通的 paste 和拦路虎 ansi 字符"></a>拼接结果：大显神通的 paste 和拦路虎 ansi 字符</h3><p>几个命令之间当然也可以通过 <code>&amp;&amp;</code> 来拼接起来，只不过输出不在同一行；而用 paste 的话，不仅输出在同一行，而且命令与命令之间的输出中间会自动插入一个制表符，粘贴到表格里面刚好就会变成两格，简直就是懒人的福音！</p>
+<p>但是嘛。。。我这边还有一个需求，那就是把 top 第一行后面这些带时间的内容输出出来，也就是这串：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20220104012407.png"></p>
+<p>按理来说，配合 sed 就可以了，顺便剪掉前面的 top：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">top -n1|sed -n '1p'|sed 's/top - //g'  </span><br></pre></td></tr></tbody></table></figure>
+
+<p>然后我发现，运行完以后会莫名其妙的做一次清屏。这样复制粘贴就不方便了。</p>
+<p>原因也挺简单的。里面混有 ansi 字符，输出出来：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">top -n1|sed -n '1p'|sed 's/top - //g'  &gt; ansi.txt</span><br></pre></td></tr></tbody></table></figure>
+
+<p>用 vim 看一眼：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20220103135642.png"></p>
+<p>拖下来再用 vscode 看一眼：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20220103135359.png"></p>
+<p>好家伙显示出来的效果都不同。。。</p>
+<p>不过原理都差不多，vscode 这里的  ESC 就等效于上面 vim 的 <code>^[</code>，同时还等效于<code>\x1B</code>。但使用 sed 命令去处理的话，只有 <code>\x1B</code> 能成功匹配到这些个 ensi 符号。所以我们可以先把这些符号给转成可见性比较好的英文字符，参考：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://blog.csdn.net/Fu_Tianshu/article/details/80589289">用 sed 去除文件中的 ASCII 控制字符乱码_Fu_Tianshu的博客-CSDN博客</a></p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">top -n1|sed -n '1p'|sed 's/top - //g'|sed -r  -e 's/\x00/[NUL]/g' -e 's/\x01/[SOH]/g' -e 's/\x02/[STX]/g' -e 's/\x03/[ETX]/g' -e 's/\x04/[EOT]/g' -e 's/\x05/[ENQ]/g' -e 's/\x06/[ACK]/g' -e 's/\x07/[BEL]/g' -e 's/\x08/[BS]/g' -e 's/\x0A/[LF]/g' -e 's/\x0B/[VT]/g' -e 's/\x0C/[FF]/g' -e 's/\x0D/[CR]/g' -e 's/\x0E/[SO]/g' -e 's/\x0F/[SI]/g' -e 's/\x10/[DLE]/g' -e 's/\x11/[DC1]/g' -e 's/\x12/[DC2]/g' -e 's/\x13/[DC3]/g' -e 's/\x14/[DC4]/g' -e 's/\x15/[NAK]/g' -e 's/\x16/[SYN]/g' -e 's/\x17/[ETB]/g' -e 's/\x18/[CAN]/g' -e 's/\x19/[EM]/g' -e 's/\x1A/[SUB]/g' -e 's/\x1B/[ESC]/g' -e 's/\x1C/[FS]/g' -e 's/\x1D/[GS]/g' -e 's/\x1E/[RS]/g' -e 's/\x1F/[US]/g' -e 's/\x7F/[DEL]/g'|</span><br></pre></td></tr></tbody></table></figure>
+
+<p>认真去看的话，要提取的字符串前后都有乱七八糟的 ansi 字符和搭配生效的 ansi 命令：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">^[[?25l^[[?1c^[[H^[[J^[[m^Otop - 02:37:10 up 132 days, 19:05,  1 user,  load average: 0.00, 0.03, 0.00^[[m^O^[[39;49m^[[m^O^[[39;49m^[[K</span><br></pre></td></tr></tbody></table></figure>
+
+<p>我稍微了解了一下，上面这些 ansi 命令的意思：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">^[[?25l光标不可见</span><br><span class="line">^[[?1c 在^[[?25l后执行确保在执行序列时不会有光标闪烁Linux 控制台</span><br><span class="line">^[[H回到页首</span><br><span class="line">^[[J从光标擦除到页尾</span><br><span class="line">^[[m^O重置字体颜色</span><br><span class="line">^[[39;49m使用默认颜色  </span><br></pre></td></tr></tbody></table></figure>
+
+<p>其中其决定作用的自然是那个<code>^[[H</code>和<code>^[[J</code>了，就是这两个联合起来才让 top 命令达成了清屏的效果。现在就把他们都干掉！前面，用长长的那一串语句做转换后，要提取的字符串前后的 ansi 字符组变成了下面这样的两串东西：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[ESC][?25l[ESC][?1c[ESC][H[ESC][J[ESC][m[SI]</span><br><span class="line">[ESC][m[SI][ESC][39;49m[ESC][m[SI][ESC][39;49m[ESC][K</span><br></pre></td></tr></tbody></table></figure>
+
+<p>复制到 vscode 后，按 ctrl+H，vscode 就能自动的把这两串东西转义成正则表达式形式，真方便。整理一下，放到上面用过的表达式中做处理：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">top -n1|sed -n '1p'|sed 's/top - //g'|sed -r  -e 's/\x00/[NUL]/g' -e 's/\x01/[SOH]/g' -e 's/\x02/[STX]/g' -e 's/\x03/[ETX]/g' -e 's/\x04/[EOT]/g' -e 's/\x05/[ENQ]/g' -e 's/\x06/[ACK]/g' -e 's/\x07/[BEL]/g' -e 's/\x08/[BS]/g' -e 's/\x0A/[LF]/g' -e 's/\x0B/[VT]/g' -e 's/\x0C/[FF]/g' -e 's/\x0D/[CR]/g' -e 's/\x0E/[SO]/g' -e 's/\x0F/[SI]/g' -e 's/\x10/[DLE]/g' -e 's/\x11/[DC1]/g' -e 's/\x12/[DC2]/g' -e 's/\x13/[DC3]/g' -e 's/\x14/[DC4]/g' -e 's/\x15/[NAK]/g' -e 's/\x16/[SYN]/g' -e 's/\x17/[ETB]/g' -e 's/\x18/[CAN]/g' -e 's/\x19/[EM]/g' -e 's/\x1A/[SUB]/g' -e 's/\x1B/[ESC]/g' -e 's/\x1C/[FS]/g' -e 's/\x1D/[GS]/g' -e 's/\x1E/[RS]/g' -e 's/\x1F/[US]/g' -e 's/\x7F/[DEL]/g'|sed -r -e 's/\[ESC\]\[\?25l\[ESC\]\[\?1c\[ESC\]\[H\[ESC\]\[J\[ESC\]\[m\[SI\]//g' -e 's/\[ESC\]\[m\[SI\]\[ESC\]\[39;49m\[ESC\]\[m\[[SI\]\[ESC\]\[39;49m\[ESC\]\[K//g'  </span><br></pre></td></tr></tbody></table></figure>
+
+<p>这样出来的结果就不会有问题了。。。</p>
+<hr>
+<p>但是，但是！用 paste 去把这个语句和上面测量 cpu 占用率的两个语句组起来，就会莫名其妙的卡住，原因不明。。。</p>
+<p>但解决方法也很简单，这时我才发现 top 里有个参数叫 -b，可以自动把这些 ansi 字符干掉。。。</p>
+<p>所以我绕了一大圈是为了什么呢？？？？？</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">paste &lt;(top -b -n1|sed -n '3p'|awk '{print $2}'|sed 's/us//g') &lt;(top -b -n1|sed -n '1p'|sed 's/top - //g') </span><br></pre></td></tr></tbody></table></figure>
+
+
+
+
+
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>zbttl
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="https://zbttl-github-io.vercel.app/linux-gong-zuo-zhong-chang-yong-de-xing-neng-jian-cha-jie-guo-dao-chu-wen-ben-chu-li/" title="linux 工作中常用的性能检查 - 结果导出 - 文本处理">https://zbttl-github-io.vercel.app/linux-gong-zuo-zhong-chang-yong-de-xing-neng-jian-cha-jie-guo-dao-chu-wen-ben-chu-li/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="external nofollow noopener noreferrer" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="followme">
+  <span>欢迎关注我的其它发布渠道</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="/atom.xml">
+          <span class="icon">
+            <i class="fa fa-rss"></i>
+          </span>
+
+          <span class="label">RSS</span>
+        </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/top/" rel="tag"># top</a>
+              <a href="/tags/ps-command/" rel="tag"># ps(command)</a>
+              <a href="/tags/paste/" rel="tag"># paste</a>
+          </div>
+
+        
+  <div class="post-widgets">
+    <div class="wp_rating">
+      <div id="wpac-rating"></div>
+    </div>
+  </div>
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/huan-yong-zplug/" rel="prev" title="换用 zplug">
+                  <i class="fa fa-chevron-left"></i> 换用 zplug
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zbttl</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+      <span>站点总字数：</span>
+    <span title="站点总字数">315k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span>站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">9:33</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">本博客使用 <a href="https://hexo.io/" class="theme-link" rel="external nofollow noopener noreferrer" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" class="theme-link" rel="external nofollow noopener noreferrer" target="_blank">NexT.Muse</a> 
+  </div><script color="120,120,120" opacity="0.5" zindex="-1" count="150" src="https://cdn.jsdelivr.net/npm/canvas-nest.js@1/dist/canvas-nest.js"></script>
+<!--《添加网站运行时间 -->
+<!--<br/>-->
+<span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+<script>
+    var now = new Date();
+
+    function createtime() {
+        var grt = new Date("12/18/2020 12:00:00"); //此处修改你的建站时间或者网站上线时间 
+        now.setTime(now.getTime() + 250);
+        days = (now - grt) / 1000 / 60 / 60 / 24;
+        dnum = Math.floor(days);
+        hours = (now - grt) / 1000 / 60 / 60 - (24 * dnum);
+        hnum = Math.floor(hours);
+        if (String(hnum).length == 1) {
+            hnum = "0" + hnum;
+        }
+        minutes = (now - grt) / 1000 / 60 - (24 * 60 * dnum) - (60 * hnum);
+        mnum = Math.floor(minutes);
+        if (String(mnum).length == 1) {
+            mnum = "0" + mnum;
+        }
+        seconds = (now - grt) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+        snum = Math.round(seconds);
+        if (String(snum).length == 1) {
+            snum = "0" + snum;
+        }
+        document.getElementById("timeDate").innerHTML = " 本站已安全运行 " + dnum + " 天 ";
+        document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒";
+    }
+    setInterval("createtime()", 250);
+</script>
+<!-- 添加网站运行时间》 -->
+
+    </div>
+  </footer>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+  <script>
+  if (CONFIG.page.isPost) {
+    wpac_init = window.wpac_init || [];
+    wpac_init.push({
+      widget: 'Rating',
+      id    : 28813,
+      el    : 'wpac-rating',
+      color : '#fc6423'
+    });
+    (function() {
+      if ('WIDGETPACK_LOADED' in window) return;
+      WIDGETPACK_LOADED = true;
+      var mc = document.createElement('script');
+      mc.type = 'text/javascript';
+      mc.async = true;
+      mc.src = '//embed.widgetpack.com/widget.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(mc, s.nextSibling);
+    })();
+  }
+  </script>
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1.7.0/dist/gitalk.css">
+
+<script>
+NexT.utils.loadComments('#gitalk-container', () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1.7.0/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : 'd99d750bdfdb31ecf37e',
+      clientSecret: '1d37215aff71dc84b66e03cb412c7e68b968d76f',
+      repo        : 'zbttl-comment',
+      owner       : 'zbpicture',
+      admin       : ['zbpicture'],
+      id          : '6599ac0e9940da05cce9d9dd90629395',
+        language: '',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+<script type="text/javascript" src=" https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+
+  <script async src="/js/cursor/text.js"></script>
+
+
+
+
+</body>
+</html>
