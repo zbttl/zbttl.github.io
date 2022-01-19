@@ -23,26 +23,22 @@
     var NexT = window.NexT || {};
     var CONFIG = {"hostname":"zbttl-github-io.vercel.app","root":"/","images":"/images","scheme":"Muse","version":"8.1.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}};
   </script>
-<meta name="description" content="之前写 crontab 提过一个简单的 postfix。后来玩大佬的【完美版】自动下载 B 站收藏视频 – Left’s blog 时，没调试好脚本一下子弹一堆错，脚本发的错误又不走 linux 的日志而是发去邮件，光靠简单的 postfix 就不好一条条查看了。得用更高一级的 mailutils。另外脚本本身还有发送邮件提示上传完毕的功能，也得通过 mailutils。 参考文章：linux -">
+<meta name="description" content="telegram 经过数次版本迭代后，从去年开始的版本已经不能注入 dll 了。常用的两个注入 dll 插件，其中一个 Anti Revoke Plugin 已于上月停更，所以现在只有换字体的 FontMod 仍在更新。虽然本身也不是专为 telegram 打造的，所以在现在版本的 tg 上用起来还要费一番功夫。 参考文章：ysc3839（项目作者）的issue">
 <meta property="og:type" content="article">
-<meta property="og:title" content="mailutils 查看日志&#x2F;发送邮件">
-<meta property="og:url" content="https://zbttl-github-io.vercel.app/mailutils-cha-kan-ri-zhi-fa-song-you-jian/index.html">
+<meta property="og:title" content="telegram 更换字体的正确姿势">
+<meta property="og:url" content="https://zbttl-github-io.vercel.app/telegram-geng-huan-zi-ti-de-zheng-que-zi-shi/index.html">
 <meta property="og:site_name" content="Bao&#39;s 备忘录">
-<meta property="og:description" content="之前写 crontab 提过一个简单的 postfix。后来玩大佬的【完美版】自动下载 B 站收藏视频 – Left’s blog 时，没调试好脚本一下子弹一堆错，脚本发的错误又不走 linux 的日志而是发去邮件，光靠简单的 postfix 就不好一条条查看了。得用更高一级的 mailutils。另外脚本本身还有发送邮件提示上传完毕的功能，也得通过 mailutils。 参考文章：linux -">
+<meta property="og:description" content="telegram 经过数次版本迭代后，从去年开始的版本已经不能注入 dll 了。常用的两个注入 dll 插件，其中一个 Anti Revoke Plugin 已于上月停更，所以现在只有换字体的 FontMod 仍在更新。虽然本身也不是专为 telegram 打造的，所以在现在版本的 tg 上用起来还要费一番功夫。 参考文章：ysc3839（项目作者）的issue">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/Xshell_aEyufayMNT.png">
-<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210107223732.png">
-<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210108012406.png">
-<meta property="article:published_time" content="2021-01-05T16:00:00.000Z">
-<meta property="article:modified_time" content="2021-01-20T19:55:23.778Z">
+<meta property="article:published_time" content="2022-01-19T16:00:00.000Z">
+<meta property="article:modified_time" content="2022-01-19T22:34:55.844Z">
 <meta property="article:author" content="zbttl">
-<meta property="article:tag" content="log">
-<meta property="article:tag" content="mailutils">
+<meta property="article:tag" content="fonts">
+<meta property="article:tag" content="telegram">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/Xshell_aEyufayMNT.png">
 
 
-<link rel="canonical" href="https://zbttl-github-io.vercel.app/mailutils-cha-kan-ri-zhi-fa-song-you-jian/">
+<link rel="canonical" href="https://zbttl-github-io.vercel.app/telegram-geng-huan-zi-ti-de-zheng-que-zi-shi/">
 
 
 <script class="page-configurations">
@@ -54,7 +50,7 @@
     lang   : 'zh-CN'
   };
 </script>
-<title>mailutils 查看日志/发送邮件 | Bao's 备忘录</title>
+<title>telegram 更换字体的正确姿势 | Bao's 备忘录</title>
   
 
 
@@ -270,7 +266,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://zbttl-github-io.vercel.app/mailutils-cha-kan-ri-zhi-fa-song-you-jian/">
+    <link itemprop="mainEntityOfPage" href="https://zbttl-github-io.vercel.app/telegram-geng-huan-zi-ti-de-zheng-que-zi-shi/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpg">
@@ -283,7 +279,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          mailutils 查看日志/发送邮件
+          telegram 更换字体的正确姿势
         </h1>
 
         <div class="post-meta-container">
@@ -293,23 +289,17 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
+      
 
-      <time title="创建时间：2021-01-06 00:00:00" itemprop="dateCreated datePublished" datetime="2021-01-06T00:00:00+08:00">2021-01-06</time>
+      <time title="创建时间：2022-01-20 00:00:00 / 修改时间：06:34:55" itemprop="dateCreated datePublished" datetime="2022-01-20T00:00:00+08:00">2022-01-20</time>
     </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2021-01-21 03:55:23" itemprop="dateModified" datetime="2021-01-21T03:55:23+08:00">2021-01-21</time>
-      </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
         <i class="far fa-folder"></i>
       </span>
       <span class="post-meta-item-text">分类于</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
+          <a href="/categories/Windows/" itemprop="url" rel="index"><span itemprop="name">Windows</span></a>
         </span>
     </span>
 
@@ -328,14 +318,14 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>895</span>
+      <span>2k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>2 分钟</span>
+      <span>4 分钟</span>
     </span>
 </div>
 
@@ -346,35 +336,22 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <p>之前写 crontab 提过一个简单的 postfix。后来玩大佬的<a target="_blank" rel="external nofollow noopener noreferrer" href="https://left.pink/archives/3073">【完美版】自动下载 B 站收藏视频 – Left’s blog</a> 时，没调试好脚本一下子弹一堆错，脚本发的错误又不走 linux 的日志而是发去邮件，光靠简单的 postfix 就不好一条条查看了。得用更高一级的 mailutils。另外脚本本身还有发送邮件提示上传完毕的功能，也得通过 mailutils。</p>
-<p>参考文章：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://unix.stackexchange.com/questions/26790/what-is-mail-and-how-is-it-navigated">linux - What is “mail”, and how is it navigated? - Unix &amp; Linux Stack Exchange</a></p>
+        <p>telegram 经过数次版本迭代后，从去年开始的版本已经不能注入 dll 了。常用的两个注入 dll 插件，其中一个 Anti Revoke Plugin 已于上月停更，所以现在只有换字体的 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/ysc3839/FontMod">FontMod</a> 仍在更新。虽然本身也不是专为 telegram 打造的，所以在现在版本的 tg 上用起来还要费一番功夫。</p>
+<p>参考文章：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/ysc3839/FontMod/issues/70#issuecomment-882069692">ysc3839（项目作者）的issue</a></p>
 <ol>
-<li><p>安装</p>
-<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install mailutils -y</span><br></pre></td></tr></tbody></table></figure>
+<li><p>下载 telegram 微软商店版</p>
 </li>
-<li><p>使用</p>
-<p>通过命令 <code>mail</code> 进入邮箱。此时可以看到底下有个问号，那个地方就会显示你的输入的操作符。这个软件所有的操作逻辑都是操作符 + 回车，不输入操作符直接敲回车，软件就会依照所处位置进行对应的操作。为啥强调这个？因为这就是这个软件难用的地方。。。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/Xshell_aEyufayMNT.png"></p>
+<li><p>在 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/ysc3839/FontMod">FontMod</a> 的 release 页面中下载 FontMod64.dll （无需改名）并放入任意文件夹中。</p>
 </li>
-<li><p>看到邮箱列表，最左边有个小箭头，表示选中的邮件。可以直接用回车进入被选中的邮件。但基于操作逻辑，你不能用上下方向键调整箭头指向的邮件。。。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210107223732.png"></p>
+<li><p>fork <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/ysc3839/AppXLauncher">ysc3839/AppXLauncher</a>，在其中任意添加一个文件后，actions 就会自动进行构建，等待约半小时，构建好后下载其中的 AppXLauncher64.exe，放入和 FontMod64.dll 同一文件夹中。</p>
 </li>
-<li><p>在相关邮件查看处，按下回车看邮件剩余的部分；如果邮件已结束，则会跳到下一封。也可以按输入 <code>n</code> + 回车直接跳到下一封。</p>
+<li><p>在同一文件夹中新建 <code>AppXLauncher.json</code></p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">{</span><br><span class="line">	"PackageFamilyName": "TelegramMessengerLLP.TelegramDesktop_t4vj0pshhgkwm",</span><br><span class="line">	"AppId": "Telegram.TelegramDesktop.Store",</span><br><span class="line">	"InjectDll": "FontMod64.dll",</span><br><span class="line">	"Persistent": true,</span><br><span class="line">	"KillRunning": false</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
 </li>
-<li><p>要重新显示邮件列表，可以使用 <code>z</code> + 回车，显示未读邮件；邮件列表太多的话，只会显示一部分，可以用 <code>z+</code> 或 <code>z-</code> + 回车，上下翻页；或者用 <code>f*</code> 显示所有邮件。</p>
+<li><p>在同一文件夹中新建 <code>FontMod.yaml</code>，里面写上要替换的字体的配置。以下是我的配置，仅供参考：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line">style: &amp;style</span><br><span class="line"># Remove '#' to override font style</span><br><span class="line">#  size: 0</span><br><span class="line">#  width: 0</span><br><span class="line">#  weight: 0</span><br><span class="line">#  italic: false</span><br><span class="line">#  underLine: false</span><br><span class="line">#  strikeOut: false</span><br><span class="line">#  charSet: 0</span><br><span class="line">#  outPrecision: 0</span><br><span class="line">#  clipPrecision: 0</span><br><span class="line">#  quality: 0</span><br><span class="line">#  pitchAndFamily: 0</span><br><span class="line"></span><br><span class="line">fonts:</span><br><span class="line">  microsoft yahei: &amp;zh-cn-font # Chinese (Simplified) fallback font</span><br><span class="line">    # replace: 更纱黑体 SC</span><br><span class="line">    # replace: 文泉驿微米黑</span><br><span class="line">    replace: Sarasa UI SC</span><br><span class="line">    &lt;&lt;: *style</span><br><span class="line">  microsoft jhenghei ui: # Chinese (Traditional) fallback font</span><br><span class="line">    replace: Sarasa Gothic TC</span><br><span class="line">    &lt;&lt;: *style</span><br><span class="line">  # PMingLiU: # Chinese (Traditional) fallback font</span><br><span class="line">  #   replace: Microsoft JhengHei UI</span><br><span class="line">  #   &lt;&lt;: *style</span><br><span class="line">  # MS UI Gothic: # Japanese fallback font</span><br><span class="line">  #   replace: Yu Gothic UI</span><br><span class="line">  #   &lt;&lt;: *style</span><br><span class="line">  # Gulim: # Korean fallback font</span><br><span class="line">  #   replace: 맑은 고딕</span><br><span class="line">  #   &lt;&lt;: *style</span><br><span class="line">  # Open Sans: </span><br><span class="line">  #    replace: HelveticaNeue</span><br><span class="line">  Arial: &amp;monospace-font </span><br><span class="line">     replace: CascadiaCode Nerd Font</span><br><span class="line">  &lt;&lt;: *style</span><br><span class="line">  Consolas: *monospace-font # English Monospace default font</span><br><span class="line">  SimSun: *zh-cn-font # Chinese Monospace fallback font</span><br><span class="line">  Segoe UI: *zh-cn-font</span><br><span class="line">  Segoe UI Semibold: &amp;zh-cn-bold</span><br><span class="line">    replace: 更纱黑体 SC Bold</span><br><span class="line">  DAOpenSansRegular: *zh-cn-font</span><br><span class="line">  DAOpenSansRegularItalic: *zh-cn-font</span><br><span class="line">  DAOpenSansSemiboldItalic: *zh-cn-font</span><br><span class="line">  DAOpenSansSemibold: *zh-cn-bold</span><br><span class="line"></span><br><span class="line">fixGSOFont: true # true is to use system UI font</span><br><span class="line">#fixGSOFont: *zh-cn-font # Or replace with user defined font</span><br><span class="line">debug: false</span><br></pre></td></tr></tbody></table></figure>
 </li>
-<li><p>要指定进入某一个邮件，可以直接输入数字 + 回车；要删除所有邮件，输入 <code>d*</code> + 回车。</p>
-</li>
-<li><p>剩下的可以通过输入 <code>help</code> + 回车进入命令界面（虽然我感觉大多数人都看不懂，因为我没发现详细说明在哪）。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210108012406.png"></p>
-</li>
-<li><p>按下 <code>q</code> + 回车后退或直接退出。</p>
-</li>
-<li><p>发送邮件。使用命令</p>
-<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mail -s "[邮件内容]" -r "[发送人]" [接收方邮箱]</span><br></pre></td></tr></tbody></table></figure>
-
-<p>发送人最后在接收方会显示为 <code>root&lt;[发送人]@localhost.localdomain&gt;</code></p>
-<p>另外发送邮件的机器可能还要做域名解析之类的（不是很清楚，我用虚拟机 ubuntu 发不出去，在 vps 的 ubuntu 发送就没问题，一般那个脚本应该都在 vps 上用的吧，所以我就没认真探究）。</p>
+<li><p>安装配置中的字体。旧版本中可以把字体放到同一文件夹下的 fonts 子文件夹下，但现在不行了，必须要安装。如果少哪个字体没装的话，telegram 的字体就会使用默认的等宽字体（宋体），非常难看。</p>
 </li>
 </ol>
 
@@ -394,7 +371,7 @@
   </li>
   <li class="post-copyright-link">
       <strong>本文链接：</strong>
-      <a href="https://zbttl-github-io.vercel.app/mailutils-cha-kan-ri-zhi-fa-song-you-jian/" title="mailutils 查看日志&#x2F;发送邮件">https://zbttl-github-io.vercel.app/mailutils-cha-kan-ri-zhi-fa-song-you-jian/</a>
+      <a href="https://zbttl-github-io.vercel.app/telegram-geng-huan-zi-ti-de-zheng-que-zi-shi/" title="telegram 更换字体的正确姿势">https://zbttl-github-io.vercel.app/telegram-geng-huan-zi-ti-de-zheng-que-zi-shi/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="external nofollow noopener noreferrer" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-SA</a> 许可协议。转载请注明出处！
@@ -420,8 +397,8 @@
 </div>
 
           <div class="post-tags">
-              <a href="/tags/log/" rel="tag"># log</a>
-              <a href="/tags/mailutils/" rel="tag"># mailutils</a>
+              <a href="/tags/fonts/" rel="tag"># fonts</a>
+              <a href="/tags/telegram/" rel="tag"># telegram</a>
           </div>
 
         
@@ -433,14 +410,11 @@
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/cod-zhan-qu-fu-huo-dao-huo-dong-tu-cao/" rel="prev" title="cod 战区复活岛活动吐槽">
-                  <i class="fa fa-chevron-left"></i> cod 战区复活岛活动吐槽
+                <a href="/linux-gong-zuo-zhong-chang-yong-de-xing-neng-jian-cha-jie-guo-dao-chu-wen-ben-chu-li/" rel="prev" title="linux 工作中常用的性能检查 - 结果导出 - 文本处理">
+                  <i class="fa fa-chevron-left"></i> linux 工作中常用的性能检查 - 结果导出 - 文本处理
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/vscode-diao-shi-bash-shell-jiao-ben/" rel="next" title="vscode 调试 bash shell 脚本">
-                  vscode 调试 bash shell 脚本 <i class="fa fa-chevron-right"></i>
-                </a>
             </div>
           </div>
     </footer>
@@ -604,7 +578,7 @@ NexT.utils.loadComments('#gitalk-container', () => {
       repo        : 'zbttl-comment',
       owner       : 'zbpicture',
       admin       : ['zbpicture'],
-      id          : '836f8ba7f36ef445b266151829f51a19',
+      id          : '28162a8e4f00535c56336b8848ed6666',
         language: '',
       distractionFreeMode: true
     });

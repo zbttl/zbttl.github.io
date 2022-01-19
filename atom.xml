@@ -6,7 +6,7 @@
   <link href="https://zbttl-github-io.vercel.app/atom.xml" rel="self"/>
   
   <link href="https://zbttl-github-io.vercel.app/"/>
-  <updated>2022-01-03T18:02:18.635Z</updated>
+  <updated>2022-01-19T22:34:55.844Z</updated>
   <id>https://zbttl-github-io.vercel.app/</id>
   
   <author>
@@ -15,6 +15,30 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>telegram 更换字体的正确姿势</title>
+    <link href="https://zbttl-github-io.vercel.app/telegram-geng-huan-zi-ti-de-zheng-que-zi-shi/"/>
+    <id>https://zbttl-github-io.vercel.app/telegram-geng-huan-zi-ti-de-zheng-que-zi-shi/</id>
+    <published>2022-01-19T16:00:00.000Z</published>
+    <updated>2022-01-19T22:34:55.844Z</updated>
+    
+    <content type="html"><![CDATA[<p>telegram 经过数次版本迭代后，从去年开始的版本已经不能注入 dll 了。常用的两个注入 dll 插件，其中一个 Anti Revoke Plugin 已于上月停更，所以现在只有换字体的 <a href="https://github.com/ysc3839/FontMod">FontMod</a> 仍在更新。虽然本身也不是专为 telegram 打造的，所以在现在版本的 tg 上用起来还要费一番功夫。</p><p>参考文章：<a href="https://github.com/ysc3839/FontMod/issues/70#issuecomment-882069692">ysc3839（项目作者）的issue</a></p><ol><li><p>下载 telegram 微软商店版</p></li><li><p>在 <a href="https://github.com/ysc3839/FontMod">FontMod</a> 的 release 页面中下载 FontMod64.dll （无需改名）并放入任意文件夹中。</p></li><li><p>fork <a href="https://github.com/ysc3839/AppXLauncher">ysc3839/AppXLauncher</a>，在其中任意添加一个文件后，actions 就会自动进行构建，等待约半小时，构建好后下载其中的 AppXLauncher64.exe，放入和 FontMod64.dll 同一文件夹中。</p></li><li><p>在同一文件夹中新建 <code>AppXLauncher.json</code></p><figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">{</span><br><span class="line">"PackageFamilyName": "TelegramMessengerLLP.TelegramDesktop_t4vj0pshhgkwm",</span><br><span class="line">"AppId": "Telegram.TelegramDesktop.Store",</span><br><span class="line">"InjectDll": "FontMod64.dll",</span><br><span class="line">"Persistent": true,</span><br><span class="line">"KillRunning": false</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure></li><li><p>在同一文件夹中新建 <code>FontMod.yaml</code>，里面写上要替换的字体的配置。以下是我的配置，仅供参考：</p><figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line">style: &amp;style</span><br><span class="line"># Remove '#' to override font style</span><br><span class="line">#  size: 0</span><br><span class="line">#  width: 0</span><br><span class="line">#  weight: 0</span><br><span class="line">#  italic: false</span><br><span class="line">#  underLine: false</span><br><span class="line">#  strikeOut: false</span><br><span class="line">#  charSet: 0</span><br><span class="line">#  outPrecision: 0</span><br><span class="line">#  clipPrecision: 0</span><br><span class="line">#  quality: 0</span><br><span class="line">#  pitchAndFamily: 0</span><br><span class="line"></span><br><span class="line">fonts:</span><br><span class="line">  microsoft yahei: &amp;zh-cn-font # Chinese (Simplified) fallback font</span><br><span class="line">    # replace: 更纱黑体 SC</span><br><span class="line">    # replace: 文泉驿微米黑</span><br><span class="line">    replace: Sarasa UI SC</span><br><span class="line">    &lt;&lt;: *style</span><br><span class="line">  microsoft jhenghei ui: # Chinese (Traditional) fallback font</span><br><span class="line">    replace: Sarasa Gothic TC</span><br><span class="line">    &lt;&lt;: *style</span><br><span class="line">  # PMingLiU: # Chinese (Traditional) fallback font</span><br><span class="line">  #   replace: Microsoft JhengHei UI</span><br><span class="line">  #   &lt;&lt;: *style</span><br><span class="line">  # MS UI Gothic: # Japanese fallback font</span><br><span class="line">  #   replace: Yu Gothic UI</span><br><span class="line">  #   &lt;&lt;: *style</span><br><span class="line">  # Gulim: # Korean fallback font</span><br><span class="line">  #   replace: 맑은 고딕</span><br><span class="line">  #   &lt;&lt;: *style</span><br><span class="line">  # Open Sans: </span><br><span class="line">  #    replace: HelveticaNeue</span><br><span class="line">  Arial: &amp;monospace-font </span><br><span class="line">     replace: CascadiaCode Nerd Font</span><br><span class="line">  &lt;&lt;: *style</span><br><span class="line">  Consolas: *monospace-font # English Monospace default font</span><br><span class="line">  SimSun: *zh-cn-font # Chinese Monospace fallback font</span><br><span class="line">  Segoe UI: *zh-cn-font</span><br><span class="line">  Segoe UI Semibold: &amp;zh-cn-bold</span><br><span class="line">    replace: 更纱黑体 SC Bold</span><br><span class="line">  DAOpenSansRegular: *zh-cn-font</span><br><span class="line">  DAOpenSansRegularItalic: *zh-cn-font</span><br><span class="line">  DAOpenSansSemiboldItalic: *zh-cn-font</span><br><span class="line">  DAOpenSansSemibold: *zh-cn-bold</span><br><span class="line"></span><br><span class="line">fixGSOFont: true # true is to use system UI font</span><br><span class="line">#fixGSOFont: *zh-cn-font # Or replace with user defined font</span><br><span class="line">debug: false</span><br></pre></td></tr></tbody></table></figure></li><li><p>安装配置中的字体。旧版本中可以把字体放到同一文件夹下的 fonts 子文件夹下，但现在不行了，必须要安装。如果少哪个字体没装的话，telegram 的字体就会使用默认的等宽字体（宋体），非常难看。</p></li></ol>]]></content>
+    
+    
+    <summary type="html">&lt;p&gt;telegram 经过数次版本迭代后，从去年开始的版本已经不能注入 dll 了。常用的两个注入 dll 插件，其中一个 Anti Revoke Plugin 已于上月停更，所以现在只有换字体的 &lt;a href=&quot;https://github.com/ysc3839/FontMod&quot;&gt;FontMod&lt;/a&gt; 仍在更新。虽然本身也不是专为 telegram 打造的，所以在现在版本的 tg 上用起来还要费一番功夫。&lt;/p&gt;
+&lt;p&gt;参考文章：&lt;a href=&quot;https://github.com/ysc3839/FontMod/issues/70#issuecomment-882069692&quot;&gt;ysc3839（项目作者）的issue&lt;/a&gt;&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="Windows" scheme="https://zbttl-github-io.vercel.app/categories/Windows/"/>
+    
+    
+    <category term="fonts" scheme="https://zbttl-github-io.vercel.app/tags/fonts/"/>
+    
+    <category term="telegram" scheme="https://zbttl-github-io.vercel.app/tags/telegram/"/>
+    
+  </entry>
   
   <entry>
     <title>linux 工作中常用的性能检查 - 结果导出 - 文本处理</title>
@@ -535,30 +559,6 @@
     <category term="hexo" scheme="https://zbttl-github-io.vercel.app/tags/hexo/"/>
     
     <category term="NexT" scheme="https://zbttl-github-io.vercel.app/tags/NexT/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>方向对了，奈何能力不足——cod17 僵尸模式试玩体验</title>
-    <link href="https://zbttl-github-io.vercel.app/fang-xiang-dui-liao-nai-he-neng-li-bu-zu-cod17-jiang-shi-mo-shi-shi-wan-ti-yan/"/>
-    <id>https://zbttl-github-io.vercel.app/fang-xiang-dui-liao-nai-he-neng-li-bu-zu-cod17-jiang-shi-mo-shi-shi-wan-ti-yan/</id>
-    <published>2021-01-21T16:00:00.000Z</published>
-    <updated>2021-01-24T16:46:53.335Z</updated>
-    
-    <content type="html"><![CDATA[<p>凌晨两点试玩结束，写一篇体验。</p><p>传统艺能，发售三个月还是只有一张图。第一遍玩下来，给我的感觉就是：图好小。。。</p><p>作为一个萌新，3arc 的僵尸我只玩过 cod12 和 cod15。cod17 这张图严格来说在整个系列中应该也算中等规模，但按前几座的惯例，第一张图应该是整个作品的牌面：拥有和全系列作品相比较大的地图规模；丰富的要素；和全作最多的彩蛋。但这次的地图我一遍走通两遍走熟，整个地图按区域划分不过两个平原一栋楼加底下两层。彩蛋方面，主线彩蛋也就是惯例的 pap，武器升级和最终 boss，盾牌都给砍掉了；而支线彩蛋更是只有僵尸抬棺这一个，实在是乏善可陈。而且僵尸抬棺这个彩蛋。。。第一遍乍看起来很有趣，而且简单上手还能拿奖励，但做多几次就发现为了拿点奖励要看他跳一分多钟啥事都不能干，实在有点。。。</p><p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/%E4%BD%BF%E5%91%BD%E5%8F%AC%E5%94%A4%C2%AE%EF%BC%9A%E9%BB%91%E8%89%B2%E8%A1%8C%E5%8A%A8%E5%86%B7%E6%88%98%20-%20Xbox%20Series%20XS.png"></p><center>专 业 团 队</center><p>其他方面，t 组在贡献了最「偷工减料」的一张首发图的同时，打算用相比前作更为完善的模式和玩法来弥补；除了本体模式，增加了 20 撤离和狂暴模式；同时在原来的刷波和通关主线两种玩法中又加了一种「撤离」玩法：10 波后就能每 5 波一次选择呼叫飞机并前往撤离点撤离，但撤离过程中会遭遇大量僵尸的围堵，此时你要干的就是找个角落然后用尽你所有的方法在规定时间内把僵尸全部清理掉，保证撤离点的安全，否则时间一到飞机就会被从动视裤裆里掏出来的火箭筒干掉，游戏结束~</p><p>t 组也大幅增加了养成要素在僵尸模式所占的比例。泡泡糖和勋章系统被移除，作为替代，游戏结束后会获得暗黑水晶，暗黑水晶能够赋予整个武器类型功能和能力上的强化；强化游戏中通过金钱购买的能力机器给予能力的强度；以及强化大招的等级以获取更强的功能，关键的是，这些强化是永久的，而且每个强化最多只有三级，每级的水晶需求数是 1/2/3，也就是说，只需要 6 个水晶就可以升满一个项目。这点我当然要给好评了，因为有仓鼠症的我总不舍得用那些高级泡泡糖和勋章。。。</p><p>而游戏中能够临时获取的，除了金钱，还有废料和高级废料，通过废料和高级废料，玩家能够购买各种杀伤性道具和战争机器等一系列高等级杀伤性装备，代替了原来在武器配置栏中的需要升级才能获取的各类装备；同时废料也可以升级枪械品质和护甲品质，喝过 3j 厚血拥有 3j 甲的人物甚至能拥有相当于 500 血的耐久。本作承袭自现代战争的等级系统也决定着玩家不需要反复跟 t 组祖传的转生系统斗争了（万恶的武器转生，转生 2 的击杀显示器我自己根本看不到好吧）。武器升级机变成了菜单，玩家再也不用数自己要强化几次才能强化满一把枪了，原来的元素升级也独立了出来，不需要先进行武器强化，且元素任选，只需要 2000。唯一变难了一点就是武器升级机涨价了，一阶 5000 二阶 15000 三阶 30000，不过武器升级机提升的伤害应该和前作相比也有增加，且本作的僵尸有血条也能直观的感受到升级过的武器和各枪械对僵尸的击杀能力。cod15 倒下后武器不再重置，本作取消了这点，和 cod12 一样武器会重置回初始武器，但本作的初始武器并不是手枪而是任选；增加了复活资金，10 关后死亡复活有上万的复活资金，不过要去强化武器还是要跑一段路，应该说这点上难度和上作持平。加上相对较小的地图规模，可以说，本作的僵尸模式的难度相比于前作大幅降低了。</p><p>再来说说僵尸模式在本作中的「定位」问题。本次僵尸模式的枪械，和多人模式共享了枪械配件和等级，这一点要给好评；但可能也正因此动视大幅度增加了多人模式下枪械升级的难度，这就有待商榷了。t 组制作的僵尸模式，从 cod5 和 7 两作打下地图和剧情方面的基础，到 9 的彩蛋元素初露锋芒，在 12 中可以称「登峰造极」了，明显走了一个类似「rouge like」的路线；而从 cod15 开始，推出了简单模式，枪械拥有特战改装，能够自选初始武器，僵尸模式的路线开始转向，玩法丰富化，难度简单化；到了本作，更是整合了多人模式的枪械，显然是为了吸引多人模式的玩家进场，同时降低难度，走大众化路线。遥想当年，第一次玩 cod12 的僵尸模式匹配，我当时的技术就只能玩到拿盾牌和装保险丝，但几个点我都烂熟于心，一通操作把东西都拿了，到了第七关被僵尸刮两下就 ob 了；本以为匹配的路人应该水平也就那样，但看着看着他们就把大保健和黑龙炮掏出来了，要不是当年的 uu 还很拉跨，最后掉线了，说不定我能躺平看人家打 boss？但本次我匹配到的几局，确实有绕僵尸的大佬，但彩蛋也就开到 pap 为止，奇迹武器啥的就更不知道了，显然是从多人来的。</p><p>另外，服务器应该还是老的 p2p 机制，但几次匹配我不是 0 延迟就是 500ms 左右，打个僵尸等半天才出击杀，还好在僵尸模式对延迟的要求远没有多人高，勉强能玩下去，一个新游戏就真没人玩？我觉得是 t 组没有优化好。但，这里就不能不提一嘴 t 组奇葩的「延迟锁」机制了：只能匹配到一定延迟内的玩家。因为这点，亚服玩家就只能和亚服玩家玩，就算用再好的加速器，也不能突破物理限制吧？到人数较多的美欧，延迟一定会超过 200ms，这已经超过延迟锁的匹配范围了。我目前主用平台是 xbox，体验是最差的，远古 cod10 还尚且能匹配 tdm，cod14 仍能秒配的今天，cod12 尽管贵为一代经典却早早鬼服，cod15 在特定时间才能匹配到人，要不就是通过进入线上好友或已经交手过的还在线的玩家的房间，blackout 则完全鬼服。ps4 亚洲区装机量较高且会免过 cod12 ；而 pc 有强制解延迟锁工具，但我没用过不知道好不好用（且听说还被官方鉴定为外挂工具），这两个平台状况应该比 xbox 这边好一点。匹配都匹配不到人，遑论体验了，延迟锁真可谓「本末倒置」。现在能够拉进 500ms 的匹配，加上源自上一作的跨平台联机机制，希望 t 组是真开窍了吧。</p><p>总结起来，我认为 t 组路线是对了，但无论是因为接的大锤的烂摊子，还是因为本身实力下降，此时僵尸模式首发内容不足是无可争辩的，我觉得若不是因为多人模式枪械整合的优势，僵尸模式可能要濒临鬼服了。目前放出的情报时僵尸模式可能会有新图，但也可能是几张重置图。上次烂尾的 15 最后好歹还有 8 张图，四张重置但塞进去许多元素，更别提 cod12 把重置图和新内容塞一起够出一个 dlc 的事情了，这次搞不好会更少哦。。。。逆水行舟，不进则退啊。</p><p>最后吐槽一句，本身我是不想专门写一篇这样的文章做总结的。但发生了件事让我不忍了：我知道凌晨两点结束测试，想趁最后时候刷一把。一般来说，测试都是就算超时也让人打完最后一把再赶人跑的，上次多人试玩也是这样。但这次我好不容易打到第 19 波，结果 2 点一到准时把我赶下线了。。。动视你至于贪那点时间么？？？</p>]]></content>
-    
-    
-    <summary type="html">&lt;p&gt;凌晨两点试玩结束，写一篇体验。&lt;/p&gt;
-&lt;p&gt;传统艺能，发售三个月还是只有一张图。第一遍玩下来，给我的感觉就是：图好小。。。&lt;/p&gt;</summary>
-    
-    
-    
-    <category term="game" scheme="https://zbttl-github-io.vercel.app/categories/game/"/>
-    
-    
-    <category term="cod" scheme="https://zbttl-github-io.vercel.app/tags/cod/"/>
-    
-    <category term="流水账" scheme="https://zbttl-github-io.vercel.app/tags/%E6%B5%81%E6%B0%B4%E8%B4%A6/"/>
     
   </entry>
   
