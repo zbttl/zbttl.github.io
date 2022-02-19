@@ -5245,8 +5245,8 @@
         <category>Network</category>
       </categories>
       <tags>
-        <tag>socks</tag>
         <tag>游戏加速</tag>
+        <tag>socks</tag>
         <tag>nat</tag>
         <tag>fullcone</tag>
       </tags>
@@ -7579,8 +7579,8 @@
 ]]></content>
       <categories>
         <category>Android</category>
-        <category>Windows</category>
         <category>Linux</category>
+        <category>Windows</category>
         <category>IOS</category>
       </categories>
       <tags>
