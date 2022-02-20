@@ -1,6 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>2202 年如何正确的在浏览器内打开 flash 网页？？</title>
+    <url>/2202-nian-ru-he-zheng-que-de-zai-liu-lan-qi-nei-da-kai-flash-wang-ye/</url>
+    <content><![CDATA[<p>flash 垃圾玩意，怎么还没淘汰！就算是打死我我也不会写相关教程~</p>
+<p>（眨眨眼）</p>
+<p>参考文章：<a href="https://sspai.com/post/64500">Flash 时代落幕，偶尔要访问的老网站怎么办？ - 少数派</a></p>
+<p>参考文章其实说的已经很明白了，但我还是忍不住补充点细节：</p>
+<h2 id="Ruffle-目前不堪大用"><a href="#Ruffle-目前不堪大用" class="headerlink" title="Ruffle 目前不堪大用"></a>Ruffle 目前不堪大用</h2><p>试了一下 ruffle 在几个内网生产环境的 flash 应用下都会报错。</p>
+<h2 id="如何验证-chrome-系-flash（ppapi）是否生效-可用？"><a href="#如何验证-chrome-系-flash（ppapi）是否生效-可用？" class="headerlink" title="如何验证 chrome 系 flash（ppapi）是否生效/可用？"></a>如何验证 chrome 系 flash（ppapi）是否生效/可用？</h2><p>网上有许多参考文章建议在地址栏中输入 <code>chrome://flash</code>，但这玩意其实很早之前就被删掉啦。在地址栏中输入 <code>chrome://about</code> 命令，能看到当前浏览器所有有效的地址栏命令（包括某些魔改过的国产浏览器，即使通过其他的 <code>chrome://xxx</code> 地址报错，但 <code>chrome://about</code>这个地址一般都是能用的）。</p>
+<p>之后点击其中的 <code>chrome://version</code>，v87 以前的版本就会有 flash 这一栏，v88 以后就没了。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20220220134749.png"></p>
+<p>如果正确的加载了 flash，flash 这里就会显示出加载的 dll 的路径。所以参考文章中的[自行编译、定制 Flash 功能 国内浏览器不太放心](<a href="https://sspai.com/post/64500#:~:text=%E8%87%AA%E8%A1%8C%E7%BC%96%E8%AF%91%E3%80%81%E5%AE%9A%E5%88%B6">https://sspai.com/post/64500#:~:text=自行编译、定制</a> Flash,国内浏览器不太放心)一节原理也就是无需安装过时的 ppapi 版 flash，直接让 chrome 读取相应路径的 dll。</p>
+<ol>
+<li><p>下载最后一个 v87 版本：<a href="https://github.com/Hibbiki/chromium-win32/releases/tag/v87.0.4280.141-r812852">Release v87.0.4280.141-r812852 · Hibbiki/chromium-win32</a></p>
+</li>
+<li><p>按少数派的参考文章来</p>
+<blockquote>
+<p>下载下来的 Archive 包 应该是一个 7z 压缩包，解压缩之后的文件夹应该是内含 <code>Chrome-bin</code> 文件夹，这里我们新建一个 <code>ChromePortable</code> 的文件夹，在这个文件夹中再新建一个名为 <code>App</code> 文件夹，将解压缩后的 <code>Chrome-bin</code> 文件夹全部拷贝到 <code>App</code> 文件夹中。</p>
+<p>之后在 <a href="https://portableapps.com/apps/internet/google_chrome_portable">portableapps</a> 中下载绿色版 Chrome 启动器 <strong>Google Chrome Portable</strong>，将下载下来的安装包使用 7zip 解压缩后，将里面的 <code>GoogleChromePortable.exe</code> 复制出来并拷贝到前面新建的 <code>ChromePortable</code> 文件夹中。</p>
+</blockquote>
+</li>
+<li><p>关于 flash 的修改版，我在 52 上找了一个最新的 ppapi 安装版，会在 <code>C:\Windows\SysWOW64\Macromed\Flash</code> 下放入一个 32 位的 <code>pepflashplayer64_34_x_x_xxx.dll</code>，在 <code>C:\Windows\System32\Macromed\Flash</code> 下放入一个 64 位的 dll。提取出来，由于我们刚刚下载的是 64 位的 chrome，所以用 64 位这个。</p>
+</li>
+<li><p>在 <code>ChromePortable</code> 处新建一个文件夹，名为 <code>plugin</code> 把 dll 放入刚刚新建的文件夹中，重命名为 <code>pepflashplayer64.dll</code>。在 <code>ChromePortable</code> 下新建一个批处理文件，内容为</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">@echo off</span><br><span class="line">cd /d %~dp0</span><br><span class="line">start GoogleChromePortable.exe --ppapi-flash-path="%~dp0\plugin\pepflashplayer64.dll" --ppapi-flash-version="34.0.0.192" --allow-outdated-plugins</span><br></pre></td></tr></tbody></table></figure>
+
+<p>可能要修改一下 <code>version</code> 参数，修改为和提取出来的 flash dll 对应。（不过是不是真的影响使用我没有认真测试过，目前感觉这里写的数字只跟后续测试时显示的版本号有关，写什么就显示什么）</p>
+<p>但 <code>pepflashplayer64.dll</code> 别放错，因为如果放成 32 位的后续是什么提示的，只是测试时候会不生效而已。</p>
+</li>
+<li><p>打开批处理，可通过下列两个网址测试：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">https://www.sioe.cn/xinqing/flash/</span><br><span class="line">http://www.7k8k.com/flash/39919_1.htm</span><br></pre></td></tr></tbody></table></figure>
+
+<p>第一个网址能显示出版本好</p>
+<p>第二个网址能显示出错误「请到4399小游戏官网开始游戏」就算成功。</p>
+<p>第一次打开有 flash 的页面时，flash 处会显示 flash 已被屏蔽。此时需要点击地址栏右侧如下图的按钮，点管理</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20220220152113.png"></p>
+<p>在弹出的页面中打开「禁止网站运行 flash」的开关。这行描述就会变成「先询问」。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20220220152246.png"></p>
+<p>之后再刷新页面，已被屏蔽这行字就会变成「点击即可启用 adobe flash player」。</p>
+<p>但对于一些页面（比如上面的测试页面 1），并没有任何提示给我们点，是因为 flash player 生效在了整个网页的子页面中，这时浏览器就不会弹出提示。</p>
+<p>此时我们点击地址栏左侧刷新旁边的按钮，可以看到里面有 flash 相关选项，设为「允许」即可。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20220220152708.png"></p>
+</li>
+</ol>
+<h2 id="安装版不生效-为什么大于-v88-的-chrome-也会生效呢？"><a href="#安装版不生效-为什么大于-v88-的-chrome-也会生效呢？" class="headerlink" title="安装版不生效/为什么大于 v88 的 chrome 也会生效呢？"></a>安装版不生效/为什么大于 v88 的 chrome 也会生效呢？</h2><p>一般情况下，不生效的原因，可能是：</p>
+<ol>
+<li>浏览器是绿色版，未能正确识别 flash dll 的路径，一般再装一次浏览器就行了；</li>
+<li>安装了非修改版/非国产特供版 flash。</li>
+</ol>
+<p>有的时候会发现大于 v88 版本的 chrome 也可以正常使用 flash，原因很简单，因为你把支持 flash 的 chrome 设为了默认浏览器。。。。。</p>
+<h2 id="其他方法"><a href="#其他方法" class="headerlink" title="其他方法"></a>其他方法</h2><p>能不能不用快捷方式 / 批处理做出来的浏览器直接打开就能支持 flash？而且手工做出来的浏览器每次打开都提示「自 2020 年 12 月起 flash player 将不再受支持，好烦诶」</p>
+<p>。。。。。。</p>
+<p>一些国产的浏览器（比如搜狗），默认就修改了自己的 flash 路径识别位置，并且安装后就会把已经修改好的 dll 放到指定的位置，此时只要使用他们的极速模式就能正常使用 flash 了。但国产浏览器嘛。。。。</p>
+<p>更正统的方法！编译时加入适当的参数，直接修改 flash 的默认识别路径。另外编译时还可以动点小手脚，让浏览器支持 hevc 视频播放。但这个嘛，挖个坑，以后填。</p>
+]]></content>
+      <categories>
+        <category>Windows</category>
+      </categories>
+      <tags>
+        <tag>流水账</tag>
+        <tag>chrome</tag>
+        <tag>flash</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>一代代的，改过不啦——钝评战地2042</title>
     <url>/yi-dai-dai-de-gai-guo-bu-la-dun-ping-zhan-di-2042/</url>
     <content><![CDATA[<p>想当年出第一个预告片的时候，那真是一片好评，预告片里各种玩梗和标志性的 bgm（不仅是咚咚咚，而是另外一个背景声，类似战地 1 时代，那个经典的<del>李云龙</del>预告片1），相较上一代战地 5 那个被钉在耻辱柱上的播片，真是高下立判。加上和上一代战地 5 相隔 3 年，为史上最长两作间间隔时间（之前最长为 2 年），一想到因年货制而搞得手忙脚乱，近期差评如潮的隔壁，又赢了（</p>
