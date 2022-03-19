@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/bao32x32.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/bao16x16.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.1/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"zbttl-github-io.vercel.app","root":"/","images":"/images","scheme":"Muse","version":"8.1.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}};
+  </script>
+<meta name="description" content="怎么说呢。。。要是以前的我，可能还会义愤填膺一下 现在，要不是部落的人来提醒我，我可能还不知道，知道了以后我也就吐槽了两句，笑笑，虽然能想到会出这种恶心的事，但没想到，还能有骗进来再杀的啊。。。。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="关于 coc 强行分区一事">
+<meta property="og:url" content="https://zbttl-github-io.vercel.app/guan-yu-coc-qiang-xing-fen-qu-yi-shi/index.html">
+<meta property="og:site_name" content="Bao&#39;s 备忘录">
+<meta property="og:description" content="怎么说呢。。。要是以前的我，可能还会义愤填膺一下 现在，要不是部落的人来提醒我，我可能还不知道，知道了以后我也就吐槽了两句，笑笑，虽然能想到会出这种恶心的事，但没想到，还能有骗进来再杀的啊。。。。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/Screenshot_20220217-185313-tuya2.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/Screenshot_20220217-185321-tuya2.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/Screenshot_20220217-185223-tuya2.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/Screenshot_20220217-174519-tuya2.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/jiangli.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/0@O00%28LVSIDW8CUI4Q8CADC.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/N%28IU2BEA2JKP$9UL%29R%282%5DPP.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/Screenshot_20220316-224708-tuya2.png">
+<meta property="article:published_time" content="2022-02-17T16:00:00.000Z">
+<meta property="article:modified_time" content="2022-03-19T05:57:38.177Z">
+<meta property="article:author" content="zbttl">
+<meta property="article:tag" content="流水账">
+<meta property="article:tag" content="clash of clans(部落冲突)">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/Screenshot_20220217-185313-tuya2.png">
+
+
+<link rel="canonical" href="https://zbttl-github-io.vercel.app/guan-yu-coc-qiang-xing-fen-qu-yi-shi/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+<title>关于 coc 强行分区一事 | Bao's 备忘录</title>
+  
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="Bao's 备忘录" type="application/atom+xml">
+
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Bao's 备忘录</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80" placeholder="搜索..." spellcheck="false" type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <section class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%8E%B0%E5%9C%A8%E6%98%AF%E4%B8%AA%E5%95%A5%E6%83%85%E5%86%B5%EF%BC%9F"><span class="nav-number">1.</span> <span class="nav-text">现在是个啥情况？</span></a></li></ol><li class="nav-item nav-level-2"><a class="nav-link" href="#coc-%E7%99%BB%E5%BD%95%E6%96%B9%E5%BC%8F%E5%8F%98%E8%BF%81%E6%97%B6%E9%97%B4%E7%BA%BF"><span class="nav-number"></span> <span class="nav-text">coc 登录方式变迁时间线</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2015-%E5%B9%B4%E5%B7%A6%E5%8F%B3"><span class="nav-number">1.</span> <span class="nav-text">2015 年左右</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2016-%E5%B9%B4"><span class="nav-number">2.</span> <span class="nav-text">2016 年</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2017-%E5%B9%B4"><span class="nav-number">3.</span> <span class="nav-text">2017 年</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2018-%E5%B9%B4"><span class="nav-number">4.</span> <span class="nav-text">2018 年</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2019-%E5%B9%B4%E8%87%B3%E4%BB%8A"><span class="nav-number">5.</span> <span class="nav-text">2019 年至今</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%BF%E7%82%B9%E5%90%90%E6%A7%BD"><span class="nav-number"></span> <span class="nav-text">亿点吐槽</span></a></li></div>
+        </section>
+        <!--/noindex-->
+
+        <section class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="zbttl" src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">zbttl</p>
+  <div class="site-description" itemprop="description">玩点好玩的</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">52</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">109</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/zbttl" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;zbttl" rel="external nofollow noopener noreferrer" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:zbttls@gmail.com" title="E-Mail → mailto:zbttls@gmail.com" rel="external nofollow noopener noreferrer" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fa fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+
+
+
+        </section>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://zbttl-github-io.vercel.app/guan-yu-coc-qiang-xing-fen-qu-yi-shi/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="zbttl">
+      <meta itemprop="description" content="玩点好玩的">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Bao's 备忘录">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          关于 coc 强行分区一事
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-02-18 00:00:00" itemprop="dateCreated datePublished" datetime="2022-02-18T00:00:00+08:00">2022-02-18</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2022-03-19 13:57:38" itemprop="dateModified" datetime="2022-03-19T13:57:38+08:00">2022-03-19</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/game/" itemprop="url" rel="index"><span itemprop="name">game</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>5.5k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>10 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>怎么说呢。。。要是以前的我，可能还会义愤填膺一下</p>
+<p>现在，要不是部落的人来提醒我，我可能还不知道，知道了以后我也就吐槽了两句，笑笑，虽然能想到会出这种恶心的事，但没想到，还能有骗进来再杀的啊。。。。</p>
+<p>先来给不清楚发生了什么的吃瓜群众们科普一下发生了什么吧。</p>
+<h3 id="现在是个啥情况？"><a href="#现在是个啥情况？" class="headerlink" title="现在是个啥情况？"></a>现在是个啥情况？</h3><p>以前的部落冲突，分为中国国内的渠道服和国外的 google / 苹果服 / supercell id 服。</p>
+<p>但国内国外服这个只是约定俗称的说法，严格意义上应该叫「国内登录器」和「国际登录器」，因为国内国外只是登录鉴权方式上有区别，实际上，登录后，国内国外数据是一个整体，进入游戏后无论是从哪个登录器登录进来的，体验都是相同的，可以进外国人的部落，打部落战的时候也可以搜到国外的部落战，部落公告板里也经常收到一堆英文的进部落申请。</p>
+<p>然而从本次更新开始，国内和国外的账号之间的联系被强行一刀两断；从国内登录器中登录的账号打资源时完全搜不到歪果仁，搜索时间也变长许多，打部落战时也同样；聊天栏处一片空白，原来的消息全部消失了；部落中要是从国外登录器登录进来的人，查看他们信息的时候会显示查无此人。从国外登录器登录进来看就更过分了：从聊天版中看，会看到部分人「已退出部落」；查看部落内国内登录器的朋友，同样会显示查无此人。使用 apple 设备的同学，如果需要玩国服就需要用大陆的 app store 账号重新下载一个 coc（而不是升级原来的），如果要玩国际版，则需要在外区账号升级后把系统语言切换成除了简体中文外的语言，区域切换到大陆以外的区域。</p>
+<p>而我呢，我的号比较特殊，既可以通过谷歌登录，也可以通过国内的腾讯渠道登录。<br><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/Screenshot_20220217-185313-tuya2.png"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/Screenshot_20220217-185321-tuya2.png"></p>
+<p>为啥会这样呢？这里先科普一下自 2015 年到至今 coc 登录方式的变迁（之前不知道，因为我没开始玩，而且我感觉大概率也没变过）：</p>
+<h2 id="coc-登录方式变迁时间线"><a href="#coc-登录方式变迁时间线" class="headerlink" title="coc 登录方式变迁时间线"></a>coc 登录方式变迁时间线</h2><h3 id="2015-年左右"><a href="#2015-年左右" class="headerlink" title="2015 年左右"></a>2015 年左右</h3><p>一开始，起码是在 2016 年以前，部落冲突是只允许通过谷歌来「验证账号」的，注意我的措辞，是「验证账号」。具体来说，无需登录即可进入游戏，但如果后续想要做更换设备/切换账号/重装 apk 等等会清除数据的行为，不绑定谷歌账号就找不回数据了。另外，supercell 也提供了一个一次性的转移码，可以把数据从安卓端同步到苹果端。如果玩过日系手游的玩家，对这类操作应该会感到很熟悉，不同的是，日系手游这类手游通常叫做「引继码」，使用引继码后原设备的游戏数据就会被清空，只能在新设备登录账号；而 coc 只能用一次转移码，使用后原设备的数据并不会被清空。正因如此，当时有的人没有渠道去把账号和 google 关联（因为当时 google play 已经是不用特殊手段就不能上的状态了），就会找有 apple 设备的熟人，把 coc 账号转移过去做关联，以防万一（当然这么做的话，未来如果还是没对 android 上的这个账号做关联，那这台 android 机被淘汰后，就只能用苹果手机来玩自己的账号了）。我一开始是在 android 上玩的，但后面有了一台 ipad，就把账号也关联到苹果上了，我也有足够的技术把账号关联上 google，所以我当时并不惧怕设备丢失的状况。</p>
+<p>另外，还有一个歪门邪道：如果是 root 过的手机，可以通过备份 coc 软件数据 + android id 实现游戏数据备份。原来也很简单，无论有没有绑定 google 账号，打开 android 版 coc 时都不会对 google 账号过验证，而是通过本机内 coc 的数据，数据对应的账号 id，和 android id 来实现账号验证，只要后两者一样，打开时就能加载正确的账号信息，如果本机内 coc 数据也正确，那么就游戏的加载速度就很快，否则就会弹出「数据不同步」，然后重新从服务器中把最新的进度取下来覆盖到本地。同时，还可以通过这种手段实现快捷的账号切换：备份后清空应用数据，重新打开 coc，此时就是新号的状态。如果想要切到旧号，把当前的应用数据再做备份，然后恢复旧帐号的应用数据即可。16 年时，最小部落战人数限制还是 10，那时候部落人还比较少，如果凑不够人头，一般就会用这种办法，建几个小号凑数。当然，后来部落人多了，加上部落战开的少了，以及 android 7.0 后 android id 引用了随机化机制，这种方法是否还有效就不知道了。</p>
+<h3 id="2016-年"><a href="#2016-年" class="headerlink" title="2016 年"></a>2016 年</h3><p>事情的转机，在于 2015 年从 sc 另一款作品海岛奇兵开始试水的国内引进。sc 当时是和昆仑一起合作，然后昆仑再去分包给其他的渠道。当然这仅限于安卓端，苹果端没有办法也没有必要这么做。然后到了 2016 年中 sc 和昆仑继续扩大合作，把这个机制带到了 coc 上。</p>
+<p>不过当年 9 月份，腾讯就官宣以 80 多亿刀的价格将 sc 的实际控制权收入囊中。不过好巧不巧的是，当时互联网局面还基本是 BAT 三家鼎立的状态，除了 T 外另外两家当年都跟随昆仑签了二级渠道服的合同（百度是亲自下场，而阿里则是派了旗下的豌豆荚），只有腾讯没有签。当时腾讯的游戏产业已经做到国内最大，对于 sc 游戏引进这种香饽饽居然没有掺一脚，难道是作为国内头牌游戏厂商不甘寄人篱下的高傲？还是因为在 15 年左右就谈好收购事宜了呢？乍一想后者可能性比较大，但如果 15 年基本已经谈好合作了那么为什么还能容许昆仑插一脚进来？</p>
+<p>总而言之，既然已经签好了合同，木已成舟，虽然跟其他的厂商有竞争关系，但腾讯并没有强行终止其他渠道服的合作。除了那些因为近年经营不善倒闭的渠道，剩下的渠道服都好好的活到了现在。后续，腾讯也推出了自己的渠道，阿不，这时候就要叫国内官方服了。</p>
+<h3 id="2017-年"><a href="#2017-年" class="headerlink" title="2017 年"></a>2017 年</h3><p>从 2016 年开始，昆仑获得了 coc 的国内渠道服发行资格后，国内的玩家就可以通过找客服把国外的账号信息迁移过来。但，这种迁移是单向的，迁移到国内启动器后，就无法再迁移到国外启动器上了。另外，在 2015 年，起步稍早的海岛奇兵渠道服时代，虽然玩家玩的是国内渠道服，但仍然可以通过引继码的方式把账号数据引继到 ios 上。但此时 coc 渠道服时代，转移到国内服的账号，设置里的引继码选项都会消失，所以最好在转移前就通过引继码继承到 ios 这边。现在回想起来，这是 sc 对国内账号登录账号灵活度的第一次收紧。</p>
+<p>而另一边，本家腾讯也慢悠悠的推出了自己的启动器，可以通过 qq / 微信两种方式登录游戏。一开始只是在当年新出的手游皇室战争中引入，当时是号称和国际版皇室战争一周年活动同时进行的国服开服，后续在 2017 年年中才在 coc 中也引入了类似的账号登录机制。和几大渠道服不同，腾讯也在 ios 处引入了国服的登录机制，毕竟目的不同，此时腾讯已经完成收购了，自然有理由在 ios 处也搞一个自己的登录渠道。只要设置中部落冲突的地区是大陆，那么启动时就会提示你用 qq / 微信账号登录，但设置为其他地区或者点击游客登录则仍然可以跳过登录界面直接登录游戏。但无论用哪种方式登录游戏，原有的游戏记录都不会丢失，只要你用 tx 的登录渠道登录过一次，你原来 ios 的游戏记录也会绑定到 tx 账号上。同时腾讯的账号也不分 ios 和 android 服，也就是说，如果你要进行账号转移，只需要在 ios 处登录一遍腾讯服，然后在 android 处下载腾讯版的 coc 就可以了，在当时国内手游几乎全为 android/ios 分服的环境下，这种操作简直是一股清流。同时，通过此种操作，之前所有渠道的数据都没和账号解除绑定，也就是此时我可以通过谷歌账号 \ ios apple账号 \ ios tx 账号 \ android tx 账号四种方法来登录同一份数据，可以说是很灵活了。只是万万没想到的是，此处绑定了腾讯的账号后现在居然就会被识别成国内账号，这里伏笔了。</p>
+<p>无论是通过跟客服沟通，还是通过 tx 启动器的骚操作转移到国内的，都要进行实名制认证。不过当时许多客户端都可以通过点击实名认证窗口右上角的叉叉关闭窗口来变相的跳过实名认证。另外设置为繁体中文启动界面就看不到碍眼的安全游戏提醒了。</p>
+<p>当年的迅游手机加速器，能显示处加速游戏的延迟数据，当时我用来同时加速 google 服和 tx 服，发现从谷歌启动器处登录的游戏延迟始终在 200ms 左右，而从国内启动器登录的延迟在 30ms 左右。虽然此时经过几轮网络优化，谷歌服那边掉线的情况已经得到很大的缓解（15 年的时候部落战掉线那可是家常便饭），但不开加速器偶尔还是会掉一下，而国内服则完全不会掉，当时猜测可能是国内有双活或者是 cdn 边缘加速，后者可能性大一点，因为是全球数据同步，后者成本小一些。</p>
+<p>总之，17 年，可能是部落冲突，最好的时代了，无论是从登录人数，游戏质量，还是登录灵活度来说。</p>
+<h3 id="2018-年"><a href="#2018-年" class="headerlink" title="2018 年"></a>2018 年</h3><p>18 年开始，tx 的魔爪开始伸出来了，各种月卡，皮肤开始在 coc 商城中出现。</p>
+<p>回到主题，这一年 sc 推出了 supercell id 这个概念，再也不需要引继码来在 ios/android 中进行同步了。但，如果你之前已经绑定过国内的账号，那你的游戏设置界面中是不会有 supercell id 这类选项的。</p>
+<p>悄悄的，我也发现，客户端内被屏蔽的词多了起来，而且屏蔽的分词功能做的相当烂，没文化也想不到什么比较优雅的例子，类似「大学生活好吗」这种，估计在 coc 聊天版中显示出来就是一大串星号。不过！如果你用<strong>梯子</strong>登录<strong>国际服账号</strong>（这两个条件缺一不可），会发现在国服账号中被屏蔽掉的词语又能正常显示出来了，懂得都懂。</p>
+<p>另外一件事，当时我部落的副首领兼大学同学换手机，然后登录不进自己的 coc 账号了。因为当初是我亲自帮他申请的腾讯账号版本，我也很奇怪，平常大家都开着 qq 怎么你就可能登录不进账号呢？后来发现一个荒诞的事情，因为这位同学平时也玩皇室战争，而且当时他的游戏中心也在皇室战争上，然后他皇室战争的号也绑在 qq 这边，据他回忆绑定的时候居然给他选择说是一个 qq 号只能绑定一个游戏，部落冲突和皇室战争只能二选一！他选择绑了皇室战争，所以部落冲突相当于没有绑定了，换手机的时候账号就掉了。当时对此我还是有点持怀疑态度的，因为如果当时已经换绑了，应该马上就不能登录 coc 了，并不用等到换手机的那一天才发现的，而且我的账号怎么就没问题呢？直到我拿到他的手机用他的 qq 账号登录部落冲突，然后看到了类似的表述：</p>
+<blockquote>
+<p>该账号已绑定皇室冲突…..</p>
+</blockquote>
+<p>原谅我没有留下当时的截图。。。现在想想还觉得啼笑皆非。后来找客服，把账号找回并绑定到了 vivo 服上才作罢。</p>
+<p>腾讯的獠牙，已经开始伸出来了。</p>
+<h3 id="2019-年至今"><a href="#2019-年至今" class="headerlink" title="2019 年至今"></a>2019 年至今</h3><p>sc 目前在运营的最新款游戏荒野乱斗在 19 年底上线了国际服，然后又过了一年多上线了国服。从本作开始，国服和国际服开始正式分区，一开始在国际服进行的游戏存档无论通过何种方法都无法转移到国服，国服和国际服的账号也完全无法互相加好友。</p>
+<p>然后就是这两天，血雨腥风的这件事儿。</p>
+<p>我的号走 tx 登录器登录，就一切正常。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/Screenshot_20220217-185223-tuya2.png"></p>
+<p>而走 google 登录器登录，就能看到一堆人退出了部落。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/Screenshot_20220217-174519-tuya2.png"></p>
+<p>而且发布捐兵请求、收资源等事情在某一边做了，在另一边是不会同步/有反应的，那就石锤分服了。另外，月初的联赛的锤子我还没发，这几个月比较懒，一般都月末才发（因为也懒得开部落战），但没想到锤子在两服切割的时候没有切干净，国际服还能发锤子，国内服直接就是开战页面了，坐实了之前国内的网络加速方法确实是边缘节点加速，然后为了搞国服就把国际服的数据同步到国内的服务器上然后一刀切割掉，但某些数据没转移过来，遗失的锤子就是其中一个。</p>
+<p>腾讯在国服商店里面，放了钱和水的宝石，以及万能书，作为「补偿」。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/jiangli.jpg">但我懒，而且停留在 12 本很久了，一直在刷墙，书都没有用，所以就没有领，然后才两三天这些东西就没了，不愧是 tx。国内外分服也导致一大堆部落管理工具失效/作者退坑，比如大名鼎鼎的部落管理工具：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/0@O00%28LVSIDW8CUI4Q8CADC.png"></p>
+<p>去年的时候本来想给帮我填部落联赛数据的同学找一个工具，不用每次都手填，结果去年 supercell 论坛关了，今年又一个分服，到了腾讯手上还想开发第三方工具？不存在的，过段时间，国服的数据接口可能都要被封掉。</p>
+<hr>
+<p><strong>（22.3.18 更新）</strong> 果然，当时贴吧说，在国际服查看自己的号，在个人信息中已经显示为「查询不到当前玩家标签」的人，肯定就是国服号，这些号在国际服中虽然有信息，但过一段时间就会被封掉。黑色幽默的是，我们部落的人，包括我，能上国际服的，看自己的信息时也显示这个：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/N%28IU2BEA2JKP$9UL%29R%282%5DPP.jpg"></p>
+<p>然后今天上去一看</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/Screenshot_20220316-224708-tuya2.png"></p>
+<p>呵呵。</p>
+<p>麻花疼：想用一份时间肝出两份号？做梦吧！</p>
+<h2 id="亿点吐槽"><a href="#亿点吐槽" class="headerlink" title="亿点吐槽"></a>亿点吐槽</h2><p>部落冲突在我开始玩的前两年确实是投入了大量的精力。那时候高中，又没有电脑，那时候也是刚接触智能机不久，一切都是新鲜的。当然，因为我掌机从小玩到大，所以手机上那些游戏的游戏素质，嘛，也不算有那种「发现了新大陆」，「这玩意毁天灭地」之类的感觉，但网游和单机游戏目的本身就不一样，网游「好玩」「能和朋友一起玩」就足够算是沉迷的理由了。</p>
+<p>上了大学，有了电脑显示器主机以后，我就不再投入时间到新的手游上了，有因为厌倦，有因为忙碌，也有因为厂商态度的变化，要一直给玩家留下好印象很难，但搞坏自己的口碑是很容易的事情，近几年的暴雪、CDRP、索尼，17 年后出了各种季票的皮肤的 supercell 又何尝不是呢？何况是它的背后是腾讯，懂得都懂。</p>
+<p>分服这件事上几乎所有人都在骂腾讯，我只能说「活该」，但又不完全是腾讯的锅。我很早之前就跟我的朋友们说过：别玩国产手游，就算要玩，也去玩国际服。没想到还有像 supercell 一样，把人骗进国内服以后再杀的。一边喊着文化出海，一边却做着恶心玩家的事情，而且这些事情，做出来对规范市场和给家长交代，亿点关系都没有，就是纯纯的恶心玩家罢了。</p>
+<p>coc 我还是可能继续会玩的吧，对我来说，这玩意早就已经是「社交」而不是「游戏」，但我还是怀念，当年他还是「游戏」，我还是「玩家」的那段时光。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>zbttl
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="https://zbttl-github-io.vercel.app/guan-yu-coc-qiang-xing-fen-qu-yi-shi/" title="关于 coc 强行分区一事">https://zbttl-github-io.vercel.app/guan-yu-coc-qiang-xing-fen-qu-yi-shi/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="external nofollow noopener noreferrer" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="followme">
+  <span>欢迎关注我的其它发布渠道</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="/atom.xml">
+          <span class="icon">
+            <i class="fa fa-rss"></i>
+          </span>
+
+          <span class="label">RSS</span>
+        </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/%E6%B5%81%E6%B0%B4%E8%B4%A6/" rel="tag"># 流水账</a>
+              <a href="/tags/clash-of-clans-%E9%83%A8%E8%90%BD%E5%86%B2%E7%AA%81/" rel="tag"># clash of clans(部落冲突)</a>
+          </div>
+
+        
+  <div class="post-widgets">
+    <div class="wp_rating">
+      <div id="wpac-rating"></div>
+    </div>
+  </div>
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/yi-dai-dai-de-gai-guo-bu-la-dun-ping-zhan-di-2042/" rel="prev" title="一代代的，改过不啦——钝评战地2042">
+                  <i class="fa fa-chevron-left"></i> 一代代的，改过不啦——钝评战地2042
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2202-nian-ru-he-zheng-que-de-zai-liu-lan-qi-nei-da-kai-flash-wang-ye/" rel="next" title="2202 年如何正确的在浏览器内打开 flash 网页？？">
+                  2202 年如何正确的在浏览器内打开 flash 网页？？ <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zbttl</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+      <span>站点总字数：</span>
+    <span title="站点总字数">333k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span>站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">10:05</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">本博客使用 <a href="https://hexo.io/" class="theme-link" rel="external nofollow noopener noreferrer" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" class="theme-link" rel="external nofollow noopener noreferrer" target="_blank">NexT.Muse</a> 
+  </div><script color="120,120,120" opacity="0.5" zindex="-1" count="150" src="https://cdn.jsdelivr.net/npm/canvas-nest.js@1/dist/canvas-nest.js"></script>
+<!--《添加网站运行时间 -->
+<!--<br/>-->
+<span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+<script>
+    var now = new Date();
+
+    function createtime() {
+        var grt = new Date("12/18/2020 12:00:00"); //此处修改你的建站时间或者网站上线时间 
+        now.setTime(now.getTime() + 250);
+        days = (now - grt) / 1000 / 60 / 60 / 24;
+        dnum = Math.floor(days);
+        hours = (now - grt) / 1000 / 60 / 60 - (24 * dnum);
+        hnum = Math.floor(hours);
+        if (String(hnum).length == 1) {
+            hnum = "0" + hnum;
+        }
+        minutes = (now - grt) / 1000 / 60 - (24 * 60 * dnum) - (60 * hnum);
+        mnum = Math.floor(minutes);
+        if (String(mnum).length == 1) {
+            mnum = "0" + mnum;
+        }
+        seconds = (now - grt) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+        snum = Math.round(seconds);
+        if (String(snum).length == 1) {
+            snum = "0" + snum;
+        }
+        document.getElementById("timeDate").innerHTML = " 本站已安全运行 " + dnum + " 天 ";
+        document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒";
+    }
+    setInterval("createtime()", 250);
+</script>
+<!-- 添加网站运行时间》 -->
+
+    </div>
+  </footer>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+  <script>
+  if (CONFIG.page.isPost) {
+    wpac_init = window.wpac_init || [];
+    wpac_init.push({
+      widget: 'Rating',
+      id    : 28813,
+      el    : 'wpac-rating',
+      color : '#fc6423'
+    });
+    (function() {
+      if ('WIDGETPACK_LOADED' in window) return;
+      WIDGETPACK_LOADED = true;
+      var mc = document.createElement('script');
+      mc.type = 'text/javascript';
+      mc.async = true;
+      mc.src = '//embed.widgetpack.com/widget.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(mc, s.nextSibling);
+    })();
+  }
+  </script>
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1.7.0/dist/gitalk.css">
+
+<script>
+NexT.utils.loadComments('#gitalk-container', () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1.7.0/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : 'd99d750bdfdb31ecf37e',
+      clientSecret: '1d37215aff71dc84b66e03cb412c7e68b968d76f',
+      repo        : 'zbttl-comment',
+      owner       : 'zbpicture',
+      admin       : ['zbpicture'],
+      id          : '0dc11aaa6f522ea230611a629d565d1b',
+        language: '',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+<script type="text/javascript" src=" https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+
+  <script async src="/js/cursor/text.js"></script>
+
+
+
+
+</body>
+</html>
