@@ -1,6 +1,282 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>分辨率变化时重启 explorer</title>
+    <url>/fen-bian-lu-bian-hua-shi-chong-qi-explorer/</url>
+    <content><![CDATA[<p>提示：因为 windows 的玄学问题，每个人启动的时候 windows 发生的事件可能不同，本文仅供参考和提供思路。</p>
+<h2 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h2><p>我经常在不同设备远程登录自己家电脑，然后发现：一旦远程设备的分辨率和缩放和自家的不同，就会导致窗口最大化后布局错乱，解决方法就是重启 explorer。另外我还装有一个 desktop ticket，专门拿来看 rss 新闻的，重启 explorer 的时候不重启这个软件的话也会导致最大化的时候窗口被这条东西挡着，所以也一并重启。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20231016201527.png"></p>
+<center>最大化窗口布局错乱</center>
+
+<h2 id="查看事件"><a href="#查看事件" class="headerlink" title="查看事件"></a>查看事件</h2><p>参考文章：<a href="https://blog.csdn.net/gibbs_/article/details/117843785">通过windows日志查看器查看系统登陆日志_windows查看登录日志_g1bbs_的博客-CSDN博客</a></p>
+<p>参考文章可知，真正的登录事件是 4648。不过认真看进去的话，登录一次会出现两个 4648，因为一个是 scvhost 进程的登录，一个是 lsass 进程的登录，实际上可以看作一个，所以我们监听其中一个事件就可以了。我们这里监听 scvhost。</p>
+<p>先来到事件查看器-&gt;windows 日志-&gt;安全，点右边的筛选试图，切换到 xml 页签，勾选手动编辑查询复选框，在输入框中输入以下内容：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">&lt;QueryList&gt;</span><br><span class="line">  &lt;Query Id="0" Path="Security"&gt;</span><br><span class="line">    &lt;Select Path="Security"&gt;*[System[(EventID=4648)]]       and</span><br><span class="line">      *[EventData[Data[@Name='ProcessName']='C:\Windows\System32\svchost.exe']]&lt;/Select&gt;</span><br><span class="line">  &lt;/Query&gt;</span><br><span class="line">&lt;/QueryList&gt;</span><br></pre></td></tr></tbody></table></figure>
+
+<p>查看结果：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20231016205334.png"></p>
+<p>用一段事件后如果发现该计划任务运行过于频繁，有可能是因为已经有许多计划任务在远程连接时在调用（计划任务运行时也会用到 scvhost 进程），我们可以改成用 lsass.exe 进程的日志进行监听；如果监听 lsass 的日志发现某些时候远程过来任务没有出发，因为 lsass 没有登录，我们可以把 rdp 的 1149 事件也加入脚本中，最后的结果像这样：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">&lt;QueryList&gt;</span><br><span class="line">  &lt;Query Id="0" Path="Security"&gt;</span><br><span class="line">    &lt;Select Path="Security"&gt;*[System[(EventID=4648)]]       and</span><br><span class="line">      *[EventData[Data[@Name='ProcessName']='C:\Windows\System32\lsass.exe']]&lt;/Select&gt;</span><br><span class="line">  &lt;/Query&gt;</span><br><span class="line">  &lt;Query Id="1" Path="Microsoft-Windows-TerminalServices-RemoteConnectionManager/Operational"&gt;</span><br><span class="line">    &lt;Select Path="Microsoft-Windows-TerminalServices-RemoteConnectionManager/Operational"&gt;</span><br><span class="line">      *[System[(EventID=1149)]]</span><br><span class="line">    &lt;/Select&gt;</span><br><span class="line">  &lt;/Query&gt;</span><br><span class="line">&lt;/QueryList&gt;</span><br></pre></td></tr></tbody></table></figure>
+
+
+
+<h2 id="编写重启程序脚本"><a href="#编写重启程序脚本" class="headerlink" title="编写重启程序脚本"></a>编写重启程序脚本</h2><p>脚本的路径放在 D:\git\login_resolution.ps1 中，可自定义。powershell 可以用 windows 自带的工具调试，bat 不行，但 powershell 重启 explorer 会自动启一个资源管理器窗口，以前用过的 bat 不会，算是一个小缺点。</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line"># 定义存储分辨率信息的文件路径</span><br><span class="line">$filePath = "D:\login_resolution.txt"</span><br><span class="line"></span><br><span class="line"># 如果文件不存在，创建一个空的文件</span><br><span class="line">if (-not (Test-Path -Path $filePath)) {</span><br><span class="line">    $null | Out-File -FilePath $filePath</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"># 从文件中读取以前的分辨率信息</span><br><span class="line">$previousResolution = Get-Content -Path $filePath</span><br><span class="line"></span><br><span class="line"># 默认为System.Object[]类型，需要转换成string类型</span><br><span class="line">$previousResolution2 = $previousResolution | Out-String</span><br><span class="line"></span><br><span class="line"># 获取当前分辨率信息并直接转换为字符串</span><br><span class="line">$currentResolution = Get-WmiObject -Class Win32_VideoController | Select-Object -Property CurrentHorizontalResolution, CurrentVerticalResolution</span><br><span class="line">$currentResolution2 = $currentResolution | Out-String</span><br><span class="line"></span><br><span class="line">$previousResolutionTrim = $previousResolution2.Trim()</span><br><span class="line">$currentResolutionTrim = $currentResolution2.Trim()</span><br><span class="line"></span><br><span class="line">if ($currentResolutionTrim -ne $previousResolutionTrim) {</span><br><span class="line">    # 关闭 explorer.exe 和 DesktopTicker.exe</span><br><span class="line">    Stop-Process -Name "explorer" -Force</span><br><span class="line">    Stop-Process -Name "DesktopTicker" -Force</span><br><span class="line"></span><br><span class="line">    # 启动 explorer.exe 和 DesktopTicker.exe</span><br><span class="line">    Start-Process "explorer.exe"</span><br><span class="line">    Start-Process "C:\Program Files\Desktop Ticker\DesktopTicker.exe"</span><br><span class="line"></span><br><span class="line">    # 等待一段时间</span><br><span class="line">    Start-Sleep -Seconds 4</span><br><span class="line"></span><br><span class="line">    # 更新文件中的分辨率信息，并附加到文件末尾</span><br><span class="line">    $currentResolutionTrim | Out-File -FilePath $filePath -Force</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+
+
+<h2 id="编辑计划任务"><a href="#编辑计划任务" class="headerlink" title="编辑计划任务"></a>编辑计划任务</h2><p>进入任务计划程序，创建任务，填入名字。触发器里面，点击新建，开始任务选择发生事件时，设置选择自定义，点击新建事件筛选器后，出现的界面就是上一步的界面，此处略过不谈。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20231016210836.png"></p>
+<p>转到操作处，选择新建，操作选启动程序，程序或脚本输入 powershell，参数输入 ps1 的路径，点确定即可。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20231016220223.png"></p>
+<p>再点确定完成任务生成。如果报错「任务 远程重启 explorer 出错。错误消息: 一个或多个指定的参数无效。」，来到常规-&gt;安全选项-&gt;更改用户或组，输入账号名，点检查名称，会自动补全，点确定，即可解决问题。</p>
+<p>另外如果重启时不想看到弹出的窗口，可以修改启动程序时添加的参数为 <code>-WindowStyle Hidden -File "D:\git\login_resolution.ps1"</code>。</p>
+<p>如果监听的是 scvhost.exe，务必不要把设置里的「如果此任务已运行，以下规则适用」从「请勿启动新实例」改为「停止现有实例」，否则会无限重启 explorer 导致锁死。</p>
+]]></content>
+      <categories>
+        <category>Windows</category>
+      </categories>
+      <tags>
+        <tag>powershell</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>headscale 全解析</title>
+    <url>/headscale-quan-jie-xi/</url>
+    <content><![CDATA[<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>参考文章：</p>
+<ul>
+<li><a href="https://techoverflow.net/2022/01/16/how-to-setup-headscale-server-in-5-minutes-using-docker-compose/">How to setup headscale server in 5 minutes using docker-compose - TechOverflow</a></li>
+<li><a href="https://lxnchan.cn/headscale.html">【Headscale】自部署 Tailscale 服务端 | 泠泫凝的异次元空间</a></li>
+<li><a href="https://techoverflow.net/2022/02/01/how-to-create-namespace-on-headscale-server/">How to create namespace on headscale server - TechOverflow</a></li>
+<li><a href="https://icloudnative.io/posts/how-to-set-up-or-migrate-headscale/">Tailscale 基础教程：Headscale 的部署方法和使用教程 – 云原生实验室 - Kubernetes|Docker|Istio|Envoy|Hugo|Golang|云原生</a></li>
+</ul>
+<p>前置动作为安装 docker 和 docker-compose，以前的文章写过，就不重复造轮子了。</p>
+<ol>
+<li><p>新建 docker 用 headscale 文件结构，下文以 root 用户默认目录为例</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">mkdir -p /root/docker-compose/headscale/config</span><br><span class="line">cd /root/docker-compose/headscale/config</span><br><span class="line">touch ./config/db.sqlite</span><br><span class="line">curl https://raw.githubusercontent.com/juanfont/headscale/main/config-example.yaml -o ./config/config.yaml</span><br></pre></td></tr></tbody></table></figure></li>
+<li><p>修改 <code> /root/docker-compose/headscale/config</code> 下的 <code>config.yaml</code>。</p>
+<ul>
+<li><p>将 <code>server_url</code> 改为公网 IP/域名及对外端口。这关乎到后续打开网页和 pc 修改完注册表后链接到服务器登录时弹出的网页 url，如果不设置成正确的公网 url，后续弹出的地址就不能用。</p>
+</li>
+<li><p><code>listen_addr</code> 不用改，这一步和用非 docker 版不一样，因为这个参数所对应的是 docker 内部端口，后续是通过 docker 的映射映射到真正的对外端口的。</p>
+</li>
+<li><p>将 <code>magic_dns</code> 设为 false，防止连不了网。</p>
+</li>
+<li><p>自定义私有网段（可选），便于记忆：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">ip_prefixes:</span><br><span class="line">  - 10.1.0.0/16</span><br></pre></td></tr></tbody></table></figure></li>
+</ul>
+</li>
+<li><p>在 <code>/root/docker-compose/headscale/</code> 目录下新建并编辑 <code>docker-compose.yml</code>，只需要修改下面配置文件的对外端口一项，与前面 <code>config.yaml</code> 中 <code>server_url</code> 设置的端口一致即可。</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">version: '3.5'</span><br><span class="line">services:</span><br><span class="line">  headscale:</span><br><span class="line">    image: headscale/headscale:latest</span><br><span class="line">    volumes:</span><br><span class="line">      - ./config:/etc/headscale/</span><br><span class="line">      - ./data:/var/lib/headscale</span><br><span class="line">    ports:</span><br><span class="line">      - [server_ports]:8080</span><br><span class="line">    command: headscale serve</span><br><span class="line">    restart: unless-stopped</span><br></pre></td></tr></tbody></table></figure></li>
+<li><p>确保 ssh 当前目录为 headscale 的 docker-compose 文件所在目录</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">cd /root/docker-compose/headscale</span><br></pre></td></tr></tbody></table></figure>
+
+<p>启动</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">docker-compose up -d</span><br></pre></td></tr></tbody></table></figure>
+
+</li>
+</ol>
+<h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><p>我只有 windows 和 android 端的设备，其实我还有个 ipad，但听说 headscale 暂时不支持 ios，那就算了。</p>
+<h3 id="windows（23-10-23-更新）"><a href="#windows（23-10-23-更新）" class="headerlink" title="windows（23.10.23 更新）"></a>windows<strong>（23.10.23 更新）</strong></h3><ol>
+<li><p>windows 下载 <a href="https://tailscale.com/download/windows">安装包</a></p>
+</li>
+<li><p>打开链接 <code>http://[server_url]:[server_ports]/windows</code>，里面方括号括起来的两个内容自己就是我们上面 <code>config.yaml</code>填的 <code>server_url</code> 配置啦。</p>
+</li>
+<li><p><strong>（23.10.23 更新）</strong> 新版本这里会提示使用命令进行注册，原有的注册表配置方式已经废弃。只需要把页面中的这句命令行</p>
+</li>
+</ol>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">tailscale login --login-server [server_url]</span><br></pre></td></tr></tbody></table></figure>
+
+<p>输入到 windows 这边的 cmd 里，就会自动跳到下一步。</p>
+<p><del>3. 接下来弹出的界面就是 windows 端的教程。</del></p>
+<p>   <img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20221019210538.png"></p>
+<p>   <del>这张图片里面其实简述了两种方法：</del></p>
+<p>   <del>1. 下载 reg</del><br>   <del>2. 在 cmd 中输入两行命令</del></p>
+<p>   <del>这两种方法其实都可以。我想说的是，如果之前配置过 headscale，但现在换了节点的话，可以打开 regedit，导航到 <code>HKLM\Software\Tailscale IPN</code>，修改其中 <code>LoginURL</code> 的值即可。</del></p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20221019210905.png"></p>
+<ol start="4">
+<li><del>此时重新打开 tailscale，右键任务栏的图标后，会</del>弹出注册页面。注册页面会显示让你到 vps 中粘贴命令：</li>
+</ol>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20221019211123.png"></p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">headscale -n NAMESPACE nodes register --key xxxxxxx</span><br></pre></td></tr></tbody></table></figure>
+
+<p>但实际上我们需要改装一下这条命令。</p>
+<p>首先在 vps 中创建一个 node。同样的，确保 ssh 当前目录为 headscale 的 docker-compose 文件所在目录，然后运行命令新建 node。</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">docker-compose exec headscale headscale namespaces create [节点名字]</span><br></pre></td></tr></tbody></table></figure>
+
+<p>改造上面的命令，将 windows 客户端加到节点中</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">-n已过期</span><br><span class="line">docker-compose exec headscale headscale -n [节点名字] nodes register --key xxxxxx</span><br><span class="line">docker-compose exec headscale headscale -u [节点名字] nodes register --key xxxxxx</span><br></pre></td></tr></tbody></table></figure>
+
+<p>查看效果，如果添加的节点显示 online，则成功</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">docker-compose exec headscale headscale nodes list</span><br></pre></td></tr></tbody></table></figure>
+
+<p>另外这个命令也会显示当前链接设备的 headscale 内局域网 ip。</p>
+<h3 id="android"><a href="#android" class="headerlink" title="android"></a>android</h3><p>android 端<del>，需要编译 apk，可以通过 <a href="https://github.com/FZR-forks/tailscale-android/actions">github action</a> 下一个最新的，或者再 fork 一份然后自己跑一遍。安装后右上角三个点打开然后把命令考出来像 windows 一样改造后放入 vps，此处不再赘述。</del>最新版的 apk（1.3 以上），疯狂点击 about 就会出现自定义服务器的选项，填入 <code>http://[server_url]:[server_ports]</code>，重启即可看到命令。</p>
+<h3 id="230514-更新-asus-merlin-（仅管理界面）"><a href="#230514-更新-asus-merlin-（仅管理界面）" class="headerlink" title="(230514 更新) asus merlin （仅管理界面）"></a><strong>(230514 更新)</strong> asus merlin （仅管理界面）</h3><p>慎用。似乎会搞坏路由器的 dns。</p>
+<ol>
+<li><p>安装 entware，然后通过 entware 安装 tailscale（安装 entware 的教程请见往期文章）</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">opkg install tailscale</span><br></pre></td></tr></tbody></table></figure></li>
+<li><p>启动 tailscaled。要对 tailscale 进行配置需要先启动 tailscaled，另外当 ssh 登出时，tailscaled 就会自动停止，但 tailscale 配置好后会开启自启并持续运行。</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">/opt/etc/init.d/S06tailscaled start</span><br></pre></td></tr></tbody></table></figure></li>
+<li><p>配置 tailscale。</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">tailscale up --login-server=http://&lt;HEADSCALE_PUB_IP&gt;:8080 --accept-routes=true --accept-dns=false</span><br></pre></td></tr></tbody></table></figure>
+
+<p>此时 ssh 中会弹出一个网址，访问后会获得要到 vps 中输入的命令，参考上面 windows 端的操作，不再赘述。</p>
+</li>
+<li><p>配置防火墙。打开/新建 <code>/jffs/scripts/firewall-start</code>，在 <code>#/bin/sh</code> 下面新增两行：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">iptables -I INPUT 1 -s 10.1.0.0/24 -j ACCEPT</span><br><span class="line">iptables -t nat -A PREROUTING -d 10.1.0.3 -j DNAT --to-destination 192.168.123.1</span><br></pre></td></tr></tbody></table></figure>
+
+<p><code>10.1.0.0/24</code> 放 tailscale 网段地址。<code>192.168.123.1</code> 放内网访问到路由器管理界面的地址。</p>
+</li>
+</ol>
+<p>此时就在外网可以通过路由器的 tailscale 地址访问路由器管理界面的地址了。</p>
+<h2 id="其他延伸配置（23-10-23-更新）"><a href="#其他延伸配置（23-10-23-更新）" class="headerlink" title="其他延伸配置（23.10.23 更新）"></a>其他延伸配置（23.10.23 更新）</h2><h3 id="反代-https"><a href="#反代-https" class="headerlink" title="反代 https"></a>反代 https</h3><p>如果没有装有 web 服务器，可以用 headscale 内置的 https 功能。但我已经装有 caddy 了，直接用 caddy 就好。</p>
+<p>参考文章：<a href="https://github.com/juanfont/headscale/blob/main/docs/reverse-proxy.md">headscale/docs/reverse-proxy.md at main · juanfont/headscale</a></p>
+<ol>
+<li><p>修改 <code> /root/docker-compose/headscale/config</code> 下的 <code>config.yaml</code>，把 <code>server_url</code> 改成 https 地址，端口不留，因为默认 https 就走 443 端口。</p>
+</li>
+<li><p>修改 caddy 配置文件 Caddyfile，一般位于 <code>/etc/caddy/Caddyfile</code>，增加配置（此处我已经申请过泛域名证书，就不使用 caddy 自己的自动申请域名方法了）</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">https://xxx.xxx.xyz {</span><br><span class="line">    reverse_proxy localhost:[server_ports]</span><br><span class="line">    tls  /etc/ssl/xxx.crt /etc/ssl/xxx.key</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>然后重启 caddy 和 docker-compose headscale 即可。</p>
+</li>
+</ol>
+<h3 id="更换-headscale-nodes-list-里的节点-id-和-ip"><a href="#更换-headscale-nodes-list-里的节点-id-和-ip" class="headerlink" title="更换 headscale nodes list 里的节点 id 和 ip"></a>更换 headscale nodes list 里的节点 id 和 ip</h3><p>参考文章：<a href="https://github.com/juanfont/headscale/issues/1455">自定义/更改 IP 地址 · 问题 #1455 · juanfont/headscale</a></p>
+<p>安装 sqlite。</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">apt install sqlite -y</span><br></pre></td></tr></tbody></table></figure>
+
+<p>找到 <code>/root/docker-compose/headscale/data/</code> 下的 db.sqlite 文件。使用 sqlite3 打开并编辑。</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">sqlite3 /var/lib/headscale/db.sqlite</span><br><span class="line"> 查看有几个表</span><br><span class="line"> .table</span><br><span class="line">SELECT id, hostname, ip_addresses FROM machines;</span><br><span class="line">UPDATE machines SET ip_addresses = "10.1.0.2" WHERE hostname = "[主机名]";</span><br><span class="line">UPDATE machines SET id = "1" WHERE hostname = "[主机名]";</span><br></pre></td></tr></tbody></table></figure>
+
+<p>重启被修改 ip 的客户端即可。</p>
+<h3 id="修改-randomize-client-port"><a href="#修改-randomize-client-port" class="headerlink" title="修改 randomize_client_port"></a>修改 randomize_client_port</h3><p>如果访问不正常，可以尝试修改。参考文章：<a href="https://www.cnblogs.com/Yogile/p/17064031.html">Headscale 端到端直连 - Yogile - 博客园</a></p>
+<p>修改 <code> /root/docker-compose/headscale/config</code> 下的 <code>config.yaml</code>。</p>
+<blockquote>
+<p>randomize_client_port ：原为 false ，须改为 true 。否则客户端端点访问互相干扰，无法访问服务。</p>
+</blockquote>
+<h3 id="使用-preauthkeys-无需服务器同意一键添加设备"><a href="#使用-preauthkeys-无需服务器同意一键添加设备" class="headerlink" title="使用 preauthkeys 无需服务器同意一键添加设备"></a>使用 preauthkeys 无需服务器同意一键添加设备</h3><p> 新建 key</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">docker-compose exec headscale headscale --user zbttl preauthkeys create --reusable --expiration 24h</span><br></pre></td></tr></tbody></table></figure>
+
+<p>查看新建的 key，记下 key 的值</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">docker-compose exec headscale headscale -u [节点名字] preauthkeys list</span><br></pre></td></tr></tbody></table></figure>
+
+<p>在客户端处输入命令，以 windows 为例：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">tailscale up --auth-key=[key_value] --login-server=[server_url] --accept-dns=false --unattended</span><br></pre></td></tr></tbody></table></figure>
+
+<p>tailscale 会即刻登录，无需进入服务器使用命令二次确认。</p>
+<p>然后让 key 过期</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">docker-compose exec headscale headscale --user [节点名字] preauthkeys expire [key_value]</span><br></pre></td></tr></tbody></table></figure>
+
+<h3 id="使用-headscale-ui-并配置-Ephemeral-供临时使用"><a href="#使用-headscale-ui-并配置-Ephemeral-供临时使用" class="headerlink" title="使用 headscale ui 并配置 Ephemeral 供临时使用"></a>使用 headscale ui 并配置 Ephemeral 供临时使用</h3><p>参考文章：</p>
+<ul>
+<li><a href="https://blog.gurucomputing.com.au/Smart%20VPNS%20with%20Headscale/Configuring%20the%20Headscale%20UI/">配置 Headscale UI - Gurucomputing 博客</a></li>
+<li><a href="https://github.com/gurucomputing/headscale-ui">gurucomputing/headscale-ui: A web frontend for the headscale Tailscale-compatible coordination server — gurucomputing/headscale-ui：headscale Tailscale兼容协调服务器的Web前端</a></li>
+</ul>
+<p>啥是 Ephemeral 呢？参考<a href="https://tailscale.com/kb/1111/ephemeral-nodes/">临时节点 · Tailscale 文档</a>，简而言之，上一步我们用 preauthkeys  添加设备时候用的节点，变成了一次性的，使用者登录后只要登出（比如重启 tailscale，重启电脑等），节点信息就会失效，就连不上 headscale 控制器了，适合短期的给临时设备使用。要方便的使用这个功能，甚至方便的进行设备的添加删除，查看在线的设备而无需进入 ssh，都可以搭建这么一个 headscale-ui 在前端。</p>
+<p><strong>（可选，便于验证配置文件是否工作正常）</strong>把 <code>config.yaml</code> 中的  <code>metrics_listen_addr</code> 端口映射出来，默认为 9090。因为用的是 docker，还需要把这里的地址修改为 0.0.0.0 以被访问到</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">metrics_listen_addr: 0.0.0.0:9090</span><br></pre></td></tr></tbody></table></figure>
+
+<p>然后修改 headscale 映射的端口，还需要添加 headscale-ui 配置到 headscale 的 docker-compose 文件中。</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">version: '3.5'</span><br><span class="line">services:</span><br><span class="line">  headscale:</span><br><span class="line">    image: headscale/headscale:latest</span><br><span class="line">    volumes:</span><br><span class="line">      - ./config:/etc/headscale/</span><br><span class="line">      - ./data:/var/lib/headscale</span><br><span class="line">    ports:</span><br><span class="line">      - [server_ports]:8080</span><br><span class="line">      - [metric_ports]:9090</span><br><span class="line">    command: headscale serve</span><br><span class="line">    restart: unless-stopped</span><br><span class="line">  headscale-ui:</span><br><span class="line">    container_name: headscale-ui</span><br><span class="line">    image: ghcr.io/gurucomputing/headscale-ui:latest</span><br><span class="line">    pull_policy: always</span><br><span class="line">    restart: unless-stopped</span><br><span class="line">    ports:</span><br><span class="line">      - [headscale_ports]:80  </span><br></pre></td></tr></tbody></table></figure>
+
+<p>重启 docker-compose 后即可通过 <code>ip:[metric_ports]/metrics</code> 访问到访问到 metrics 页面，然后通过 <code>ip:[metric_ports]/headscale_ports</code> 不出意料也能进入 ui 页面。</p>
+<p>此时我们在 ssh 处申请一个 api：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">docker-compose exec headscale headscale apikeys create</span><br></pre></td></tr></tbody></table></figure>
+
+<p>记住这里的 api。因为后面无法再获取这个 api，如果忘记了只能重新获取；我们待会就要用这个 api 登录网页端，更换设备，清除 cookies 都需要重新输入这一串长长的随机 api。所以建议保存起来。</p>
+<p>在网页端的 settings-&gt;headscale api key 中填入刚刚获取的 api。在 user view 中就能看到我们创建的 headscale 节点名字了。device view 处则能管理已授权的设备。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20231029140054.png"></p>
+<p>在 user view 处点开节点，点 preauth keys 前面的加号</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20231029140733.png"></p>
+<p>此时能看到三个选项，分辨是 key 的过期时间、是否可以重复使用、是否为 Ephemeral key（即我上面说的临时 key），选择需要的配置，点击 create preauth key 即可创建成功。将 key 套入命令中在命令行里输入即可成功添加，上一章说过了，不再赘述。</p>
+<h4 id="反代-https-1"><a href="#反代-https-1" class="headerlink" title="反代 https"></a>反代 https</h4><p>当然 headscale-ui 和 metrics 也可以通过 caddy 反代了。另外为了安全我还在 headscale-ui 页面外面套了一层用户和密码。修改 caddyfile：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">https://xxx.xxx.xyz {</span><br><span class="line">    reverse_proxy localhost:[server_ports]</span><br><span class="line">    tls  /etc/ssl/xxx.crt /etc/ssl/xxx.key</span><br><span class="line">    reverse_proxy /metrics* 127.0.0.1:[metric_ports] </span><br><span class="line">    reverse_proxy /web* 127.0.0.1:[headscale_ports] </span><br><span class="line">    basicauth /web* {</span><br><span class="line">      # 加密密码获取方法：caddy hash-password，输入密码</span><br><span class="line">      [username] $2a$14$/rQHsSabPqQ3zpnGtU2ZQeGSBYozSCwA5HLUEwwp78OEhQVwECGyC #123456</span><br><span class="line">    }</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<p>重启 caddy，即可用 <code>https://xxx.xxx.xyz/metrics</code> 和 <a href="https://xxx.xxx.xyz/web%60">https://xxx.xxx.xyz/web`</a> 访问 metrics 页面和 headscale-ui 页面了。</p>
+<h3 id="自定义-derp"><a href="#自定义-derp" class="headerlink" title="自定义 derp"></a>自定义 derp</h3><p>参考文章：<a href="https://icloudnative.io/posts/custom-derp-servers/">Tailscale 基础教程：部署私有 DERP 中继服务器 – 云原生实验室 - Kubernetes|Docker|Istio|Envoy|Hugo|Golang|云原生</a></p>
+<p>上面说的只是搭建 headscale 控制器，而连接的流量节点是 tailscale 的那些默认服务器。也可以自建流量节点，我们称为 derp，不过一般用不着，如果特别卡的话，再说。</p>
+<p>有两种方法，一种是 derp 和 headscale 控制器节点在同一台机器上，一种是无所谓在不在一台机器上都可以使用。不管那一种，需要开一个和 headscale 控制器不同的三级域名。</p>
+<h4 id="简易版自体-derp"><a href="#简易版自体-derp" class="headerlink" title="简易版自体 derp"></a>简易版自体 derp</h4><p>参考文章：<a href="https://github.com/juanfont/headscale/issues/1326">“嵌入式 DERP（和 STUN）服务器”提供哪些具体服务 · 问题 #1326 · juanfont/headscale</a></p>
+<p> derp 和 tailscale 节点在同一台机器上的情况下，只需要调整 <code>config.yaml</code> 的 derp 相关配置：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">derp:</span><br><span class="line">  server:</span><br><span class="line">    # 把这个改成true</span><br><span class="line">    enabled: true</span><br><span class="line"></span><br><span class="line">    # 改不改无所谓</span><br><span class="line">    region_id: 999</span><br><span class="line"></span><br><span class="line">    # 在 tailscale 命令中看到的自己的 derp 的名字和，以及 derp 的全名</span><br><span class="line">    region_code: "rn_emb"</span><br><span class="line">    region_name: "racknerd DERP"</span><br><span class="line">    </span><br><span class="line">    # 待会在 docker-compose 中需要开放的端口</span><br><span class="line">    stun_listen_addr: "0.0.0.0:3478"</span><br></pre></td></tr></tbody></table></figure>
+
+<p>然后修改 <code>docker-compose.yml</code>：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">version: '3.5'</span><br><span class="line">services:</span><br><span class="line">  headscale:</span><br><span class="line">    image: headscale/headscale:latest</span><br><span class="line">    volumes:</span><br><span class="line">      - ./config:/etc/headscale/</span><br><span class="line">      - ./data:/var/lib/headscale</span><br><span class="line">    ports:</span><br><span class="line">      - [server_ports]:8080</span><br><span class="line">      - '3478:3478/udp'</span><br><span class="line">    command: headscale serve</span><br><span class="line">    restart: unless-stopped</span><br></pre></td></tr></tbody></table></figure>
+
+<p>最后重启 docker-compose</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">docker-compose down</span><br><span class="line">dockekr-compose up -d</span><br></pre></td></tr></tbody></table></figure>
+
+<p>在客户端处使用  <code>tailscale netcheck</code> 检查，出现 derp 节点即为成功。</p>
+<h4 id="通用-derp-配置"><a href="#通用-derp-配置" class="headerlink" title="通用 derp 配置"></a>通用 derp 配置</h4><p>参考文章：<a href="https://github.com/slchris/derp-server">slchris/derp-server：Tailscale/Headscale derp 服务器</a></p>
+<p>需要配置一个 docker 的 derp 容器。网上有挺多教程用的是单独开的 derp 域名然后用这个域名去申请证书，申请到的证书名字前缀命名和域名一致，或者用证书工具来申请。但我还是照例，用我之前申请的泛域 ssl 证书。新建一个 derp 文件夹，里面放上 <code>docker-compose.yml</code> 文件。假设我的 derp 域名为 derp.xxx.xyz：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">version: '3.3'</span><br><span class="line">services:</span><br><span class="line">    derp-server:</span><br><span class="line">        restart: always</span><br><span class="line">        container_name: derper</span><br><span class="line">        ports:</span><br><span class="line">            - 12345:443</span><br><span class="line">            - '3478:3478/udp'</span><br><span class="line">        volumes:</span><br><span class="line">            - '/etc/ssl/xxx.crt:/app/certs/derp.xxx.xyz.crt'</span><br><span class="line">            - '/etc/ssl/xxx.key:/app/certs/derp.xxx.xyz.key'</span><br><span class="line">        environment:</span><br><span class="line">            - DERP_CERT_MODE=manual</span><br><span class="line">            - DERP_DOMAIN=derp.xxx.xyz</span><br><span class="line">        image: 'ghcr.io/slchris/derp-server:v1'</span><br></pre></td></tr></tbody></table></figure>
+
+<p>启动容器 <code>docker-compose up -d</code>，访问 <a href="https://derp.xxx.xyz:12345/">https://derp.xxx.xyz:12345</a> 查看 12345 端口是否能访问。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20231029134245.png"></p>
+<p>然后修改 <code>config.yaml</code> 文件的 derp 部分，其实只用改那个 paths 就行，另外提一嘴，如果只需要用自建的 derp 而不需要 tailscale 提供的公共 derp，只需要注释掉 urls 里面的那行网址就行：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">derp:</span><br><span class="line">  server:</span><br><span class="line">    enabled: false</span><br><span class="line">    </span><br><span class="line">    region_id: 999</span><br><span class="line"></span><br><span class="line">	region_code: "headscale"</span><br><span class="line">    region_name: "Headscale Embedded DERP"</span><br><span class="line"></span><br><span class="line">    stun_listen_addr: "0.0.0.0:3478"</span><br><span class="line"></span><br><span class="line">  urls:</span><br><span class="line">   # 只想用自建 derp 的话，注释掉下面这行</span><br><span class="line">    - https://controlplane.tailscale.com/derpmap/default</span><br><span class="line"></span><br><span class="line">  paths:</span><br><span class="line">   # 只需要加这句</span><br><span class="line">     - /etc/headscale/derp.yaml</span><br></pre></td></tr></tbody></table></figure>
+
+<p>在 <code>config.yaml</code> 文件夹内新增一个 <code>derp.yaml</code>:</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">regions:</span><br><span class="line">    # 改不改无所谓</span><br><span class="line">  900:</span><br><span class="line">    regionid: 900</span><br><span class="line">    # 在 tailscale 命令中看到的自己的 derp 的名字和，以及 derp 的全名</span><br><span class="line">    regioncode: rn</span><br><span class="line">    regionname: racknerd American </span><br><span class="line">    nodes:</span><br><span class="line">      - name: 900a</span><br><span class="line">        regionid: 900</span><br><span class="line">        hostname: derp.baobaobao.xyz</span><br><span class="line">        stunport: 3478</span><br><span class="line">        stunonly: false</span><br><span class="line">        derpport: 12345</span><br></pre></td></tr></tbody></table></figure>
+
+<p>最后重启 docker-compose</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">docker-compose down</span><br><span class="line">dockekr-compose up -d</span><br></pre></td></tr></tbody></table></figure>
+
+<p>在客户端处使用  <code>tailscale netcheck</code> 检查，出现 derp 节点即为成功。</p>
+<h4 id="关于两种方法的混用问题"><a href="#关于两种方法的混用问题" class="headerlink" title="关于两种方法的混用问题"></a>关于两种方法的混用问题</h4><p>这是一个小发现：如果使用了第一种方法通过 docker 把 3478 端口透出来了，那么第二部如果是在同一台机子上，derp 容器是无法启动的。但反过来，自体 derp 如果没有映射 3478 端口的话，使用 <code>tailscale netcheck</code> 来看节点是没有启动的（没有 ping 值），但！此时我们启动 derp 容器，不用再做后面修改 <code>config.yaml</code> 和 <code>derp.yaml</code> 的步骤，会发现节点也连上了。利用这种方法部署，也未尝不可。</p>
+<h4 id="防止-DERP-被滥用"><a href="#防止-DERP-被滥用" class="headerlink" title="防止 DERP 被滥用"></a>防止 DERP 被滥用</h4><p>从配置上看，人家只要拿到我们的 derp 网址，探测到端口就可以白嫖了（虽然还是有一定门槛）。有什么办法可以阻拦一下呢？还真有，那就是客户端需要连上和 derp 一样的 headscale 节点才能使用 derp，然后开启一个叫  DERP_VERIFY_CLIENTS 的参数。修改 derp 节点的 docker-compose.yml：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">version: '3.3'</span><br><span class="line">services:</span><br><span class="line">    derp-server:</span><br><span class="line">        restart: always</span><br><span class="line">        container_name: derper</span><br><span class="line">        ports:</span><br><span class="line">            - 12345:443</span><br><span class="line">            - '3478:3478/udp'</span><br><span class="line">        volumes:</span><br><span class="line">            - '/etc/ssl/xxx.crt:/app/certs/derp.xxx.xyz.crt'</span><br><span class="line">            - '/etc/ssl/xxx.key:/app/certs/derp.xxx.xyz.key'</span><br><span class="line">        environment:</span><br><span class="line">            - DERP_CERT_MODE=manual</span><br><span class="line">            - DERP_DOMAIN=derp.xxx.xyz</span><br><span class="line">            # 加这一行就行</span><br><span class="line">            - DERP_VERIFY_CLIENTS=true</span><br><span class="line">        image: 'ghcr.io/slchris/derp-server:v1'</span><br></pre></td></tr></tbody></table></figure>
+
+<p>如果 derp 和 headscale 控制器不在一起的话，就需要把 derp 所在的这个节点也用 tailscale 客户端连上自己的 headscale 控制器才可以。可以使用 apt 等工具包安装 tailscale，也可以使用 docker 安装 tailscale 客户端，这里我使用后者，新建一个 docker-compose.yml 文件：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">version: '3.1'</span><br><span class="line"></span><br><span class="line">services:</span><br><span class="line">  Headscaled:</span><br><span class="line">    container_name: Headscaled_Client</span><br><span class="line">    image: tailscale/tailscale</span><br><span class="line">    network_mode: host</span><br><span class="line">    privileged: true</span><br><span class="line">    restart: always</span><br><span class="line">    cap_add: </span><br><span class="line">      - net_admin</span><br><span class="line">      - sys_module</span><br><span class="line">    volumes:</span><br><span class="line">      - ./lib:/var/lib</span><br><span class="line">      - /dev/net/tun:/dev/net/tun</span><br><span class="line">    command: sh -c "mkdir -p /var/run/tailscale &amp;&amp; ln -s /tmp/tailscaled.sock /var/run/tailscale/tailscaled.sock &amp;&amp; tailscaled"</span><br></pre></td></tr></tbody></table></figure>
+
+<p>启动 <code>docker-compose up -d</code></p>
+<p>用 ui 配置一个一次性的 key，然后用 key 连接到 headscale：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">docker-compose exec Headscaled tailscale up --auth-key=[key_value] --login-server=[server_url] --accept-dns=false</span><br></pre></td></tr></tbody></table></figure>
+
+<h2 id="最终完全版-headscale-控制器参考配置"><a href="#最终完全版-headscale-控制器参考配置" class="headerlink" title="最终完全版 headscale 控制器参考配置"></a>最终完全版 headscale 控制器参考配置</h2><p>开启 headscale-ui，https 反代，derp。</p>
+<p>docker-compose.yml：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">version: '3.5'</span><br><span class="line">services:</span><br><span class="line">  headscale:</span><br><span class="line">    image: headscale/headscale:latest</span><br><span class="line">    volumes:</span><br><span class="line">      - ./config:/etc/headscale/</span><br><span class="line">      - ./data:/var/lib/headscale</span><br><span class="line">    ports:</span><br><span class="line">      - 10443:8080</span><br><span class="line">      - 9090:9090</span><br><span class="line">      - '3478:3478/udp'</span><br><span class="line">    command: headscale serve</span><br><span class="line">    restart: unless-stopped</span><br><span class="line">  headscale-ui:</span><br><span class="line">    container_name: headscale-ui</span><br><span class="line">    image: ghcr.io/gurucomputing/headscale-ui:latest</span><br><span class="line">    pull_policy: always</span><br><span class="line">    restart: unless-stopped</span><br><span class="line">    ports:</span><br><span class="line">      - 10444:80</span><br></pre></td></tr></tbody></table></figure>
+
+<p>caddyfile:</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">https://xxx.xxx.xyz {</span><br><span class="line">    reverse_proxy localhost:10443</span><br><span class="line">    tls  /etc/ssl/xxx.crt /etc/ssl/xxx.key</span><br><span class="line">    reverse_proxy /metrics* 127.0.0.1:9090</span><br><span class="line">    reverse_proxy /web* 127.0.0.1:10444</span><br><span class="line">    basicauth /web* {</span><br><span class="line">      me $2a$14$/rQHsSabPqQ3zpnGtU2ZQeGSBYozSCwA5HLUEwwp78OEhQVwECGyC #123456</span><br><span class="line">    }</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<p>config.yaml:</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">server_url: https://xxx.xxx.xyz</span><br><span class="line">listen_addr: 0.0.0.0:8080</span><br><span class="line">metrics_listen_addr: 0.0.0.0:9090</span><br><span class="line">grpc_listen_addr: 0.0.0.0:50443</span><br><span class="line">grpc_allow_insecure: false</span><br><span class="line">private_key_path: /var/lib/headscale/private.key</span><br><span class="line">noise:</span><br><span class="line">  private_key_path: /var/lib/headscale/noise_private.key</span><br><span class="line">ip_prefixes:</span><br><span class="line">  - 10.1.0.0/16</span><br><span class="line">derp:</span><br><span class="line">  server:</span><br><span class="line">    enabled: true</span><br><span class="line">    region_id: 999</span><br><span class="line">    region_code: "my"</span><br><span class="line">    region_name: "my DERP"</span><br><span class="line">    stun_listen_addr: "0.0.0.0:3478"</span><br><span class="line">  urls:</span><br><span class="line">    - https://controlplane.tailscale.com/derpmap/default</span><br><span class="line">  paths: []</span><br><span class="line">  auto_update_enabled: true</span><br><span class="line">  update_frequency: 24h</span><br><span class="line">disable_check_updates: false</span><br><span class="line">ephemeral_node_inactivity_timeout: 30m</span><br><span class="line">node_update_check_interval: 10s</span><br><span class="line">db_type: sqlite3</span><br><span class="line">db_path: /var/lib/headscale/db.sqlite</span><br><span class="line">acme_url: https://acme-v02.api.letsencrypt.org/directory</span><br><span class="line">acme_email: ""</span><br><span class="line">tls_letsencrypt_hostname: ""</span><br><span class="line">tls_client_auth_mode: relaxed</span><br><span class="line">tls_letsencrypt_cache_dir: /var/lib/headscale/cache</span><br><span class="line">tls_letsencrypt_challenge_type: HTTP-01</span><br><span class="line">tls_letsencrypt_listen: ":http"</span><br><span class="line">tls_cert_path: ""</span><br><span class="line">tls_key_path: ""</span><br><span class="line">log:</span><br><span class="line">  format: text</span><br><span class="line">  level: info</span><br><span class="line">acl_policy_path: ""</span><br><span class="line">dns_config:</span><br><span class="line">  nameservers:</span><br><span class="line">    - 1.1.1.1</span><br><span class="line">  domains: []</span><br><span class="line">  magic_dns: false</span><br><span class="line">  base_domain: example.com</span><br><span class="line">unix_socket: /var/run/headscale.sock</span><br><span class="line">unix_socket_permission: "0770"</span><br><span class="line">logtail:</span><br><span class="line">  enabled: false</span><br><span class="line">randomize_client_port: true</span><br></pre></td></tr></tbody></table></figure>
+
+<h2 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h2><ol>
+<li><p>不要在国内云上架设 headscale！试过秒封（良心云，直接封机子，申诉还要上传身份证）。</p>
+</li>
+<li><p>windows 端，如果发现使用局域网速度缓慢，或者连接不上，可以通过：</p>
+<ul>
+<li>disconnect 再 connect，重新刷新链接</li>
+<li>使用命令 <code>tailscale netcheck</code> 和  <code>tailscale status</code> 查看连接情况。</li>
+</ul>
+</li>
+<li><p>如果有哪个节点配置错误或需要删除，可以通过下面的命令删除</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">#已过期</span><br><span class="line">#docker-compose exec headscale headscale nodes delete yyyy</span><br><span class="line">docker-compose exec headscale headscale nodes delete -i [节点序号]</span><br></pre></td></tr></tbody></table></figure>
+
+<p>yyy 的内容就是 <code>docker-compose exec headscale headscale nodes list</code> 第三列显示的设备名（即 Name）。</p>
+</li>
+</ol>
+<h2 id="其他参考文章（仅留档）"><a href="#其他参考文章（仅留档）" class="headerlink" title="其他参考文章（仅留档）"></a>其他参考文章（仅留档）</h2><ul>
+<li><a href="https://blog.csdn.net/easylife206/article/details/123861092">Tailscale 开源版中文部署指南（支持无限设备数、自定义多网段 、自建中继等高级特性）…_运维之美的博客-CSDN博客</a></li>
+<li><a href="https://www.hi-linux.com/posts/15561.html">Tailscale 开源版中文部署指南（支持无限设备数、自定义多网段 、自建中继等高级特性） - 奇妙的 Linux 世界</a></li>
+<li><a href="https://blog.csdn.net/alex_yangchuansheng/article/details/122954920">比 Tailscale 更好的内网穿透方案 - Headscale_米开朗基杨的博客-CSDN博客</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/593342103">headscale常用命令</a></li>
+<li><a href="https://ysicing.me/posts/headscale-intro/">Headscale 的部署方法和使用教程 (20230401 版) :: 缘生笔记</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>Network</category>
+      </categories>
+      <tags>
+        <tag>内网穿透</tag>
+        <tag>docker</tag>
+        <tag>headscale</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>还行吧——战火重燃 b 测体验</title>
     <url>/huan-xing-ba-zhan-huo-chong-ran-b-ce-ti-yan/</url>
     <content><![CDATA[<p>没预购，所以中强度爆肝两天。（虽然是 cod 老玩家，但其实从来没在 a 测前预购过，从 cod15 开始都是玩的几天 b 测，属实是假粉了）</p>
@@ -454,9 +730,9 @@
         <category>Game</category>
       </categories>
       <tags>
-        <tag>跨区</tag>
         <tag>羊毛</tag>
         <tag>xbox</tag>
+        <tag>跨区</tag>
         <tag>老头环</tag>
       </tags>
   </entry>
@@ -650,6 +926,8 @@
 </li>
 <li><p>安装配置中的字体。旧版本中可以把字体放到同一文件夹下的 fonts 子文件夹下，但现在不行了，必须要安装。如果少哪个字体没装的话，telegram 的字体就会使用默认的等宽字体（宋体），非常难看。</p>
 </li>
+<li><p>运行 <code>AppXLauncher64.exe</code> 即可。</p>
+</li>
 </ol>
 ]]></content>
       <categories>
@@ -776,38 +1054,49 @@
 <p>使用 zplug 可以精简掉其中的 3-6 步，之后只要装好 zplug 后，把 <code>.zshrc</code> 和 <code>.p10k.zsh</code> 考过来，用 source 或者重启一下就能自动搞定了。</p>
 <h2 id="具体的说："><a href="#具体的说：" class="headerlink" title="具体的说："></a>具体的说：</h2><ol>
 <li><p>安装 zplug</p>
-<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh</span><br></pre></td></tr></tbody></table></figure>
+ <figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh</span><br></pre></td></tr></tbody></table></figure>
 </li>
 <li><p>修改原有的 <code>.zshrc</code> 文件</p>
-<p>在 zshrc 最上面加上一行 source 启用 zplug</p>
-<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">source ~/.zplug/init.zsh</span><br></pre></td></tr></tbody></table></figure>
+<p> 在 zshrc 最上面加上一行 source 启用 zplug</p>
+ <figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">source ~/.zplug/init.zsh</span><br></pre></td></tr></tbody></table></figure>
 
-<p>在 zshrc 最下面加上以下代码，作用是每次重载 zsh 检查 <code>.zshrc</code> 相关代码中是否有新的插件需要安装。</p>
- <figure class="highlight bash"><table><tbody><tr><td class="code"><pre><span class="line"><span class="comment"># Install plugins if there are plugins that have not been installed</span></span><br><span class="line"><span class="keyword">if</span> ! zplug check --verbose; <span class="keyword">then</span></span><br><span class="line">    <span class="built_in">printf</span> <span class="string">"Install? [y/N]: "</span></span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">read</span> -q; <span class="keyword">then</span></span><br><span class="line">        <span class="built_in">echo</span>; zplug install</span><br><span class="line">    <span class="keyword">fi</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Then, source plugins and add commands to $PATH</span></span><br><span class="line">zplug load</span><br></pre></td></tr></tbody></table></figure>
+<p> 在 zshrc 最下面加上以下代码，作用是每次重载 zsh 检查 <code>.zshrc</code> 相关代码中是否有新的插件需要安装。</p>
+ <figure class="highlight bash"><table><tbody><tr><td class="code"><pre><span class="line"><span class="comment"># Install plugins if there are plugins that have not been installed</span></span><br><span class="line"><span class="keyword">if</span> ! zplug check --verbose; <span class="keyword">then</span></span><br><span class="line"><span class="built_in">printf</span> <span class="string">"Install? [y/N]: "</span></span><br><span class="line"><span class="keyword">if</span> <span class="built_in">read</span> -q; <span class="keyword">then</span></span><br><span class="line"><span class="built_in">echo</span>; zplug install</span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Then, source plugins and add commands to $PATH</span></span><br><span class="line">zplug load</span><br></pre></td></tr></tbody></table></figure>
 
 <p> 剩下的这几行代码，写在中间。</p>
 <p> 插件声明语句，就是上面说的相关代码，格式类似这样：</p>
  <figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">zplug "romkatv/powerlevel10k", as:theme, depth:1</span><br></pre></td></tr></tbody></table></figure>
 
 <p> 双引号中的内容就是 <code>git clone</code> 那些插件时的插件的作者和库名，都在 url 的后半段里面。像我之前装的那些插件，大概就需要写这几行：</p>
- <figure class="highlight bash"><table><tbody><tr><td class="code"><pre><span class="line"><span class="comment">#zplug "romkatv/powerlevel10k", as:theme, depth:1</span></span><br><span class="line">zplug romkatv/powerlevel10k, as:theme, depth:1</span><br><span class="line">zplug <span class="string">'zplug/zplug'</span>, hook-build:<span class="string">'zplug --self-manage'</span></span><br><span class="line">zplug <span class="string">"zsh-users/zsh-completions"</span></span><br><span class="line">zplug <span class="string">"zsh-users/zsh-history-substring-search"</span></span><br><span class="line">zplug <span class="string">"zsh-users/zsh-autosuggestions"</span></span><br><span class="line">zplug <span class="string">"wting/autojump"</span></span><br></pre></td></tr></tbody></table></figure>
+ <figure class="highlight bash"><table><tbody><tr><td class="code"><pre><span class="line"><span class="comment">#zplug "romkatv/powerlevel10k", as:theme, depth:1</span></span><br><span class="line">zplug romkatv/powerlevel10k, as:theme, depth:1</span><br><span class="line">zplug <span class="string">'zplug/zplug'</span>, hook-build:<span class="string">'zplug --self-manage'</span></span><br><span class="line">zplug <span class="string">"zsh-users/zsh-syntax-highlighting"</span></span><br><span class="line">zplug <span class="string">"zsh-users/zsh-completions"</span></span><br><span class="line">zplug <span class="string">"lib/completion"</span>, from:oh-my-zsh</span><br><span class="line">zplug <span class="string">"zsh-users/zsh-history-substring-search"</span></span><br><span class="line">zplug <span class="string">"zsh-users/zsh-autosuggestions"</span></span><br><span class="line">zplug <span class="string">"wting/autojump"</span></span><br><span class="line">zplug <span class="string">"junegunn/fzf"</span>, from:github, as:<span class="built_in">command</span>, rename-to:fzf, hook-build:<span class="string">"./install --all"</span></span><br></pre></td></tr></tbody></table></figure>
 
 <p> <strong>（21.8.29 更新）</strong> 原来的 <code>zplug "romkatv/powerlevel10k", as:theme, depth:1</code> 这行容易在 zsh 启动时报警告，大概是：</p>
  <figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">Change the way Powerlevel10k is loaded from ~/.zshrc</span><br></pre></td></tr></tbody></table></figure>
 
-<p> 根据提示查了查<a href="https://github.com/romkatv/powerlevel10k/blob/master/README.md#zplugin">文档</a>，换成了没有冒号的这个命令。</p>
+<p> 根据提示查了查<a href="https://github.com/romkatv/powerlevel10k/blob/master/README.md#zplugin">文档</a>，换成了没有双引的这个命令。</p>
 <p> 由于不需要单独安装 oh-my-zsh 了，相关代码注释掉</p>
  <figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">#export ZSH="/root/.oh-my-zsh"</span><br><span class="line"></span><br><span class="line">#source $ZSH/oh-my-zsh.sh</span><br></pre></td></tr></tbody></table></figure>
 
-<p> 同样，因为没有 oh-my-zsh 了，我们得声明一段代码，启用历史记录功能：</p>
+<p> 同样，因为没有 oh-my-zsh 了，我们得声明一段代码，启用历史记录功能，并且用 <code>his</code> 或 <code>history 1</code> 查询全部历史记录：：</p>
  <figure class="highlight bash"><table><tbody><tr><td class="code"><pre><span class="line"><span class="comment"># History config</span></span><br><span class="line">HISTSIZE=10000</span><br><span class="line">SAVEHIST=10000</span><br><span class="line">HISTFILE=~/.zsh_history</span><br></pre></td></tr></tbody></table></figure>
 
 <p> 最后重载 zsh 即可。</p>
  <figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">source ~/.zshrc</span><br></pre></td></tr></tbody></table></figure>
-
+<p> <strong>（23.7.22 更新）</strong> fzf 参考 <a href="https://github.com/zplug/zplug/issues/412">Fail install fzf-bin from gh-r with aliased grep · Issue #412 · zplug/zplug</a>。如果已经不慎使用了错误的配置安装，可以通过删除相关文件来卸载（都在 <code>.zplug</code> 文件夹下）：</p>
+<ul>
+<li><p>repos/ 里的 junegunn 文件夹</p>
+</li>
+<li><p>bin/ 里的多余 fzf bin 文件</p>
+</li>
+<li><p>删除 packages.zsh 的依赖（参考 <a href="https://github.com/zplug/zplug/issues/108">如何删除插件？ · 问题 #108 · zplug/zplug</a>）</p>
+<p>安装完毕，运行 <code>fzf</code> 命令，正常运行即安装成功。（安装完毕可能会弹出 <code>__zplug::log::format::with_json:printf:16: % T: invalid directive</code>，无视即可。） </p>
+<p>如果遇到安装报错或者更新报错（<code>zplug update</code>）的问题，可以安装 gawk 试试（参考<a href="https://github.com/zplug/zplug/issues/359">zplug update: Unknown error if the repo is already updated · Issue #359 · zplug/zplug — zplug 更新：如果存储库已更新，则出现未知错误 ·问题 #359 ·zplug/zplug</a>）：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">sudo apt install gawk -y</span><br></pre></td></tr></tbody></table></figure>
+<h2 id="注意-acme-sh"><a href="#注意-acme-sh" class="headerlink" title="注意 acme.sh"></a>注意 acme.sh</h2></li>
+</ul>
 </li>
 </ol>
-<h2 id="注意-acme-sh"><a href="#注意-acme-sh" class="headerlink" title="注意 acme.sh"></a>注意 acme.sh</h2><p>acme.sh 安装时会写入变量到 .zshrc 中。如果有 zplug，会写下如下两条命令：</p>
+<p>acme.sh 安装时会写入变量到 .zshrc 中。如果有 zplug，会写下如下两条命令：</p>
 <figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">zplug load. "/root/.acme.sh/acme.sh.env"</span><br><span class="line">. "/root/.acme.sh/acme.sh.env"</span><br></pre></td></tr></tbody></table></figure>
 
 <p>但这么写每次打开的时候都会报警。需要手动改成</p>
@@ -1714,6 +2003,20 @@
 <figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">zerotier-cli info</span><br></pre></td></tr></tbody></table></figure>
 
 <p>显示正常启用，则配置成功。</p>
+<h2 id="（23-5-12-更新）通过路由（ac86u）在-koolshare-商店中安装并远程唤醒"><a href="#（23-5-12-更新）通过路由（ac86u）在-koolshare-商店中安装并远程唤醒" class="headerlink" title="（23.5.12 更新）通过路由（ac86u）在 koolshare 商店中安装并远程唤醒"></a>（23.5.12 更新）通过路由（ac86u）在 koolshare 商店中安装并远程唤醒</h2><p>因为远程控制有更好用的 tailscale 了。但 headscale 在 ac86u 上<del>不受支持</del>非常不稳定，比较有用的远程唤醒还是需要 zerotier 来实现。但现在软件商店中有了 zerotier 后，不需要再进行那么多复杂的步骤了。</p>
+<ol>
+<li><p> 进入 koolshare 商店，安装 zerotier。</p>
+</li>
+<li><p>安装后根据插件提示连接并开启 zerotier。</p>
+</li>
+<li><p>将电脑/设备接上有线路由，并打开幻数据包唤醒功能。</p>
+</li>
+<li><p>手机/电脑在外网连接 zerotier，通过路由器这边连接的 ip 进入 merlin 的管理页面，找到网络工具-&gt;通过网络（LAN）唤醒，定位到相应的 mac（常用的 mac 可以通过加号添加到底下），点击下面的超链接，mac 会显示目标栏的框框里，然后点击唤醒，这时候电脑应该就能正常开机了。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20230512015524.png"></p>
+</li>
+<li><p> 插件如果在路由正常关机和正常重启（通过 webui 重启），重启后应该是会自动启动的。但如果用 ssh 的 reboot 命令重启路由，重启后 zerotier 插件可能不会正常启动，需要手动启动。</p>
+</li>
+</ol>
 <h2 id="配置-moon-节点"><a href="#配置-moon-节点" class="headerlink" title="配置 moon 节点"></a>配置 moon 节点</h2><p>参考文章：</p>
 <ul>
 <li><a href="https://www.cnblogs.com/Yogile/p/12642423.html">ZeroTier 搭建 moon 服务器 - Yogile - 博客园</a></li>
@@ -2182,10 +2485,34 @@
 <p>如果 web 接口没坏的话，和用 web 的效果一样；坏了的话就会带到一个 404 网页。不要慌张，此时地址栏的 url 里面已经包含有以 <code>M.R3_BAY</code> 开头直到地址栏结尾的 code 了。</p>
 <p>当然参考文章 2 里也给了一个略有差异但实际上也能使用的方法，同样是通过浏览器访问（不过原文是访问到世纪互联版 od，改个主机地址就成）：</p>
 <figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">   #原文的地址</span><br><span class="line">   #https://login.chinacloudapi.cn/common/oauth2/v2.0/authorize?client_id=[client_id]&amp;response_type=code&amp;redirect_uri=http://localhost/od-cf&amp;response_mode=query&amp;scope=offline_access%20Files.Read%20Files.ReadWrite.All</span><br><span class="line">#改个主机地址</span><br><span class="line">   https://login.microsoftonline.com/common/oauth2/v2.0/authorize?client_id=[client_id]&amp;response_type=code&amp;redirect_uri=http://localhost/od-cf&amp;response_mode=query&amp;scope=offline_access%20Files.Read%20Files.ReadWrite.All</span><br></pre></td></tr></tbody></table></figure>
-<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line"></span><br><span class="line">   这里的 redirect_uri 用了虚无的 `http://localhost/od-cf`，可以改成 web 接口的地址，也可以保留并在 azure 面板的 `redirect_url` 处添加这个网址。仅就此处不同的 `redirect_url` 不影响后续使用。</span><br><span class="line"></span><br><span class="line">2. 安装一个 post 工具。比如 Insomnia 或者是 postman。都可以通过 chocolatey 安装。这里演示 postman 的。</span><br><span class="line"></span><br><span class="line">   微软官网上一共写了五个参数：</span><br><span class="line"></span><br><span class="line">   &gt;POST https://login.microsoftonline.com/common/oauth2/v2.0/token</span><br><span class="line">   &gt;Content-Type: application/x-www-form-urlencoded</span><br><span class="line">   &gt;</span><br><span class="line">   &gt;client_id={client_id}&amp;redirect_uri={redirect_uri}&amp;client_secret={client_secret}</span><br><span class="line">   &gt;&amp;code={code}&amp;grant_type=authorization_code</span><br><span class="line"></span><br><span class="line">   在 postman 中新建页面，请求类型设为 post，地址为 https://login.microsoftonline.com/common/oauth2/v2.0/token；切换到 boy 这个 tab，底下一栏选中 application/x-www-form-urlencoded；然后新建五个 key：</span><br><span class="line"></span><br><span class="line">   - `grant_type` 填 authorization_code</span><br><span class="line">   - `code `填刚刚获取的 `authorization code`</span><br><span class="line">   - `redirect_uri` 填刚刚那一步用的回调 url</span><br><span class="line">   - `client_id`：你们懂得。</span><br><span class="line">   - `client_secret`：同上。</span><br><span class="line">   </span><br><span class="line">   点击 send，不出意外的话结果里就会有 `access_token` 和 `refresh_token`。记录下 `refresh_token`。</span><br><span class="line">   </span><br><span class="line">   ![](https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210220035446.png)</span><br><span class="line">   </span><br><span class="line">   不过如果获取失败（比如显示 `error: "invalid_request"`），那么就说明参数有误。注意，此时需要重新从第一小步开始获取 `authorization code`，因为 `authorization code` 只能用一次。另外 authorization code 多次获取的话也只有最后一次获取的 code 能用来获取 `refresh_token`。</span><br><span class="line"></span><br></pre></td></tr></tbody></table></figure>
-<h3 id="cloudflare-面板操作"><a href="#cloudflare-面板操作" class="headerlink" title="cloudflare 面板操作"></a>cloudflare 面板操作</h3></li>
+
+
+</li>
 </ol>
 </li>
+</ol>
+<pre><code>  这里的 redirect_uri 用了虚无的 `http://localhost/od-cf`，可以改成 web 接口的地址，也可以保留并在 azure 面板的 `redirect_url` 处添加这个网址。仅就此处不同的 `redirect_url` 不影响后续使用。</code></pre>
+<ol start="2">
+<li><p>安装一个 post 工具。比如 Insomnia 或者是 postman。都可以通过 chocolatey 安装。这里演示 postman 的。</p>
+<p>微软官网上一共写了五个参数：</p>
+<blockquote>
+<p>POST <a href="https://login.microsoftonline.com/common/oauth2/v2.0/token">https://login.microsoftonline.com/common/oauth2/v2.0/token</a><br>Content-Type: application/x-www-form-urlencoded</p>
+<p>client_id={client_id}&amp;redirect_uri={redirect_uri}&amp;client_secret={client_secret}<br>&amp;code={code}&amp;grant_type=authorization_code</p>
+</blockquote>
+<p>在 postman 中新建页面，请求类型设为 post，地址为 <a href="https://login.microsoftonline.com/common/oauth2/v2.0/token%EF%BC%9B%E5%88%87%E6%8D%A2%E5%88%B0">https://login.microsoftonline.com/common/oauth2/v2.0/token；切换到</a> boy 这个 tab，底下一栏选中 application/x-www-form-urlencoded；然后新建五个 key：</p>
+<ul>
+<li><code>grant_type</code> 填 authorization_code</li>
+<li><code>code </code>填刚刚获取的 <code>authorization code</code></li>
+<li><code>redirect_uri</code> 填刚刚那一步用的回调 url</li>
+<li><code>client_id</code>：你们懂得。</li>
+<li><code>client_secret</code>：同上。</li>
+</ul>
+<p>点击 send，不出意外的话结果里就会有 <code>access_token</code> 和 <code>refresh_token</code>。记录下 <code>refresh_token</code>。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210220035446.png"></p>
+<p>不过如果获取失败（比如显示 <code>error: "invalid_request"</code>），那么就说明参数有误。注意，此时需要重新从第一小步开始获取 <code>authorization code</code>，因为 <code>authorization code</code> 只能用一次。另外 authorization code 多次获取的话也只有最后一次获取的 code 能用来获取 <code>refresh_token</code>。</p>
+</li>
+</ol>
+<h3 id="cloudflare-面板操作"><a href="#cloudflare-面板操作" class="headerlink" title="cloudflare 面板操作"></a>cloudflare 面板操作</h3><ol>
 <li><p>搞一个域名并挂接到 cf 这事应该不用我强调了（</p>
 </li>
 <li><p>打开域名项，右下角有区域 id 和账户 id，记录下来。</p>
@@ -2281,10 +2608,11 @@
 <li>部署快捷的前提是用作者的接口，如果要用自己的 clientID 和 clientSecret 就会比原来更麻烦（要加密），好在现在共用同一组上面的信息应该不会导致限速问题。</li>
 <li>不知道是不是我的错觉，感觉加载速度要稍微慢一点点。</li>
 </ol>
-<p>另外，还是有两个小坑：</p>
+<p>另外，还是有三个小坑：</p>
 <ol>
 <li><code>site.config.js</code> 中加密文件夹 protectedRoutes 字段里填写的是相对于 baseDirectory 的相对路径而不是绝对路径。也就是说，baseDirectory 中你已经填入了要分享的子文件夹后你想对整个文件夹进行加密，protectedRoutes 不要填和 baseDirectory  一样的路径而是填 ‘\‘。</li>
 <li>根据万物皆可 cf 原则，可以在 vercel 的相应项目中，选到 settings-&gt;domain，填入相应的三级域名（注意是三级域名而不是托管在 cf 处的二级域名），点击 add，再把对应信息往 cf 里的 dns 中填就行了，其实类似的操作上面提过，往前翻一翻就能找到，这里就不再强调了~</li>
+<li>原来的项目并不需要设置 cf 的加密为完全，灵活也能用；但新项目必须设置为完全。</li>
 </ol>
 </li>
 </ol>
@@ -2748,8 +3076,8 @@
         <category>路由器</category>
       </categories>
       <tags>
-        <tag>xbox</tag>
         <tag>openwrt</tag>
+        <tag>xbox</tag>
         <tag>padavan</tag>
         <tag>中继</tag>
         <tag>asusfirmware</tag>
@@ -2881,7 +3209,7 @@
 <li>还原时机器会关机。还原后需要手动打开。如果还原前的磁盘不需要了，还原后可以手动删除以免造成额外支出。</li>
 </ol>
 <hr>
-<p>感觉一套下来，除了还原后原磁盘内容还能得以保留，给了一个「反悔还原」的机会以外，相比 do 和 vultr 步骤复杂多了，搞得那么复杂也没有啥额外的优点，人家厂还原时虽然也不能用，但不需要手动开机；中间我还以为快照能给转移到不同于原主机所在的其他区域去，后来发现是我想多了，创建磁盘的时候地区这栏根本就是灰的，原来快照备份的磁盘所在的区域在哪，快照就必须在哪。。。。。。</p>
+<p>感觉一套下来，除了还原后原磁盘内容还能得以保留，给了一个「反悔还原」的机会以外，相比 do 和 vultr 步骤复杂多了，搞得那么复杂也没有啥额外的优点，人家厂还原时虽然也不能用，但不需要手动开机；中间我还以为快照能给转移到不同于原主机所在的其他区域去，后来发现是我想多了，创建磁盘的时候地区这栏根本就是灰的，原来快照备份的磁盘所在的区域在哪，快照就必须在哪。。。。。。不过好在价格并没有比 do 和 vultr 贵多少，甚至还便宜一丢丢？</p>
 <p>只能说不愧是软软。</p>
 ]]></content>
       <categories>
@@ -3093,8 +3421,8 @@
         <category>Linux</category>
       </categories>
       <tags>
-        <tag>terminal</tag>
         <tag>vscode</tag>
+        <tag>terminal</tag>
         <tag>bash</tag>
       </tags>
   </entry>
@@ -3284,12 +3612,14 @@
 <h3 id="uu-加速器"><a href="#uu-加速器" class="headerlink" title="uu 加速器"></a>uu 加速器</h3><ul>
 <li>贵（30 元/月）</li>
 <li>限制一个设备绑定，且该设备下只能同时加速两个设备。</li>
-<li>下载加速效果不错。</li>
+<li>可以识别出电脑并加速。</li>
+<li>下载加速效果<del>不错</del>。<strong>（21.12.4 更新）</strong>也有开了加速 20m/s 关掉加速 100+ 的时候。</li>
 <li>支持 xbox 云游戏加速。</li>
 <li>openwrt 路由插件不能用手机 app 直接安装。</li>
 <li>没有 tx 那样的 bug。</li>
 <li>当年玩 cod12 pc 频繁掉线，不知道现在是否有改善。</li>
 <li>过节时线路拥堵，延迟会变高。</li>
+<li><strong>（2022.6 更新）</strong> 噬血代码加速效果不佳，经常掉线。</li>
 </ul>
 <h3 id="灵缇加速器"><a href="#灵缇加速器" class="headerlink" title="灵缇加速器"></a>灵缇加速器</h3><ul>
 <li>价格居中（16 元/月）</li>
@@ -3301,6 +3631,7 @@
 <li>港服节点貌似很拉跨。</li>
 <li>如果主路由下拖了一个中继路由（两个路由在同一个子网下），而你有两台游戏机，一台游戏机接主路由，另一台游戏机接子路由，那么你此时只能加速其中一个游戏机，加速另一个游戏机时会报错提示冲突。</li>
 <li>对 merlin（非华硕官方插件）支持一般，有时候装不上插件，以及用了两三天以后加速状态可能会掉，需要重新打开 app 点加速，而腾讯没这个毛病。</li>
+<li><strong>（2022.10 更新）</strong> 近期对 merlin 加速效果不佳，可能是性能和优化问题，用电脑做中转节点是没问题的。</li>
 </ul>
 <h3 id="雷神加速器"><a href="#雷神加速器" class="headerlink" title="雷神加速器"></a>雷神加速器</h3><ul>
 <li>便宜到爆。按使用时间付费而不是按月付费，冲个几千小时基本用不完。</li>
@@ -3383,8 +3714,8 @@
         <category>game</category>
       </categories>
       <tags>
-        <tag>xbox</tag>
         <tag>流水账</tag>
+        <tag>xbox</tag>
       </tags>
   </entry>
   <entry>
@@ -4481,8 +4812,8 @@
         <category>影音</category>
       </categories>
       <tags>
-        <tag>DLNA</tag>
         <tag>windows</tag>
+        <tag>DLNA</tag>
       </tags>
   </entry>
   <entry>
@@ -5119,8 +5450,8 @@
       </categories>
       <tags>
         <tag>magisk</tag>
-        <tag>xposed</tag>
         <tag>mipush</tag>
+        <tag>xposed</tag>
       </tags>
   </entry>
   <entry>
@@ -5311,9 +5642,9 @@
         <category>Game</category>
       </categories>
       <tags>
-        <tag>跨区</tag>
         <tag>羊毛</tag>
         <tag>xbox</tag>
+        <tag>跨区</tag>
       </tags>
   </entry>
   <entry>
@@ -5545,9 +5876,9 @@
         <category>Android</category>
       </categories>
       <tags>
-        <tag>termux</tag>
-        <tag>zsh</tag>
         <tag>terminal</tag>
+        <tag>zsh</tag>
+        <tag>termux</tag>
       </tags>
   </entry>
   <entry>
@@ -5831,8 +6162,8 @@
         <category>Network</category>
       </categories>
       <tags>
-        <tag>socks</tag>
         <tag>游戏加速</tag>
+        <tag>socks</tag>
         <tag>nat</tag>
         <tag>fullcone</tag>
       </tags>
@@ -6216,11 +6547,11 @@
         <category>Linux</category>
       </categories>
       <tags>
-        <tag>zsh</tag>
-        <tag>terminal</tag>
-        <tag>wireshark</tag>
         <tag>vscode</tag>
+        <tag>terminal</tag>
         <tag>debian</tag>
+        <tag>zsh</tag>
+        <tag>wireshark</tag>
         <tag>ubuntu</tag>
       </tags>
   </entry>
@@ -6614,8 +6945,8 @@
         <category>Windows</category>
       </categories>
       <tags>
-        <tag>zsh</tag>
         <tag>terminal</tag>
+        <tag>zsh</tag>
         <tag>powershell</tag>
       </tags>
   </entry>
@@ -6657,10 +6988,10 @@
 <p>登录面板后通过提示安装 lnmp+phpadmin（php 可视化管理工具），安装完后再插件页面选中安装的 php，插件管理处添加 fileinfo 即可。</p>
 <h3 id="docker-安装及一些基本操作"><a href="#docker-安装及一些基本操作" class="headerlink" title="docker 安装及一些基本操作"></a>docker 安装及一些基本操作</h3><p>参考文章：<a href="http://get.daocloud.io/#install-docker">Docker 极速下载</a></p>
 <ol>
-<li><p>安装 docker:</p>
- <figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">curl -sSL https://get.daocloud.io/docker | sh</span><br></pre></td></tr></tbody></table></figure>
+<li><p>安装 docker（ubuntu参考<a href="https://zhuanlan.zhihu.com/p/588264423">利用国内网络丝滑的安装 Docker - 知乎</a>或者是<a href="https://mirrors.tuna.tsinghua.edu.cn/help/docker-ce/">docker-ce | 镜像站使用帮助 | 清华大学开源软件镜像站 | Tsinghua Open Source Mirror</a>）:</p>
+ <figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">#已经502</span><br><span class="line">#curl -sSL https://get.daocloud.io/docker | sh</span><br><span class="line"></span><br><span class="line">export DOWNLOAD_URL="https://mirrors.tuna.tsinghua.edu.cn/docker-ce"</span><br><span class="line">curl -fsSL https://get.docker.com/ | sudo -E sh</span><br></pre></td></tr></tbody></table></figure>
 <p> 安装 docker-compose</p>
- <figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">curl -L https://get.daocloud.io/docker/compose/releases/download/1.23.2/docker-compose-`uname -s`-`uname -m` &gt; /usr/local/bin/docker-compose</span><br><span class="line">chmod +x /usr/local/bin/docker-compose</span><br></pre></td></tr></tbody></table></figure>
+ <figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">#curl -L https://get.daocloud.io/docker/compose/releases/download/1.23.2/docker-compose-`uname -s`-`uname -m` &gt; /usr/local/bin/docker-compose</span><br><span class="line">compose_new_ver=$(wget -qO- -t1 -T2 "https://api.github.com/repos/docker/compose/releases/latest" | grep "tag_name" | head -n 1 | awk -F ":" '{print $2}' | sed 's/\"//g;s/,//g;s/ //g'|sed 's/[a-z]*//g')</span><br><span class="line">#230328更新，daocloud的docker-compose似乎炸掉了</span><br><span class="line">#curl -L https://get.daocloud.io/docker/compose/releases/download/v${compose_new_ver}/docker-compose-`uname -s`-`uname -m` &gt; /usr/local/bin/docker-compose</span><br><span class="line">curl -L https://github.com/docker/compose/releases/download/v${compose_new_ver}/docker-compose-`uname -s`-`uname -m` &gt; /usr/local/bin/docker-compose</span><br><span class="line">chmod +x /usr/local/bin/docker-compose</span><br></pre></td></tr></tbody></table></figure>
 </li>
 <li><p>常用命令（此处的 xxx 可以是 id 也可以是 name）</p>
 <table>
@@ -6683,6 +7014,10 @@
 <td><code>docker ps -a</code></td>
 </tr>
 <tr>
+<td>查看容器（全消息，防止 command 行被压缩）</td>
+<td><code>docker ps -a --no-trunc</code></td>
+</tr>
+<tr>
 <td>停止容器</td>
 <td><code>docker stop xxx</code></td>
 </tr>
@@ -6701,6 +7036,18 @@
 <tr>
 <td>docker-compose 文件卸载</td>
 <td><code>docker-compose down</code></td>
+</tr>
+<tr>
+<td>docker-compose更新并重载，最后清理</td>
+<td><code>docker-compose pull</code></td>
+</tr>
+<tr>
+<td></td>
+<td><code>docker-compose up -d --remove-orphans</code></td>
+</tr>
+<tr>
+<td></td>
+<td><code>docker image prune</code></td>
 </tr>
 <tr>
 <td>查看容器错误信息</td>
@@ -6723,6 +7070,9 @@
 <p> 此时如果需要复制本机的文件到 docker 或者反过来操作，可以通过 docker cp 指令</p>
  <figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">docker cp xxxx:/root/test.txt /root/</span><br></pre></td></tr></tbody></table></figure>
 <p> 冒号后面的是 docker 内路径，另一个就是本机路径。</p>
+<p> <strong>（23.6.7 更新）</strong> 查看容器中的二进制文件在哪里：</p>
+ <figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">docker exec xxxx which [命令]</span><br></pre></td></tr></tbody></table></figure>
+
 </li>
 </ol>
 <h3 id="新建一个用户"><a href="#新建一个用户" class="headerlink" title="新建一个用户"></a>新建一个用户</h3><p>后面某些应用（caddy，transmission）需要非 root 下运行，如果不自己新建用户的话，他们默认的用户会冲突，表现在两者共有的文件夹在其中一个应用中无法进行某些操作（如删除）。</p>
@@ -6829,6 +7179,12 @@
 
 <p>例如我的域名是 baobaobao.xxx，那么就应该这么写</p>
 <figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">acme.sh --issue --dns dns_cf -d baobaobao.xxx -d *.baobaobao.xxx -k ec-256</span><br></pre></td></tr></tbody></table></figure>
+
+<p><strong>（22.10.31 更新）</strong> acme.sh 改为由 zerossl 提供证书了，所以需要先注册邮箱</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">acme.sh  --register-account -m xxx@xxx.com </span><br></pre></td></tr></tbody></table></figure>
+
+<p>或者，在申请证书的参数加入 <code>--server letsencrypt</code></p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">~/.acme.sh/acme.sh --server letsencrypt --issue --dns dns_cf -d baobaobao.xxx -d *.baobaobao.xxx -k ec-256</span><br></pre></td></tr></tbody></table></figure>
 </li>
 <li><p>安装证书，<code>keypath</code> 和 <code>fullchainpath</code> 后面的路径和名字自定，建议放到同一目录，可以放到 <code>/home</code> 或者 <code>/etc</code>，后续还要再给读写权限。</p>
 <figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">acme.sh --installcert -d baobaobao.xxx --keypath /home/ssl/baobaobao.key --fullchainpath /home/ssl/baobaobao.crt --reloadcmd "nginx -s reload" --ecc</span><br></pre></td></tr></tbody></table></figure>
@@ -6856,9 +7212,9 @@
 
 <p>检测配置文件。</p>
 <p>另外也可以在 <code>/var/log/nginx</code> 中检视日志文件。（不过 nginx 的日志做转发的时候很不直观）</p>
-<h3 id="mysql"><a href="#mysql" class="headerlink" title="mysql"></a>mysql</h3><p>在宝塔面板上添加删除 mysql 用户很方便，gui 一把梭，不再赘述。只谈谈 lnmp 一键包的（当然宝塔也适用使用以下步骤）。另外宝塔编辑表也可以用自带的 phpadmin 而不需要在自己的电脑上安装 navicat，或者，在相应数据库内设置访问权限为所有人，才能用 navicat  登陆。</p>
+<h3 id="mysql（5-7）"><a href="#mysql（5-7）" class="headerlink" title="mysql（5.7）"></a>mysql（5.7）</h3><p>在宝塔面板上添加删除 mysql 用户很方便，gui 一把梭，不再赘述。只谈谈 lnmp 一键包的（当然宝塔也适用使用以下步骤）。另外宝塔编辑表也可以用自带的 phpadmin 而不需要在自己的电脑上安装 navicat，或者，在相应数据库内设置访问权限为所有人，才能用 navicat  登陆。</p>
 <h4 id="登录-mysql"><a href="#登录-mysql" class="headerlink" title="登录 mysql"></a>登录 mysql</h4><p>输入<code>mysql -p</code>，再输入你 lnmp 安装时创建的密码即可登录。</p>
-<p>不过推荐使用 mysql 自动补全工具来登录</p>
+<p>不过推荐使用 mysql 自动补全工具来登录。</p>
 <p>先安装</p>
 <figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">pip install tldr mycli</span><br></pre></td></tr></tbody></table></figure>
 
@@ -6916,11 +7272,137 @@
 <figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">rm -r /opt/tieba</span><br></pre></td></tr></tbody></table></figure>
 </li>
 <li><p>官方教程中提到可以改 <code>mysql_autoload.php</code>，这个文件在 <code>tieba_web_1</code> 容器中的 <code>/srv/www/lib/</code> 文件夹内。我改了没用，因为问题也不是在那个地方。</p>
-<h4 id="rsshub"><a href="#rsshub" class="headerlink" title="rsshub"></a>rsshub</h4></li>
+<h4 id="filemanager（docker）"><a href="#filemanager（docker）" class="headerlink" title="filemanager（docker）"></a>filemanager（docker）</h4></li>
 </ul>
 </li>
 </ol>
-<p>参考文章：</p>
+<p>参考资料：</p>
+<ul>
+<li><a href="https://blog.51cto.com/536410/2318111?source=dra">利用docker 搭建File Browser 文件管理系统</a>  </li>
+<li><a href="https://github.com/filebrowser/filebrowser/issues/522">BaseUrl not longer honored when in url of static assets</a></li>
+</ul>
+<p>下载 filebrowser 镜像</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">docker pull filebrowser/filebrowser</span><br></pre></td></tr></tbody></table></figure>
+<p>选好 filebrowser 配置文件夹和主文件夹（即 filebrowser 的生效文件夹）所指向的目录，注意配置文件夹不能是主文件夹的子目录，否则会有危险。配置文件夹我选择的是<code>/home/filebrowser</code>，主文件夹便是 zbttl 的默认目录 <code>/home/zbttl</code>，如果是通过 root 权限运行那么无所谓，不是的话需要注意配置文件夹权限。</p>
+<p>之后在配置文件夹里面新建一个 <code>filebrowser.db</code> 文件，否则程序运行时就会自动创建同名的<strong>文件夹</strong>导致错误（我也不知道为什么会那么沙雕，反正是作者承认的 bug，当然也可以选择在下一步不映射这个文件，但如果将来要迁移 filebrowser 的话没有这个文件夹就需要重新配置）。还可以手工建一个名为 <code>.filebrowser.json</code> 的文件，如果运行时映射了但之前没建的话就会使用默认配置，root 并有单独域名的情况下使用默认配置没有问题，但如果考虑到我们的使用环境（在 zbttl 这个用户下使用），必须要做出修改，或者运行时将参数写在命令中。</p>
+<p><code>.filebrowser.json</code> 这个文件的<a href="https://github.com/filebrowser/filebrowser/blob/master/.docker.json">默认配置</a>长这样：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">{</span><br><span class="line">  "port": 80,</span><br><span class="line">  "baseURL": "",</span><br><span class="line">  "address": "",</span><br><span class="line">  "log": "stdout",</span><br><span class="line">  "database": "/database.db",</span><br><span class="line">  "root": "/srv"</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<p>我们需要修改 port（非 root 下 1000 以下端口受限，容器内容器外都是），假设我们用 7777 这个端口。另外还有一个 baseurl，这个待会再提。</p>
+<p>不修改 baseurl 的话，最后成果长这样：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">{</span><br><span class="line">  "port": 7777,</span><br><span class="line">  "baseURL": "",</span><br><span class="line">  "address": "",</span><br><span class="line">  "log": "stdout",</span><br><span class="line">  "database": "/database.db",</span><br><span class="line">  "root": "/srv"</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<p>然后看一眼教程里面的默认命令</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">docker run -d -v /home/file_browser:/srv -v /home/file_browser/config.json:/etc/config.json -v /home/file_browser/database.db:/etc/database.db -p 100:80 filebrowser/filebrowser</span><br></pre></td></tr></tbody></table></figure>
+<p>冒号前是实机目录，冒号后是容器内目录。刚刚说过 config.json  实际上默认自带不需要映射，但我们修改过里面的内容（比如接下来我们要修改的 baseurl）又不想在命令里面写明的话可以做映射。选择映射到实机 100 端口，避开 http 的 80 端口。-d 的意思是，后台运行</p>
+<p>根据我们的配置，做出修改：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">docker run -u 1000 --name filebrowser -v /home/zbttl:/srv -v /home/filebrowser/filebrowser.db:/database.db -v /home/filebrowser/.filebrowser.json:/.filebrowser.json -p 7777:7777 filebrowser/filebrowser</span><br></pre></td></tr></tbody></table></figure>
+
+<p>-u 的意思是运行用户的 uid，可以通过 id 命令查询 <code>id zbttl</code>。不使用后台，看看报不报错。</p>
+<p>然后用浏览器 ip:7777 即可打开。通过浏览器访问，默认账号密码：admin</p>
+<p>加上后台和自启（也可以选择强行停止然后删除原容器后加上 -d 和自启参数再次运行）：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">docker ps -a</span><br><span class="line">#复制容器名</span><br><span class="line">docker container update --restart=always 容器名字</span><br><span class="line">docker start 容器名字</span><br></pre></td></tr></tbody></table></figure>
+
+
+<p>另外如果想映射到虚拟主机目录下（比如域名使用 xxx/filemanager:777 时有效)，需要加入 –baseurl 参数，可以写在刚刚的配置文件中，这里以写在命令中为例。务必加在镜像名后，如：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">docker run -d -u 1000 -v /home/zbttl:/srv -v /home/filebrowser/filebrowser.db:/database.db -v /home/filebrowser/.filebrowser.json:/.filebrowser.json -p 7777:7777 filebrowser/filebrowser --baseurl /filemanager/</span><br></pre></td></tr></tbody></table></figure>
+<p>主要用于你想用手上现有的域名 + 虚拟主机而不是另开新的三级域名来搭建 filemanager 时使用（后面讲 nginx 时我会再提到）</p>
+<h4 id="aria2-docker"><a href="#aria2-docker" class="headerlink" title="aria2 docker"></a>aria2 docker</h4><p>有条件先去看离线下载类的 aria2，配置文件和破解线程限制的指南在那里。</p>
+<p><strong>(21.3.8 更新)</strong> 发现线程破解啥的，P3TERX 大佬喂到嘴里了。。。详情见：<a href="https://github.com/P3TERX/Aria2-Pro-Core">P3TERX/Aria2-Pro-Core: Aria2 static binaries for GNU/Linux with some powerful feature patches. | 破解无限线程 防掉线程优化 静态编译 二进制文件 增强版</a>。</p>
+<p>现在作者推荐使用新版 dockerr 配合直接使用网桥模式，将 docker 端口直接透出来；bt 端口默认重新配置过，不再需要另外指定以防和 transmission 产生冲突；我思索了一下，和 transmission 相比，aria2 没法管理已经下载好的文件，所以和 vps 内 filebrowser 配合使用的 transmission 才需要正确设置权限，aria2 现在只用于直接下载然后和 rclone 配合上传文件到 onedrive，不接触 vps 内文件，就懒得老老实实配置用户给它了。</p>
+<p>所以我现在的使用方法是，不做修改直接使用作者给的带有 rclone 功能的命令。将之前配置好的 rclone 文件（配置方法参考<a href="#rclone">网盘类 rclone</a>，配置完后在 <code>/root/.config/rclone/rclone.conf</code>）和证书（使用 acme.sh，参考<a href="#%E5%85%B3%E4%BA%8E%E8%AF%81%E4%B9%A6%E7%9A%84%E9%85%8D%E7%BD%AE">关于证书的配置</a>，使用 <code>acme.sh install</code> 安装到相应目录）放 / 安装到 <code>/root/aria-config</code> 中；修改 <code>aria2.conf</code> 的证书配置；修改 <code>script.conf</code> 的 rclone 网盘名和上传目的地文件夹名（和 rclone 原命令不同，目的地文件夹中有中文也不要加单引号）；配置好 <a href="#%E9%85%8D%E7%BD%AE%E5%89%8D%E7%AB%AF">aria2NG 前端</a>（因为我想配合 cf 使用，且我现在使用的 caddy 能自动帮我加证书，但 aria2NG 这边用 caddy 反代开启 https 后要求 aria2 本身也开启 ssl，开启 aria2NG ssl 后 aria2NG 协议下拉菜单 http 选项是禁用不能选的，所以上文我给 aria2 也上了 ssl），运行官方命令：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">docker run -d \</span><br><span class="line">--name aria2-pro \</span><br><span class="line">--restart unless-stopped \</span><br><span class="line">--log-opt max-size=1m \</span><br><span class="line">--network host \</span><br><span class="line">-e PUID=$UID \</span><br><span class="line">-e PGID=$GID \</span><br><span class="line">-e RPC_SECRET=[登录密码] \</span><br><span class="line">-e RPC_PORT=6800 \</span><br><span class="line">-e LISTEN_PORT=6888 \</span><br><span class="line">-v $PWD/aria2-config:/config \</span><br><span class="line">-v $PWD/aria2-downloads:/downloads \</span><br><span class="line">-e SPECIAL_MODE=rclone \</span><br><span class="line">p3terx/aria2-pro</span><br></pre></td></tr></tbody></table></figure>
+
+<p>即可。</p>
+<p>参考文章：<a href="https://p3terx.com/archives/docker-aria2-pro.html">Aria2 Pro - 更好用的 Aria2 Docker 容器镜像</a></p>
+<hr>
+<p>官方命令：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">docker run -d \</span><br><span class="line">    --name aria2-pro \</span><br><span class="line">    --restart unless-stopped \</span><br><span class="line">    --log-opt max-size=1m \</span><br><span class="line">    -e PUID=$UID \</span><br><span class="line">    -e PGID=$GID \</span><br><span class="line">    -e RPC_SECRET=&lt;TOKEN&gt; \</span><br><span class="line">    -p 6800:6800 \</span><br><span class="line">    -p 6888:6888 \</span><br><span class="line">    -p 6888:6888/udp \</span><br><span class="line">    -v ~/aria2-config:/config \</span><br><span class="line">    -v ~/downloads:/downloads \</span><br><span class="line">    p3terx/aria2-pro</span><br></pre></td></tr></tbody></table></figure>
+
+<p>和 aria2 一键脚本相比，添加了 PUID 和 PGID 两个参数，方便以指定的身份下载文件，不过实现的方法和通用方法 -u 参数（参见 filemanager docker）不同，用了 -e 参数（实测，-e 和 -u 不可混用，需要配合具体容器使用）。两个 -v 对应的目录一个是配置目录一个是下载，这里还可以开一个 -v，链接破解过线程的 aria2 二进制文件，注意该文件需要提前加够 755 权限。另外，这里的 TOKEN 是密码，也需要进行定义。</p>
+<p>根据非 docker aria2 的默认设置，下载文件放置于 <code>/home/zbttl/download/aria2</code>，程序放置于 <code>/usr/local/bin</code>，docker 内 aria2 同样放置于 <code>/usr/local/bin/</code>，配置文件 <code>aria2.conf</code> 由于和原来有一些出入（不过大概只有目标目录那里需要验证，默认的 <code>/root/Downloads</code> 不知道能不能改），所以首次使用不建议修改映射，但可以部署完后进行修改保存，下次放入 <code>/root/aria2-config/</code> 继续用。</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">docker run -d \</span><br><span class="line">    --name aria2-pro \</span><br><span class="line">    --restart unless-stopped \</span><br><span class="line">    --log-opt max-size=1m \</span><br><span class="line">    -e PUID=1000 \</span><br><span class="line">    -e PGID=$GID \</span><br><span class="line">    -e RPC_SECRET=[登录密码] \</span><br><span class="line">    -p 6800:6800 \</span><br><span class="line">    -p 6888:6888 \</span><br><span class="line">    -p 6888:6888/udp \</span><br><span class="line">    -v ~/aria2-config:/config \</span><br><span class="line">    -v /home/zbttl/download/aria2:/downloads \</span><br><span class="line">    -v /usr/local/bin/aria2c:/usr/local/bin/aria2c \</span><br><span class="line">    p3terx/aria2-pro</span><br></pre></td></tr></tbody></table></figure>
+
+<p>另外，这里有一个不算啥问题的问题。。。如果和 aria2 一键脚本混用且 aria2 一键脚本已安装并启动，同时打开该容器（在端口经过修改没有冲突程序打开成功的情况下），此时停止 aria2 脚本安装的 aria2 程序，然后再次运行启动脚本，会提示该脚本启动的 aria2 仍在开启。不过也不会有人无聊到混用的吧。</p>
+<h4 id="amule（docker）"><a href="#amule（docker）" class="headerlink" title="amule（docker）"></a>amule（docker）</h4><p>参考文章：<a href="https://hub.docker.com/r/tchabaud/amule">tchabaud/amule</a></p>
+<p>不是官方的，不能保证更新，不过官方都几百年不更新了，无所谓了。</p>
+<p>官方示例：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">docker run -p 4712:4712 -p 4662:4662 -p 4672:4672/udp \</span><br><span class="line">    -e PUID=[wanted_uid] -e PGID=[wanted_gid] \</span><br><span class="line">    -e GUI_PWD=[wanted_password_for_gui] \</span><br><span class="line">    -v ./amule/conf:/home/amule/.aMule -v ./amule/incoming:/incoming -v ./amule/tmp:/temp tchabaud/amule</span><br></pre></td></tr></tbody></table></figure>
+
+<p>其实经过前几个 docker 的搭建这些参数我都差不多熟悉了。。。不过这里有个小坑。 -v 这里有三个目录，按理来说，我们需要修改的 conf 参数在 docker 命令中已经包括了，所以实际上 -v 只需要映射 <code>/incoming</code> 目录就好了。然而我这么做了以后，发现下载速度比原版 amule 慢了不少。。。试了两三次，只有最后一次，放置了两三个小时后，amule 的 kad 正确的连接了，速度才正常了起来，而当正确的映射三个目录的时候，运行正常。所以看来还是得乖乖映射两个没啥用的目录。。。</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">mkdir /home/zbttl/download/amule&amp;&amp;cd /home/zbttl/download/amule</span><br><span class="line">mkdir ./conf</span><br><span class="line">mkdir ./tmp</span><br><span class="line">mkdir ./incoming</span><br><span class="line">chown -R zbttl ./conf ./tmp ./incoming</span><br><span class="line">docker run -d -p 4711:4711 -p 4662:4662 -p 4672:4672/udp     -e PUID=1000 -e PGID=1000     -e WEBUI_PWD=[登录密码]    -v /home/zbttl/download/amule/conf:/home/amule/.aMule -v /home/zbttl/download/amule/incoming:/incoming -v /home/zbttl/download/amule/tmp:/temp tchabaud/amule</span><br></pre></td></tr></tbody></table></figure>
+
+<p>当然，不要和通常版 amule 一起使用，即使端口错开，后开那个也只能得到 low id。</p>
+<h4 id="mldonkey（docker）"><a href="#mldonkey（docker）" class="headerlink" title="mldonkey（docker）"></a>mldonkey（docker）</h4><p>参考文章：<a href="https://github.com/logicwar">logicwar</a>/<strong><a href="https://github.com/logicwar/mldonkey">mldonkey</a></strong></p>
+<p>mldonkey 普通版的配置真是一顶一的麻烦。。。而 docker 版版本旧一些（只到 3.1.5），不过作者加了一些源，而且把限速解开了无需配置，推荐使用。</p>
+<p>官方示例：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">docker create --name=mldonkey \</span><br><span class="line">              -v &lt;path for config files&gt;:/var/lib/mldonkey:rw \</span><br><span class="line">              -v &lt;path for temporary files&gt;:/mnt/mldonkey_tmp:rw \</span><br><span class="line">              -v &lt;path for completed downloaded files&gt;:/mnt/mldonkey_completed:rw \</span><br><span class="line">              -e PGID=&lt;gid&gt; \</span><br><span class="line">              -e PUID=&lt;uid&gt; \</span><br><span class="line">              -e TZ=&lt;timezone&gt; \</span><br><span class="line">              -p 4000:4000 \</span><br><span class="line">              -p 4001:4001 \</span><br><span class="line">              -p 4080:4080 \</span><br><span class="line">              -p 20562:20562 \</span><br><span class="line">              -p 20566:20566/udp \</span><br><span class="line">              -p 16965:16965 \</span><br><span class="line">              -p 16965:16965/udp \</span><br><span class="line">              -p 6209:6209 \</span><br><span class="line">              -p 6209:6209/udp \</span><br><span class="line">              -p 6881:6881 \</span><br><span class="line">              -p 6882:6882 \</span><br><span class="line">              -p 3617:3617/udp \</span><br><span class="line">              -p 4444:4444 \</span><br><span class="line">              -p 4444:4444/udp \</span><br><span class="line">              logicwar/mldonkey</span><br></pre></td></tr></tbody></table></figure>
+
+<p>这次去掉不必要的映射就没啥副作用了。</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">docker run --name=mldonkey \</span><br><span class="line">              -v /home/zbttl/download/mldonkey:/mnt/mldonkey_completed:rw \</span><br><span class="line">              -e PGID=1000 \</span><br><span class="line">              -e PUID=1000 \</span><br><span class="line">              -p 4000:4000 \</span><br><span class="line">              -p 4001:4001 \</span><br><span class="line">              -p 4080:4080 \</span><br><span class="line">              -p 20562:20562 \</span><br><span class="line">              -p 20566:20566/udp \</span><br><span class="line">              -p 16965:16965 \</span><br><span class="line">              -p 16965:16965/udp \</span><br><span class="line">              -p 6209:6209 \</span><br><span class="line">              -p 6209:6209/udp \</span><br><span class="line">              -p 6881:6881 \</span><br><span class="line">              -p 6882:6882 \</span><br><span class="line">              -p 3617:3617/udp \</span><br><span class="line">              -p 4444:4444 \</span><br><span class="line">              -p 4444:4444/udp \</span><br><span class="line">              logicwar/mldonkey</span><br></pre></td></tr></tbody></table></figure>
+
+<h4 id="vscoder"><a href="#vscoder" class="headerlink" title="vscoder"></a>vscoder</h4><p>参考文章：<a href="https://hub.docker.com/r/linuxserver/code-server">linuxserver/code-server</a></p>
+<p>新建了一个 coder 用户，用户文件夹为 <code>/home/coder</code>，<code>id coder</code> 查询结果为 1003。</p>
+<p>docker-compose.yml：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">version: "2.1"</span><br><span class="line">services:</span><br><span class="line">  code-server:</span><br><span class="line">    image: linuxserver/code-server</span><br><span class="line">    container_name: code-server</span><br><span class="line">    environment:</span><br><span class="line">      - PUID=1003</span><br><span class="line">      - PGID=1003</span><br><span class="line">      - TZ=Asia/Shanghai</span><br><span class="line">      - PASSWORD=[登录密码] #optional</span><br><span class="line">      - SUDO_PASSWORD=[linux用户密码] #optional</span><br><span class="line">    volumes:</span><br><span class="line">      - /home/coder/:/config</span><br><span class="line">    ports:</span><br><span class="line">      - 8443:8443</span><br><span class="line">    restart: unless-stopped</span><br></pre></td></tr></tbody></table></figure>
+
+<p>另外还有一种 <a href="https://github.com/cdr/code-server">cdr/code-server</a> 我试了半天都没办法用非 root 用户映射本地目录，算了。</p>
+<h4 id="bitwarden"><a href="#bitwarden" class="headerlink" title="bitwarden"></a>bitwarden</h4><p>参考文章：</p>
+<ul>
+<li><a href="https://sspai.com/post/61694">通过 Bitwarden 管理你的密码 - 少数派</a></li>
+<li><a href="https://github.com/dani-garcia/vaultwarden/wiki">Home · dani-garcia/vaultwarden Wiki</a></li>
+<li><a href="https://atpx.com/blog/docker-vaultwarden/">自建 vaultwarden / bitwarden_rs 密码管理器 - atpX</a></li>
+<li><a href="https://community.bitwarden.com/t/how-to-install-and-configure-fail2ban-with-bitwarden-standard-docker-install/48156">How to install and configure fail2ban with Bitwarden standard Docker install - Ask the Community / Password Manager - Bitwarden Community Forums</a></li>
+</ul>
+<p>官方版 bitwarden 需要 获取 application id 和 application secret。第三方版本则不用，所以我选择部署第三方版本。另外由于应用的重要性，https 部署是很有必要的。下列的命令，映射了 20080 端口作为前端页面（不过只能通过 nginx 反代），3012 据说是通知走的端口，admin_token 是 <code>https://ip/admin</code> 也就是管理界面的密码，关闭了新用户注册，开起来 ws 通知，固定了域名。</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">docker run -d --name bitwarden -v /bw-data/:/data/ -p 127.0.0.1:20080:80 -p 3012:3012 -e TZ="Asia/Shanghai" -e ADMIN_TOKEN=xxxx_admin_backend -e SIGNUPS_ALLOWED=false -e WEBSOCKET_ENABLED=true -e LOG_FILE=/data/vaultwarden.log  -e DOMAIN=https://[ip地址或域名] vaultwarden/server:latest</span><br></pre></td></tr></tbody></table></figure>
+
+<p>nginx 配置参考：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">server {</span><br><span class="line">    listen 80 reuseport default_server;</span><br><span class="line">    listen [::]:80 reuseport default_server;</span><br><span class="line">    return 301 https://$host$request_uri;</span><br><span class="line">}</span><br><span class="line">server {</span><br><span class="line">		server_name 1.12.63.132;</span><br><span class="line">		client_max_body_size 128M;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        listen 443 ssl http2 default_server;</span><br><span class="line">		listen [::]:443 ssl http2 default_server;</span><br><span class="line"></span><br><span class="line">		# Enable stronger ciphers</span><br><span class="line">		ssl_protocols TLSv1.2 TLSv1.3;</span><br><span class="line">		ssl_ciphers EECDH+AESGCM:EDH+AESGCM;</span><br><span class="line"></span><br><span class="line">        #certificate</span><br><span class="line">        ssl_certificate         /etc/ssl/certificate.crt;</span><br><span class="line">        ssl_certificate_key     /etc/ssl/private.key;</span><br><span class="line">		root /var/www/html;</span><br><span class="line">        location / {</span><br><span class="line">        proxy_pass http://localhost:20080/;</span><br><span class="line">        proxy_set_header Host $host;</span><br><span class="line">        proxy_set_header X-Real-IP $remote_addr;</span><br><span class="line">        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;</span><br><span class="line"></span><br><span class="line">		# Additional settings</span><br><span class="line">        proxy_redirect off;</span><br><span class="line">        proxy_buffering on;</span><br><span class="line">		}</span><br><span class="line">		location /notifications/hub {</span><br><span class="line">			proxy_pass http://localhost:3012;</span><br><span class="line">			proxy_set_header Upgrade $http_upgrade;</span><br><span class="line">			proxy_set_header Connection "upgrade";</span><br><span class="line">			</span><br><span class="line">		}</span><br><span class="line">		location /notifications/hub/negotiate {</span><br><span class="line">			proxy_pass http://localhost:20080;</span><br><span class="line">		}</span><br><span class="line">		location /.well-known {</span><br><span class="line">    	allow all;</span><br><span class="line">		}</span><br><span class="line">	}</span><br></pre></td></tr></tbody></table></figure>
+
+<p>最好再使用 fail2ban 进行加固。</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">apt install fail2ban -y</span><br></pre></td></tr></tbody></table></figure>
+
+<p>主页面：</p>
+<p>新建<code>/etc/fail2ban/jail.d/vaultwarden.local</code></p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">[vaultwarden]</span><br><span class="line">enabled = true</span><br><span class="line">port = 80,443,8081</span><br><span class="line">filter = vaultwarden</span><br><span class="line">logpath = /bw-data/vaultwarden.log</span><br><span class="line">maxretry = 3</span><br><span class="line">bantime = 14400</span><br><span class="line">findtime = 14400</span><br></pre></td></tr></tbody></table></figure>
+
+<p>新建 <code>/etc/fail2ban/filter.d/vaultwarden.local</code></p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line"># path_f2b/filter.d/vaultwarden.local</span><br><span class="line"></span><br><span class="line">[INCLUDES]</span><br><span class="line">before = common.conf</span><br><span class="line"></span><br><span class="line">[Definition]</span><br><span class="line">failregex = ^.*Username or password is incorrect\. Try again\. IP: &lt;ADDR&gt;\. Username:.*$</span><br><span class="line">ignoreregex =</span><br></pre></td></tr></tbody></table></figure>
+
+<p>管理页面：</p>
+<p>新建<code>/etc/fail2ban/jail.d/vaultwarden.local-admin</code></p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line"># path_f2b/jail.d/vaultwarden-admin.local</span><br><span class="line"></span><br><span class="line">[vaultwarden-admin]</span><br><span class="line">enabled = true</span><br><span class="line">port = 80,443</span><br><span class="line">filter = vaultwarden-admin</span><br><span class="line">logpath = /bw-data/vaultwarden.log</span><br><span class="line">maxretry = 3</span><br><span class="line">bantime = 14400</span><br><span class="line">findtime = 14400</span><br></pre></td></tr></tbody></table></figure>
+
+<p>新建 <code>/etc/fail2ban/filter.d/vaultwarden.local-admin</code></p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line"># path_f2b/filter.d/vaultwarden-admin.local</span><br><span class="line"></span><br><span class="line">[INCLUDES]</span><br><span class="line">before = common.conf</span><br><span class="line"></span><br><span class="line">[Definition]</span><br><span class="line">failregex = ^.*Invalid admin token\. IP: &lt;ADDR&gt;.*$</span><br><span class="line">ignoreregex =</span><br></pre></td></tr></tbody></table></figure>
+
+<p>重启 <code>fail2ban</code> 生效</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">systemctl restart fail2ban</span><br></pre></td></tr></tbody></table></figure>
+
+<p>访问首页三次密码/账号错误的话 ip 就会锁死，并在 <code>/var/log/fail2ban.log</code> 和 <code>/bw-data/vaultwarden.log</code> 处留下记录。如要解锁，运行：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">fail2ban-client set vaultwarden unbanip [被锁的ip地址]</span><br></pre></td></tr></tbody></table></figure>
+
+<p>解封所有 ip （可能要多运行几次，可能失败）：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">fail2ban-client unban --all </span><br></pre></td></tr></tbody></table></figure>
+
+<p>查看 fail2ban 限制情况</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">fail2ban-client status vaultwarden</span><br></pre></td></tr></tbody></table></figure>
+
+<h4 id="transmission"><a href="#transmission" class="headerlink" title="transmission"></a>transmission</h4><p>4.0 版本之后需要自己放第三方 gui 到目录下。参考：<a href="https://forums.unraid.net/topic/135451-transmission-401-%E4%B8%8D%E5%86%8D%E6%94%AF%E6%8C%81%E6%8D%86%E7%BB%91%E7%AC%AC%E4%B8%89%E6%96%B9ui%E7%95%8C%E9%9D%A2%EF%BC%9F/">Transmission 4.0.1 不再支持捆绑第三方UI界面？ - Chinese / 简体中文 - Unraid</a></p>
+<p>docker-compose.yml（和 alist 混合使用）：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">version: '3.3'</span><br><span class="line">services:</span><br><span class="line">    transmission:</span><br><span class="line">        container_name: transmission</span><br><span class="line">        environment:</span><br><span class="line">            - PUID=0</span><br><span class="line">            - PGID=0</span><br><span class="line">            - TZ="Asia/Shanghai"</span><br><span class="line">            - TRANSMISSION_WEB_HOME=/config/transmission-web-control/</span><br><span class="line">            - USER=zbttl #optional</span><br><span class="line">            - PASS=asd123zxctm #optional</span><br><span class="line">        ports:</span><br><span class="line">            - '9091:9091'</span><br><span class="line">            - '51413:51413'</span><br><span class="line">            - '51413:51413/udp'</span><br><span class="line">        volumes:</span><br><span class="line">            - '/root/alist/transmission/config:/config'</span><br><span class="line">            - '/root/alist/666xxy/tmdownloads:/downloads'</span><br><span class="line">            - '/root/alist/transmission/watch:/watch'</span><br><span class="line">        restart: unless-stopped</span><br><span class="line">        image: linuxserver/transmission</span><br></pre></td></tr></tbody></table></figure>
+
+<p>然后</p>
+<blockquote>
+<ol>
+<li><p>下载想要的webui，如 <a href="https://github.com/ronggang/transmission-web-control">https://github.com/ronggang/transmission-web-control</a> </p>
+</li>
+<li><p>将压缩包里的src目录及其下文件解压至”config”映射的服务器文件夹 ，然后将文件夹更名为 transmission-web-control 即可</p>
+</li>
+</ol>
+</blockquote>
+<h4 id="rsshub"><a href="#rsshub" class="headerlink" title="rsshub"></a>rsshub</h4><p>参考文章：</p>
 <ul>
 <li><a href="https://docs.rsshub.app/install/#tian-jia-pei-zhi">docker-compose 部署</a></li>
 </ul>
@@ -6956,82 +7438,32 @@
 <li><p>不正确的卸载 rsshub / 贴吧一键签到可能会遭遇 <code>network has active endpoints</code> 问题，解决方法参考这篇文章：<a href="https://www.cnblogs.com/Dong-Ge/p/9634351.html">docker 解决network has active endpoints</a></p>
 <blockquote>
 <p> 使用 <code>docker network disconnect -f {network} {endpoint-name}</code>，其中的 {endpoint-name} 可以使用命令 <code>docker network inspect {network}</code> 获得 </p>
-<p>而 network 通过 <code>docker network ls</code> 获得</p>
-<p>最后运行 <code>docker-compose up -d</code> 即可</p>
+<p> 而 network 通过 <code>docker network ls</code> 获得</p>
+<p> 最后运行 <code>docker-compose up -d</code> 即可</p>
 </blockquote>
 </li>
 </ol>
-<h4 id="filemanager（docker）"><a href="#filemanager（docker）" class="headerlink" title="filemanager（docker）"></a>filemanager（docker）</h4><p>参考资料：</p>
-<ul>
-<li><a href="https://blog.51cto.com/536410/2318111?source=dra">利用docker 搭建File Browser 文件管理系统</a>  </li>
-<li><a href="https://github.com/filebrowser/filebrowser/issues/522">BaseUrl not longer honored when in url of static assets</a></li>
-</ul>
-<p>下载 filebrowser 镜像</p>
-<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">docker pull filebrowser/filebrowser</span><br></pre></td></tr></tbody></table></figure>
-<p>选好 filebrowser 配置文件夹和主文件夹（即 filebrowser 的生效文件夹）所指向的目录，注意配置文件夹不能是主文件夹的子目录，否则会有危险。配置文件夹我选择的是<code>/home/filebrowser</code>，主文件夹便是 zbttl 的默认目录 <code>/home/zbttl</code>，如果是通过 root 权限运行那么无所谓，不是的话需要注意配置文件夹权限。</p>
-<p>之后在配置文件夹里面新建一个 <code>filebrowser.db</code> 文件，否则程序运行时就会自动创建同名的<strong>文件夹</strong>导致错误（我也不知道为什么会那么沙雕，反正是作者承认的 bug，当然也可以选择在下一步不映射这个文件，但如果将来要迁移 filebrowser 的话没有这个文件夹就需要重新配置）。还可以手工建一个名为 <code>.filebrowser.json</code> 的文件，如果运行时映射了但之前没建的话就会使用默认配置，root 并有单独域名的情况下使用默认配置没有问题，但如果考虑到我们的使用环境（在 zbttl 这个用户下使用），必须要做出修改，或者运行时将参数写在命令中。</p>
-<p><code>.filebrowser.json</code> 这个文件的<a href="https://github.com/filebrowser/filebrowser/blob/master/.docker.json">默认配置</a>长这样：</p>
-<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">{</span><br><span class="line">  "port": 80,</span><br><span class="line">  "baseURL": "",</span><br><span class="line">  "address": "",</span><br><span class="line">  "log": "stdout",</span><br><span class="line">  "database": "/database.db",</span><br><span class="line">  "root": "/srv"</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
-
-<p>我们需要修改 port（非 root 下 1000 以下端口受限，容器内容器外都是），假设我们用 7777 这个端口。另外还有一个 baseurl，这个待会再提。</p>
-<p>不修改 baseurl 的话，最后成果长这样：</p>
-<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">{</span><br><span class="line">  "port": 7777,</span><br><span class="line">  "baseURL": "",</span><br><span class="line">  "address": "",</span><br><span class="line">  "log": "stdout",</span><br><span class="line">  "database": "/database.db",</span><br><span class="line">  "root": "/srv"</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
-
-<p>然后看一眼教程里面的默认命令</p>
-<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">docker run -d -v /home/file_browser:/srv -v /home/file_browser/config.json:/etc/config.json -v /home/file_browser/database.db:/etc/database.db -p 100:80 filebrowser/filebrowser</span><br></pre></td></tr></tbody></table></figure>
-<p>冒号前是实机目录，冒号后是容器内目录。刚刚说过 config.json  实际上默认自带不需要映射，但我们修改过里面的内容（比如接下来我们要修改的 baseurl）又不想在命令里面写明的话可以做映射。选择映射到实机 100 端口，避开 http 的 80 端口。-d 的意思是，后台运行</p>
-<p>根据我们的配置，做出修改：</p>
-<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">docker run -u 1000 --name filebrowser -v /home/zbttl:/srv -v /home/filebrowser/filebrowser.db:/database.db -v /home/filebrowser/.filebrowser.json:/.filebrowser.json -p 7777:7777 filebrowser/filebrowser</span><br></pre></td></tr></tbody></table></figure>
-
-<p>-u 的意思是运行用户的 uid，可以通过 id 命令查询 <code>id zbttl</code>。不使用后台，看看报不报错。</p>
-<p>然后用浏览器 ip:7777 即可打开。通过浏览器访问，默认账号密码：admin</p>
-<p>加上后台和自启（也可以选择强行停止然后删除原容器后加上 -d 和自启参数再次运行）：</p>
-<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">docker ps -a</span><br><span class="line">#复制容器名</span><br><span class="line">docker container update --restart=always 容器名字</span><br><span class="line">docker start 容器名字</span><br></pre></td></tr></tbody></table></figure>
-
-
-<p>另外如果想映射到虚拟主机目录下（比如域名使用 xxx/filemanager:777 时有效)，需要加入 –baseurl 参数，可以写在刚刚的配置文件中，这里以写在命令中为例。务必加在镜像名后，如：</p>
-<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">docker run -d -u 1000 -v /home/zbttl:/srv -v /home/filebrowser/filebrowser.db:/database.db -v /home/filebrowser/.filebrowser.json:/.filebrowser.json -p 7777:7777 filebrowser/filebrowser --baseurl /filemanager/</span><br></pre></td></tr></tbody></table></figure>
-<p>主要用于你想用手上现有的域名 + 虚拟主机而不是另开新的三级域名来搭建 filemanager 时使用（后面讲 nginx 时我会再提到）</p>
-<h4 id="aria2-docker"><a href="#aria2-docker" class="headerlink" title="aria2 docker"></a>aria2 docker</h4><p>有条件先去看离线下载类的 aria2，配置文件和破解线程限制的指南在那里。</p>
-<p><strong>(21.3.8 更新)</strong> 线程破解啥的，P3TERX 大佬喂到嘴里了。。。详情见：<a href="https://github.com/P3TERX/Aria2-Pro-Core">P3TERX/Aria2-Pro-Core: Aria2 static binaries for GNU/Linux with some powerful feature patches. | 破解无限线程 防掉线程优化 静态编译 二进制文件 增强版</a>。</p>
-<p>现在作者推荐使用新版 dockerr 配合直接使用网桥模式，将 docker 端口直接透出来；bt 端口默认重新配置过，不再需要另外指定以防和 transmission 产生冲突；我思索了一下，和 transmission 相比，aria2 没法管理已经下载好的文件，所以和 vps 内 filebrowser 配合使用的 transmission 才需要正确设置权限，aria2 现在只用于直接下载然后和 rclone 配合上传文件到 onedrive，不接触 vps 内文件，就懒得老老实实配置用户给它了。</p>
-<p>所以我现在的使用方法是，不做修改直接使用作者给的带有 rclone 功能的命令。将之前配置好的 rclone 文件（配置方法参考<a href="#rclone">网盘类 rclone</a>，配置完后在 <code>/root/.config/rclone/rclone.conf</code>）和证书（使用 acme.sh，参考<a href="#%E5%85%B3%E4%BA%8E%E8%AF%81%E4%B9%A6%E7%9A%84%E9%85%8D%E7%BD%AE">关于证书的配置</a>，使用 <code>acme.sh install</code> 安装到相应目录）放 / 安装到 <code>/root/aria-config</code> 中；修改 <code>aria2.conf</code> 的证书配置；修改 <code>script.conf</code> 的 rclone 网盘名和上传目的地文件夹名（和 rclone 原命令不同，目的地文件夹中有中文也不要加单引号）；配置好 <a href="#%E9%85%8D%E7%BD%AE%E5%89%8D%E7%AB%AF">aria2NG 前端</a>（因为我想配合 cf 使用，且我现在使用的 caddy 能自动帮我加证书，但 aria2NG 这边用 caddy 反代开启 https 后要求 aria2 本身也开启 ssl，开启 aria2NG ssl 后 aria2NG 协议下拉菜单 http 选项是禁用不能选的，所以上文我给 aria2 也上了 ssl），运行官方命令：</p>
-<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">docker run -d \</span><br><span class="line">--name aria2-pro \</span><br><span class="line">--restart unless-stopped \</span><br><span class="line">--log-opt max-size=1m \</span><br><span class="line">--network host \</span><br><span class="line">-e PUID=$UID \</span><br><span class="line">-e PGID=$GID \</span><br><span class="line">-e RPC_SECRET=[登录密码] \</span><br><span class="line">-e RPC_PORT=6800 \</span><br><span class="line">-e LISTEN_PORT=6888 \</span><br><span class="line">-v $PWD/aria2-config:/config \</span><br><span class="line">-v $PWD/aria2-downloads:/downloads \</span><br><span class="line">-e SPECIAL_MODE=rclone \</span><br><span class="line">p3terx/aria2-pro</span><br></pre></td></tr></tbody></table></figure>
-
-<p>即可。</p>
-<p>参考文章：<a href="https://p3terx.com/archives/docker-aria2-pro.html">Aria2 Pro - 更好用的 Aria2 Docker 容器镜像</a></p>
-<hr>
-<p>官方命令：</p>
-<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">docker run -d \</span><br><span class="line">    --name aria2-pro \</span><br><span class="line">    --restart unless-stopped \</span><br><span class="line">    --log-opt max-size=1m \</span><br><span class="line">    -e PUID=$UID \</span><br><span class="line">    -e PGID=$GID \</span><br><span class="line">    -e RPC_SECRET=&lt;TOKEN&gt; \</span><br><span class="line">    -p 6800:6800 \</span><br><span class="line">    -p 6888:6888 \</span><br><span class="line">    -p 6888:6888/udp \</span><br><span class="line">    -v ~/aria2-config:/config \</span><br><span class="line">    -v ~/downloads:/downloads \</span><br><span class="line">    p3terx/aria2-pro</span><br></pre></td></tr></tbody></table></figure>
-
-<p>和 aria2 一键脚本相比，添加了 PUID 和 PGID 两个参数，方便以指定的身份下载文件，不过实现的方法和通用方法 -u 参数（参见 filemanager docker）不同，用了 -e 参数（实测，-e 和 -u 不可混用，需要配合具体容器使用）。两个 -v 对应的目录一个是配置目录一个是下载，这里还可以开一个 -v，链接破解过线程的 aria2 二进制文件，注意该文件需要提前加够 755 权限。另外，这里的 TOKEN 是密码，也需要进行定义。</p>
-<p>根据非 docker aria2 的默认设置，下载文件放置于 <code>/home/zbttl/download/aria2</code>，程序放置于 <code>/usr/local/bin</code>，docker 内 aria2 同样放置于 <code>/usr/local/bin/</code>，配置文件 <code>aria2.conf</code> 由于和原来有一些出入（不过大概只有目标目录那里需要验证，默认的 <code>/root/Downloads</code> 不知道能不能改），所以首次使用不建议修改映射，但可以部署完后进行修改保存，下次放入 <code>/root/aria2-config/</code> 继续用。</p>
-<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">docker run -d \</span><br><span class="line">    --name aria2-pro \</span><br><span class="line">    --restart unless-stopped \</span><br><span class="line">    --log-opt max-size=1m \</span><br><span class="line">    -e PUID=1000 \</span><br><span class="line">    -e PGID=$GID \</span><br><span class="line">    -e RPC_SECRET=[登录密码] \</span><br><span class="line">    -p 6800:6800 \</span><br><span class="line">    -p 6888:6888 \</span><br><span class="line">    -p 6888:6888/udp \</span><br><span class="line">    -v ~/aria2-config:/config \</span><br><span class="line">    -v /home/zbttl/download/aria2:/downloads \</span><br><span class="line">    -v /usr/local/bin/aria2c:/usr/local/bin/aria2c \</span><br><span class="line">    p3terx/aria2-pro</span><br></pre></td></tr></tbody></table></figure>
-
-<p>另外，这里有一个不算啥问题的问题。。。如果和 aria2 一键脚本混用且 aria2 一键脚本已安装并启动，同时打开该容器（在端口经过修改没有冲突程序打开成功的情况下），此时停止 aria2 脚本安装的 aria2 程序，然后再次运行启动脚本，会提示该脚本启动的 aria2 仍在开启。不过也不会有人无聊到混用的吧。</p>
-<h4 id="amule（docker）"><a href="#amule（docker）" class="headerlink" title="amule（docker）"></a>amule（docker）</h4><p>参考文章：<a href="https://hub.docker.com/r/tchabaud/amule">tchabaud/amule</a></p>
-<p>不是官方的，不能保证更新，不过官方都几百年不更新了，无所谓了。</p>
-<p>官方示例：</p>
-<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">docker run -p 4712:4712 -p 4662:4662 -p 4672:4672/udp \</span><br><span class="line">    -e PUID=[wanted_uid] -e PGID=[wanted_gid] \</span><br><span class="line">    -e GUI_PWD=[wanted_password_for_gui] \</span><br><span class="line">    -v ./amule/conf:/home/amule/.aMule -v ./amule/incoming:/incoming -v ./amule/tmp:/temp tchabaud/amule</span><br></pre></td></tr></tbody></table></figure>
-
-<p>其实经过前几个 docker 的搭建这些参数我都差不多熟悉了。。。不过这里有个小坑。 -v 这里有三个目录，按理来说，我们需要修改的 conf 参数在 docker 命令中已经包括了，所以实际上 -v 只需要映射 <code>/incoming</code> 目录就好了。然而我这么做了以后，发现下载速度比原版 amule 慢了不少。。。试了两三次，只有最后一次，放置了两三个小时后，amule 的 kad 正确的连接了，速度才正常了起来，而当正确的映射三个目录的时候，运行正常。所以看来还是得乖乖映射两个没啥用的目录。。。</p>
-<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">mkdir /home/zbttl/download/amule&amp;&amp;cd /home/zbttl/download/amule</span><br><span class="line">mkdir ./conf</span><br><span class="line">mkdir ./tmp</span><br><span class="line">mkdir ./incoming</span><br><span class="line">chown -R zbttl ./conf ./tmp ./incoming</span><br><span class="line">docker run -d -p 4711:4711 -p 4662:4662 -p 4672:4672/udp     -e PUID=1000 -e PGID=1000     -e WEBUI_PWD=[登录密码]    -v /home/zbttl/download/amule/conf:/home/amule/.aMule -v /home/zbttl/download/amule/incoming:/incoming -v /home/zbttl/download/amule/tmp:/temp tchabaud/amule</span><br></pre></td></tr></tbody></table></figure>
-
-<p>当然，不要和通常版 amule 一起使用，即使端口错开，后开那个也只能得到 low id。</p>
-<h4 id="mldonkey（docker）"><a href="#mldonkey（docker）" class="headerlink" title="mldonkey（docker）"></a>mldonkey（docker）</h4><p>参考文章：<a href="https://github.com/logicwar">logicwar</a>/<strong><a href="https://github.com/logicwar/mldonkey">mldonkey</a></strong></p>
-<p>mldonkey 普通版的配置真是一顶一的麻烦。。。而 docker 版版本旧一些（只到 3.1.5），不过作者加了一些源，而且把限速解开了无需配置，推荐使用。</p>
-<p>官方示例：</p>
-<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">docker create --name=mldonkey \</span><br><span class="line">              -v &lt;path for config files&gt;:/var/lib/mldonkey:rw \</span><br><span class="line">              -v &lt;path for temporary files&gt;:/mnt/mldonkey_tmp:rw \</span><br><span class="line">              -v &lt;path for completed downloaded files&gt;:/mnt/mldonkey_completed:rw \</span><br><span class="line">              -e PGID=&lt;gid&gt; \</span><br><span class="line">              -e PUID=&lt;uid&gt; \</span><br><span class="line">              -e TZ=&lt;timezone&gt; \</span><br><span class="line">              -p 4000:4000 \</span><br><span class="line">              -p 4001:4001 \</span><br><span class="line">              -p 4080:4080 \</span><br><span class="line">              -p 20562:20562 \</span><br><span class="line">              -p 20566:20566/udp \</span><br><span class="line">              -p 16965:16965 \</span><br><span class="line">              -p 16965:16965/udp \</span><br><span class="line">              -p 6209:6209 \</span><br><span class="line">              -p 6209:6209/udp \</span><br><span class="line">              -p 6881:6881 \</span><br><span class="line">              -p 6882:6882 \</span><br><span class="line">              -p 3617:3617/udp \</span><br><span class="line">              -p 4444:4444 \</span><br><span class="line">              -p 4444:4444/udp \</span><br><span class="line">              logicwar/mldonkey</span><br></pre></td></tr></tbody></table></figure>
-
-<p>这次去掉不必要的映射就没啥副作用了。</p>
-<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">docker run --name=mldonkey \</span><br><span class="line">              -v /home/zbttl/download/mldonkey:/mnt/mldonkey_completed:rw \</span><br><span class="line">              -e PGID=1000 \</span><br><span class="line">              -e PUID=1000 \</span><br><span class="line">              -p 4000:4000 \</span><br><span class="line">              -p 4001:4001 \</span><br><span class="line">              -p 4080:4080 \</span><br><span class="line">              -p 20562:20562 \</span><br><span class="line">              -p 20566:20566/udp \</span><br><span class="line">              -p 16965:16965 \</span><br><span class="line">              -p 16965:16965/udp \</span><br><span class="line">              -p 6209:6209 \</span><br><span class="line">              -p 6209:6209/udp \</span><br><span class="line">              -p 6881:6881 \</span><br><span class="line">              -p 6882:6882 \</span><br><span class="line">              -p 3617:3617/udp \</span><br><span class="line">              -p 4444:4444 \</span><br><span class="line">              -p 4444:4444/udp \</span><br><span class="line">              logicwar/mldonkey</span><br></pre></td></tr></tbody></table></figure>
-
-<h4 id="vscoder"><a href="#vscoder" class="headerlink" title="vscoder"></a>vscoder</h4><p>参考文章：<a href="https://hub.docker.com/r/linuxserver/code-server">linuxserver/code-server</a></p>
-<p>新建了一个 coder 用户，用户文件夹为 <code>/home/coder</code>，<code>id coder</code> 查询结果喂 1003。</p>
+<h4 id="tinytiny-rss"><a href="#tinytiny-rss" class="headerlink" title="tinytiny rss"></a>tinytiny rss</h4><p>参考文章：<a href="https://sspai.com/post/57498">找不到满意的 RSS 服务？你可以自己搭建一个 - 少数派</a></p>
 <p>docker-compose.yml：</p>
-<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">version: "2.1"</span><br><span class="line">services:</span><br><span class="line">  code-server:</span><br><span class="line">    image: linuxserver/code-server</span><br><span class="line">    container_name: code-server</span><br><span class="line">    environment:</span><br><span class="line">      - PUID=1003</span><br><span class="line">      - PGID=1003</span><br><span class="line">      - TZ=Asia/Shanghai</span><br><span class="line">      - PASSWORD=[登录密码] #optional</span><br><span class="line">      - SUDO_PASSWORD=[linux用户密码] #optional</span><br><span class="line">    volumes:</span><br><span class="line">      - /home/coder/:/config</span><br><span class="line">    ports:</span><br><span class="line">      - 8443:8443</span><br><span class="line">    restart: unless-stopped</span><br></pre></td></tr></tbody></table></figure>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">version: "3"</span><br><span class="line">services:</span><br><span class="line">  service.rss:</span><br><span class="line">    image: wangqiru/ttrss:latest</span><br><span class="line">    container_name: ttrss</span><br><span class="line">    ports:</span><br><span class="line">      - 181:80</span><br><span class="line">    environment:</span><br><span class="line">      - SELF_URL_PATH=http://localhost:181/ # please change to your own domain</span><br><span class="line">      - DB_PASS=ttrss # use the same password defined in `database.postgres`</span><br><span class="line">      - PUID=1000</span><br><span class="line">      - PGID=1000</span><br><span class="line">    volumes:</span><br><span class="line">      - feed-icons:/var/www/feed-icons/</span><br><span class="line">    networks:</span><br><span class="line">      - public_access</span><br><span class="line">      - service_only</span><br><span class="line">      - database_only</span><br><span class="line">    stdin_open: true</span><br><span class="line">    tty: true</span><br><span class="line">    restart: always</span><br><span class="line"></span><br><span class="line">  service.mercury: # set Mercury Parser API endpoint to `service.mercury:3000` on TTRSS plugin setting page</span><br><span class="line">    image: wangqiru/mercury-parser-api:latest</span><br><span class="line">    container_name: mercury</span><br><span class="line">    networks:</span><br><span class="line">      - public_access</span><br><span class="line">      - service_only</span><br><span class="line">    restart: always</span><br><span class="line"></span><br><span class="line">  service.opencc: # set OpenCC API endpoint to `service.opencc:3000` on TTRSS plugin setting page</span><br><span class="line">    image: wangqiru/opencc-api-server:latest</span><br><span class="line">    container_name: opencc</span><br><span class="line">    environment:</span><br><span class="line">      - NODE_ENV=production</span><br><span class="line">    networks:</span><br><span class="line">      - service_only</span><br><span class="line">    restart: always</span><br><span class="line"></span><br><span class="line">  database.postgres:</span><br><span class="line">    image: postgres:13-alpine</span><br><span class="line">    container_name: postgres</span><br><span class="line">    environment:</span><br><span class="line">      - POSTGRES_PASSWORD=ttrss # feel free to change the password</span><br><span class="line">    volumes:</span><br><span class="line">      - ~/postgres/data/:/var/lib/postgresql/data # persist postgres data to ~/postgres/data/ on the host</span><br><span class="line">    networks:</span><br><span class="line">      - database_only</span><br><span class="line">    restart: always</span><br><span class="line"></span><br><span class="line">  # utility.watchtower:</span><br><span class="line">  #   container_name: watchtower</span><br><span class="line">  #   image: containrrr/watchtower:latest</span><br><span class="line">  #   volumes:</span><br><span class="line">  #     - /var/run/docker.sock:/var/run/docker.sock</span><br><span class="line">  #   environment:</span><br><span class="line">  #     - WATCHTOWER_CLEANUP=true</span><br><span class="line">  #     - WATCHTOWER_POLL_INTERVAL=86400</span><br><span class="line">  #   restart: always</span><br><span class="line"></span><br><span class="line">volumes:</span><br><span class="line">  feed-icons:</span><br><span class="line"></span><br><span class="line">networks:</span><br><span class="line">  public_access: # Provide the access for ttrss UI</span><br><span class="line">  service_only: # Provide the communication network between services only</span><br><span class="line">    internal: true</span><br><span class="line">  database_only: # Provide the communication between ttrss and database only</span><br><span class="line">    internal: true</span><br></pre></td></tr></tbody></table></figure>
 
-<p>另外还有一种 <a href="https://github.com/cdr/code-server">cdr/code-server</a> 我试了半天都没办法用非 root 用户映射本地目录，算了。</p>
+<p>要改 postgres 的密码，还有 SELF_URL_PATH，如果你要用 ip 访问这里就不要填域名，填错进不去，会提示。还有 PUID 和 PGID 这两个就不再复述。</p>
+<h4 id="FreshRSS"><a href="#FreshRSS" class="headerlink" title="FreshRSS"></a>FreshRSS</h4><p>参考文章：<a href="https://sspai.com/post/64289">再次折腾 RSS 之搭建 FreshRSS 服务 - 少数派</a></p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">docker network create freshrss-network</span><br><span class="line">docker volume create freshrss-data</span><br><span class="line">docker volume create freshrss-extensions</span><br><span class="line">docker run -d --restart unless-stopped --log-opt max-size=10m \</span><br><span class="line">  -v freshrss-data:/var/www/FreshRSS/data \</span><br><span class="line">  -v freshrss-extensions:/var/www/FreshRSS/extensions \</span><br><span class="line">  -e 'CRON_MIN=4,34' \</span><br><span class="line">  -e TZ=Asia/Shanghai \</span><br><span class="line">  --net freshrss-network \</span><br><span class="line">  -p 281:80</span><br><span class="line">  --name freshrss freshrss/freshrss</span><br></pre></td></tr></tbody></table></figure>
+
+<p>tinytiny rss 和 freshrss 选一个就行了。安卓推荐使用 feedme 对接，这两个都能接过来。需要开启 api 权限。</p>
+<p>tinyrss 在偏好设置 -&gt; 通用 -&gt; 启用 api 处；</p>
+<p>freshrss 不仅要在管理 -&gt; 认证处勾选「允许 api 访问」后，还需要在配置 -&gt; 用户账户处输入 api 密码，这个密码才是要填到 feedme 中的。</p>
+<p>另外注意在 feedme 处，域名需要加 http:// 或者 https://，然后跟上 url 即可，不需要像 freshrss 中写的还要加上 <code>/api</code>/。</p>
+<p>目前看来，tinyrss 在订阅兼容性上比 freshrss 差。但 freshrss 的批量管理功能比较差劲。</p>
+<h4 id="memos"><a href="#memos" class="headerlink" title="memos"></a>memos</h4><p>记事本。但对旧设备兼容不好，比如 firefox 85 就无法登录。</p>
+<p>docker-compose.yml：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">version: '3.3'</span><br><span class="line">services:</span><br><span class="line">    memos:</span><br><span class="line">        restart: always</span><br><span class="line">        container_name: memos</span><br><span class="line">        ports:</span><br><span class="line">            - '10091:5230'</span><br><span class="line">        volumes:</span><br><span class="line">            - '/root/.memos/:/var/opt/memos'</span><br><span class="line">        image: 'neosmemo/memos:latest'</span><br></pre></td></tr></tbody></table></figure>
+
+<h2 id="minimalist-web-notepad"><a href="#minimalist-web-notepad" class="headerlink" title="minimalist-web-notepad"></a>minimalist-web-notepad</h2><p>更简陋的记事本，可能只能叫做草稿本。无需登录，兼容性良好。只需要登录到同一个 url 就可以共同编辑（比如 <code>xxx.baobaobao.io/1</code>)，会自动建立自 url，无需建好草稿本后再手动建立。另外，看文档<a href="https://github.com/pereorga/minimalist-web-notepad">pereorga/minimalist-web-notepad: 极简网络记事本</a>还支持 site_url，可以不用多搞个三级域名。因为同样是草稿本，和上面的 memos 两个只需要用其中一个就行，所以我直接也开在了 10091 端口。</p>
+<p>docker-compose.yml：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">version: '3.3'</span><br><span class="line">services:</span><br><span class="line">    minimalist-web-notepad:</span><br><span class="line">        container_name: notepad</span><br><span class="line">        ports:</span><br><span class="line">            - '10091:80'</span><br><span class="line">        volumes:</span><br><span class="line">            - '/root/notepad:/var/www/html/_tmp'</span><br><span class="line">        image: 'jdreinhardt/minimalist-web-notepad:latest'</span><br></pre></td></tr></tbody></table></figure>
+
 <h3 id="离线下载类"><a href="#离线下载类" class="headerlink" title="离线下载类"></a>离线下载类</h3><h4 id="aria2（19-11-18-更新）"><a href="#aria2（19-11-18-更新）" class="headerlink" title="aria2（19.11.18 更新）"></a>aria2（19.11.18 更新）</h4><p>因为 aria2 有线程限制，所以建议自己下载源码修改以后进行编译。<del>不过编译过后的二进制文件好像会大很多的样子。。。</del></p>
 <p><del>如果不需要解除线程限制的话，推荐脚本一步到位（当然也可以运行完脚本以后再把编译好的已破解限制的二进制扔进去）：<a href="https://github.com/P3TERX/aria2.sh">Aria2 一键安装管理脚本</a></del>(有权限问题，如果不在乎可以继续用，现在更推荐 docker 版，介绍在 docker 类中。)</p>
 <figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">wget -N https://git.io/aria2.sh &amp;&amp; chmod +x aria2.sh &amp;&amp; bash aria2.sh</span><br></pre></td></tr></tbody></table></figure>
@@ -7310,11 +7742,25 @@
 </li>
 <li><p>和 nginx 配合使用</p>
 <p>如果需要通过网址访问，则需要在nginx 配置文件中的某一个站点写入</p>
-<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">    location ^~ /transmission {</span><br><span class="line">        proxy_set_header X-Real-IP $remote_addr;</span><br><span class="line">        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;</span><br><span class="line">        proxy_set_header Host $http_host;</span><br><span class="line">        proxy_set_header X-NginX-Proxy true;</span><br><span class="line">        proxy_http_version 1.1;</span><br><span class="line">        proxy_set_header Connection "";</span><br><span class="line">        proxy_pass_header X-Transmission-Session-Id;</span><br><span class="line">        add_header   Front-End-Https   on;</span><br><span class="line"></span><br><span class="line">        location /transmission/rpc {</span><br><span class="line">            proxy_pass http://127.0.0.1:9091;</span><br><span class="line">        }</span><br><span class="line"></span><br><span class="line">        location /transmission/web/ {</span><br><span class="line">            proxy_pass http://127.0.0.1:9091;</span><br><span class="line">        }</span><br><span class="line"></span><br><span class="line">        location /transmission/upload {</span><br><span class="line">            proxy_pass http://127.0.0.1:9091;</span><br><span class="line">        }</span><br><span class="line"></span><br><span class="line">        location /transmission/web/style/ {</span><br><span class="line">            alias /usr/share/transmission/web/style/;</span><br><span class="line">        }</span><br><span class="line"></span><br><span class="line">        location /transmission/web/javascript/ {</span><br><span class="line">            alias /usr/share/transmission/web/javascript/;</span><br><span class="line">        }</span><br><span class="line"></span><br><span class="line">        location /transmission/web/images/ {</span><br><span class="line">            alias /usr/share/transmission/web/images/;</span><br><span class="line">        }</span><br><span class="line">        location /transmission/ {</span><br><span class="line">            return 301 http://$server_name/transmission/web;</span><br><span class="line">            #如果是使用 https 请换成这句</span><br><span class="line">            #return 301 https://$server_name/transmission/web;</span><br><span class="line">        }</span><br><span class="line">        #另外，我想要访问网址的 /download 后缀也能进入 transmission</span><br><span class="line">        location /download {</span><br><span class="line">            return 301 http://$server_name/transmission/web;</span><br><span class="line">        }</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">    location ^~ /transmission {</span><br><span class="line">        proxy_set_header X-Real-IP $remote_addr;</span><br><span class="line">        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;</span><br><span class="line">        proxy_set_header Host $http_host;</span><br><span class="line">        proxy_set_header X-NginX-Proxy true;</span><br><span class="line">        proxy_http_version 1.1;</span><br><span class="line">        proxy_set_header Connection "";</span><br><span class="line">        proxy_pass_header X-Transmission-Session-Id;</span><br><span class="line">        add_header   Front-End-Https   on;</span><br><span class="line"></span><br><span class="line">        location /transmission/rpc {</span><br><span class="line">            proxy_pass http://127.0.0.1:9091;</span><br><span class="line">        }</span><br><span class="line"></span><br><span class="line">        location /transmission/web/ {</span><br><span class="line">            proxy_pass http://127.0.0.1:9091;</span><br><span class="line">        }</span><br><span class="line"></span><br><span class="line">        location /transmission/upload {</span><br><span class="line">            proxy_pass http://127.0.0.1:9091;</span><br><span class="line">        }</span><br><span class="line"></span><br><span class="line">        location /transmission/web/style/ {</span><br><span class="line">            alias /usr/share/transmission/web/style/;</span><br><span class="line">        }</span><br><span class="line"></span><br><span class="line">        location /transmission/web/javascript/ {</span><br><span class="line">            alias /usr/share/transmission/web/javascript/;</span><br><span class="line">        }</span><br><span class="line"></span><br><span class="line">        location /transmission/web/images/ {</span><br><span class="line">            alias /usr/share/transmission/web/images/;</span><br><span class="line">        }</span><br><span class="line">        location /transmission/ {</span><br><span class="line">            return 301 http://$server_name/transmission/web;</span><br><span class="line">            #如果是使用 https 请换成这句</span><br><span class="line">            #return 301 https://$server_name/transmission/web;</span><br><span class="line">        }</span><br><span class="line">}</span><br><span class="line">        #另外，我想要访问网址的 /download 后缀也能进入 transmission</span><br><span class="line">        location /download {</span><br><span class="line">            return 301 http://$server_name/transmission/web;</span><br><span class="line">        }</span><br></pre></td></tr></tbody></table></figure>
 
 <p>即可使用。</p>
 </li>
 </ol>
+<h5 id="关于-transmission-如何通过-vps-做种的方法把种子下载到本地"><a href="#关于-transmission-如何通过-vps-做种的方法把种子下载到本地" class="headerlink" title="关于 transmission 如何通过 vps 做种的方法把种子下载到本地"></a>关于 transmission 如何通过 vps 做种的方法把种子下载到本地</h5><p>这是一种除了 通过 rclone 以外的把种子下载到本地的方法，无需梯子，速度大概在 1m/s 左右。</p>
+<p>另外，如果直接用远程下载到 vps 的种子在本地的 qbittorrent 里面跑一遍，或者通过转换成 magnet 的方法把种子转换成链接，会发现都没有速度，只能通过再次做种的方法才有速度，原因未知。</p>
+<ol>
+<li><p>通过 transmission-create 命令把下好的文件进行做种</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">transmission-create -s 2048 -t http://1337.abcvg.info:80/announce -t http://bt.okmp3.ru:2710/announce -t http://bz.tracker.bz:80/announce -t http://fxtt.ru:80/announce -t http://nyaa.tracker.wf:7777/announce -t http://open.acgnxtracker.com:80/announce -t http://p2p.0g.cx:6969/announce -t udp://v1046920.hosted-by-vdsina.ru:6969/announce -t udp://v2.iperson.xyz:6969/announce -t udp://vibe.sleepyinternetfun.xyz:1738/announce -t udp://www.torrent.eu.org:451/announce  -t http://frp.v2fy.com:8000/announce  -o xxxx.torrent [文件或者文件夹]</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>稍等片刻，将做好的种子拖到本地。</p>
+</li>
+<li><p>在 transmission 中点击添加做好的种子，选择本地的哪个种子，如果没有意外的话，会多出来一个下好的任务（不需要把原来的任务删掉）。</p>
+</li>
+<li><p>在本地的 qbittorrent 中添加做好的种子即可。</p>
+</li>
+</ol>
+<h5 id="关于-padding-file"><a href="#关于-padding-file" class="headerlink" title="关于 padding_file"></a>关于 padding_file</h5><p>transmssion 并不会自动忽略 <code>padding_file</code> 开头的文件，但可以确认这些文件是没有用并且可以删掉的。听说会在 v4.0.2 版本做出改进。如果通过 qbittorrent 拖到本地，倒是会自动忽略 <code>padding_file</code> 开头的文件。只不过这些文件远程下载的时候也会一并下载下来，挺占地方的，如果发现远程 transmission 和本地 qbittorrent 下载下来的文件夹大小不一样，多半就是 <code>padding_file</code> 开头文件的锅。</p>
 <h4 id="Simple-Torrent（选做）"><a href="#Simple-Torrent（选做）" class="headerlink" title="Simple Torrent（选做）"></a>Simple Torrent（选做）</h4><p>参考文章：<a href="https://www.moerats.com/archives/1023/">Simple Torrent：一个支持边下边播、无版权限制和自动上传的BT离线下载程序</a></p>
 <p>相比 aria2 和 transmission，这玩意能开 obfs 混淆一定程度防止 bt 追查。</p>
 <p>这玩意有 docker，但不支持指定用户，只能硬着头皮上通常版了。</p>
@@ -7705,14 +8151,16 @@
 ]]></content>
       <categories>
         <category>Network</category>
+        <category>Linux</category>
         <category>Downloadtools</category>
       </categories>
       <tags>
         <tag>mysql</tag>
         <tag>rdp</tag>
+        <tag>内网穿透</tag>
+        <tag>docker</tag>
         <tag>lnmp</tag>
         <tag>nginx</tag>
-        <tag>docker</tag>
         <tag>rsshub</tag>
         <tag>filemanger</tag>
         <tag>aria2</tag>
@@ -7722,7 +8170,6 @@
         <tag>emule</tag>
         <tag>vnc</tag>
         <tag>frp</tag>
-        <tag>内网穿透</tag>
         <tag>cloudreve</tag>
         <tag>rclone</tag>
       </tags>
@@ -8166,8 +8613,8 @@
       <categories>
         <category>Android</category>
         <category>Linux</category>
-        <category>Windows</category>
         <category>IOS</category>
+        <category>Windows</category>
       </categories>
       <tags>
         <tag>fonts</tag>

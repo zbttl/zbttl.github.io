@@ -31,6 +31,7 @@
 <meta property="og:description" content="感觉 azure 做的 oneIndex 目录打开还是贼慢。 玩玩 Spencer Woo 大佬修改的项目 spencerwooo&#x2F;onedrive-cf-index: 🏵 Probably the best looking OneDrive Index around! Powered by Cloudflare Workers.，咱觉得能过 cf 的速度可能会快一丢丢。">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210220012033.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210220035446.png">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210220051612.png">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210220052345.png">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210220060402.png">
@@ -38,7 +39,7 @@
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210220072759.png">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210220073041.png">
 <meta property="article:published_time" content="2021-02-16T16:00:00.000Z">
-<meta property="article:modified_time" content="2022-03-15T15:13:39.026Z">
+<meta property="article:modified_time" content="2023-10-29T15:47:43.403Z">
 <meta property="article:author" content="zbttl">
 <meta property="article:tag" content="羊毛">
 <meta property="article:tag" content="托管">
@@ -213,7 +214,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">59</span>
+          <span class="site-state-item-count">61</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -226,7 +227,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">120</span>
+        <span class="site-state-item-count">121</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -308,7 +309,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2022-03-15 23:13:39" itemprop="dateModified" datetime="2022-03-15T23:13:39+08:00">2022-03-15</time>
+        <time title="修改时间：2023-10-29 23:47:43" itemprop="dateModified" datetime="2023-10-29T23:47:43+08:00">2023-10-29</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -335,7 +336,7 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>7.4k</span>
+      <span>7k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
@@ -415,10 +416,34 @@
 <p>如果 web 接口没坏的话，和用 web 的效果一样；坏了的话就会带到一个 404 网页。不要慌张，此时地址栏的 url 里面已经包含有以 <code>M.R3_BAY</code> 开头直到地址栏结尾的 code 了。</p>
 <p>当然参考文章 2 里也给了一个略有差异但实际上也能使用的方法，同样是通过浏览器访问（不过原文是访问到世纪互联版 od，改个主机地址就成）：</p>
 <figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">   #原文的地址</span><br><span class="line">   #https://login.chinacloudapi.cn/common/oauth2/v2.0/authorize?client_id=[client_id]&amp;response_type=code&amp;redirect_uri=http://localhost/od-cf&amp;response_mode=query&amp;scope=offline_access%20Files.Read%20Files.ReadWrite.All</span><br><span class="line">#改个主机地址</span><br><span class="line">   https://login.microsoftonline.com/common/oauth2/v2.0/authorize?client_id=[client_id]&amp;response_type=code&amp;redirect_uri=http://localhost/od-cf&amp;response_mode=query&amp;scope=offline_access%20Files.Read%20Files.ReadWrite.All</span><br></pre></td></tr></tbody></table></figure>
-<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">   这里的 redirect_uri 用了虚无的 `http://localhost/od-cf`，可以改成 web 接口的地址，也可以保留并在 azure 面板的 `redirect_url` 处添加这个网址。仅就此处不同的 `redirect_url` 不影响后续使用。</span><br><span class="line"></span><br><span class="line">2. 安装一个 post 工具。比如 Insomnia 或者是 postman。都可以通过 chocolatey 安装。这里演示 postman 的。</span><br><span class="line"></span><br><span class="line">   微软官网上一共写了五个参数：</span><br><span class="line"></span><br><span class="line">   &gt;POST https://login.microsoftonline.com/common/oauth2/v2.0/token</span><br><span class="line">   &gt;Content-Type: application/x-www-form-urlencoded</span><br><span class="line">   &gt;</span><br><span class="line">   &gt;client_id={client_id}&amp;redirect_uri={redirect_uri}&amp;client_secret={client_secret}</span><br><span class="line">   &gt;&amp;code={code}&amp;grant_type=authorization_code</span><br><span class="line"></span><br><span class="line">   在 postman 中新建页面，请求类型设为 post，地址为 https://login.microsoftonline.com/common/oauth2/v2.0/token；切换到 boy 这个 tab，底下一栏选中 application/x-www-form-urlencoded；然后新建五个 key：</span><br><span class="line"></span><br><span class="line">   - `grant_type` 填 authorization_code</span><br><span class="line">   - `code `填刚刚获取的 `authorization code`</span><br><span class="line">   - `redirect_uri` 填刚刚那一步用的回调 url</span><br><span class="line">   - `client_id`：你们懂得。</span><br><span class="line">   - `client_secret`：同上。</span><br><span class="line">   </span><br><span class="line">   点击 send，不出意外的话结果里就会有 `access_token` 和 `refresh_token`。记录下 `refresh_token`。</span><br><span class="line">   </span><br><span class="line">   ![](https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210220035446.png)</span><br><span class="line">   </span><br><span class="line">   不过如果获取失败（比如显示 `error: "invalid_request"`），那么就说明参数有误。注意，此时需要重新从第一小步开始获取 `authorization code`，因为 `authorization code` 只能用一次。另外 authorization code 多次获取的话也只有最后一次获取的 code 能用来获取 `refresh_token`。</span><br><span class="line"></span><br></pre></td></tr></tbody></table></figure>
-<h3 id="cloudflare-面板操作"><a href="#cloudflare-面板操作" class="headerlink" title="cloudflare 面板操作"></a>cloudflare 面板操作</h3></li>
+
+
+</li>
 </ol>
 </li>
+</ol>
+<pre><code>  这里的 redirect_uri 用了虚无的 `http://localhost/od-cf`，可以改成 web 接口的地址，也可以保留并在 azure 面板的 `redirect_url` 处添加这个网址。仅就此处不同的 `redirect_url` 不影响后续使用。</code></pre>
+<ol start="2">
+<li><p>安装一个 post 工具。比如 Insomnia 或者是 postman。都可以通过 chocolatey 安装。这里演示 postman 的。</p>
+<p>微软官网上一共写了五个参数：</p>
+<blockquote>
+<p>POST <a target="_blank" rel="external nofollow noopener noreferrer" href="https://login.microsoftonline.com/common/oauth2/v2.0/token">https://login.microsoftonline.com/common/oauth2/v2.0/token</a><br>Content-Type: application/x-www-form-urlencoded</p>
+<p>client_id={client_id}&amp;redirect_uri={redirect_uri}&amp;client_secret={client_secret}<br>&amp;code={code}&amp;grant_type=authorization_code</p>
+</blockquote>
+<p>在 postman 中新建页面，请求类型设为 post，地址为 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://login.microsoftonline.com/common/oauth2/v2.0/token%EF%BC%9B%E5%88%87%E6%8D%A2%E5%88%B0">https://login.microsoftonline.com/common/oauth2/v2.0/token；切换到</a> boy 这个 tab，底下一栏选中 application/x-www-form-urlencoded；然后新建五个 key：</p>
+<ul>
+<li><code>grant_type</code> 填 authorization_code</li>
+<li><code>code </code>填刚刚获取的 <code>authorization code</code></li>
+<li><code>redirect_uri</code> 填刚刚那一步用的回调 url</li>
+<li><code>client_id</code>：你们懂得。</li>
+<li><code>client_secret</code>：同上。</li>
+</ul>
+<p>点击 send，不出意外的话结果里就会有 <code>access_token</code> 和 <code>refresh_token</code>。记录下 <code>refresh_token</code>。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20210220035446.png"></p>
+<p>不过如果获取失败（比如显示 <code>error: "invalid_request"</code>），那么就说明参数有误。注意，此时需要重新从第一小步开始获取 <code>authorization code</code>，因为 <code>authorization code</code> 只能用一次。另外 authorization code 多次获取的话也只有最后一次获取的 code 能用来获取 <code>refresh_token</code>。</p>
+</li>
+</ol>
+<h3 id="cloudflare-面板操作"><a href="#cloudflare-面板操作" class="headerlink" title="cloudflare 面板操作"></a>cloudflare 面板操作</h3><ol>
 <li><p>搞一个域名并挂接到 cf 这事应该不用我强调了（</p>
 </li>
 <li><p>打开域名项，右下角有区域 id 和账户 id，记录下来。</p>
@@ -514,10 +539,11 @@
 <li>部署快捷的前提是用作者的接口，如果要用自己的 clientID 和 clientSecret 就会比原来更麻烦（要加密），好在现在共用同一组上面的信息应该不会导致限速问题。</li>
 <li>不知道是不是我的错觉，感觉加载速度要稍微慢一点点。</li>
 </ol>
-<p>另外，还是有两个小坑：</p>
+<p>另外，还是有三个小坑：</p>
 <ol>
 <li><code>site.config.js</code> 中加密文件夹 protectedRoutes 字段里填写的是相对于 baseDirectory 的相对路径而不是绝对路径。也就是说，baseDirectory 中你已经填入了要分享的子文件夹后你想对整个文件夹进行加密，protectedRoutes 不要填和 baseDirectory  一样的路径而是填 ‘\‘。</li>
 <li>根据万物皆可 cf 原则，可以在 vercel 的相应项目中，选到 settings-&gt;domain，填入相应的三级域名（注意是三级域名而不是托管在 cf 处的二级域名），点击 add，再把对应信息往 cf 里的 dns 中填就行了，其实类似的操作上面提过，往前翻一翻就能找到，这里就不再强调了~</li>
+<li>原来的项目并不需要设置 cf 的加密为完全，灵活也能用；但新项目必须设置为完全。</li>
 </ol>
 </li>
 </ol>
@@ -630,7 +656,7 @@
 
 <div class="copyright">
   &copy; 
-  <span itemprop="copyrightYear">2022</span>
+  <span itemprop="copyrightYear">2023</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -642,14 +668,14 @@
       <i class="fa fa-chart-line"></i>
     </span>
       <span>站点总字数：</span>
-    <span title="站点总字数">346k</span>
+    <span title="站点总字数">375k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">10:29</span>
+    <span title="站点阅读时长">11:22</span>
   </span>
 </div>
 <div class="busuanzi-count">
