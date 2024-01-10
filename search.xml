@@ -1,6 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>硬盘迁移</title>
+    <url>/ying-pan-qian-yi/</url>
+    <content><![CDATA[<p>用了几年，横跨两个笔记本的稀有的 2t pmr hdd  smart 最终还是显示出错了，数据无价，刚好还在迟疑要不要下手致钛 4t，这回可好，连固态和机械一起换了吧。本来机械想买个便宜的 6t 就算了，发现 6t 现在都要 600 来块，再看 8t 要上千，看到 18t 的时候发现希捷的 oem 才 1600！遂下手。不过买回来发现估计是因为 oem 的原因，硬盘 sata 接口没做卡扣处理，放机箱里通过 sata 线连接的话，不紧，研究了一下，淘宝了几根安费诺的线，嗯，紧了。</p>
+<p>遂迁移硬盘。做了一个 「全功能的 pe」（其实也就是 windows to go 做成 wtg 放在 ventoy 里），固态直接通过 Acronis True Image 的硬盘克隆功能迁移就行。机械硬盘的话。。。我看了一篇推荐文章推荐<a href="https://zhuanlan.zhihu.com/p/364479613">2021年文件复制软件评测：FastCopy、TeraCopy、KillCopy、ExtremeCopy、Supercopier - 知乎</a>的是 Fastcopy，但出现已经拷贝过的文件时 Fastcopy 的速度就太慢了，试了一下 TeraCopy 在这方面做的不错。另外我复制的时候没有选择把 ACL（权限）也迁移过来。接下来说一下迁移结果。</p>
+<ol>
+<li><p>尽管 ati 迁移的时候报警说迁移后「系统无法正常启动 」，我猜是要修补一下引导分区，但在 pe 下莫名其妙自动重启后结果就直接进入到了新系统，当时我还只迁移了一个机械硬盘的分区，发现不在 pe 下迁移机械硬盘分区也可以，后续另外两个机械硬盘的分区我就直接在实机系统上迁移了。</p>
+</li>
+<li><p>迁移后大部分数据都在，但小部分需要鉴权的软件就需要重新鉴权了，比如 GoodSync 和 directory Opus。tailscale 也是如此。qq 和 telegram 的自启也被关掉了，其实挺好的，因为我机械硬盘的分区没迁移完，而我的聊天记录都在机械硬盘分区上。。。</p>
+</li>
+<li><p>因为 acl 没迁移，所以如果有 windows app 放在机械硬盘上的话，可能会出错，但我没有，全都装在 c 盘上。另外回收站会报错已损坏，目测也是 acl 的问题。</p>
+</li>
+<li><p>另外 onedrive 也爆了两个错，还修复不了（点了没反应），嘛，微软的东西就是这样，不要去理解，去感受！</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20240111020642.png"></p>
+</li>
+</ol>
+<p>迁移花了 1 天多时间（还带上了机械硬盘扫描的时间，用 hd tune pro 扫描扫了整整 24 小时），大头都花在机械硬盘上。原来的固态一共有两个，一个 512g 的西数，一个 2t 的三星 981a，索性就让西数的退下来了，把三星 981a 当成系统盘，981a 的数据则迁移到 4t 致钛上，其实因为虚拟机装的比较多，所以 981a 也塞的很满，不过因为都是虚拟机，文件比较整齐，加上两个都是旗舰级的固态，所以迁移 2t 数据只用了——丧心病狂的 15 分钟！</p>
+]]></content>
+      <categories>
+        <category>流水账</category>
+      </categories>
+      <tags>
+        <tag>windows</tag>
+        <tag>硬件</tag>
+        <tag>迁移</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>分辨率变化时重启 explorer</title>
     <url>/fen-bian-lu-bian-hua-shi-chong-qi-explorer/</url>
     <content><![CDATA[<p>提示：因为 windows 的玄学问题，每个人启动的时候 windows 发生的事件可能不同，本文仅供参考和提供思路。</p>
@@ -1447,33 +1474,6 @@
       <tags>
         <tag>流水账</tag>
         <tag>lenovo</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>硬盘迁移</title>
-    <url>/ying-pan-qian-yi/</url>
-    <content><![CDATA[<p>用了几年，横跨两个笔记本的稀有的 2t pmr hdd  smart 最终还是显示出错了，数据无价，刚好还在迟疑要不要下手致钛 4t，这回可好，连固态和机械一起换了吧。本来机械想买个便宜的 6t 就算了，发现 6t 现在都要 600 来块，再看 8t 要上千，看到 18t 的时候发现希捷的 oem 才 1600！遂下手。不过买回来发现估计是因为 oem 的原因，硬盘 sata 接口没做卡扣处理，放机箱里通过 sata 线连接的话，不紧，研究了一下，淘宝了几根安费诺的线，嗯，紧了。</p>
-<p>遂迁移硬盘。做了一个 「全功能的 pe」（其实也就是 windows to go 做成 wtg 放在 ventoy 里），固态直接通过 Acronis True Image 的硬盘克隆功能迁移就行。机械硬盘的话。。。我看了一篇推荐文章推荐<a href="https://zhuanlan.zhihu.com/p/364479613">2021年文件复制软件评测：FastCopy、TeraCopy、KillCopy、ExtremeCopy、Supercopier - 知乎</a>的是 Fastcopy，但出现已经拷贝过的文件时 Fastcopy 的速度就太慢了，试了一下 TeraCopy 在这方面做的不错。另外我复制的时候没有选择把 ACL（权限）也迁移过来。接下来说一下迁移结果。</p>
-<ol>
-<li><p>尽管 ati 迁移的时候报警说迁移后「系统无法正常启动 」，我猜是要修补一下引导分区，但在 pe 下莫名其妙自动重启后结果就直接进入到了新系统，当时我还只迁移了一个机械硬盘的分区，发现不在 pe 下迁移机械硬盘分区也可以，后续另外两个机械硬盘的分区我就直接在实机系统上迁移了。</p>
-</li>
-<li><p>迁移后大部分数据都在，但小部分需要鉴权的软件就需要重新鉴权了，比如 GoodSync 和 directory Opus。tailscale 也是如此。qq 和 telegram 的自启也被关掉了，其实挺好的，因为我机械硬盘的分区没迁移完，而我的聊天记录都在机械硬盘分区上。。。</p>
-</li>
-<li><p>因为 acl 没迁移，所以如果有 windows app 放在机械硬盘上的话，可能会出错，但我没有，全都装在 c 盘上。另外回收站会报错已损坏，目测也是 acl 的问题。</p>
-</li>
-<li><p>另外 onedrive 也爆了两个错，还修复不了（点了没反应），嘛，微软的东西就是这样，不要去理解，去感受！</p>
-<p><img src="https://cdn.jsdelivr.net/gh/zbpicture/picture@main/img/20240111020642.png"></p>
-</li>
-</ol>
-<p>迁移花了 1 天多时间（还带上了机械硬盘扫描的时间，用 hd tune pro 扫描扫了整整 24 小时），大头都花在机械硬盘上。原来的固态一共有两个，一个 512g 的西数，一个 2t 的三星 981a，索性就让西数的退下来了，把三星 981a 当成系统盘，981a 的数据则迁移到 4t 致钛上，其实因为虚拟机装的比较多，所以 981a 也塞的很满，不过因为都是虚拟机，文件比较整齐，加上两个都是旗舰级的固态，所以迁移 2t 数据只用了——丧心病狂的 15 分钟！</p>
-]]></content>
-      <categories>
-        <category>流水账</category>
-      </categories>
-      <tags>
-        <tag>windows</tag>
-        <tag>硬件</tag>
-        <tag>迁移</tag>
       </tags>
   </entry>
   <entry>
